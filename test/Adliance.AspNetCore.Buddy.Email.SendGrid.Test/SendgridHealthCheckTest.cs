@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
@@ -7,7 +8,7 @@ namespace Adliance.AspNetCore.Buddy.Email.SendGrid.Test
 {
     public class SendgridHealthCheckTest
     {
-        [Fact]
+        [Fact(Skip = "No API key configured.")]
         public async Task Health_Check_Succeeds()
         {
             var check = new SendgridHealthCheck(new SendGridConfiguration(), new NullLogger<SendgridHealthCheck>());
@@ -16,7 +17,7 @@ namespace Adliance.AspNetCore.Buddy.Email.SendGrid.Test
 
         private class SendGridConfiguration : ISendgridConfiguration
         {
-            public string SendgridSecret => "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";
+            public string SendgridSecret => "";
             public string SendgridLabel => "Unit-Test";
         }
     }

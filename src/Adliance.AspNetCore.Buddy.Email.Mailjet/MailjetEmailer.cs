@@ -86,7 +86,7 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet
             MailjetResponse response = await client.PostAsync(request);
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception($"Sending email via MailJet failed.{Environment.NewLine}Status code: {response.StatusCode}{Environment.NewLine}Error Info: {response.GetErrorInfo()}{Environment.NewLine}Error Message: {response.GetErrorMessage()}");
+                throw new Exception($"Sending email via Mailjet failed.{Environment.NewLine}Status code: {response.StatusCode}{Environment.NewLine}Error Info: {response.GetErrorInfo()}{Environment.NewLine}Error Message: {response.GetErrorMessage()}");
             }
         }
     }

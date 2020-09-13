@@ -87,7 +87,7 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet
                 return await Task.FromResult(HealthCheckResult.Healthy("Mailjet is healthy."));
             }
 
-            return await Task.FromResult(HealthCheckResult.Unhealthy("MailJet is not healthy."));
+            return await Task.FromResult(HealthCheckResult.Unhealthy("Mailjet is not healthy."));
         }
     }
 }
