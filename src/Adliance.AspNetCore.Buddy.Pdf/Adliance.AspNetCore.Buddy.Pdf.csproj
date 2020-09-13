@@ -15,13 +15,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="4.0.1" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="3.1.8" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.8" />
     <PackageReference Include="System.Text.Json" Version="4.7.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Adliance.AspNetCore.Buddy.Abstractions\Adliance.AspNetCore.Buddy.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>
