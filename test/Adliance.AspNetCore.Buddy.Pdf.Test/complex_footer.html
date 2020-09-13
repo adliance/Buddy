@@ -1,0 +1,124 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+        }
+
+        footer {
+            height: 180px;
+            background-image: url("https://www.igevia.com/images/report/footer.png");
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            background-position: center top;
+            position: relative;
+            font-size: 13px;
+            line-height: 1.4em;
+        }
+
+            footer > div {
+                position: absolute;
+                bottom: 51px;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
+            footer > img {
+                position: absolute;
+                bottom: 45px;
+                height: 50px;
+                width: 50px;
+            }
+
+                footer > img:nth-of-type(1) {
+                    left: 80px;
+                }
+
+            footer > div:nth-of-type(1) {
+                left: 140px;
+                width: 200px;
+            }
+
+            footer > img:nth-of-type(2) {
+                left: 320px;
+            }
+
+            footer > div:nth-of-type(2) {
+                left: 380px;
+                width: 160px;
+            }
+
+            footer > img:nth-of-type(3) {
+                left: 540px;
+            }
+
+            footer > div:nth-of-type(3) {
+                left: 600px;
+                width: 350px;
+            }
+
+            footer > div:nth-of-type(4) {
+                right: 40px;
+            }
+    </style>
+
+    <script>
+        function substitutePdfVariables() {
+            function getParameterByName(name) {
+                var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+                return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+            }
+
+            function substitute(name) {
+                var value = getParameterByName(name);
+                var elements = document.getElementsByClassName(name);
+
+                for (var i = 0; elements && i < elements.length; i++) {
+                    elements[i].textContent = value;
+                }
+            }
+
+            ['frompage', 'topage', 'page', 'webpage', 'section', 'subsection', 'subsubsection'].forEach(function (param) {
+                substitute(param);
+            });
+        }
+    </script>
+</head>
+<body onload="substitutePdfVariables()">
+    <footer>
+        <img src="https://www.igevia.com/images/report/icon_person.png" />
+        <div>
+            @Localizer["Footer_Report_Of"]<br />
+            @Model.Patient.FirstName @Model.Patient.LastName
+        </div>
+
+        <img src="https://www.igevia.com/images/report/icon_blood.png" />
+        <div>
+            @Localizer["Footer_Testing_Date"]<br />
+            @if (Model.Measurement.LaboratoryDateTimeUtc.HasValue)
+            {
+                @Localizer["Footer_Testing_Date_Value", Model.Measurement.LaboratoryDateTimeUtc.Value.ToString("dd.MM.yyyy", new CultureInfo("de-DE"))]
+            }
+            else
+            {
+                @Localizer["Footer_Testing_Date_Unknown"]
+            }
+        </div>
+
+        <img src="https://www.igevia.com/images/report/icon_reportinfo.png" />
+        <div>
+            @Localizer["Footer_EM_Hint"]<br />
+            @Localizer["Footer_Ige_Hint"]
+        </div>
+
+        <div>
+            @Localizer["Footer_Page"] <span class="page"></span> | <span class="topage"></span>
+        </div>
+    </footer>
+</body>
+</html>

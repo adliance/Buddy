@@ -1,0 +1,2795 @@
+﻿
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style type="text/css">
+        @font-face {
+            font-family: "proxima-soft";
+            src: url("https://www.igevia.com/fonts/proxima-nova-soft-medium.svg") format("svg");
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        @font-face {
+            font-family: "proxima-soft";
+            src: url("https://www.igevia.com/fonts/proxima-nova-soft-semibold.svg") format("svg");
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        @font-face {
+            font-family: "proxima-soft";
+            src: url("https://www.igevia.com/fonts/proxima-nova-soft-bold.svg") format("svg");
+            font-style: normal;
+            font-weight: 700;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "proxima-soft", "sans-serif";
+            font-weight: 500;
+            font-size: 17px;
+            line-height: 1.3em;
+            color: #11284B;
+            background-color: white;
+            padding: 5px 25px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #11284B;
+        }
+
+        b {
+            font-family: "proxima-soft", "sans-serif";
+            font-weight: 600;
+        }
+
+        p + p {
+            margin-top: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-spacing: 0;
+            border-collapse: separate;
+        }
+
+            table td {
+                padding: 10px;
+                vertical-align: top;
+            }
+
+        div#logo {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+            div#logo img {
+                max-width: 200px;
+            }
+    </style>
+
+    <style type="text/css">
+        body, html {
+            margin: 0;
+            padding: 0 40px 0 40px;
+            font-size: 15px;
+        }
+
+        header {
+            margin-bottom: 40px;
+        }
+
+            header img {
+                width: 180px;
+                float: left;
+            }
+
+            header > div {
+                margin-left: 220px;
+                padding-top: 45px;
+                padding-bottom: 10px;
+                border-bottom: 2px solid #64C1C7;
+                font-size: 19px;
+            }
+
+                header > div > span {
+                    float: right;
+                    font-size: 15px;
+                }
+
+        i.icon-0, i.icon-1, i.icon-2, i.icon-3, i.icon-4 {
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            background-size: 100% auto;
+        }
+
+        i.icon-0 {
+            background-image: url("https://www.igevia.com/images/report/icon_0.svg");
+        }
+
+        i.icon-1 {
+            background-image: url("https://www.igevia.com/images/report/icon_1.svg");
+        }
+
+        i.icon-2 {
+            background-image: url("https://www.igevia.com/images/report/icon_2.svg");
+        }
+
+        i.icon-3 {
+            background-image: url("https://www.igevia.com/images/report/icon_3.svg");
+        }
+
+        i.icon-4 {
+            background-image: url("https://www.igevia.com/images/report/icon_4.svg");
+        }
+
+        td.bg-0 {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        td.bg-1 {
+            text-align: right;
+            white-space: nowrap;
+            color: white;
+            background-color: #F39200 !important;
+        }
+
+        td.bg-2 {
+            text-align: right;
+            white-space: nowrap;
+            color: white;
+            background-color: #ED7102 !important;
+        }
+
+        td.bg-3 {
+            text-align: right;
+            white-space: nowrap;
+            color: white;
+            background-color: #E63811 !important;
+        }
+
+        td.bg-4 {
+            text-align: right;
+            white-space: nowrap;
+            color: white;
+            background-color: #BB2419 !important;
+        }
+
+
+        section#patient_info {
+            margin-bottom: 40px;
+        }
+
+            section#patient_info > table {
+                background-color: #F7F7F7;
+            }
+
+                section#patient_info > table th, section#patient_info > table td {
+                    text-align: left;
+                    padding: 5px;
+                }
+
+                section#patient_info > table tr th, section#patient_info > table tr td {
+                    padding-left: 20px;
+                    padding-right: 20px;
+                }
+
+                section#patient_info > table tr:first-of-type th, section#patient_info > table tr:first-of-type td {
+                    padding-top: 20px;
+                }
+
+                section#patient_info > table tr:last-of-type th, section#patient_info > table tr:last-of-type td {
+                    padding-bottom: 20px;
+                }
+
+            section#patient_info pre {
+                font-family: proxima-soft;
+                white-space: pre-wrap;
+            }
+
+
+        section#summary {
+            margin-bottom: 40px;
+        }
+
+            section#summary h2 {
+                font-size: 19px;
+                margin-bottom: 20px;
+            }
+
+                section#summary h2 small {
+                    font-size: 17px;
+                }
+
+            section#summary > table {
+                background-color: #F7F7F7;
+            }
+
+                section#summary > table td {
+                    padding: 0 20px 20px 20px;
+                    width: 33%;
+                    position: relative;
+                    border-radius: 5px
+                }
+
+                    section#summary > table td div {
+                        margin-top: 5px;
+                    }
+
+                        section#summary > table td div b {
+                            display: block;
+                            margin-top: 20px;
+                            font-size: 17px;
+                        }
+
+                        section#summary > table td div:first-of-type {
+                            margin-top: 0;
+                        }
+
+                        section#summary > table td div i {
+                            display: inline-block;
+                            vertical-align: bottom;
+                            margin-bottom: -1px;
+                            margin-right: 5px;
+                        }
+
+                        section#summary > table td div#totalIge {
+                            position: absolute;
+                            bottom: 0;
+                            padding: 20px;
+                            background-color: #CAD6D3;
+                            font-size: 17px;
+                            margin-left: -20px;
+                            margin-right: -20px;
+                            width: 100%;
+                        }
+
+                            section#summary > table td div#totalIge span {
+                                display: inline-block;
+                                float: right;
+                            }
+
+
+
+        section#reference_scala {
+            margin-bottom: 20px;
+        }
+
+            section#reference_scala h3 {
+                margin-bottom: 12px;
+                font-size: 15px;
+            }
+
+            section#reference_scala td {
+                text-align: center;
+                font-size: 11px;
+                line-height: 1.2em;
+                padding: 0;
+            }
+
+                section#reference_scala td img {
+                    width: 26px;
+                }
+
+
+        section#reference_totalige {
+            margin-bottom: 40px;
+        }
+
+            section#reference_totalige h3 {
+                margin-bottom: 5px;
+                font-size: 15px;
+            }
+
+            section#reference_totalige td, section#reference_totalige th {
+                text-align: left;
+                font-size: 11px;
+                padding-bottom: 2px;
+                padding-top: 2px;
+                line-height: 1.2em;
+            }
+
+            section#reference_totalige th {
+                padding-right: 10px;
+            }
+
+        section#doctor_hint {
+        }
+
+
+        section#details {
+        }
+
+            section#details table {
+                border-spacing: 2px;
+                border-collapse: separate;
+            }
+
+                section#details table th {
+                    padding: 10px;
+                    color: white;
+                    text-align: left;
+                    background-color: #64C1C7;
+                    white-space: nowrap;
+                }
+
+                section#details table td {
+                    padding: 10px;
+                    background-color: #F7F7F7;
+                }
+
+                    section#details table td .latin {
+                        display: inline-block;
+                        font-size: 11px;
+                    }
+
+                    section#details table td.category {
+                        background-color: white;
+                        border-bottom: 2px solid #11284B;
+                        padding-top: 20px;
+                    }
+
+                    section#details table td.subcategory {
+                        background-color: white;
+                    }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://www.igevia.com/images/logo-pdf.png" />
+        <div>
+            Mein igevia-Allergenreport
+            <span>Gedruckt am 04.05.2018</span>
+        </div>
+    </header>
+
+    <section id="patient_info">
+        <table>
+            <tr>
+                <th>Name</th>
+                <td>Maria Musterfrau</td>
+                <td rowspan="6" style="background-color: white; width: 20px;"></td>
+                <th>Zusätzliche Informationen</th>
+            </tr>
+            <tr>
+                <th>Alter</th>
+                <td>
+                    35 Jahre
+                </td>
+                <td rowspan="4" style="width: 33%; padding-bottom: 20px;"><pre>This is Hannes&#x27; test measurement</pre></td>
+            </tr>
+            <tr>
+                <th>Proben-ID</th>
+                <td>test1234</td>
+            </tr>
+            <tr>
+                <th>Analyisiert am</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Untersuchungsverfahren</th>
+                <td>
+                    ALEX Allergy Explorer
+                </td>
+            </tr>
+            <tr>
+                <th>Labor</th>
+                <td>
+                    Macro Array Diagnostics, Wien
+                </td>
+            </tr>
+        </table>
+    </section>
+
+    <section id="summary">
+        <h2>Laborbericht <small>Zusammenfassung der nachweisbaren Sensibilisierungen</small></h2>
+
+        <table>
+            <tr>
+                <td>
+
+                    <div><b>Pollen</b></div>
+
+                    <div><i class="icon-3"></i> Baumpollen</div>
+                    <div><i class="icon-2"></i> Gr&#xE4;serpollen</div>
+                    <div><i class="icon-3"></i> Kr&#xE4;uterpollen</div>
+
+                    <div><b>Pflanzliche Nahrungsmittel</b></div>
+
+                    <div><i class="icon-2"></i> Gem&#xFC;se &amp; Speisepilze</div>
+                    <div><i class="icon-1"></i> Getreide</div>
+                    <div><i class="icon-0"></i> Gew&#xFC;rze</div>
+                    <div><i class="icon-2"></i> H&#xFC;lsenfruchte</div>
+                    <div><i class="icon-2"></i> N&#xFC;sse &amp; Samen</div>
+                    <div><i class="icon-2"></i> Obst</div>
+
+                    <div><b>Tierische Nahrungsmittel</b></div>
+
+                    <div><i class="icon-1"></i> Ei</div>
+                    <div><i class="icon-2"></i> Fisch &amp; Meeresfr&#xFC;chte</div>
+                    <div><i class="icon-1"></i> Fleisch</div>
+                    <div><i class="icon-3"></i> Milch</div>
+                </td>
+                <td style="background-color: white; width: 20px;"></td>
+                <td>
+
+                    <div><b>Milben</b></div>
+
+                    <div><i class="icon-3"></i> Hausstaubmilbe</div>
+                    <div><i class="icon-0"></i> Vorratsmilbe</div>
+
+                    <div><b>Tierepithelien</b></div>
+
+                    <div><i class="icon-3"></i> Haustiere</div>
+                    <div><i class="icon-2"></i> Nutztiere</div>
+
+                    <div><b>Insekten</b></div>
+
+                    <div><i class="icon-4"></i> Schaben</div>
+
+                    <div><b>Mikroorganismen</b></div>
+
+                    <div><i class="icon-2"></i> Hefepilz</div>
+                    <div><i class="icon-4"></i> Schimmelpilze</div>
+
+                    <div><b>Sonstige</b></div>
+
+                    <div><i class="icon-0"></i> CCD</div>
+                    <div><i class="icon-1"></i> Ficus &amp; Hopfen</div>
+                    <div><i class="icon-0"></i> Latex</div>
+
+                </td>
+                <td style="background-color: white; width: 20px;"></td>
+                <td>
+                    <div><b>Kreuzreaktive Allergene</b></div>
+                    <div><i class="icon-3"></i> PR-10</div>
+                    <div><i class="icon-2"></i> LTPs</div>
+                    <div><i class="icon-1"></i> Speicherproteine</div>
+                    <div><i class="icon-3"></i> Lipocaline</div>
+                    <div><i class="icon-0"></i> Profilin</div>
+                    <div><i class="icon-2"></i> Parvalbumin</div>
+                    <div><i class="icon-3"></i> Serumalbumin</div>
+                    <div><i class="icon-3"></i> Polcalcin</div>
+                    <div><i class="icon-0"></i> CCD</div>
+                    <div><i class="icon-2"></i> Tropomyosin</div>
+                    <div><i class="icon-2"></i> NPC2</div>
+
+                    <div id="totalIge">
+                        Gesamt-IgE (kU/l)
+
+                        <span>1.498</span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </section>
+
+    <section id="reference_scala">
+        <h3>Höchste gemessene IgE Konzentration pro Allergengruppe</h3>
+        <table>
+            <tr>
+                <td><i class="icon-0"></i></td>
+                <td><i class="icon-1"></i></td>
+                <td><i class="icon-2"></i></td>
+                <td><i class="icon-3"></i></td>
+                <td><i class="icon-4"></i></td>
+            </tr>
+            <tr>
+                <td>< 0,3 kU<sub>A</sub>/l</td>
+                <td>0,3-1 kU<sub>A</sub>/l</td>
+                <td>1-5 kU<sub>A</sub>/l</td>
+                <td>5-15 kU<sub>A</sub>/l</td>
+                <td>> 15 kU<sub>A</sub>/l</td>
+            </tr>
+            <tr>
+                <td>Negativ oder unsicher</td>
+                <td>Niedriges IgE-Level</td>
+                <td>Moderates IgE-Level</td>
+                <td>Hohes IgE-Level</td>
+                <td>Sehr hohes IgE-Level</td>
+            </tr>
+        </table>
+    </section>
+
+    <section id="reference_totalige">
+        <h3>Gesamt-IgE Normalbereich</h3>
+        <table>
+            <tr>
+                <th>Kinder</th>
+                <td>Nabelschnurblut bis 0,70 kU/l, 0-&frac12; Jahre bis 2,75 kU/l, &frac12;-2 Jahre bis 3,75 kU/l, 2-5 Jahre bis 16,0 kU/l, 5-8 Jahre bis 26,2 kU/l, 8-12 Jahre bis 34,6 kU/l, 12-16 Jahre bis 26,3 kU/l</td>
+            </tr>
+            <tr>
+                <th>Erwachsene</th>
+                <td>< 20 kU/l Allergie unwahrscheinlich, 20-100 kU/l Allergie möglich, > 100 kU/l Allergie wahrscheinlich</td>
+            </tr>
+        </table>
+    </section>
+
+    <section id="doctor_hint">
+        Bitte wenden Sie sich für weitere Schritte mit diesem Allergenreport an eine Fachärztin oder einen Facharzt.
+    </section>
+
+    <div style="page-break-after: always;"></div>
+
+    <section id="details">
+        <table>
+            <thead>
+                <tr>
+                    <th>Bezeichnung</th>
+                    <th>Allergen</th>
+                    <th>E/M *</th>
+                    <th>Funktion</th>
+                    <th>kU<sub>A</sub>/l</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr style="page-break-after: avoid;"><td colspan="5" class="category" style="page-break-after: avoid;"><h3>Pollen</h3></td></tr>
+
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Baumpollen</h4></td></tr>
+                <tr>
+                    <td>Akazie&nbsp;<span class="latin">(Acacia mimosa)</span></td>
+                    <td style="font-size: 13px;">Aca m</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Arizona-Zypresse&nbsp;<span class="latin">(Cupressus arizonica)</span></td>
+                    <td style="font-size: 13px;">Cup a 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Pectate Lyase</td>
+
+                    <td class="bg-0">0,21</td>
+                </tr>
+                <tr>
+                    <td>Birke&nbsp;<span class="latin">(Betula verrucosa)</span></td>
+                    <td style="font-size: 13px;">Bet v</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-2">4,41</td>
+                </tr>
+                <tr>
+                    <td>Birke&nbsp;<span class="latin">(Betula verrucosa)</span></td>
+                    <td style="font-size: 13px;">Bet v 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">PR-10</td>
+
+                    <td class="bg-3">6,13</td>
+                </tr>
+                <tr>
+                    <td>Birke&nbsp;<span class="latin">(Betula verrucosa)</span></td>
+                    <td style="font-size: 13px;">Bet v 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Profilin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Birke&nbsp;<span class="latin">(Betula verrucosa)</span></td>
+                    <td style="font-size: 13px;">Bet v 6</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Isoflavon Reductase</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Buche&nbsp;<span class="latin">(Fagus sylvatica)</span></td>
+                    <td style="font-size: 13px;">Fag s</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,43</td>
+                </tr>
+                <tr>
+                    <td>Dattelpalme&nbsp;<span class="latin">(Phoenix dactylifera)</span></td>
+                    <td style="font-size: 13px;">Pho d 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Profilin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Eiche&nbsp;<span class="latin">(Quercus robur)</span></td>
+                    <td style="font-size: 13px;">Que r</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,23</td>
+                </tr>
+                <tr>
+                    <td>Erle&nbsp;<span class="latin">(Alnus glutinosa)</span></td>
+                    <td style="font-size: 13px;">Aln g</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Erle&nbsp;<span class="latin">(Alnus glutinosa)</span></td>
+                    <td style="font-size: 13px;">Aln g 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">PR-10</td>
+
+                    <td class="bg-2">3,84</td>
+                </tr>
+                <tr>
+                    <td>Erle&nbsp;<span class="latin">(Alnus glutinosa)</span></td>
+                    <td style="font-size: 13px;">Aln g 4</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Polcalcin</td>
+
+                    <td class="bg-3">8,75</td>
+                </tr>
+                <tr>
+                    <td>Esche&nbsp;<span class="latin">(Fraxinus excelsior)</span></td>
+                    <td style="font-size: 13px;">Fra e</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Esche&nbsp;<span class="latin">(Fraxinus excelsior)</span></td>
+                    <td style="font-size: 13px;">Fra e 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Ole e 1-Family</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Flieder&nbsp;<span class="latin">(Syringa vulgaris)</span></td>
+                    <td style="font-size: 13px;">Syr v</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Hasel Pollen&nbsp;<span class="latin">(Corylus avellana)</span></td>
+                    <td style="font-size: 13px;">Cor a_pollen</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,80</td>
+                </tr>
+                <tr>
+                    <td>Hasel Pollen&nbsp;<span class="latin">(Corylus avellana)</span></td>
+                    <td style="font-size: 13px;">Cor a 1.0103</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">PR-10</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Japanische Zeder&nbsp;<span class="latin">(Cryptomeria japonica)</span></td>
+                    <td style="font-size: 13px;">Cry j</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Liguster&nbsp;<span class="latin">(Ligustrum vulgare)</span></td>
+                    <td style="font-size: 13px;">Lig v</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Maulbeerbaum&nbsp;<span class="latin">(Morus rubra)</span></td>
+                    <td style="font-size: 13px;">Mor r</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Olive&nbsp;<span class="latin">(Olea Europaea)</span></td>
+                    <td style="font-size: 13px;">Ole e 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Common Olive Group 1</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Olive&nbsp;<span class="latin">(Olea Europaea)</span></td>
+                    <td style="font-size: 13px;">Ole e 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Profilin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Olivenpollen&nbsp;<span class="latin">(Olea Europaea)</span></td>
+                    <td style="font-size: 13px;">Ole_pollen</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Pappel&nbsp;<span class="latin">(Populus nigra)</span></td>
+                    <td style="font-size: 13px;">Pop n</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Platane&nbsp;<span class="latin">(Platanus acerifolia)</span></td>
+                    <td style="font-size: 13px;">Pla a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Platane&nbsp;<span class="latin">(Platanus acerifolia)</span></td>
+                    <td style="font-size: 13px;">Pla a 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Plant Invertase</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Ulme&nbsp;<span class="latin">(Ulmus campestris)</span></td>
+                    <td style="font-size: 13px;">Ulm c</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Walnuss, Pollen&nbsp;<span class="latin">(Juglans regia)</span></td>
+                    <td style="font-size: 13px;">Jug r_pollen</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,40</td>
+                </tr>
+                <tr>
+                    <td>Zeder&nbsp;<span class="latin">(Juniperus ashei)</span></td>
+                    <td style="font-size: 13px;">Jun a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Zypresse&nbsp;<span class="latin">(Cupressus sempervirens L.)</span></td>
+                    <td style="font-size: 13px;">Cup s</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Gr&#xE4;serpollen</h4></td></tr>
+                <tr>
+                    <td>Bahiagras&nbsp;<span class="latin">(Paspalum notatum)</span></td>
+                    <td style="font-size: 13px;">Pas n</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,86</td>
+                </tr>
+                <tr>
+                    <td>Hundszahngras&nbsp;<span class="latin">(Cynodon dactylon)</span></td>
+                    <td style="font-size: 13px;">Cyn d</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,12</td>
+                </tr>
+                <tr>
+                    <td>Lieschgras&nbsp;<span class="latin">(Phleum pratense)</span></td>
+                    <td style="font-size: 13px;">Phl p</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,98</td>
+                </tr>
+                <tr>
+                    <td>Lieschgras&nbsp;<span class="latin">(Phleum pratense)</span></td>
+                    <td style="font-size: 13px;">Phl p 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Beta-Expansin</td>
+
+                    <td class="bg-2">2,64</td>
+                </tr>
+                <tr>
+                    <td>Lieschgras&nbsp;<span class="latin">(Phleum pratense)</span></td>
+                    <td style="font-size: 13px;">Phl p 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Expansin</td>
+
+                    <td class="bg-0">0,21</td>
+                </tr>
+                <tr>
+                    <td>Lieschgras&nbsp;<span class="latin">(Phleum pratense)</span></td>
+                    <td style="font-size: 13px;">Phl p 5.0101</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Grass Goup 5/6</td>
+
+                    <td class="bg-2">2,45</td>
+                </tr>
+                <tr>
+                    <td>Lieschgras&nbsp;<span class="latin">(Phleum pratense)</span></td>
+                    <td style="font-size: 13px;">Phl p 6</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Grass Goup 5/6</td>
+
+                    <td class="bg-0">0,15</td>
+                </tr>
+                <tr>
+                    <td>Lieschgras&nbsp;<span class="latin">(Phleum pratense)</span></td>
+                    <td style="font-size: 13px;">Phl p 7</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Polcalcin</td>
+
+                    <td class="bg-2">4,32</td>
+                </tr>
+                <tr>
+                    <td>Lieschgras&nbsp;<span class="latin">(Phleum pratense)</span></td>
+                    <td style="font-size: 13px;">Phl p 12</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Profilin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Mais, Pollen&nbsp;<span class="latin">(Zea mays)</span></td>
+                    <td style="font-size: 13px;">Zea m pollen</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,79</td>
+                </tr>
+                <tr>
+                    <td>Mohrenhirse&nbsp;<span class="latin">(Sorghum halepense)</span></td>
+                    <td style="font-size: 13px;">Sor h</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,17</td>
+                </tr>
+                <tr>
+                    <td>Roggen, Pollen&nbsp;<span class="latin">(Secale cereale)</span></td>
+                    <td style="font-size: 13px;">Sec c_pollen</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,48</td>
+                </tr>
+                <tr>
+                    <td>Schilf&nbsp;<span class="latin">(Phragmites communis)</span></td>
+                    <td style="font-size: 13px;">Phr c</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Weidelgras&nbsp;<span class="latin">(Lolium perenne)</span></td>
+                    <td style="font-size: 13px;">Lol p 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Beta-Expansin</td>
+
+                    <td class="bg-1">0,97</td>
+                </tr>
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Kr&#xE4;uterpollen</h4></td></tr>
+                <tr>
+                    <td>Amarant&nbsp;<span class="latin">(Amaranthus retroflexus)</span></td>
+                    <td style="font-size: 13px;">Ama r</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Beifu&#xDF;&nbsp;<span class="latin">(Artemisia vulgaris)</span></td>
+                    <td style="font-size: 13px;">Art v</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,13</td>
+                </tr>
+                <tr>
+                    <td>Beifu&#xDF;&nbsp;<span class="latin">(Artemisia vulgaris)</span></td>
+                    <td style="font-size: 13px;">Art v 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Plant Defensin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Beifu&#xDF;&nbsp;<span class="latin">(Artemisia vulgaris)</span></td>
+                    <td style="font-size: 13px;">Art v 3</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">nsLTP</td>
+
+                    <td class="bg-0">0,23</td>
+                </tr>
+                <tr>
+                    <td>Bingelkraut&nbsp;<span class="latin">(Mercurialis annua)</span></td>
+                    <td style="font-size: 13px;">Mer a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Brennnessel&nbsp;<span class="latin">(Urtica dioica)</span></td>
+                    <td style="font-size: 13px;">Urt d</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Glaskraut&nbsp;<span class="latin">(Parietaria judaica)</span></td>
+                    <td style="font-size: 13px;">Par j</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Glaskraut&nbsp;<span class="latin">(Parietaria judaica)</span></td>
+                    <td style="font-size: 13px;">Par j 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">nsLTP</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Salzkraut&nbsp;<span class="latin">(Salsola kali)</span></td>
+                    <td style="font-size: 13px;">Sal k</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Sauerampfer&nbsp;<span class="latin">(Rumex acetocella)</span></td>
+                    <td style="font-size: 13px;">Rum a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Spitzwegerich&nbsp;<span class="latin">(Plantago lanceolata)</span></td>
+                    <td style="font-size: 13px;">Pla l</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Spitzwegerich&nbsp;<span class="latin">(Plantago lanceolata)</span></td>
+                    <td style="font-size: 13px;">Pla l 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Ole e 1-Family</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Traubenkraut&nbsp;<span class="latin">(Ambrosia artemisiifolia)</span></td>
+                    <td style="font-size: 13px;">Amb a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-2">3,33</td>
+                </tr>
+                <tr>
+                    <td>Traubenkraut&nbsp;<span class="latin">(Ambrosia artemisiifolia)</span></td>
+                    <td style="font-size: 13px;">Amb a 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Pectate Lyase</td>
+
+                    <td class="bg-3">5,41</td>
+                </tr>
+                <tr>
+                    <td>Traubenkraut&nbsp;<span class="latin">(Ambrosia artemisiifolia)</span></td>
+                    <td style="font-size: 13px;">Amb a 4</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Plant Defensin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Wei&#xDF;er G&#xE4;nsefu&#xDF;&nbsp;<span class="latin">(Chenopodium album)</span></td>
+                    <td style="font-size: 13px;">Che a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Wei&#xDF;er G&#xE4;nsefu&#xDF;&nbsp;<span class="latin">(Chenopodium album)</span></td>
+                    <td style="font-size: 13px;">Che a 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Ole e 1-Family</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+
+                <tr style="page-break-after: avoid;"><td colspan="5" class="category" style="page-break-after: avoid;"><h3>Pflanzliche Nahrungsmittel</h3></td></tr>
+
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Gem&#xFC;se &amp; Speisepilze</h4></td></tr>
+                <tr>
+                    <td>Avocado&nbsp;<span class="latin">(Persea americana)</span></td>
+                    <td style="font-size: 13px;">Pers a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Blattsalat&nbsp;<span class="latin">(Lactuca sativa)</span></td>
+                    <td style="font-size: 13px;">Lac s</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Champignon&nbsp;<span class="latin">(Agaricus bisporus)</span></td>
+                    <td style="font-size: 13px;">Aga b</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Karotte&nbsp;<span class="latin">(Daucus carota)</span></td>
+                    <td style="font-size: 13px;">Dau c</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Karotte&nbsp;<span class="latin">(Daucus carota)</span></td>
+                    <td style="font-size: 13px;">Dau c 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">PR-10</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Kartoffel&nbsp;<span class="latin">(Solanum tuberosum)</span></td>
+                    <td style="font-size: 13px;">Sol t</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,12</td>
+                </tr>
+                <tr>
+                    <td>Knoblauch&nbsp;<span class="latin">(Allium sativum)</span></td>
+                    <td style="font-size: 13px;">All s</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,23</td>
+                </tr>
+                <tr>
+                    <td>Kraut&nbsp;<span class="latin">(Brassica oleracea var. Capitata)</span></td>
+                    <td style="font-size: 13px;">Bra o</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Olive&nbsp;<span class="latin">(Olea europaea)</span></td>
+                    <td style="font-size: 13px;">Ole_fruit</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Sellerie&nbsp;<span class="latin">(Apium graveolens)</span></td>
+                    <td style="font-size: 13px;">Api g</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-2">1,35</td>
+                </tr>
+                <tr>
+                    <td>Sellerie&nbsp;<span class="latin">(Apium graveolens)</span></td>
+                    <td style="font-size: 13px;">Api g 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">PR-10</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Sellerie&nbsp;<span class="latin">(Apium graveolens)</span></td>
+                    <td style="font-size: 13px;">Api g 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">nsLTP</td>
+
+                    <td class="bg-2">3,28</td>
+                </tr>
+                <tr>
+                    <td>Sellerie&nbsp;<span class="latin">(Apium graveolens)</span></td>
+                    <td style="font-size: 13px;">Api g 6</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">nsLTP</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Tomate&nbsp;<span class="latin">(Solanum lycopersicum)</span></td>
+                    <td style="font-size: 13px;">Sola l</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Tomate&nbsp;<span class="latin">(Solanum lycopersicum)</span></td>
+                    <td style="font-size: 13px;">Sola l 6</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">nsLTP</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Zwiebel&nbsp;<span class="latin">(Allium cepa)</span></td>
+                    <td style="font-size: 13px;">All c</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Getreide</h4></td></tr>
+                <tr>
+                    <td>Buchweizen&nbsp;<span class="latin">(Fagopyrum esculentum)</span></td>
+                    <td style="font-size: 13px;">Fag e</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Buchweizen&nbsp;<span class="latin">(Fagopyrum esculentum)</span></td>
+                    <td style="font-size: 13px;">Fag e 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">2S Albumin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Dinkel&nbsp;<span class="latin">(Triticum spelta)</span></td>
+                    <td style="font-size: 13px;">Tri s</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,18</td>
+                </tr>
+                <tr>
+                    <td>Gerste&nbsp;<span class="latin">(Hordeum vulgare)</span></td>
+                    <td style="font-size: 13px;">Hor v</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Hafer&nbsp;<span class="latin">(Avena sativa)</span></td>
+                    <td style="font-size: 13px;">Ave s</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,20</td>
+                </tr>
+                <tr>
+                    <td>Hirse&nbsp;<span class="latin">(Panicum miliaceum)</span></td>
+                    <td style="font-size: 13px;">Pan m</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Lupinensamen&nbsp;<span class="latin">(Lupinus albus)</span></td>
+                    <td style="font-size: 13px;">Lup a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Mais&nbsp;<span class="latin">(Zea mays)</span></td>
+                    <td style="font-size: 13px;">Zea m</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Quinoa&nbsp;<span class="latin">(Chenopodium quinoa)</span></td>
+                    <td style="font-size: 13px;">Che q</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Reis&nbsp;<span class="latin">(Oryza sativa)</span></td>
+                    <td style="font-size: 13px;">Ory s</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Roggen, Getreide&nbsp;<span class="latin">(Secale cereale)</span></td>
+                    <td style="font-size: 13px;">Sec c_flour</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Weizen&nbsp;<span class="latin">(Triticum aestivum)</span></td>
+                    <td style="font-size: 13px;">Tri a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,26</td>
+                </tr>
+                <tr>
+                    <td>Weizen&nbsp;<span class="latin">(Triticum aestivum)</span></td>
+                    <td style="font-size: 13px;">Tri a Gliadin</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Gliadin</td>
+
+                    <td class="bg-1">0,48</td>
+                </tr>
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Gew&#xFC;rze</h4></td></tr>
+                <tr>
+                    <td>Anis&nbsp;<span class="latin">(Pimpinella anisum)</span></td>
+                    <td style="font-size: 13px;">Pim a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>K&#xFC;mmel&nbsp;<span class="latin">(Carum carvi)</span></td>
+                    <td style="font-size: 13px;">Car c</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Oregano&nbsp;<span class="latin">(Origanum vulgare)</span></td>
+                    <td style="font-size: 13px;">Ori v</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Paprika&nbsp;<span class="latin">(Capsicum annuum)</span></td>
+                    <td style="font-size: 13px;">Cap a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,13</td>
+                </tr>
+                <tr>
+                    <td>Petersilie&nbsp;<span class="latin">(Petroselinum crispum)</span></td>
+                    <td style="font-size: 13px;">Pet c</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Senf&nbsp;<span class="latin">(Sinapis alba)</span></td>
+                    <td style="font-size: 13px;">Sin</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Senf&nbsp;<span class="latin">(Sinapis alba)</span></td>
+                    <td style="font-size: 13px;">Sin a 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">2S Albumin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>H&#xFC;lsenfruchte</h4></td></tr>
+                <tr>
+                    <td>Erbse&nbsp;<span class="latin">(Pisum sativum)</span></td>
+                    <td style="font-size: 13px;">Pis s</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Erdnuss&nbsp;<span class="latin">(Arachis hypogea)</span></td>
+                    <td style="font-size: 13px;">Ara h</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-2">1,82</td>
+                </tr>
+                <tr>
+                    <td>Erdnuss&nbsp;<span class="latin">(Arachis hypogea)</span></td>
+                    <td style="font-size: 13px;">Ara h 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">7/8S Globulin</td>
+
+                    <td class="bg-0">0,21</td>
+                </tr>
+                <tr>
+                    <td>Erdnuss&nbsp;<span class="latin">(Arachis hypogea)</span></td>
+                    <td style="font-size: 13px;">Ara h 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">2S Albumin</td>
+
+                    <td class="bg-0">0,30</td>
+                </tr>
+                <tr>
+                    <td>Erdnuss&nbsp;<span class="latin">(Arachis hypogea)</span></td>
+                    <td style="font-size: 13px;">Ara h 3</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">11S Globulin</td>
+
+                    <td class="bg-1">1,00</td>
+                </tr>
+                <tr>
+                    <td>Erdnuss&nbsp;<span class="latin">(Arachis hypogea)</span></td>
+                    <td style="font-size: 13px;">Ara h 6</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">2S Albumin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Erdnuss&nbsp;<span class="latin">(Arachis hypogea)</span></td>
+                    <td style="font-size: 13px;">Ara h 8</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">PR-10</td>
+
+                    <td class="bg-1">0,70</td>
+                </tr>
+                <tr>
+                    <td>Erdnuss&nbsp;<span class="latin">(Arachis hypogea)</span></td>
+                    <td style="font-size: 13px;">Ara h 9</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">nsLTP</td>
+
+                    <td class="bg-2">1,99</td>
+                </tr>
+                <tr>
+                    <td>Gr&#xFC;ne Bohne&nbsp;<span class="latin">(Phaseolus vulgaris)</span></td>
+                    <td style="font-size: 13px;">Pha v</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Kichererbse&nbsp;<span class="latin">(Cicer arietinus)</span></td>
+                    <td style="font-size: 13px;">Cic a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Linsen&nbsp;<span class="latin">(Lens culinaris)</span></td>
+                    <td style="font-size: 13px;">Len c</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Sojabohne&nbsp;<span class="latin">(Glycine max)</span></td>
+                    <td style="font-size: 13px;">Gly m</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Sojabohne&nbsp;<span class="latin">(Glycine max)</span></td>
+                    <td style="font-size: 13px;">Gly m 4</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">PR-10</td>
+
+                    <td class="bg-2">2,12</td>
+                </tr>
+                <tr>
+                    <td>Sojabohne&nbsp;<span class="latin">(Glycine max)</span></td>
+                    <td style="font-size: 13px;">Gly m 5</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">7/8S Globulin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Sojabohne&nbsp;<span class="latin">(Glycine max)</span></td>
+                    <td style="font-size: 13px;">Gly m 6</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">11S Globulin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Sojabohne&nbsp;<span class="latin">(Glycine max)</span></td>
+                    <td style="font-size: 13px;">Gly m 8</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">2S Albumin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>N&#xFC;sse &amp; Samen</h4></td></tr>
+                <tr>
+                    <td>Cashew&nbsp;<span class="latin">(Anacardium occidentale)</span></td>
+                    <td style="font-size: 13px;">Ana o</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-2">3,12</td>
+                </tr>
+                <tr>
+                    <td>Cashew&nbsp;<span class="latin">(Anacardium occidentale)</span></td>
+                    <td style="font-size: 13px;">Ana o 3</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">2S Albumin</td>
+
+                    <td class="bg-1">0,48</td>
+                </tr>
+                <tr>
+                    <td>Haselnuss&nbsp;<span class="latin">(Corylus avellana)</span></td>
+                    <td style="font-size: 13px;">Cor a_hazel</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Haselnuss&nbsp;<span class="latin">(Corylus avellana)</span></td>
+                    <td style="font-size: 13px;">Cor a 9</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">11S Globulin</td>
+
+                    <td class="bg-0">0,16</td>
+                </tr>
+                <tr>
+                    <td>Haselnuss&nbsp;<span class="latin">(Corylus avellana)</span></td>
+                    <td style="font-size: 13px;">Cor a 1.0401</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">PR-10</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Haselnuss&nbsp;<span class="latin">(Corylus avellana)</span></td>
+                    <td style="font-size: 13px;">Cor a 8</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">nsLTP</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Haselnuss&nbsp;<span class="latin">(Corylus avellana)</span></td>
+                    <td style="font-size: 13px;">Cor a 11</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">7/8S Globulin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Haselnuss&nbsp;<span class="latin">(Corylus avellana)</span></td>
+                    <td style="font-size: 13px;">Cor a 14</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">2S Albumin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>K&#xFC;rbiskerne&nbsp;<span class="latin">(Cucurbita pepo)</span></td>
+                    <td style="font-size: 13px;">Cuc p</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Macadamia&nbsp;<span class="latin">(Macadamia integrifolia)</span></td>
+                    <td style="font-size: 13px;">Mac inte</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Macadamia&nbsp;<span class="latin">(Macadamia integrifolia)</span></td>
+                    <td style="font-size: 13px;">Mac i 2S Albumin</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">2S Albumin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Mandel&nbsp;<span class="latin">(Prunus dulcis)</span></td>
+                    <td style="font-size: 13px;">Pru du</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Mohnsamen&nbsp;<span class="latin">(Papaver somniferum)</span></td>
+                    <td style="font-size: 13px;">Pap s</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Mohnsamen&nbsp;<span class="latin">(Papaver somniferum)</span></td>
+                    <td style="font-size: 13px;">Pap s 2S Albumin</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">2S Albumin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Paranuss&nbsp;<span class="latin">(Bertholletia excelsa)</span></td>
+                    <td style="font-size: 13px;">Ber e</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Paranuss&nbsp;<span class="latin">(Bertholletia excelsa)</span></td>
+                    <td style="font-size: 13px;">Ber e 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">2S Albumin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Pekannuss&nbsp;<span class="latin">(Carya illinoensis)</span></td>
+                    <td style="font-size: 13px;">Car i</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Pistazie&nbsp;<span class="latin">(Pistacia vera)</span></td>
+                    <td style="font-size: 13px;">Pis v</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,40</td>
+                </tr>
+                <tr>
+                    <td>Sesam&nbsp;<span class="latin">(Sesamum indicum)</span></td>
+                    <td style="font-size: 13px;">Ses i</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Sesam&nbsp;<span class="latin">(Sesamum indicum)</span></td>
+                    <td style="font-size: 13px;">Ses i 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">2S Albumin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Sonnenblumenkerne&nbsp;<span class="latin">(Helianthus annuus)</span></td>
+                    <td style="font-size: 13px;">Hel a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Walnuss&nbsp;<span class="latin">(Juglans regia)</span></td>
+                    <td style="font-size: 13px;">Jug r_nut</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Walnuss&nbsp;<span class="latin">(Juglans regia)</span></td>
+                    <td style="font-size: 13px;">Jug r 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">2S Albumin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Walnuss&nbsp;<span class="latin">(Juglans regia)</span></td>
+                    <td style="font-size: 13px;">Jug r 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">7/8S Globulin</td>
+
+                    <td class="bg-1">0,31</td>
+                </tr>
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Obst</h4></td></tr>
+                <tr>
+                    <td>Apfel&nbsp;<span class="latin">(Malus domestica)</span></td>
+                    <td style="font-size: 13px;">Mal d</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-2">1,29</td>
+                </tr>
+                <tr>
+                    <td>Apfel&nbsp;<span class="latin">(Malus domestica)</span></td>
+                    <td style="font-size: 13px;">Mal d 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">PR-10</td>
+
+                    <td class="bg-2">2,21</td>
+                </tr>
+                <tr>
+                    <td>Apfel&nbsp;<span class="latin">(Malus domestica)</span></td>
+                    <td style="font-size: 13px;">Mal d 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">TLP</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Apfel&nbsp;<span class="latin">(Malus domestica)</span></td>
+                    <td style="font-size: 13px;">Mal d 3</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">nsLTP</td>
+
+                    <td class="bg-1">0,82</td>
+                </tr>
+                <tr>
+                    <td>Banane&nbsp;<span class="latin">(Musa acuminata)</span></td>
+                    <td style="font-size: 13px;">Mus a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Birne&nbsp;<span class="latin">(Pyrus communis)</span></td>
+                    <td style="font-size: 13px;">Pyr c</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Erdbeere&nbsp;<span class="latin">(Fragaria ananassa)</span></td>
+                    <td style="font-size: 13px;">Fra a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Feige&nbsp;<span class="latin">(Ficus carica)</span></td>
+                    <td style="font-size: 13px;">Fic c</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,17</td>
+                </tr>
+                <tr>
+                    <td>Heidelbeere&nbsp;<span class="latin">(Vaccinium myrtillus)</span></td>
+                    <td style="font-size: 13px;">Vac m</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Himbeere&nbsp;<span class="latin">(Rubus idaeus)</span></td>
+                    <td style="font-size: 13px;">Rub i</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Kirsche&nbsp;<span class="latin">(Prunus avium)</span></td>
+                    <td style="font-size: 13px;">Pru av</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,21</td>
+                </tr>
+                <tr>
+                    <td>Kiwi&nbsp;<span class="latin">(Actinidia deliciosa)</span></td>
+                    <td style="font-size: 13px;">Act d</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-2">1,06</td>
+                </tr>
+                <tr>
+                    <td>Kiwi&nbsp;<span class="latin">(Actinidia deliciosa)</span></td>
+                    <td style="font-size: 13px;">Act d 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Cysteine Protease</td>
+
+                    <td class="bg-1">0,87</td>
+                </tr>
+                <tr>
+                    <td>Kiwi&nbsp;<span class="latin">(Actinidia deliciosa)</span></td>
+                    <td style="font-size: 13px;">Act d 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">TLP</td>
+
+                    <td class="bg-1">0,79</td>
+                </tr>
+                <tr>
+                    <td>Kiwi&nbsp;<span class="latin">(Actinidia deliciosa)</span></td>
+                    <td style="font-size: 13px;">Act d 5</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Kiwellin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Kiwi&nbsp;<span class="latin">(Actinidia deliciosa)</span></td>
+                    <td style="font-size: 13px;">Act d 10</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">nsLTP</td>
+
+                    <td class="bg-2">1,25</td>
+                </tr>
+                <tr>
+                    <td>Litchi&nbsp;<span class="latin">(Litchi chinesis)</span></td>
+                    <td style="font-size: 13px;">Lit c</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Mango&nbsp;<span class="latin">(Mangifera indica)</span></td>
+                    <td style="font-size: 13px;">Man i</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Melone&nbsp;<span class="latin">(Cucumis melo)</span></td>
+                    <td style="font-size: 13px;">Cuc m</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Orange&nbsp;<span class="latin">(Citrus sinensis)</span></td>
+                    <td style="font-size: 13px;">Cit s</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Papaya&nbsp;<span class="latin">(Carica papaya)</span></td>
+                    <td style="font-size: 13px;">Car p</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Pfirsich&nbsp;<span class="latin">(Prunus persica)</span></td>
+                    <td style="font-size: 13px;">Pru p</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,52</td>
+                </tr>
+                <tr>
+                    <td>Pfirsich&nbsp;<span class="latin">(Prunus persica)</span></td>
+                    <td style="font-size: 13px;">Pru p 3</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">nsLTP</td>
+
+                    <td class="bg-1">0,34</td>
+                </tr>
+                <tr>
+                    <td>Pflaume&nbsp;<span class="latin">(Prunus domestica)</span></td>
+                    <td style="font-size: 13px;">Pru do</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Weintraube&nbsp;<span class="latin">(Vitis vinifera)</span></td>
+                    <td style="font-size: 13px;">Vit v 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">nsLTP</td>
+
+                    <td class="bg-1">0,42</td>
+                </tr>
+
+                <tr style="page-break-after: avoid;"><td colspan="5" class="category" style="page-break-after: avoid;"><h3>Tierische Nahrungsmittel</h3></td></tr>
+
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Ei</h4></td></tr>
+                <tr>
+                    <td>H&#xFC;hnerei / Dotter&nbsp;<span class="latin">(Gallus domesticus)</span></td>
+                    <td style="font-size: 13px;">Gal d_yolk</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,22</td>
+                </tr>
+                <tr>
+                    <td>H&#xFC;hnerei / Dotter&nbsp;<span class="latin">(Gallus domesticus)</span></td>
+                    <td style="font-size: 13px;">Gal d 5</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Serum Albumin</td>
+
+                    <td class="bg-1">0,65</td>
+                </tr>
+                <tr>
+                    <td>H&#xFC;hnereiweiss&nbsp;<span class="latin">(Gallus domesticus)</span></td>
+                    <td style="font-size: 13px;">Gal d_white</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,41</td>
+                </tr>
+                <tr>
+                    <td>H&#xFC;hnereiweiss&nbsp;<span class="latin">(Gallus domesticus)</span></td>
+                    <td style="font-size: 13px;">Gal d 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Ovomucoid</td>
+
+                    <td class="bg-0">0,27</td>
+                </tr>
+                <tr>
+                    <td>H&#xFC;hnereiweiss&nbsp;<span class="latin">(Gallus domesticus)</span></td>
+                    <td style="font-size: 13px;">Gal d 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Ovalbumin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>H&#xFC;hnereiweiss&nbsp;<span class="latin">(Gallus domesticus)</span></td>
+                    <td style="font-size: 13px;">Gal d 3</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Ovotransferrin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>H&#xFC;hnereiweiss&nbsp;<span class="latin">(Gallus domesticus)</span></td>
+                    <td style="font-size: 13px;">Gal d 4</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Lysozym C</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Fisch &amp; Meeresfr&#xFC;chte</h4></td></tr>
+                <tr>
+                    <td>Atlantischer Dorsch&nbsp;<span class="latin">(Gadus morhua)</span></td>
+                    <td style="font-size: 13px;">Gad m</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,73</td>
+                </tr>
+                <tr>
+                    <td>Atlantischer Dorsch&nbsp;<span class="latin">(Gadus morhua)</span></td>
+                    <td style="font-size: 13px;">Gad m 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Beta-Parvalbumin</td>
+
+                    <td class="bg-1">0,80</td>
+                </tr>
+                <tr>
+                    <td>Auster&nbsp;<span class="latin">(Ostrea edulis)</span></td>
+                    <td style="font-size: 13px;">Ost e</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Black Tiger Shrimp&nbsp;<span class="latin">(Penaeus monodon)</span></td>
+                    <td style="font-size: 13px;">Pen m 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Tropomyosin</td>
+
+                    <td class="bg-1">0,57</td>
+                </tr>
+                <tr>
+                    <td>Eismeer Garnele&nbsp;<span class="latin">(Pandalus borealis)</span></td>
+                    <td style="font-size: 13px;">Pan b</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Heringswurm&nbsp;<span class="latin">(Anisakis simplex)</span></td>
+                    <td style="font-size: 13px;">Ani s 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Kunitz Serin Protease Inhibitor</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Heringswurm&nbsp;<span class="latin">(Anisakis simplex)</span></td>
+                    <td style="font-size: 13px;">Ani s 3</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Tropomysoin</td>
+
+                    <td class="bg-2">1,44</td>
+                </tr>
+                <tr>
+                    <td>Hummer&nbsp;<span class="latin">(Homarus gammarus)</span></td>
+                    <td style="font-size: 13px;">Hom g</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-2">1,41</td>
+                </tr>
+                <tr>
+                    <td>Jakobsmuschel&nbsp;<span class="latin">(Pecten spp.)</span></td>
+                    <td style="font-size: 13px;">Pec</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Karpfen&nbsp;<span class="latin">(Cyprinus carpio)</span></td>
+                    <td style="font-size: 13px;">Cyp c 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Beta-Parvalbumin</td>
+
+                    <td class="bg-2">1,85</td>
+                </tr>
+                <tr>
+                    <td>Krabbe&nbsp;<span class="latin">(Chionoecetes spp.)</span></td>
+                    <td style="font-size: 13px;">Chi spp.</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,26</td>
+                </tr>
+                <tr>
+                    <td>Lachs&nbsp;<span class="latin">(Salmo salar)</span></td>
+                    <td style="font-size: 13px;">Sal s</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Miesmuschel&nbsp;<span class="latin">(Mytilus edulis)</span></td>
+                    <td style="font-size: 13px;">Myt e</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Shrimp&nbsp;<span class="latin">(Litopaenaeus s., Farfantepenaeus  a., Farfantepenaeus  d..)</span></td>
+                    <td style="font-size: 13px;">Lit s</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,14</td>
+                </tr>
+                <tr>
+                    <td>Thunfisch&nbsp;<span class="latin">(Thunnus albacares)</span></td>
+                    <td style="font-size: 13px;">Thu a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Tintenfisch&nbsp;<span class="latin">(Loligo spp.)</span></td>
+                    <td style="font-size: 13px;">Lol</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Venusmuschel&nbsp;<span class="latin">(Ruditapes spp.)</span></td>
+                    <td style="font-size: 13px;">Rud spp.</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Fleisch</h4></td></tr>
+                <tr>
+                    <td>H&#xFC;hnerfleisch&nbsp;<span class="latin">(Gallus domesticus)</span></td>
+                    <td style="font-size: 13px;">Gal d_meat</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Kaninchen, Fleisch&nbsp;<span class="latin">(Oryctolagus spp.)</span></td>
+                    <td style="font-size: 13px;">Ory_meat</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Lammfleisch&nbsp;<span class="latin">(Ovis aries)</span></td>
+                    <td style="font-size: 13px;">Ovi a_meat</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,76</td>
+                </tr>
+                <tr>
+                    <td>Pferd, Fleisch&nbsp;<span class="latin">(Equus caballus)</span></td>
+                    <td style="font-size: 13px;">Equ c_meat</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Rindfleisch&nbsp;<span class="latin">(Bos domesticus)</span></td>
+                    <td style="font-size: 13px;">Bos d_meat</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Rindfleisch&nbsp;<span class="latin">(Bos domesticus)</span></td>
+                    <td style="font-size: 13px;">Bos d 6</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Serum Albumin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Schweinefleisch&nbsp;<span class="latin">(Sus domesticus)</span></td>
+                    <td style="font-size: 13px;">Sus d_meat</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Truthahn, Fleisch&nbsp;<span class="latin">(Meleagris gallopavo)</span></td>
+                    <td style="font-size: 13px;">Mel g</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Milch</h4></td></tr>
+                <tr>
+                    <td>Kamelmilch&nbsp;<span class="latin">(Camelus dromedarius)</span></td>
+                    <td style="font-size: 13px;">Cam d</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Kuhmilch&nbsp;<span class="latin">(Bos domesticus)</span></td>
+                    <td style="font-size: 13px;">Bos d_milk</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-2">2,31</td>
+                </tr>
+                <tr>
+                    <td>Kuhmilch&nbsp;<span class="latin">(Bos domesticus)</span></td>
+                    <td style="font-size: 13px;">Bos d 4</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Alpha-Lactalbumin</td>
+
+                    <td class="bg-0">0,25</td>
+                </tr>
+                <tr>
+                    <td>Kuhmilch&nbsp;<span class="latin">(Bos domesticus)</span></td>
+                    <td style="font-size: 13px;">Bos d 5</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Beta-Lactoglobulin</td>
+
+                    <td class="bg-2">1,07</td>
+                </tr>
+                <tr>
+                    <td>Kuhmilch&nbsp;<span class="latin">(Bos domesticus)</span></td>
+                    <td style="font-size: 13px;">Bos d 8</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Casein</td>
+
+                    <td class="bg-3">5,89</td>
+                </tr>
+                <tr>
+                    <td>Schafmilch&nbsp;<span class="latin">(Ovis aries)</span></td>
+                    <td style="font-size: 13px;">Ovi a_milk</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,77</td>
+                </tr>
+                <tr>
+                    <td>Stutenmilch&nbsp;<span class="latin">(Equus caballus)</span></td>
+                    <td style="font-size: 13px;">Equ c_milk</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Ziegenmilch&nbsp;<span class="latin">(Capra hircus)</span></td>
+                    <td style="font-size: 13px;">Cap h_milk</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-2">1,97</td>
+                </tr>
+
+                <tr style="page-break-after: avoid;"><td colspan="5" class="category" style="page-break-after: avoid;"><h3>Milben</h3></td></tr>
+
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Hausstaubmilbe</h4></td></tr>
+                <tr>
+                    <td>Amerikanische Hausstaubmilbe&nbsp;<span class="latin">(Dermatophagoides farinae)</span></td>
+                    <td style="font-size: 13px;">Der f</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-2">4,39</td>
+                </tr>
+                <tr>
+                    <td>Amerikanische Hausstaubmilbe&nbsp;<span class="latin">(Dermatophagoides farinae)</span></td>
+                    <td style="font-size: 13px;">Der f 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Cysteine Protease</td>
+
+                    <td class="bg-2">4,39</td>
+                </tr>
+                <tr>
+                    <td>Amerikanische Hausstaubmilbe&nbsp;<span class="latin">(Dermatophagoides farinae)</span></td>
+                    <td style="font-size: 13px;">Der f 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">NPC2 Family</td>
+
+                    <td class="bg-2">2,52</td>
+                </tr>
+                <tr>
+                    <td>Blomia tropicalis&nbsp;<span class="latin">(Blomia tropicalis)</span></td>
+                    <td style="font-size: 13px;">Blo t</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,27</td>
+                </tr>
+                <tr>
+                    <td>Europ&#xE4;ische Hausstaubmilbe&nbsp;<span class="latin">(Dermatophagoides pteronyssinus)</span></td>
+                    <td style="font-size: 13px;">Der p</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-3">7,94</td>
+                </tr>
+                <tr>
+                    <td>Europ&#xE4;ische Hausstaubmilbe&nbsp;<span class="latin">(Dermatophagoides pteronyssinus)</span></td>
+                    <td style="font-size: 13px;">Der p 7</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Mite Group 7</td>
+
+                    <td class="bg-1">0,98</td>
+                </tr>
+                <tr>
+                    <td>Europ&#xE4;ische Hausstaubmilbe&nbsp;<span class="latin">(Dermatophagoides pteronyssinus)</span></td>
+                    <td style="font-size: 13px;">Der p 5</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">unknown</td>
+
+                    <td class="bg-2">2,62</td>
+                </tr>
+                <tr>
+                    <td>Europ&#xE4;ische Hausstaubmilbe&nbsp;<span class="latin">(Dermatophagoides pteronyssinus)</span></td>
+                    <td style="font-size: 13px;">Der p 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Cysteine Protease</td>
+
+                    <td class="bg-3">6,05</td>
+                </tr>
+                <tr>
+                    <td>Europ&#xE4;ische Hausstaubmilbe&nbsp;<span class="latin">(Dermatophagoides pteronyssinus)</span></td>
+                    <td style="font-size: 13px;">Der p 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">NPC2 Family</td>
+
+                    <td class="bg-2">4,83</td>
+                </tr>
+                <tr>
+                    <td>Europ&#xE4;ische Hausstaubmilbe&nbsp;<span class="latin">(Dermatophagoides pteronyssinus)</span></td>
+                    <td style="font-size: 13px;">Der p 10</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Tropomyosin</td>
+
+                    <td class="bg-2">2,30</td>
+                </tr>
+                <tr>
+                    <td>Europ&#xE4;ische Hausstaubmilbe&nbsp;<span class="latin">(Dermatophagoides pteronyssinus)</span></td>
+                    <td style="font-size: 13px;">Der p 11</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Myosin, heavy chain</td>
+
+                    <td class="bg-1">0,49</td>
+                </tr>
+                <tr>
+                    <td>Europ&#xE4;ische Hausstaubmilbe&nbsp;<span class="latin">(Dermatophagoides pteronyssinus)</span></td>
+                    <td style="font-size: 13px;">Der p 23</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Chitiniase class III, Peritrophin-like protein domain</td>
+
+                    <td class="bg-2">3,05</td>
+                </tr>
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Vorratsmilbe</h4></td></tr>
+                <tr>
+                    <td>Acarus siro&nbsp;<span class="latin">(Acarus siro)</span></td>
+                    <td style="font-size: 13px;">Aca s</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">0,16</td>
+                </tr>
+                <tr>
+                    <td>Glycyphagus domesticus&nbsp;<span class="latin">(Glycyphagus domesticus)</span></td>
+                    <td style="font-size: 13px;">Gly d</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Glycyphagus domesticus&nbsp;<span class="latin">(Glycyphagus domesticus)</span></td>
+                    <td style="font-size: 13px;">Gly d 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">NPC2 Family</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Lepidoglyphus destructor&nbsp;<span class="latin">(Lepidoglyphus destructor)</span></td>
+                    <td style="font-size: 13px;">Lep d</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Tyrophagus putrescentiae&nbsp;<span class="latin">(Tyrophagus putrescentiae)</span></td>
+                    <td style="font-size: 13px;">Tyr p</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+
+                <tr style="page-break-after: avoid;"><td colspan="5" class="category" style="page-break-after: avoid;"><h3>Tierepithelien</h3></td></tr>
+
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Haustiere</h4></td></tr>
+                <tr>
+                    <td>Hamster&nbsp;<span class="latin">(Cricetus cricetus)</span></td>
+                    <td style="font-size: 13px;">Cri c</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,77</td>
+                </tr>
+                <tr>
+                    <td>Hund&nbsp;<span class="latin">(Canis familiaris)</span></td>
+                    <td style="font-size: 13px;">Can f</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-3">10,76</td>
+                </tr>
+                <tr>
+                    <td>Hund&nbsp;<span class="latin">(Canis familiaris)</span></td>
+                    <td style="font-size: 13px;">Can f 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Lipocalin</td>
+
+                    <td class="bg-3">7,24</td>
+                </tr>
+                <tr>
+                    <td>Hund&nbsp;<span class="latin">(Canis familiaris)</span></td>
+                    <td style="font-size: 13px;">Can f 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Lipocalin</td>
+
+                    <td class="bg-3">9,48</td>
+                </tr>
+                <tr>
+                    <td>Hund&nbsp;<span class="latin">(Canis familiaris)</span></td>
+                    <td style="font-size: 13px;">Can f 3</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Serum Albumin</td>
+
+                    <td class="bg-3">13,95</td>
+                </tr>
+                <tr>
+                    <td>Kaninchen, Epithel&nbsp;<span class="latin">(Oryctolagus spp.)</span></td>
+                    <td style="font-size: 13px;">Ory_epithelia</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Katze&nbsp;<span class="latin">(Felis domesticus)</span></td>
+                    <td style="font-size: 13px;">Fel d</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-3">9,51</td>
+                </tr>
+                <tr>
+                    <td>Katze&nbsp;<span class="latin">(Felis domesticus)</span></td>
+                    <td style="font-size: 13px;">Fel d 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Uteroglobin</td>
+
+                    <td class="bg-3">12,05</td>
+                </tr>
+                <tr>
+                    <td>Katze&nbsp;<span class="latin">(Felis domesticus)</span></td>
+                    <td style="font-size: 13px;">Fel d 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Serum Albumin</td>
+
+                    <td class="bg-3">6,08</td>
+                </tr>
+                <tr>
+                    <td>Katze&nbsp;<span class="latin">(Felis domesticus)</span></td>
+                    <td style="font-size: 13px;">Fel d 4</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Lipocalin</td>
+
+                    <td class="bg-2">2,45</td>
+                </tr>
+                <tr>
+                    <td>Maus, Epithel&nbsp;<span class="latin">(Mus musculus)</span></td>
+                    <td style="font-size: 13px;">Mus m 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Lipocalin</td>
+
+                    <td class="bg-1">0,62</td>
+                </tr>
+                <tr>
+                    <td>Meerschweinchenepithel&nbsp;<span class="latin">(Cavia porcellus)</span></td>
+                    <td style="font-size: 13px;">Cav p</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-2">2,74</td>
+                </tr>
+                <tr>
+                    <td>Ratte, Epithel&nbsp;<span class="latin">(Rattus norvegicus)</span></td>
+                    <td style="font-size: 13px;">Rat n</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,69</td>
+                </tr>
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Nutztiere</h4></td></tr>
+                <tr>
+                    <td>Pferd, Epithel&nbsp;<span class="latin">(Equus caballus)</span></td>
+                    <td style="font-size: 13px;">Equ c_epithelia</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Pferd, Epithel&nbsp;<span class="latin">(Equus caballus)</span></td>
+                    <td style="font-size: 13px;">Equ c 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Lipocalin</td>
+
+                    <td class="bg-1">0,93</td>
+                </tr>
+                <tr>
+                    <td>Rind&nbsp;<span class="latin">(Bos domesticus)</span></td>
+                    <td style="font-size: 13px;">Bos d 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Lipocalin</td>
+
+                    <td class="bg-0">0,13</td>
+                </tr>
+                <tr>
+                    <td>Rind, Epithel&nbsp;<span class="latin">(Bos domesticus)</span></td>
+                    <td style="font-size: 13px;">Bos d_epithelia</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Schaf, Epithel&nbsp;<span class="latin">(Ovis aries)</span></td>
+                    <td style="font-size: 13px;">Ovi a_epithelia</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Schwein, Epithel&nbsp;<span class="latin">(Sus domesticus)</span></td>
+                    <td style="font-size: 13px;">Sus d_epithelia</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,87</td>
+                </tr>
+                <tr>
+                    <td>Ziege, Epithel&nbsp;<span class="latin">(Capra hircus)</span></td>
+                    <td style="font-size: 13px;">Cap h_epithelia</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-2">1,44</td>
+                </tr>
+
+                <tr style="page-break-after: avoid;"><td colspan="5" class="category" style="page-break-after: avoid;"><h3>Insekten</h3></td></tr>
+
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Schaben</h4></td></tr>
+                <tr>
+                    <td>Amerikanische Schabe&nbsp;<span class="latin">(Periplaneta americana)</span></td>
+                    <td style="font-size: 13px;">Per a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-2">1,48</td>
+                </tr>
+                <tr>
+                    <td>Amerikanische Schabe&nbsp;<span class="latin">(Periplaneta americana)</span></td>
+                    <td style="font-size: 13px;">Per a 7</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Tropomyosin</td>
+
+                    <td class="bg-1">0,34</td>
+                </tr>
+                <tr>
+                    <td>Deutsche Schabe&nbsp;<span class="latin">(Blatella germanica)</span></td>
+                    <td style="font-size: 13px;">Bla g</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Deutsche Schabe&nbsp;<span class="latin">(Blatella germanica)</span></td>
+                    <td style="font-size: 13px;">Bla g 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Cockroach group 1</td>
+
+                    <td class="bg-4">34,13</td>
+                </tr>
+                <tr>
+                    <td>Deutsche Schabe&nbsp;<span class="latin">(Blatella germanica)</span></td>
+                    <td style="font-size: 13px;">Bla g 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Aspartyl protease</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Deutsche Schabe&nbsp;<span class="latin">(Blatella germanica)</span></td>
+                    <td style="font-size: 13px;">Bla g 4</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Lipocalin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Deutsche Schabe&nbsp;<span class="latin">(Blatella germanica)</span></td>
+                    <td style="font-size: 13px;">Bla g 5</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Glutathione S-transferase</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+
+                <tr style="page-break-after: avoid;"><td colspan="5" class="category" style="page-break-after: avoid;"><h3>Mikroorganismen</h3></td></tr>
+
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Hefepilz</h4></td></tr>
+                <tr>
+                    <td>B&#xE4;ckerhefe&nbsp;<span class="latin">(Sacccaromyces cerevisiae)</span></td>
+                    <td style="font-size: 13px;">Sac c</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Candida albicans&nbsp;<span class="latin">(Candida albicans)</span></td>
+                    <td style="font-size: 13px;">Can a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Malassezia sympodialis&nbsp;<span class="latin">(Malassezia sympodialis)</span></td>
+                    <td style="font-size: 13px;">Mala s 6</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">unknown</td>
+
+                    <td class="bg-0">0,28</td>
+                </tr>
+                <tr>
+                    <td>Malassezia sympodialis&nbsp;<span class="latin">(Malassezia sympodialis)</span></td>
+                    <td style="font-size: 13px;">Mala s 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">unknown</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Malassezia sympodialis&nbsp;<span class="latin">(Malassezia sympodialis)</span></td>
+                    <td style="font-size: 13px;">Mala s 5</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Cyclophilin</td>
+
+                    <td class="bg-2">3,55</td>
+                </tr>
+                <tr>
+                    <td>Malassezia sympodialis&nbsp;<span class="latin">(Malassezia sympodialis)</span></td>
+                    <td style="font-size: 13px;">Mala s 9</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Mn Superoxid-Dismutase</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Malassezia sympodialis&nbsp;<span class="latin">(Malassezia sympodialis)</span></td>
+                    <td style="font-size: 13px;">Mala s 11</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">unknown</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Schimmelpilze</h4></td></tr>
+                <tr>
+                    <td>Alternaria alternata&nbsp;<span class="latin">(Alternaria alternata)</span></td>
+                    <td style="font-size: 13px;">Alt a</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-4">16,23</td>
+                </tr>
+                <tr>
+                    <td>Alternaria alternata&nbsp;<span class="latin">(Alternaria alternata)</span></td>
+                    <td style="font-size: 13px;">Alt a 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Alt a 1-Family</td>
+
+                    <td class="bg-4">21,32</td>
+                </tr>
+                <tr>
+                    <td>Aspergillus fumigatus&nbsp;<span class="latin">(Aspergillus fumigatus)</span></td>
+                    <td style="font-size: 13px;">Asp f</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Aspergillus fumigatus&nbsp;<span class="latin">(Aspergillus fumigatus)</span></td>
+                    <td style="font-size: 13px;">Asp f 3</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Peroxysomal Protein</td>
+
+                    <td class="bg-0">0,23</td>
+                </tr>
+                <tr>
+                    <td>Aspergillus fumigatus&nbsp;<span class="latin">(Aspergillus fumigatus)</span></td>
+                    <td style="font-size: 13px;">Asp f 4</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">unknown</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Aspergillus fumigatus&nbsp;<span class="latin">(Aspergillus fumigatus)</span></td>
+                    <td style="font-size: 13px;">Asp f 6</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Mn Superoxid-Dismutase</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Cladosporium herbarum&nbsp;<span class="latin">(Cladosporium herbarum)</span></td>
+                    <td style="font-size: 13px;">Cla h</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Cladosporium herbarum&nbsp;<span class="latin">(Cladosporium herbarum)</span></td>
+                    <td style="font-size: 13px;">Cla h 8</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Short Chain Dehydrogenase</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Penicilium chrysogenum&nbsp;<span class="latin">(Penicilium chrysogenum)</span></td>
+                    <td style="font-size: 13px;">Pen ch</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+
+                <tr style="page-break-after: avoid;"><td colspan="5" class="category" style="page-break-after: avoid;"><h3>Sonstige</h3></td></tr>
+
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>CCD</h4></td></tr>
+                <tr>
+                    <td>Ananas&nbsp;<span class="latin">(Ananas comosus)</span></td>
+                    <td style="font-size: 13px;">Ana c 2</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">CCD</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Hom s Lactoferrin&nbsp;<span class="latin">(Homo sapiens)</span></td>
+                    <td style="font-size: 13px;">Hom s LF</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">CCD</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Ficus &amp; Hopfen</h4></td></tr>
+                <tr>
+                    <td>Birkenfeige&nbsp;<span class="latin">(Ficus benjamina)</span></td>
+                    <td style="font-size: 13px;">Fic b</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-1">0,41</td>
+                </tr>
+                <tr>
+                    <td>Hopfen&nbsp;<span class="latin">(Humulus lupulus)</span></td>
+                    <td style="font-size: 13px;">Hum l</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+
+                <tr style="page-break-after: avoid; page-break-before: avoid;"><td colspan="5" class="subcategory" style="page-break-after: avoid; page-break-before: avoid;"><h4>Latex</h4></td></tr>
+                <tr>
+                    <td>Latex&nbsp;<span class="latin">(Hevea brasiliensis)</span></td>
+                    <td style="font-size: 13px;">Hev b</td>
+                    <td style="font-size: 13px; text-align: center;">E</td>
+                    <td style="font-size: 13px;"></td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Latex&nbsp;<span class="latin">(Hevea brasiliensis)</span></td>
+                    <td style="font-size: 13px;">Hev b 1</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Rubber elongation factor</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Latex&nbsp;<span class="latin">(Hevea brasiliensis)</span></td>
+                    <td style="font-size: 13px;">Hev b 3</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">small rubber particle protein</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Latex&nbsp;<span class="latin">(Hevea brasiliensis)</span></td>
+                    <td style="font-size: 13px;">Hev b 5</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">unknown</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Latex&nbsp;<span class="latin">(Hevea brasiliensis)</span></td>
+                    <td style="font-size: 13px;">Hev b 6.02</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Pro-Hevein</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Latex&nbsp;<span class="latin">(Hevea brasiliensis)</span></td>
+                    <td style="font-size: 13px;">Hev b 8</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Profilin</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+                <tr>
+                    <td>Latex&nbsp;<span class="latin">(Hevea brasiliensis)</span></td>
+                    <td style="font-size: 13px;">Hev b 11</td>
+                    <td style="font-size: 13px; text-align: center;">M</td>
+                    <td style="font-size: 13px;">Class 1 Chitinase</td>
+
+                    <td class="bg-0">≤ 0,10</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</body>
+</html>

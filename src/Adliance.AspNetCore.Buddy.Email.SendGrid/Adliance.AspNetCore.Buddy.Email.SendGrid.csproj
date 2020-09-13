@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Version>0.0.0</Version>
+    <Authors>Hannes Sachsenhofer</Authors>
+    <Company>Adliance GmbH</Company>
+    <Product />
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Copyright>(c) Adliance GmbH</Copyright>
+    <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
+    <Description>Library of utility methods and common functionality that are useful for most Adliance projects.</Description>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.8" />
+    <PackageReference Include="Sendgrid" Version="9.15.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Adliance.AspNetCore.Buddy.Abstractions\Adliance.AspNetCore.Buddy.Abstractions.csproj" />
+  </ItemGroup>
+
+
+
+</Project>
