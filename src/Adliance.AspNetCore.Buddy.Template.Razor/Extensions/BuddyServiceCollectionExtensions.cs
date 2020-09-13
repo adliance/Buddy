@@ -1,6 +1,5 @@
 ﻿using Adliance.AspNetCore.Buddy.Abstractions;
 using Adliance.AspNetCore.Buddy.Pdf;
-using Adliance.AspNetCore.Buddy.Template.Razor.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Adliance.AspNetCore.Buddy.Template.Razor.Extensions

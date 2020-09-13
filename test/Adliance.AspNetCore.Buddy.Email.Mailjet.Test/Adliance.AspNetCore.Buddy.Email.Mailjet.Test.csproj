@@ -17,7 +17,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Adliance.AspNetCore.Buddy.Email.SendGrid\Adliance.AspNetCore.Buddy.Email.SendGrid.csproj" />
+    <ProjectReference Include="..\..\src\Adliance.AspNetCore.Buddy.Email.MailJet\Adliance.AspNetCore.Buddy.Email.MailJet.csproj" />
   </ItemGroup>
 
 </Project>

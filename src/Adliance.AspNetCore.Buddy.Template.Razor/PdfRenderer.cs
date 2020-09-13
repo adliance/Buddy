@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Pdf;
-using Adliance.AspNetCore.Buddy.Template.Razor.Abstractions;
 using Microsoft.Extensions.Logging;
 
 namespace Adliance.AspNetCore.Buddy.Template.Razor

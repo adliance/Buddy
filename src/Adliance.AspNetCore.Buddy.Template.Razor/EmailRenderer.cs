@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Abstractions;
-using Adliance.AspNetCore.Buddy.Template.Razor.Abstractions;
 
 namespace Adliance.AspNetCore.Buddy.Template.Razor
 {

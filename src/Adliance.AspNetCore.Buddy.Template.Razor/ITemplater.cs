@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Adliance.AspNetCore.Buddy.Template.Razor.Abstractions
+namespace Adliance.AspNetCore.Buddy.Template.Razor
 {
     public interface ITemplater
     {
