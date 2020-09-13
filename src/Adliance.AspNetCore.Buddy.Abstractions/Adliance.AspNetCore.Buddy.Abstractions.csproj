@@ -9,7 +9,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>(c) Adliance GmbH</Copyright>
     <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
-    <Description>Library of utility methods and common functionality that are useful for most Adliance projects.</Description>
+    <Description>Set of common abstractions for all separate Buddy libraries.</Description>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
