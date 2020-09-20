@@ -18,7 +18,7 @@ namespace Adliance.AspNetCore.Buddy.Pdf.Extensions
             return buddyServices;
         }
 
-        public static IBuddyServiceCollection AddMailjet(
+        public static IBuddyServiceCollection AddPdf(
             this IBuddyServiceCollection buddyServices,
             IConfigurationSection pdferConfigurationSection)
         {
