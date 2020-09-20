@@ -8,7 +8,7 @@ namespace Adliance.AspNetCore.Buddy.Pdf.Test
 {
     public class AdliancePdferTest
     {
-        private readonly IPdfer _pdfer = new AdliancePdfer(new MockedAdliancePdferSettings());
+        private readonly IPdfer _pdfer = new AdliancePdfer(new MockedPdferConfiguration());
 
         [Fact]
         public async Task Can_Create_Simple_Pdf()

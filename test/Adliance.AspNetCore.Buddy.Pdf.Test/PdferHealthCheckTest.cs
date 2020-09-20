@@ -10,7 +10,7 @@ namespace Adliance.AspNetCore.Buddy.Pdf.Test
         [Fact]
         public async Task Health_Check_Succeeds()
         {
-            var check = new PdferHealthCheck(new AdliancePdfer(new MockedAdliancePdferSettings()), new NullLogger<PdferHealthCheck>());
+            var check = new PdferHealthCheck(new AdliancePdfer(new MockedPdferConfiguration()), new NullLogger<PdferHealthCheck>());
             Assert.Equal(HealthStatus.Healthy, (await check.CheckHealthAsync(new HealthCheckContext())).Status);
         }
     }

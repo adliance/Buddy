@@ -54,8 +54,8 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet
                         {
                             "From", new JObject
                             {
-                                {"Email", _emailConfig.EmailSenderAddress},
-                                {"Name", _emailConfig.EmailSenderName}
+                                {"Email", _emailConfig.SenderAddress},
+                                {"Name", _emailConfig.SenderName}
                             }
                         },
                         {
@@ -68,12 +68,12 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet
                             }
                         },
                         {
-                            "ReplyTo", string.IsNullOrWhiteSpace(_emailConfig.EmailReplyToAddress)
+                            "ReplyTo", string.IsNullOrWhiteSpace(_emailConfig.ReplyToAddress)
                                 ? null
                                 : new JObject
                                 {
-                                    {"Email", _emailConfig.EmailReplyToAddress},
-                                    {"Name", _emailConfig.EmailSenderName}
+                                    {"Email", _emailConfig.ReplyToAddress},
+                                    {"Name", _emailConfig.SenderName}
                                 }
                         },
                         {"CustomCampaign", string.IsNullOrWhiteSpace(_mailjetConfig.Campaign) ? null : _mailjetConfig.Campaign},

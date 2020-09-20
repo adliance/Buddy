@@ -9,16 +9,16 @@ namespace Adliance.AspNetCore.Buddy.Pdf
 {
     public class AdliancePdfer : IPdfer
     {
-        private readonly IAdliancePdferSettings _settings;
+        private readonly IPdferConfiguration _configuration;
 
-        public AdliancePdfer(IAdliancePdferSettings settings)
+        public AdliancePdfer(IPdferConfiguration configuration)
         {
-            _settings = settings;
+            _configuration = configuration;
         }
 
         public async Task<byte[]> HtmlToPdf(string html, PdfOptions options)
         {
-            if (string.IsNullOrWhiteSpace(_settings.PdfServerUrl))
+            if (string.IsNullOrWhiteSpace(_configuration.ServerUrl))
             {
                 throw new Exception("No Server URL configured.");
             }
@@ -58,7 +58,7 @@ namespace Adliance.AspNetCore.Buddy.Pdf
                 var content = new StringContent(JsonSerializer.Serialize(parameters), Encoding.UTF8, "application/json");
 
 
-                var endpoint = _settings.PdfServerUrl.Trim('/');
+                var endpoint = _configuration.ServerUrl.Trim('/');
                 if (!endpoint.EndsWith("/html-to-pdf"))
                 {
                     endpoint += "/html-to-pdf";

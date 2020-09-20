@@ -11,9 +11,9 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Test
 
     public class MockedEmailConfiguration : IEmailConfiguration
     {
-        public string EmailSenderName => "Hannes Sachsenhofer";
-        public string EmailSenderAddress => "contact@igevia.com";
-        public string EmailReplyToAddress => "hannes.sachsenhofer@adliance.net";
+        public string SenderName => "Hannes Sachsenhofer";
+        public string SenderAddress => "contact@igevia.com";
+        public string ReplyToAddress => "hannes.sachsenhofer@adliance.net";
     }
 
     public class MockedEmailAttachment : IEmailAttachment
