@@ -1,20 +1,29 @@
-﻿namespace Adliance.AspNetCore.Buddy.Abstractions
+﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+namespace Adliance.AspNetCore.Buddy.Abstractions
 {
     public interface IEmailConfiguration
     {
         /// <summary>
         /// The name of the sender.
         /// </summary>
-        string EmailSenderName { get; }
+        string SenderName { get; }
 
         /// <summary>
         /// The email address of the sender .
         /// </summary>
-        string EmailSenderAddress { get; }
-        
+        string SenderAddress { get; }
+
         /// <summary>
         /// The "reply to" address (can be different from the sender address.
         /// </summary>
-        string EmailReplyToAddress { get; }
+        string ReplyToAddress { get; }
+    }
+
+    // ReSharper disable once UnusedType.Global
+    public class DefaultEmailConfiguration : IEmailConfiguration
+    {
+        public string SenderName { get; set; } = "";
+        public string SenderAddress { get; set; } = "";
+        public string ReplyToAddress { get; set; } = "";
     }
 }
