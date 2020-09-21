@@ -23,7 +23,7 @@ namespace Adliance.AspNetCore.Buddy.Pdf.Extensions
             IConfigurationSection pdferConfigurationSection)
         {
             var pdferOptions = pdferConfigurationSection.Get<DefaultPdferConfiguration>();
-            buddyServices.Services.Configure<PdfOptions>(pdferConfigurationSection);
+            buddyServices.Services.Configure<DefaultPdferConfiguration>(pdferConfigurationSection);
             return AddPdf(buddyServices, pdferOptions);
         }
     }

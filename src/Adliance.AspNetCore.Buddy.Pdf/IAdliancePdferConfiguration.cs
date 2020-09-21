@@ -1,4 +1,5 @@
 ﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable ClassNeverInstantiated.Global
 namespace Adliance.AspNetCore.Buddy.Pdf
 {
     public interface IPdferConfiguration
