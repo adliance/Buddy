@@ -17,11 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="*.html" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Adliance.AspNetCore.Buddy.Pdf\Adliance.AspNetCore.Buddy.Pdf.csproj" />
+    <ProjectReference Include="..\..\src\Adliance.AspNetCore.Buddy.Storage\Adliance.AspNetCore.Buddy.Storage.csproj" />
   </ItemGroup>
 
 </Project>

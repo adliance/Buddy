@@ -30,13 +30,13 @@ namespace Adliance.AspNetCore.Buddy.Email.SendGrid
 
             var client = new SendGridClient(_sendgridConfig.SendgridSecret);
 
-            var from = new EmailAddress(_emailConfig.EmailSenderAddress, _emailConfig.EmailSenderName);
+            var from = new EmailAddress(_emailConfig.SenderAddress, _emailConfig.SenderName);
             var to = new EmailAddress(recipientAddress);
             var mail = MailHelper.CreateSingleEmail(from, to, subject, textBody ?? "", htmlBody ?? "");
 
-            if (!string.IsNullOrWhiteSpace(_emailConfig.EmailReplyToAddress))
+            if (!string.IsNullOrWhiteSpace(_emailConfig.ReplyToAddress))
             {
-                mail.SetReplyTo(new EmailAddress(_emailConfig.EmailReplyToAddress));
+                mail.SetReplyTo(new EmailAddress(_emailConfig.ReplyToAddress));
             }
             
             mail.Categories = new List<string>
