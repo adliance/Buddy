@@ -29,6 +29,8 @@ stages:
               command: test
               projects: 'test/**/*.csproj'
               arguments: '--configuration Release'
+            env:
+              Adliance_Buddy_Tests__AzureStorageConnectionString: $(AzureStorageConnectionString)
             
   - stage: publish
     jobs:
