@@ -47,6 +47,16 @@ namespace Adliance.AspNetCore.Buddy.Storage
             }
         }
 
+        public async Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, params string[] path)
+        {
+            if (await Exists(path))
+            {
+                return new Uri("file://" + GetFilePath(path));
+            }
+
+            return null;
+        }
+
         public Task<bool> Exists(params string[] path)
         {
             return Task.FromResult(File.Exists(GetFilePath(path)));

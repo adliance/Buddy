@@ -1,9 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Abstractions;
+using Azure.Storage;
 using Azure.Storage.Blobs;
+using Azure.Storage.Sas;
 
 namespace Adliance.AspNetCore.Buddy.Storage
 {
@@ -61,6 +65,36 @@ namespace Adliance.AspNetCore.Buddy.Storage
         public async Task Delete(params string[] path)
         {
             await GetBlobClient(path).DeleteIfExistsAsync();
+        }
+
+        public async Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, params string[] path)
+        {
+            if (await Exists(path))
+            {
+                if (string.IsNullOrWhiteSpace(niceName))
+                {
+                    niceName = "unknown";
+                }
+
+                niceName = WebUtility.UrlEncode(niceName)!;
+                var blobClient = GetBlobClient(path);
+                var sasBuilder = new BlobSasBuilder
+                {
+                    StartsOn = DateTime.UtcNow.AddMinutes(-1),
+                    ExpiresOn = expiresOn,
+                    BlobContainerName = blobClient.BlobContainerName,
+                    BlobName = blobClient.Name,
+                    ContentDisposition = "attachment;filename=\"" + niceName + "\""
+                };
+                sasBuilder.SetPermissions(BlobSasPermissions.Read);
+
+                var accountName = Regex.Match(_configuration.AzureStorageConnectionString, "AccountName=(.*?);", RegexOptions.IgnoreCase).Groups[1].Value;
+                var accountKey = Regex.Match(_configuration.AzureStorageConnectionString, "AccountKey=(.*?);", RegexOptions.IgnoreCase).Groups[1].Value;
+                var sasToken = sasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(accountName, accountKey));
+                return new Uri(blobClient.Uri + "?" + sasToken);
+            }
+
+            return null;
         }
 
         private BlobContainerClient GetContainerClient(params string[] path)

@@ -24,7 +24,7 @@ namespace Adliance.AspNetCore.Buddy.Storage.Test
         [Fact]
         public async Task Can_Read_Write_Delete_Bytes()
         {
-            var filePath = new[] {"directory", "another directory", $"file-bytes-{Guid.NewGuid()}"};
+            var filePath = new[] {"directory", "another_directory", $"file-bytes-{Guid.NewGuid()}"};
             Assert.False(await _storage.Exists(filePath));
             Assert.Null(await _storage.Load(filePath));
 
@@ -34,6 +34,10 @@ namespace Adliance.AspNetCore.Buddy.Storage.Test
             Assert.NotNull(bytes);
             Assert.Equal(3, bytes!.Length);
 
+            var uri = await _storage.GetDownloadUrl("nice_name", DateTimeOffset.UtcNow.AddDays(1), filePath);
+            Assert.NotNull(uri);
+            Assert.True(uri!.ToString().Length > 30);
+
             await _storage.Delete(filePath);
             Assert.False(await _storage.Exists(filePath));
             Assert.Null(await _storage.Load(filePath));
@@ -42,7 +46,7 @@ namespace Adliance.AspNetCore.Buddy.Storage.Test
         [Fact]
         public async Task Can_Read_Write_Delete_Stream()
         {
-            var filePath = new[] {"directory", "another directory", $"file-stream-{Guid.NewGuid()}"};
+            var filePath = new[] {"directory", "another_directory", $"file-stream-{Guid.NewGuid()}"};
             Assert.False(await _storage.Exists(filePath));
 
             await using (var ms = new MemoryStream())
@@ -66,6 +70,10 @@ namespace Adliance.AspNetCore.Buddy.Storage.Test
                 Assert.NotEmpty(ms.ToArray());
                 Assert.Equal(4, ms.ToArray().Length);
             }
+
+            var uri = await _storage.GetDownloadUrl("nice_name", DateTimeOffset.UtcNow.AddDays(1), filePath);
+            Assert.NotNull(uri);
+            Assert.True(uri!.ToString().Length > 30);
 
             await _storage.Delete(filePath);
             Assert.False(await _storage.Exists(filePath));
