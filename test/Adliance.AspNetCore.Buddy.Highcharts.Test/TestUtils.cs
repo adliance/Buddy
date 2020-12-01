@@ -1,13 +1,13 @@
 ﻿using System;
 using System.IO;
 
-namespace Adliance.Highcharts.Buddy.Test
+namespace Adliance.AspNetCore.Buddy.Highcharts.Test
 {
     public static class TestUtils
     {
         public static byte[] GetEmbeddedResource(params string[] parts)
         {
-            var resourceName = "Adliance.Highcharts.Buddy.Test." + string.Join(".", parts);
+            var resourceName = "Adliance.AspNetCore.Buddy.Highcharts.Test." + string.Join(".", parts);
             var stream = typeof(TestUtils).Assembly.GetManifestResourceStream("Adliance.Highcharts.Buddy.Test." + string.Join(".", parts));
             if (stream == null)
             {
@@ -22,7 +22,7 @@ namespace Adliance.Highcharts.Buddy.Test
 
         public static string GetEmbeddedString(params string[] parts)
         {
-            var resourceName = "Adliance.Highcharts.Buddy.Test." + string.Join(".", parts);
+            var resourceName = "Adliance.AspNetCore.Buddy.Highcharts.Test." + string.Join(".", parts);
             var stream = typeof(TestUtils).Assembly.GetManifestResourceStream(resourceName);
             if (stream == null)
             {
@@ -36,7 +36,7 @@ namespace Adliance.Highcharts.Buddy.Test
 
         public static void StoreLocally(string filename, byte[] bytes)
         {
-            var directory = @"C:\Users\hannes\Downloads";
+            var directory = @"C:\Users\Hannes\Downloads"; // yes, yes, I know
             if (Directory.Exists(directory))
             {
                 File.WriteAllBytes(Path.Combine(directory, filename), bytes);

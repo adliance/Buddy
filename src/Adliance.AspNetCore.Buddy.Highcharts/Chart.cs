@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Adliance.Highcharts.Buddy
+namespace Adliance.AspNetCore.Buddy.Highcharts
 {
     public class Chart
     {

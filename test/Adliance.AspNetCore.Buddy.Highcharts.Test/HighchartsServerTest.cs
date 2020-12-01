@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Adliance.Highcharts.Buddy.Test
+namespace Adliance.AspNetCore.Buddy.Highcharts.Test
 {
     public class HighchartsServerTest
     {
@@ -33,7 +33,7 @@ namespace Adliance.Highcharts.Buddy.Test
                 Chart = JsonConvert.DeserializeObject<Chart>(TestUtils.GetEmbeddedString("Charts", filename + ".json"))
             });
 
-            TestUtils.StoreLocally($@"c:\users\hannes\downloads\chart_{filename}_{format}_{width}_{scale}.{format}", bytes);
+            TestUtils.StoreLocally($@"chart_{filename}_{format}_{width}_{scale}.{format}", bytes);
             Assert.True(bytes.Length > 1000);
         }
 

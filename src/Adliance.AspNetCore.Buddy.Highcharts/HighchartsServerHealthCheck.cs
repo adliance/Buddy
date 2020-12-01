@@ -1,10 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace Adliance.Highcharts.Buddy
+namespace Adliance.AspNetCore.Buddy.Highcharts
 {
     public class HighchartsServerHealthCheck : IHealthCheck
     {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Adliance.Highcharts.Buddy.Extensions
+namespace Adliance.AspNetCore.Buddy.Highcharts.Extensions
 {
     public static class ChartExtensions
     {

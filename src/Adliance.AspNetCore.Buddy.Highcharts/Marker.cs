@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Adliance.Highcharts.Buddy
+namespace Adliance.AspNetCore.Buddy.Highcharts
 {
     public class Marker
     {

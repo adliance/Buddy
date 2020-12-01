@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Xunit;
 
-namespace Adliance.Highcharts.Buddy.Test
+namespace Adliance.AspNetCore.Buddy.Highcharts.Test
 {
     public class HighchartsServerHealthCheckTest
     {

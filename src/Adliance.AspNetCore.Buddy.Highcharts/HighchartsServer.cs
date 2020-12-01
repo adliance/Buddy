@@ -2,10 +2,10 @@
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Adliance.Highcharts.Buddy.Extensions;
+using Adliance.AspNetCore.Buddy.Highcharts.Extensions;
 using Newtonsoft.Json;
 
-namespace Adliance.Highcharts.Buddy
+namespace Adliance.AspNetCore.Buddy.Highcharts
 {
     public class HighchartsServer
     {

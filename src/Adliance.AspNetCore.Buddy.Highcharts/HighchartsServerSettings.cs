@@ -1,4 +1,4 @@
-﻿namespace Adliance.Highcharts.Buddy
+﻿namespace Adliance.AspNetCore.Buddy.Highcharts
 {
     public interface IHighchartsServerSettings
     {

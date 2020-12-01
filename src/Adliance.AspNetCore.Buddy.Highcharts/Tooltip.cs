@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Adliance.Highcharts.Buddy.Extensions;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
-namespace Adliance.Highcharts.Buddy
+namespace Adliance.AspNetCore.Buddy.Highcharts
 {
     public class Tooltip
     {

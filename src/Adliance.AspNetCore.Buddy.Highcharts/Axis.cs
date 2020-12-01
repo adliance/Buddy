@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Adliance.Highcharts.Buddy
+namespace Adliance.AspNetCore.Buddy.Highcharts
 {
     public class Axis
     {
@@ -17,6 +17,7 @@ namespace Adliance.Highcharts.Buddy
         [JsonProperty("tickInterval")] public double? TickInterval { get; set; }
         [JsonProperty("max")] public double? Max { get; set; }
         [JsonProperty("plotLines")] public IEnumerable<Plotline>? Plotlines { get; set; }
+        [JsonProperty("plotBands")] public IEnumerable<Plotband>? Plotbands { get; set; }
     }
 }
 
