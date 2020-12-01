@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.0.0</Version>
+    <Authors>Hannes Sachsenhofer</Authors>
+    <Company>Adliance GmbH</Company>
+    <Product />
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Copyright>(c) Adliance GmbH</Copyright>
+    <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
+    <Description>
+      Library of utility methods that make working with Highcharts from .NET easier. 
+      Noteable features are a collection of classes that maps to Highcharts chart JSON, and support for calling the Highcharts Export Server.
+    </Description>
+    <LangVersion>default</LangVersion>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="3.1.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+</Project>
