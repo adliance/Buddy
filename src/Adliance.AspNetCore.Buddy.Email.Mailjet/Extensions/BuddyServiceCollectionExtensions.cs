@@ -12,12 +12,11 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Extensions
         public static IBuddyServiceCollection AddMailjet(
             this IBuddyServiceCollection buddyServices,
             IEmailConfiguration emailConfiguration,
-            IMailjetConfiguration mailjetconfiguration)
+            IMailjetConfiguration mailjetConfiguration)
         {
             buddyServices.Services.AddSingleton(emailConfiguration);
-            buddyServices.Services.AddSingleton(mailjetconfiguration);
-            buddyServices.Services.AddTransient<IEmailer, MailjetEmailer>();
-            return buddyServices;
+            buddyServices.Services.AddSingleton(mailjetConfiguration);
+            return AddMailjet(buddyServices);
         }
         
         public static IBuddyServiceCollection AddMailjet(
@@ -32,6 +31,13 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Extensions
             buddyServices.Services.Configure<IMailjetConfiguration>(mailjetConfigurationSection);
 
             return AddMailjet(buddyServices, emailOptions, mailjetOptions);
+        }
+        
+        public static IBuddyServiceCollection AddMailjet(
+            this IBuddyServiceCollection buddyServices)
+        {
+            buddyServices.Services.AddTransient<IEmailer, MailjetEmailer>();
+            return buddyServices;
         }
     }
 }

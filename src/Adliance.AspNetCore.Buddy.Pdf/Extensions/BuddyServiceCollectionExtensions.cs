@@ -1,6 +1,7 @@
 ﻿using Adliance.AspNetCore.Buddy.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 // ReSharper disable UnusedType.Global
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
@@ -14,8 +15,7 @@ namespace Adliance.AspNetCore.Buddy.Pdf.Extensions
             IPdferConfiguration pdferConfiguration)
         {
             buddyServices.Services.AddSingleton(pdferConfiguration);
-            buddyServices.Services.AddTransient<IPdfer, AdliancePdfer>();
-            return buddyServices;
+            return AddPdf(buddyServices);
         }
 
         public static IBuddyServiceCollection AddPdf(
@@ -25,6 +25,13 @@ namespace Adliance.AspNetCore.Buddy.Pdf.Extensions
             var pdferOptions = pdferConfigurationSection.Get<DefaultPdferConfiguration>();
             buddyServices.Services.Configure<DefaultPdferConfiguration>(pdferConfigurationSection);
             return AddPdf(buddyServices, pdferOptions);
+        }
+
+        public static IBuddyServiceCollection AddPdf(
+            this IBuddyServiceCollection buddyServices)
+        {
+            buddyServices.Services.AddTransient<IPdfer, AdliancePdfer>();
+            return buddyServices;
         }
     }
 }
