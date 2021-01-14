@@ -56,25 +56,31 @@ namespace Adliance.AspNetCore.Buddy.Authentication
                 return AuthenticateResult.Fail("No API key specified.");
             }
 
-            var isValidKey = await _authenticationService.IsValidApiKey(apiKey);
-            if (!isValidKey)
+            var validationResult = await _authenticationService.ValidateKey(apiKey);
+            if (!validationResult.IsValid)
             {
                 return AuthenticateResult.Fail("API key invalid");
             }
 
             var identity = new ClaimsIdentity(ApiKeyAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-            var username = await _authenticationService.GetUserName(apiKey);
-            if (!string.IsNullOrWhiteSpace(username))
+            if (!string.IsNullOrWhiteSpace(validationResult.UserName))
             {
-                identity.AddClaim(new Claim(ClaimTypes.Name, username));
+                identity.AddClaim(new Claim(ClaimTypes.Name, validationResult.UserName));
             }
 
-            var roles = await _authenticationService.GetRoles(apiKey);
-            if (roles != null)
+            if (validationResult.Roles != null)
             {
-                foreach (var r in roles)
+                foreach (var r in validationResult.Roles)
                 {
                     identity.AddClaim(new Claim(ClaimTypes.Role, r));
+                }
+            }
+
+            if (validationResult.Claims != null)
+            {
+                foreach (var c in validationResult.Claims)
+                {
+                    identity.AddClaim(c);
                 }
             }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Adliance.AspNetCore.Buddy.Authentication
@@ -19,22 +20,15 @@ namespace Adliance.AspNetCore.Buddy.Authentication
         /// Validates the in <paramref name="apiKey"/> provided API key.
         /// </summary>
         /// <param name="apiKey">The API key to check as string.</param>
-        /// <returns><value>True</value> if the <paramref name="apiKey"/> is valid else <value>false</value>.</returns>
-        Task<bool> IsValidApiKey(string? apiKey);
-        
-        /// <summary>
-        /// Validates the in <paramref name="apiKey"/> provided API key, and returns the user name (identifier) for the matching user.
-        /// If no matching user is found, then null is returned.
-        /// </summary>
-        /// <param name="apiKey">The API key to check as string.</param>
-        /// <returns>The user name, or null.</returns>
-        Task<string> GetUserName(string? apiKey);
-        
-        /// <summary>
-        /// Validates the in <paramref name="apiKey"/> provided API key, and returns the roles of the user.
-        /// </summary>
-        /// <param name="apiKey">The API key to check as string.</param>
-        /// <returns>The roles of the user, or null if the user is not valid.</returns>
-        Task<IEnumerable<string>> GetRoles(string? apiKey);
+        /// <returns>A value if the API key is valid, and values indicating the username, roles and claims if the API key is valid.</returns>
+        Task<ApiKeyAuthenticationServiceResult> ValidateKey(string? apiKey);
+    }
+
+    public class ApiKeyAuthenticationServiceResult
+    {
+        public bool IsValid { get; set; }
+        public string? UserName { get; set; }
+        public IEnumerable<string>? Roles { get; set; }
+        public IEnumerable<Claim>? Claims { get; set; }
     }
 }
