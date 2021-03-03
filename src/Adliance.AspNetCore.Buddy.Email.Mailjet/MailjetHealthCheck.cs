@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Abstractions;
 using Mailjet.Client;
+using Mailjet.Client.TransactionalEmails;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
-using Resources = Mailjet.Client.Resources;
 
 namespace Adliance.AspNetCore.Buddy.Email.Mailjet
 {
@@ -25,69 +25,31 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet
 
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
-            var healthy = false;
             try
             {
-                var client = new MailjetClient(_mailjetConfiguration.PublicApiKey, _mailjetConfiguration.PrivateApiKey)
+                var client = new MailjetClient(_mailjetConfiguration.PublicApiKey, _mailjetConfiguration.PrivateApiKey);
+
+                var email = new TransactionalEmail
                 {
-                    Version = ApiVersion.V3_1
+                    From = new SendContact(_emailConfiguration.SenderAddress, _emailConfiguration.SenderName),
+                    Subject = "Health Check",
+                    ReplyTo = new SendContact(_emailConfiguration.ReplyToAddress, _emailConfiguration.SenderName),
+                    CustomCampaign = _mailjetConfiguration.Campaign,
+                    To = new List<SendContact>
+                    {
+                        new SendContact("hannes@sachsenhofer.com")
+                    },
+                    TextPart = "This e-mail is sent from a health check and should never reach anybody."
                 };
 
-                var request = new MailjetRequest
-                    {
-                        Resource = Resources.Send.Resource
-                    }
-                    .Property("SandboxMode", true)
-                    .Property(Resources.Send.Messages, new JArray
-                    {
-                        new JObject
-                        {
-                            {
-                                "From", new JObject
-                                {
-                                    {"Email", _emailConfiguration.SenderAddress},
-                                    {"Name", _emailConfiguration.SenderName}
-                                }
-                            },
-                            {
-                                "To", new JArray
-                                {
-                                    new JObject
-                                    {
-                                        {"Email", "hannes@sachsenhofer.com"}
-                                    }
-                                }
-                            },
-                            {
-                                "ReplyTo", string.IsNullOrWhiteSpace(_emailConfiguration.ReplyToAddress)
-                                    ? null
-                                    : new JObject
-                                    {
-                                        {"Email", _emailConfiguration.ReplyToAddress},
-                                        {"Name", _emailConfiguration.SenderName}
-                                    }
-                            },
-                            {"Subject", "Health Check"},
-                            {"TextPart", "Health Check"}
-                        }
-                    });
-                MailjetResponse response = await client.PostAsync(request);
-                if (response.IsSuccessStatusCode)
-                {
-                    healthy = true;
-                }
+                await client.SendTransactionalEmailAsync(email, true);
+                return await Task.FromResult(HealthCheckResult.Healthy("Mailjet is healthy."));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Mailjet health check failed.");
+                _logger.LogError(ex, $"Mailjet Healthcheck failed: {ex.Message}");
+                return await Task.FromResult(HealthCheckResult.Unhealthy("Mailjet is not healthy."));
             }
-
-            if (healthy)
-            {
-                return await Task.FromResult(HealthCheckResult.Healthy("Mailjet is healthy."));
-            }
-
-            return await Task.FromResult(HealthCheckResult.Unhealthy("Mailjet is not healthy."));
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Test
     public class MockedEmailConfiguration : IEmailConfiguration
     {
         public string SenderName => "Hannes Sachsenhofer";
-        public string SenderAddress => "contact@igevia.com";
+        public string SenderAddress => "office@akriva.com";
         public string ReplyToAddress => "hannes.sachsenhofer@adliance.net";
     }
 

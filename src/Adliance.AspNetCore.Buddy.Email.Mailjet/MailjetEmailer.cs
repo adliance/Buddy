@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Abstractions;
 using Mailjet.Client;
+using Mailjet.Client.TransactionalEmails;
 using Microsoft.AspNetCore.StaticFiles;
-using Newtonsoft.Json.Linq;
-using Resources = Mailjet.Client.Resources;
 
 namespace Adliance.AspNetCore.Buddy.Email.Mailjet
 {
@@ -26,67 +27,37 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet
                 throw new ArgumentOutOfRangeException(nameof(recipientAddress));
             }
 
-            var client = new MailjetClient(_mailjetConfig.PublicApiKey, _mailjetConfig.PrivateApiKey)
-            {
-                Version = ApiVersion.V3_1
-            };
+            var client = new MailjetClient(_mailjetConfig.PublicApiKey, _mailjetConfig.PrivateApiKey);
 
-            var attachmentsArray = new JArray();
+            
+            var email = new TransactionalEmail
+            {
+                From = new SendContact(_emailConfig.SenderAddress, _emailConfig.SenderName),
+                Subject = subject,
+                ReplyTo = new SendContact(_emailConfig.ReplyToAddress, _emailConfig.SenderName),
+                CustomCampaign = _mailjetConfig.Campaign,
+                To = new List<SendContact>
+                {
+                    new SendContact(recipientAddress)
+                },
+                TextPart = textBody,
+                HTMLPart = htmlBody,
+                Attachments = new List<Attachment>(),
+            };
+            
             foreach (var attachment in attachments)
             {
                 new FileExtensionContentTypeProvider().TryGetContentType(attachment.Filename, out var contentType);
-                attachmentsArray.Add(new JObject
-                {
-                    {"ContentType", contentType ?? "application/octet-stream"},
-                    {"Filename", attachment.Filename},
-                    {"Base64Content", Convert.ToBase64String(attachment.Bytes)}
-                });
+                email.Attachments.Add(new Attachment(attachment.Filename, contentType ?? "application/octet-stream", Convert.ToBase64String(attachment.Bytes)));
             }
 
-            var request = new MailjetRequest
-                {
-                    Resource = Resources.Send.Resource
-                }
-                .Property(Resources.Send.Messages, new JArray
-                {
-                    new JObject
-                    {
-                        {
-                            "From", new JObject
-                            {
-                                {"Email", _emailConfig.SenderAddress},
-                                {"Name", _emailConfig.SenderName}
-                            }
-                        },
-                        {
-                            "To", new JArray
-                            {
-                                new JObject
-                                {
-                                    {"Email", recipientAddress}
-                                }
-                            }
-                        },
-                        {
-                            "ReplyTo", string.IsNullOrWhiteSpace(_emailConfig.ReplyToAddress)
-                                ? null
-                                : new JObject
-                                {
-                                    {"Email", _emailConfig.ReplyToAddress},
-                                    {"Name", _emailConfig.SenderName}
-                                }
-                        },
-                        {"CustomCampaign", string.IsNullOrWhiteSpace(_mailjetConfig.Campaign) ? null : _mailjetConfig.Campaign},
-                        {"Subject", subject},
-                        {"TextPart", textBody},
-                        {"HTMLPart", htmlBody},
-                        {"Attachments", attachmentsArray}
-                    }
-                });
-            MailjetResponse response = await client.PostAsync(request);
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                throw new Exception($"Sending email via Mailjet failed.{Environment.NewLine}Status code: {response.StatusCode}{Environment.NewLine}Error Info: {response.GetErrorInfo()}{Environment.NewLine}Error Message: {response.GetErrorMessage()}");
+                await client.SendTransactionalEmailAsync(email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Sending email via MailJet failed.{Environment.NewLine}: {ex.Message}", ex);
             }
         }
     }
