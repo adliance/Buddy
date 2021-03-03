@@ -1,18 +1,19 @@
 ﻿using Adliance.AspNetCore.Buddy.Abstractions;
 
-namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Test
+namespace Adliance.AspNetCore.Buddy.Email.Smtp.Test
 {
-    public class MockedMailjetConfiguration : IMailjetConfiguration
+    public class MockedSmtpConfiguration : ISmtpConfiguration
     {
-        public string PublicApiKey => "";
-        public string PrivateApiKey => "";
-        public string Campaign => "Unit Tests";
+        public string Host => "in-v3.mailjet.com";
+        public int Port => 587;
+        public string UserName { get; set; }  = "";
+        public string Password => "";
     }
 
     public class MockedEmailConfiguration : IEmailConfiguration
     {
         public string SenderName => "Hannes Sachsenhofer";
-        public string SenderAddress => "contact@igevia.com";
+        public string SenderAddress => "office@akriva.com";
         public string ReplyToAddress => "hannes.sachsenhofer@adliance.net";
     }
 
@@ -23,7 +24,7 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Test
             Filename = fileName;
             Bytes = bytes;
         }
-        
+
         public string Filename { get; set; }
         public byte[] Bytes { get; set; }
     }
