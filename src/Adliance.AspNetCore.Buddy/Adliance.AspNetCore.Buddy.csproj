@@ -16,7 +16,7 @@
   
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="5.2.1" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="5.2.2" />
   </ItemGroup>
 
 </Project>
