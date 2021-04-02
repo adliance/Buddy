@@ -1,5 +1,7 @@
 ﻿using System;
 using Adliance.AspNetCore.Buddy.Abstractions;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Azure.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,6 +30,11 @@ namespace Adliance.AspNetCore.Buddy.Storage.Extensions
             else
             {
                 throw new Exception("No storage configured.");
+            }
+
+            if (configuration.ConfigureDataProtection && !string.IsNullOrWhiteSpace(configuration.AzureStorageConnectionString))
+            {
+                buddyServices.Services.AddDataProtection().PersistKeysToAzureBlobStorage(CloudStorageAccount.Parse(configuration.AzureStorageConnectionString), configuration.DataProtectionContainer);
             }
 
             return buddyServices;

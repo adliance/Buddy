@@ -12,6 +12,9 @@ namespace Adliance.AspNetCore.Buddy.Storage
         public string LocalStorageBasePath { get; set; } = "";
         public string AzureStorageConnectionString { get; set; } = "";
         public bool AutomaticallyCreateDirectories { get; set; }
+        public bool ConfigureDataProtection { get; set; }
+        public string DataProtectionContainer { get; set; } = "dataprotection";
+
 
         public bool UseAzureStorage
         {
