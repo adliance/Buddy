@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Adliance.AspNetCore.Buddy.Pdf.Extensions
+namespace Adliance.AspNetCore.Buddy.Pdf.V2.Extensions
 {
     public static class HealthChecksBuilderExtensions
     {

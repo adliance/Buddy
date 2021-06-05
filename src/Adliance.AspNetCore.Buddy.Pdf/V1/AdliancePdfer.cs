@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Adliance.AspNetCore.Buddy.Pdf
+namespace Adliance.AspNetCore.Buddy.Pdf.V1
 {
     public class AdliancePdfer : IPdfer
     {

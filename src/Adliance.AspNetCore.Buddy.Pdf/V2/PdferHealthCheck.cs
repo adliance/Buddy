@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 
-namespace Adliance.AspNetCore.Buddy.Pdf
+namespace Adliance.AspNetCore.Buddy.Pdf.V2
 {
     public class PdferHealthCheck : IHealthCheck
     {

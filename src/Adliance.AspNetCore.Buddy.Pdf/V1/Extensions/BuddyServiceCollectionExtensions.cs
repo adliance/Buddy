@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
-namespace Adliance.AspNetCore.Buddy.Pdf.Extensions
+namespace Adliance.AspNetCore.Buddy.Pdf.V1.Extensions
 {
     public static class BuddyServiceCollectionExtensions
     {

@@ -2,9 +2,10 @@
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using Adliance.AspNetCore.Buddy.Pdf.V1;
 using Xunit;
 
-namespace Adliance.AspNetCore.Buddy.Pdf.Test
+namespace Adliance.AspNetCore.Buddy.Pdf.Test.V1
 {
     public class AdliancePdferTest
     {

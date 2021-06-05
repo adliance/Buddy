@@ -1,4 +1,4 @@
-﻿namespace Adliance.AspNetCore.Buddy.Pdf
+﻿namespace Adliance.AspNetCore.Buddy.Pdf.V1
 {
     public class PdfOptions
     {
