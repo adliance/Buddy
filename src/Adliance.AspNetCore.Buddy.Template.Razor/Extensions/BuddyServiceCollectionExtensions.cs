@@ -11,10 +11,17 @@ namespace Adliance.AspNetCore.Buddy.Template.Razor.Extensions
             return services;
         }
 
-        public static IBuddyServiceCollection AddRazorPdfRenderer(this IBuddyServiceCollection services)
+        public static IBuddyServiceCollection AddRazorPdfV1Renderer(this IBuddyServiceCollection services)
         {
             services.Services.AddTransient<ITemplater, RazorTemplater>();
-            services.Services.AddTransient<IPdfRenderer, PdfRenderer>();
+            services.Services.AddTransient<V1.IPdfRenderer, V1.PdfRenderer>();
+            return services;
+        }
+
+        public static IBuddyServiceCollection AddRazorPdfV2Renderer(this IBuddyServiceCollection services)
+        {
+            services.Services.AddTransient<ITemplater, RazorTemplater>();
+            services.Services.AddTransient<V2.IPdfRenderer, V2.PdfRenderer>();
             return services;
         }
 

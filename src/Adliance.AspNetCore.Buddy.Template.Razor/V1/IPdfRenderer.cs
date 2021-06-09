@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Pdf;
+using Adliance.AspNetCore.Buddy.Pdf.V1;
 
-namespace Adliance.AspNetCore.Buddy.Template.Razor
+namespace Adliance.AspNetCore.Buddy.Template.Razor.V1
 {
     public interface IPdfRenderer
     {

@@ -1,9 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Pdf;
+using Adliance.AspNetCore.Buddy.Pdf.V2;
 using Microsoft.Extensions.Logging;
 
-namespace Adliance.AspNetCore.Buddy.Template.Razor
+namespace Adliance.AspNetCore.Buddy.Template.Razor.V2
 {
     public class PdfRenderer : IPdfRenderer
     {
@@ -33,7 +34,7 @@ namespace Adliance.AspNetCore.Buddy.Template.Razor
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            options = options ?? new PdfOptions(); // fall back to default options
+            options ??= new PdfOptions(); // fall back to default options
 
             if (options.HeaderHtml == null && !string.IsNullOrWhiteSpace(headerTemplateName))
             {
