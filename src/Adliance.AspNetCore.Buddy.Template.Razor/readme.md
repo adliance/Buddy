@@ -52,3 +52,64 @@ services.AddHealthChecks()
   .AddPdfCheck();
 ```
 
+## Usage of library
+
+There are following three possibilities to use the library. 
+
+### Render HTML
+
+In the `Views` directory in your project, you have to add a new directory containing the template you want to render.
+
+The structure would look like:
+
+- Views
+  - DirectoryName
+    - {TemplateName}.cshtml
+
+The usage looks like:
+
+```c#
+ITemplate _templater = 
+await _templater.Render("DirectoryName", "TemplateName", viewModel);
+```
+
+Provide the name of the directory and the template. Usually a template has a view model, which is the third parameter.
+
+### Render and send an email
+
+In the `Views` directory in your project, you have to add a new `EmailTemplates` directory. Each "email" consists of three templates, one for the subject, two for the content (HTML and text).
+The structure would look like:
+
+- Views
+  - EmailTemplates
+    - {TemplateBaseName}.Subject.cshtml
+    - {TemplateBaseName}.Html.cshtml
+    - {TemplateBaseName}.Text.cshtml
+  
+Use the email renderer by providing the recipient as first parameter, the name of the base template as second and the viewModel as last.
+
+```c#
+await _emailRenderer.RenderAndSend("recipient@adliance.net", "TemplateBaseName", viewModel);
+```
+
+### Render a PDF
+
+To render a PDF template, you need to provide four cshtml files in a `PdfTemplates` directory in the `Views` directory of your project.
+
+The default template structure is:
+
+- Views
+  - PdfTemplates
+    - {TemplateBaseName}.cshtml
+    - {TemplateBaseName}.Filename.cshtml
+    - {TemplateBaseName}.Header.cshtml
+    - {TemplateBaseName}.Footer.cshtml
+  
+This code sample shows the usage of the PDF renderer in a controller action, which is directly returning the resulting PDF as file content.
+```c#
+PdfRendererResult result = await _pdfRenderer.Render("TemplateBaseName", viewModel);
+return new FileContentResult(result.Bytes, MediaTypeNames.Application.Pdf)
+{
+	FileDownloadName = result.Filename
+};
+```
