@@ -77,6 +77,8 @@ Provide the name of the directory and the template. Usually a template has a vie
 
 ### Render and send an email
 
+To use the full functionality of this option consider using another buddy package `Adliance.AspNetCore.Buddy.Email.Mailjet` to send the rendered templates or implement the email logic by yourself.
+
 In the `Views` directory in your project, you have to add a new `EmailTemplates` directory. Each "email" consists of three templates, one for the subject, two for the content (HTML and text).
 The structure would look like:
 
@@ -94,7 +96,9 @@ await _emailRenderer.RenderAndSend("recipient@adliance.net", "TemplateBaseName",
 
 ### Render a PDF
 
-To render a PDF template, you need to provide four cshtml files in a `PdfTemplates` directory in the `Views` directory of your project.
+This option uses the `Adliance.AspNetCore.Buddy.Pdf` package to generate PDFs.
+
+To render a PDF template, you need to provide four `cshtml` files in a `PdfTemplates` directory in the `Views` directory of your project.
 
 The default template structure is:
 
@@ -113,3 +117,7 @@ return new FileContentResult(result.Bytes, MediaTypeNames.Application.Pdf)
 	FileDownloadName = result.Filename
 };
 ```
+
+### PDF library documentation
+
+See more detailed information in the [PDF library](../Adliance.AspNetCore.Buddy.Pdf/readme.md)

@@ -16,7 +16,7 @@ namespace Adliance.AspNetCore.Buddy.Template.Razor
 
         /// <summary>
         /// Renders an e-mail, based on three templates.
-        /// The specific template names will be generated from the specificed templateBaseName:
+        /// The specific template names will be generated from the specified templateBaseName:
         /// "EmailTemplates/{templateBaseName}.Subject", "EmailTemplates/{templateBaseName}.Html", "EmailTemplates/{templateBaseName}.Text"
         /// </summary>
         public virtual async Task RenderAndSend(string recipientAddress, string templateBaseName, object viewModel, params IEmailAttachment[] attachments)
