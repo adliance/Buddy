@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.16" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="3.1.16" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.16" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.16" />
+        <PackageReference Include="Twilio" Version="5.63.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Adliance.AspNetCore.Buddy.Abstractions\Adliance.AspNetCore.Buddy.Abstractions.csproj" />
+    </ItemGroup>
+
+</Project>
