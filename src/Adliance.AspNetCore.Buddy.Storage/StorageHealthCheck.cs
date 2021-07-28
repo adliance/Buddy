@@ -6,6 +6,9 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace Adliance.AspNetCore.Buddy.Storage
 {
+    /// <summary>
+    /// Represents the Azure storage or local storage health check.
+    /// </summary>
     public class StorageHealthCheck : IHealthCheck
     {
         private readonly IStorage _storage;
@@ -15,7 +18,9 @@ namespace Adliance.AspNetCore.Buddy.Storage
             _storage = storage;
         }
 
-        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))
+        /// <inheritdoc cref="IHealthCheck.CheckHealthAsync"/>
+        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, 
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {

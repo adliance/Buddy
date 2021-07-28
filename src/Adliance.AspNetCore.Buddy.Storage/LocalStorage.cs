@@ -14,11 +14,13 @@ namespace Adliance.AspNetCore.Buddy.Storage
             _configuration = configuration;
         }
 
+        /// <inheritdoc cref="IStorage.Save(byte[],string[])"/>
         public async Task Save(byte[] bytes, params string[] path)
         {
             await File.WriteAllBytesAsync(GetFilePath(path), bytes);
         }
 
+        /// <inheritdoc cref="IStorage.Save(System.IO.Stream,string[])"/>
         public async Task Save(Stream stream, params string[] path)
         {
             await using (var fileStream = File.OpenWrite(GetFilePath(path)))
@@ -27,6 +29,7 @@ namespace Adliance.AspNetCore.Buddy.Storage
             }
         }
 
+        /// <inheritdoc cref="IStorage.Load(string[])"/>
         public async Task<byte[]?> Load(params string[] path)
         {
             if (await Exists(path))
@@ -37,6 +40,7 @@ namespace Adliance.AspNetCore.Buddy.Storage
             return null;
         }
 
+        /// <inheritdoc cref="IStorage.Load(string[])"/>
         public async Task Load(Stream stream, params string[] path)
         {
             if (await Exists(path))
@@ -47,6 +51,7 @@ namespace Adliance.AspNetCore.Buddy.Storage
             }
         }
 
+        /// <inheritdoc cref="IStorage.Load(System.IO.Stream,string[])"/>
         public async Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, params string[] path)
         {
             if (await Exists(path))
@@ -57,11 +62,13 @@ namespace Adliance.AspNetCore.Buddy.Storage
             return null;
         }
 
+        /// <inheritdoc cref="IStorage.Exists"/>>
         public Task<bool> Exists(params string[] path)
         {
             return Task.FromResult(File.Exists(GetFilePath(path)));
         }
 
+        /// <inheritdoc cref="IStorage.Delete" />
         public async Task Delete(params string[] path)
         {
             if (await Exists(path))
