@@ -121,3 +121,15 @@ return new FileContentResult(result.Bytes, MediaTypeNames.Application.Pdf)
 ### PDF library documentation
 
 See more detailed information in the [PDF library](../Adliance.AspNetCore.Buddy.Pdf/readme.md)
+
+
+## Razor Tag Helpers
+
+Add the Buddy Tag Helper to your `_ViewImports.cshtml` file.
+```c#
+@using System
+@using System.Collections.Generic
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Adliance.AspNetCore.Buddy.Template.Razor
+```
