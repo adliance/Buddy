@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Adliance.AspNetCore.Buddy.Abstractions
 {
     /// <summary>
-    /// The contract for a storage provider.
+    /// Specifies the contract for a storage provider.
     /// </summary>
     public interface IStorage
     {
