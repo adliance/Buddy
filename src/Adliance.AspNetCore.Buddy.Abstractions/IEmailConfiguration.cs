@@ -1,6 +1,9 @@
 ﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 namespace Adliance.AspNetCore.Buddy.Abstractions
 {
+    /// <summary>
+    /// Specifies the contract of a configuration for an email provider.
+    /// </summary>
     public interface IEmailConfiguration
     {
         /// <summary>
@@ -9,7 +12,7 @@ namespace Adliance.AspNetCore.Buddy.Abstractions
         string SenderName { get; }
 
         /// <summary>
-        /// The email address of the sender .
+        /// The email address of the sender.
         /// </summary>
         string SenderAddress { get; }
 
@@ -20,10 +23,18 @@ namespace Adliance.AspNetCore.Buddy.Abstractions
     }
 
     // ReSharper disable once UnusedType.Global
+    /// <summary>
+    /// A default email configuration class.
+    /// </summary>
     public class DefaultEmailConfiguration : IEmailConfiguration
     {
-        public string SenderName { get; set; } = "";
-        public string SenderAddress { get; set; } = "";
-        public string ReplyToAddress { get; set; } = "";
+        /// <inheritdoc cref="IEmailConfiguration.SenderName"/>
+        public string SenderName { get; set; } = string.Empty;
+        
+        /// <inheritdoc cref="IEmailConfiguration.SenderAddress"/>
+        public string SenderAddress { get; set; } = string.Empty;
+        
+        /// <inheritdoc cref="IEmailConfiguration.ReplyToAddress"/>
+        public string ReplyToAddress { get; set; } = string.Empty;
     }
 }

@@ -12,8 +12,17 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Adliance.AspNetCore.Buddy.Storage.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="IBuddyServiceCollection"/>.
+    /// </summary>
     public static class BuddyServiceCollectionExtensions
     {
+        /// <summary>
+        /// Adds Azure or local storage services to the specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="buddyServices">The <see cref="IBuddyServiceCollection" /> to add services to.</param>
+        /// <param name="configuration">The <see cref="IStorageConfiguration"/> instance.</param>
+        /// <returns>The <see cref="IBuddyServiceCollection" /> so that additional calls can be chained.</returns>
         public static IBuddyServiceCollection AddStorage(
             this IBuddyServiceCollection buddyServices,
             IStorageConfiguration configuration)
@@ -47,6 +56,12 @@ namespace Adliance.AspNetCore.Buddy.Storage.Extensions
             return buddyServices;
         }
 
+        /// <summary>
+        /// Adds Azure or local storage to the specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="buddyServices">The <see cref="IBuddyServiceCollection" /> to add services to.</param>
+        /// <param name="configurationSection">The <see cref="IConfigurationSection"/> configuration section.</param>
+        /// <returns>The <see cref="IBuddyServiceCollection" /> so that additional calls can be chained.</returns>
         public static IBuddyServiceCollection AddStorage(
             this IBuddyServiceCollection buddyServices,
             IConfigurationSection configurationSection)

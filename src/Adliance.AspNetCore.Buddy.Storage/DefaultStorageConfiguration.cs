@@ -8,14 +8,22 @@ namespace Adliance.AspNetCore.Buddy.Storage
     [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
     public class DefaultStorageConfiguration : IStorageConfiguration
     {
+        /// <inheritdoc />
         public StorageType Type { get; set; }
-        public string LocalStorageBasePath { get; set; } = "";
-        public string AzureStorageConnectionString { get; set; } = "";
+
+        /// <inheritdoc />
+        public string LocalStorageBasePath { get; set; } = string.Empty;
+
+        /// <inheritdoc />
+        public string AzureStorageConnectionString { get; set; } = string.Empty;
+
+        /// <inheritdoc />
         public bool AutomaticallyCreateDirectories { get; set; }
         public bool ConfigureDataProtection { get; set; }
         public string DataProtectionContainer { get; set; } = "dataprotection";
 
 
+        /// <inheritdoc />
         public bool UseAzureStorage
         {
             get
@@ -34,6 +42,7 @@ namespace Adliance.AspNetCore.Buddy.Storage
             }
         }
 
+        /// <inheritdoc />
         public bool UseLocalStorage
         {
             get
