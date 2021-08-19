@@ -8,6 +8,9 @@ namespace Adliance.AspNetCore.Buddy.Template.Razor.V2
     {
         Task<PdfRendererResult> Render(string templateBaseName, object viewModel);
         Task<PdfRendererResult> Render(string templateBaseName, PdfOptions options, object viewModel);
-        Task<PdfRendererResult> Render(string templateDirectoryName, string pdfTemplateName, string filenameTemplateName, string headerTemplateName, string footerTemplateName, PdfOptions options, object viewModel);
+
+        Task<PdfRendererResult> Render(string templateDirectoryName, string pdfTemplateName,
+            string filenameTemplateName, string headerTemplateName, string footerTemplateName, PdfOptions options,
+            object viewModel);
     }
 }

@@ -6,3 +6,12 @@
 ## What is Buddy?
 Buddy is a set of libraries and utilities with common functionality that is shared between many of our projects.
 
+## Documentation
+
+### Razor templating
+
+[Adliance.AspNetCore.Buddy.Template.Razor](src/Adliance.AspNetCore.Buddy.Template.Razor/readme.md)
+
+### PDF service
+
+[Adliance.AspNetCore.Buddy.Pdf](src/Adliance.AspNetCore.Buddy.Pdf/readme.md)
