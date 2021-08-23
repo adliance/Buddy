@@ -12,8 +12,13 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Adliance.AspNetCore.Buddy.Template.Razor
 {
+    /// <summary>
+    /// Renders a razor template.
+    /// </summary>
     public class RazorTemplater : ITemplater
     {
+        #region Constructor
+
         private readonly IRazorViewEngine _razorViewEngine;
         private readonly ITempDataProvider _tempDataProvider;
         private readonly IServiceProvider _serviceProvider;
@@ -27,7 +32,11 @@ namespace Adliance.AspNetCore.Buddy.Template.Razor
             _tempDataProvider = tempDataProvider;
             _serviceProvider = serviceProvider;
         }
+        
+        #endregion Constructor
 
+        /// <inheritdoc />
+        /// <exception cref="Exception">The <paramref name="templateName"/> does not match any available view.</exception>
         public async Task<string> Render(string directoryName, string templateName, object model)
         {
             var httpContext = new DefaultHttpContext { RequestServices = _serviceProvider };

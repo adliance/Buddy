@@ -3,6 +3,9 @@ using Adliance.AspNetCore.Buddy.Abstractions;
 
 namespace Adliance.AspNetCore.Buddy.Template.Razor
 {
+    /// <summary>
+    /// Renders a razor template and sends the result as email.
+    /// </summary>
     public class EmailRenderer : IEmailRenderer
     {
         private readonly ITemplater _templater;
@@ -14,12 +17,14 @@ namespace Adliance.AspNetCore.Buddy.Template.Razor
             _mailer = mailer;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// Renders an e-mail, based on three templates.
-        /// The specific template names will be generated from the specified templateBaseName:
+        /// The specific template names will be generated from the specified <paramref name="templateBaseName"/>:
         /// "EmailTemplates/{templateBaseName}.Subject", "EmailTemplates/{templateBaseName}.Html", "EmailTemplates/{templateBaseName}.Text"
         /// </summary>
-        public virtual async Task RenderAndSend(string recipientAddress, string templateBaseName, object viewModel, params IEmailAttachment[] attachments)
+        public virtual async Task RenderAndSend(string recipientAddress, string templateBaseName, object viewModel,
+            params IEmailAttachment[] attachments)
         {
             await RenderAndSend(
                 recipientAddress,
@@ -32,11 +37,14 @@ namespace Adliance.AspNetCore.Buddy.Template.Razor
             );
         }
 
-        public virtual async Task RenderAndSend(string recipientAddress, string templateDirectoryName, string subjectTemplateName, string htmlTemplateName, string textTemplateName, object viewModel, params IEmailAttachment[] attachments)
+        /// <inheritdoc />
+        public virtual async Task RenderAndSend(string recipientAddress, string templateDirectoryName,
+            string subjectTemplateName, string htmlTemplateName, string textTemplateName, object viewModel,
+            params IEmailAttachment[] attachments)
         {
             var subject = (await _templater.Render(templateDirectoryName, $"{subjectTemplateName}", viewModel)).Trim();
             var html = (await _templater.Render(templateDirectoryName, $"{htmlTemplateName}", viewModel)).Trim();
-            
+
             string text;
             try
             {
@@ -46,7 +54,7 @@ namespace Adliance.AspNetCore.Buddy.Template.Razor
             {
                 text = "";
             }
-            
+
             await _mailer.Send(recipientAddress, subject, html, text, attachments);
         }
     }
