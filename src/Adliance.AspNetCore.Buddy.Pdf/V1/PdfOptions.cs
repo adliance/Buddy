@@ -39,7 +39,10 @@
     {
         A4,
         A5,
-        A3
+        A3,
+        A2,
+        A6,
+        Letter
     }
 
     public enum PdfOrientation
