@@ -15,11 +15,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="5.4.5" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="5.4.7" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="3.1.16" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.16" />
-    <PackageReference Include="Sendgrid" Version="9.23.2" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="3.1.20" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.20" />
+    <PackageReference Include="Sendgrid" Version="9.24.4" />
   </ItemGroup>
 
 </Project>
