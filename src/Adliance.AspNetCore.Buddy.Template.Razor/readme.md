@@ -79,7 +79,7 @@ Provide the name of the directory and the template. Usually a template has a vie
 
 To use the full functionality of this option consider using another buddy package `Adliance.AspNetCore.Buddy.Email.Mailjet` to send the rendered templates or implement the email logic by yourself.
 
-In the `Views` directory in your project, you have to add a new `EmailTemplates` directory. Each "email" consists of three templates, one for the subject, two for the content (HTML and text).
+In the `Views` directory of your project, you have to add a new `EmailTemplates` directory. Each "email" consists of three templates, one for the subject, two for the content (HTML and text).
 The structure would look like:
 
 - Views
@@ -93,6 +93,24 @@ Use the email renderer by providing the recipient as first parameter, the name o
 ```c#
 await _emailRenderer.RenderAndSend("recipient@adliance.net", "TemplateBaseName", viewModel);
 ```
+
+### Render and send a SMS
+
+To use the full functionality of this option consider using another buddy package [`Adliance.AspNetCore.Buddy.Sms.Twilio`](../Adliance.AspNetCore.Buddy.Sms.Twilio/readme.md)  to send the rendered templates or implement the SMS logic by yourself.
+
+In the `Views` directory of your project, you have to add a new `SmsTemplates` directory.
+
+- Views
+  - SmsTemplates
+    - {TemplateBaseName}.cshtml
+
+Use the SMS renderer by providing the recipient as first parameter, the name of the base template as second and the viewModel as last.
+
+```c#
+await _smsRenderer.RenderAndSendAsync("+431234567890", "TemplateBaseName", viewModel);
+```
+
+Or you use the other `RenderAndSendAsync` overload where you can specify the template directory name yourself.
 
 ### Render a PDF
 
