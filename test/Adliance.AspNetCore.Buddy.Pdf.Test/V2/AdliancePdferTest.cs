@@ -61,10 +61,23 @@ namespace Adliance.AspNetCore.Buddy.Pdf.Test.V2
                 HeaderHtml = null,
                 HeaderHeight = null,
                 FooterHeight = 100,
-                FooterHtml = footer
+                FooterHtml = footer,
+                Size = PdfSize.A4
             });
             await StoreForInspection(bytes);
             Assert.InRange(bytes.Length, 90_000, 750_000);
+        }
+
+        [Fact]
+        public async Task Can_Set_Width_and_Height()
+        {
+            var bytes = await _pdfer.HtmlToPdf("This is <b>my</b> <u>HTML</u> test for width and height being set manually.", new PdfOptions
+            {
+                PaperWidth = 150,
+                PaperHeight = 150
+            });
+            await StoreForInspection(bytes);
+            Assert.InRange(bytes.Length, 14_000, 40_000);
         }
 
         private async Task StoreForInspection(byte[] bytes)
