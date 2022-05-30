@@ -36,18 +36,18 @@ namespace Adliance.AspNetCore.Buddy.Pdf.Test.V1
         }
 
         [Theory]
-        [InlineData(PdfOrientation.Portrait, PdfSize.A2, 3_700_000, 4_000_000)]
+        [InlineData(PdfOrientation.Portrait, PdfSize.A2, 3_100_000, 4_000_000)]
         [InlineData(PdfOrientation.Portrait, PdfSize.A3, 3_600_000, 3_800_000)]
         [InlineData(PdfOrientation.Portrait, PdfSize.A4, 3_700_000, 4_000_000)]
         [InlineData(PdfOrientation.Portrait, PdfSize.A5, 3_100_000, 3_300_000)]
-        [InlineData(PdfOrientation.Portrait, PdfSize.A6, 3_600_000, 4_000_000)]
-        [InlineData(PdfOrientation.Portrait, PdfSize.Letter, 3_600_000, 4_000_000)]
-        [InlineData(PdfOrientation.Landscape, PdfSize.A2, 3_700_000, 4_000_000)]
+        [InlineData(PdfOrientation.Portrait, PdfSize.A6, 3_600_000, 4_100_000)]
+        [InlineData(PdfOrientation.Portrait, PdfSize.Letter, 3_000_000, 4_000_000)]
+        [InlineData(PdfOrientation.Landscape, PdfSize.A2, 3_600_000, 4_000_000)]
         [InlineData(PdfOrientation.Landscape, PdfSize.A3, 3_700_000, 4_000_000)]
         [InlineData(PdfOrientation.Landscape, PdfSize.A4, 3_700_000, 4_000_000)]
         [InlineData(PdfOrientation.Landscape, PdfSize.A5, 4_000_000, 4_200_000)]
         [InlineData(PdfOrientation.Landscape, PdfSize.A6, 3_600_000, 4_000_000)]
-        [InlineData(PdfOrientation.Landscape, PdfSize.Letter, 3_600_000, 4_000_000)]
+        [InlineData(PdfOrientation.Landscape, PdfSize.Letter, 3_100_000, 4_000_000)]
         public async Task Can_Create_Complex_Pdf(PdfOrientation orientation, PdfSize size, int lowerExpectedSize, int higherExpectedSize)
         {
             string html;

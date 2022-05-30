@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Email.Smtp.Test", "test\Adliance.AspNetCore.Buddy.Email.Smtp.Test\Adliance.AspNetCore.Buddy.Email.Smtp.Test.csproj", "{627F45DC-84EF-41DF-9D23-E7D580156BF5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Sms.Twilio", "src\Adliance.AspNetCore.Buddy.Sms.Twilio\Adliance.AspNetCore.Buddy.Sms.Twilio.csproj", "{758F81E5-2C34-486C-BFFB-62B392600067}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,10 @@ Global
 		{627F45DC-84EF-41DF-9D23-E7D580156BF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{627F45DC-84EF-41DF-9D23-E7D580156BF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{627F45DC-84EF-41DF-9D23-E7D580156BF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{758F81E5-2C34-486C-BFFB-62B392600067}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{758F81E5-2C34-486C-BFFB-62B392600067}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{758F81E5-2C34-486C-BFFB-62B392600067}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{758F81E5-2C34-486C-BFFB-62B392600067}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

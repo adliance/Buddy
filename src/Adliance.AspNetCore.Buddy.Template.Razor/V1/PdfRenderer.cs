@@ -6,6 +6,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Adliance.AspNetCore.Buddy.Template.Razor.V1
 {
+    /// <summary>
+    /// Renders a razor template as PDF.
+    /// </summary>
     public class PdfRenderer : IPdfRenderer
     {
         private readonly ITemplater _templater;
@@ -18,17 +21,20 @@ namespace Adliance.AspNetCore.Buddy.Template.Razor.V1
             _pdfer = pdfer;
             _logger = logger;
         }
-
+        
+        /// <inheritdoc />
         public async Task<PdfRendererResult> Render(string templateBaseName, object viewModel)
         {
             return await Render(templateBaseName, null, viewModel);
         }
-
+        
+        /// <inheritdoc />
         public async Task<PdfRendererResult> Render(string templateBaseName, PdfOptions? options, object viewModel)
         {
             return await Render("PdfTemplates", $"{templateBaseName}", $"{templateBaseName}.Filename", $"{templateBaseName}.Header", $"{templateBaseName}.Footer", options, viewModel);
         }
-
+        
+        /// <inheritdoc />
         public async Task<PdfRendererResult> Render(string templateDirectoryName, string pdfTemplateName, string filenameTemplateName, string headerTemplateName, string footerTemplateName, PdfOptions? options, object viewModel)
         {
             var stopwatch = new Stopwatch();
