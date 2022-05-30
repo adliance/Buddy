@@ -26,6 +26,8 @@ namespace Adliance.AspNetCore.Buddy.Pdf.V2
             {
                 Timeout = TimeSpan.FromMinutes(3)
             };
+
+            var paperSize = ConvertPaperSizeFromMMToPixels(options.Size, options.PaperWidth, options.PaperHeight);
             
             var parameters = new
             {
@@ -33,7 +35,9 @@ namespace Adliance.AspNetCore.Buddy.Pdf.V2
                 footer = options.FooterHtml,
                 footer_height = options.FooterHeight,
                 header = options.HeaderHtml,
-                header_height = options.HeaderHeight
+                header_height = options.HeaderHeight,
+                paperWidth = paperSize[0],
+                paperHeight = paperSize[1]
             };
             var content = new StringContent(JsonSerializer.Serialize(parameters), Encoding.UTF8, "application/json");
 
@@ -41,6 +45,26 @@ namespace Adliance.AspNetCore.Buddy.Pdf.V2
             var response = await client.PostAsync(endpoint, content);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsByteArrayAsync();
+        }
+        
+        private int[] ConvertPaperSizeFromMMToPixels(PdfSize? size, int? paperWidth, int? paperHeight)
+        {
+            if (paperWidth.HasValue && paperHeight.HasValue)
+            {
+                // we already have width and height in pixels, return them
+                return new[] { (int)paperWidth, (int)paperHeight };
+            }
+
+            return size switch
+            {
+                PdfSize.A2 => new[] { 1587, 2245 },
+                PdfSize.A3 => new[] { 1122, 1587 },
+                PdfSize.A4 => new[] { 794, 1122 },
+                PdfSize.A5 => new[] { 559, 794 },
+                PdfSize.A6 => new[] { 397, 559 },
+                PdfSize.Letter => new[] { 816, 1056 },
+                _ => new[] { 794, 1122 }
+            };
         }
     }
 }
