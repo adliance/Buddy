@@ -77,7 +77,7 @@ namespace Adliance.AspNetCore.Buddy.Pdf.Test.V2
                 PaperHeight = 150
             });
             await StoreForInspection(bytes);
-            Assert.InRange(bytes.Length, 30_000, 40_000);
+            Assert.InRange(bytes.Length, 14_000, 40_000);
         }
 
         private async Task StoreForInspection(byte[] bytes)

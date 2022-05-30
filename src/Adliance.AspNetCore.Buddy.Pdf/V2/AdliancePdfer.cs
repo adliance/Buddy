@@ -27,7 +27,7 @@ namespace Adliance.AspNetCore.Buddy.Pdf.V2
                 Timeout = TimeSpan.FromMinutes(3)
             };
 
-            var paperSize = ConvertPaperSizeFromMMToPixels(options.Size, options.PaperWidth, options.PaperHeight);
+            var paperSize = CalculatePaperSize(options.Size, options.PaperWidth, options.PaperHeight);
             
             var parameters = new
             {
@@ -36,8 +36,8 @@ namespace Adliance.AspNetCore.Buddy.Pdf.V2
                 footer_height = options.FooterHeight,
                 header = options.HeaderHtml,
                 header_height = options.HeaderHeight,
-                paperWidth = paperSize[0],
-                paperHeight = paperSize[1]
+                paper_width = paperSize[0],
+                paper_height = paperSize[1]
             };
             var content = new StringContent(JsonSerializer.Serialize(parameters), Encoding.UTF8, "application/json");
 
@@ -47,7 +47,16 @@ namespace Adliance.AspNetCore.Buddy.Pdf.V2
             return await response.Content.ReadAsByteArrayAsync();
         }
         
-        private int[] ConvertPaperSizeFromMMToPixels(PdfSize? size, int? paperWidth, int? paperHeight)
+        /// <summary>
+        /// Paper size can be either set via enum <see cref="size"/> or directly via width and height properties.
+        /// If <see cref="paperWidth"/> and <see cref="paperHeight"/> are set, those values are used. Otherwise the <see cref="size"/> parameter is used.
+        /// As fallback always "A4" is used.
+        /// </summary>
+        /// <param name="size">The paper size as <see cref="PdfSize"/>.</param>
+        /// <param name="paperWidth">The width in pixels.</param>
+        /// <param name="paperHeight">The height in pixels.</param>
+        /// <returns></returns>
+        private int[] CalculatePaperSize(PdfSize? size, int? paperWidth, int? paperHeight)
         {
             if (paperWidth.HasValue && paperHeight.HasValue)
             {
