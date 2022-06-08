@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Adliance.AspNetCore.Buddy.Email.Bulma.TagHelpers;
+namespace Adliance.AspNetCore.Buddy.Bulma.TagHelpers;
 
 [HtmlTargetElement("field")]
 public class FieldTagHelper : TagHelper

@@ -43,7 +43,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Sms.Twilio", "src\Adliance.AspNetCore.Buddy.Sms.Twilio\Adliance.AspNetCore.Buddy.Sms.Twilio.csproj", "{758F81E5-2C34-486C-BFFB-62B392600067}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Email.Bulma", "src\Adliance.AspNetCore.Buddy.Bulma\Adliance.AspNetCore.Buddy.Email.Bulma.csproj", "{C0ED533D-8A60-4CA2-A290-1ACC8BD6DFEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Bulma", "src\Adliance.AspNetCore.Buddy.Bulma\Adliance.AspNetCore.Buddy.Bulma.csproj", "{C0ED533D-8A60-4CA2-A290-1ACC8BD6DFEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
