@@ -7,7 +7,7 @@ namespace Adliance.AspNetCore.Buddy.Extensions
     {
         public static string? Get(IRequestCookieCollection cookies, string key, string? defaultValue)
         {
-            if (cookies.TryGetValue(key, out string cookieVal))
+            if (cookies.TryGetValue(key, out var cookieVal))
             {
                 return cookieVal;
             }

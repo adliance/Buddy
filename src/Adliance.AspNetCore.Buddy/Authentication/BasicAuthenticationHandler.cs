@@ -42,7 +42,7 @@ namespace Adliance.AspNetCore.Buddy.Authentication
             try
             {
                 var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
-                var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
+                var credentialBytes = Convert.FromBase64String(authHeader.Parameter ?? "");
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(':');
                 var username = credentials[0];
                 var password = credentials[1];
@@ -53,14 +53,15 @@ namespace Adliance.AspNetCore.Buddy.Authentication
                 return AuthenticateResult.Fail("Invalid Authorization Header");
             }
 
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             if (user == null)
             {
                 return AuthenticateResult.Fail("Invalid Username or Password");
             }
 
             var claims = new[] {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.NameIdentifier, user.Id ?? ""),
+                new Claim(ClaimTypes.Name, user.Name ?? ""),
             };
             var identity = new ClaimsIdentity(claims, Scheme.Name);
             var principal = new ClaimsPrincipal(identity);

@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Adliance.AspNetCore.Buddy" Version="6.0.1" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy" Version="6.0.2" />
   </ItemGroup>
 
 </Project>

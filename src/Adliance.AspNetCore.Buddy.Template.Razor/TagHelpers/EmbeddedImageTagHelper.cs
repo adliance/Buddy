@@ -52,11 +52,17 @@ namespace Adliance.AspNetCore.Buddy.Template.Razor.TagHelpers
 
             try
             {
-                if (TryResolveUrl(Source, out string resolvedUrl))
+                if (Source != null)
                 {
-                    var base64 = GetBase64StringForImage(BuildImagePath(resolvedUrl));
-                    output.Attributes.SetAttribute(SrcAttributeName,
-                        $"data:{GetDataPartForImage(resolvedUrl)};base64,{base64}");
+                    if (TryResolveUrl(Source, out string? resolvedUrl))
+                    {
+                        if (resolvedUrl != null)
+                        {
+                            var base64 = GetBase64StringForImage(BuildImagePath(resolvedUrl));
+                            output.Attributes.SetAttribute(SrcAttributeName,
+                                $"data:{GetDataPartForImage(resolvedUrl)};base64,{base64}");
+                        }
+                    }
                 }
             }
             catch
