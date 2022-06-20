@@ -17,5 +17,7 @@ namespace Adliance.AspNetCore.Buddy.Abstractions
         /// <param name="attachments">Represents a collection of file attachments that will be included in the message.</param>
         /// <returns>A task.</returns>
         Task Send(string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments);
+
+        Task Send(string senderName, string senderAddress, string replyTo, string recipientName, string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments);
     }
 }

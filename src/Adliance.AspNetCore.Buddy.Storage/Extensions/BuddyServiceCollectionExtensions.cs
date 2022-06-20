@@ -2,7 +2,6 @@
 using System.IO;
 using Adliance.AspNetCore.Buddy.Abstractions;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.Azure.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -44,13 +43,17 @@ namespace Adliance.AspNetCore.Buddy.Storage.Extensions
 
             if (configuration.ConfigureDataProtection && configuration.UseAzureStorage && !string.IsNullOrWhiteSpace(configuration.AzureStorageConnectionString) && !string.IsNullOrWhiteSpace(configuration.DataProtectionContainer))
             {
-                buddyServices.Services.AddDataProtection().PersistKeysToAzureBlobStorage(CloudStorageAccount.Parse(configuration.AzureStorageConnectionString), configuration.DataProtectionContainer);
+                buddyServices.Services
+                    .AddDataProtection()
+                    .PersistKeysToAzureBlobStorage(configuration.AzureStorageConnectionString, configuration.DataProtectionContainer, "aspnetcore-keys");
             }
             else if (configuration.ConfigureDataProtection && configuration.UseLocalStorage && !string.IsNullOrWhiteSpace(configuration.DataProtectionContainer))
             {
                 var directory = new DirectoryInfo(Path.Combine(configuration.LocalStorageBasePath, configuration.DataProtectionContainer));
                 if (!directory.Exists) directory.Create();
-                buddyServices.Services.AddDataProtection().PersistKeysToFileSystem(directory);
+                buddyServices.Services
+                    .AddDataProtection()
+                    .PersistKeysToFileSystem(directory);
             }
 
             return buddyServices;
