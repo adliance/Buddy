@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Abstractions;
 using MailKit.Net.Smtp;
-using MailKit.Security;
 using Microsoft.AspNetCore.StaticFiles;
 using MimeKit;
 
@@ -22,19 +21,21 @@ namespace Adliance.AspNetCore.Buddy.Email.Smtp
 
         public async Task Send(string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments)
         {
-            if (string.IsNullOrWhiteSpace(recipientAddress))
-            {
-                throw new ArgumentOutOfRangeException(nameof(recipientAddress));
-            }
+            await Send(_emailConfig.SenderName, _emailConfig.SenderAddress, _emailConfig.ReplyToAddress, "", recipientAddress, subject, htmlBody, textBody, attachments);
+        }
+
+        public async Task Send(string senderName, string senderAddress, string replyTo, string recipientName, string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments)
+        {
+            if (string.IsNullOrWhiteSpace(recipientAddress)) throw new ArgumentOutOfRangeException(nameof(recipientAddress));
 
             var message = new MimeMessage();
-            var from = new MailboxAddress(_emailConfig.SenderName, _emailConfig.SenderAddress);
-            var to = new MailboxAddress(recipientAddress, recipientAddress);
-            var replyTo = new MailboxAddress(_emailConfig.SenderName, _emailConfig.ReplyToAddress);
+            var from = new MailboxAddress(senderName, senderAddress);
+            var to = new MailboxAddress(string.IsNullOrWhiteSpace(recipientName) ? recipientAddress : recipientName, recipientAddress);
+            var reply = new MailboxAddress(senderName, replyTo);
 
             message.From.Add(from);
             message.To.Add(to);
-            message.ReplyTo.Add(replyTo);
+            message.ReplyTo.Add(reply);
             message.Subject = subject;
 
             var builder = new BodyBuilder
@@ -56,6 +57,7 @@ namespace Adliance.AspNetCore.Buddy.Email.Smtp
 
             message.Body = builder.ToMessageBody();
 
+            // ReSharper disable once ConvertToUsingDeclaration
             using (var emailClient = new SmtpClient())
             {
                 try

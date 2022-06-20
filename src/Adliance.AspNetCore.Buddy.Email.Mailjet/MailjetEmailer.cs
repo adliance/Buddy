@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Abstractions;
 using Mailjet.Client;
@@ -22,29 +21,28 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet
 
         public async Task Send(string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments)
         {
-            if (string.IsNullOrWhiteSpace(recipientAddress))
-            {
-                throw new ArgumentOutOfRangeException(nameof(recipientAddress));
-            }
+            await Send(_emailConfig.SenderName, _emailConfig.SenderAddress, _emailConfig.ReplyToAddress, "", recipientAddress, subject, htmlBody, textBody, attachments);
+        }
+
+        public async Task Send(string senderName, string senderAddress, string replyTo, string recipientName, string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments)
+        {
+            if (string.IsNullOrWhiteSpace(recipientAddress)) throw new ArgumentOutOfRangeException(nameof(recipientAddress));
 
             var client = new MailjetClient(_mailjetConfig.PublicApiKey, _mailjetConfig.PrivateApiKey);
 
-            
+            var to = string.IsNullOrWhiteSpace(recipientName) ? new SendContact(recipientAddress) : new SendContact(recipientAddress, recipientName);
             var email = new TransactionalEmail
             {
-                From = new SendContact(_emailConfig.SenderAddress, _emailConfig.SenderName),
+                From = new SendContact(senderAddress, senderName),
                 Subject = subject,
-                ReplyTo = new SendContact(_emailConfig.ReplyToAddress, _emailConfig.SenderName),
+                ReplyTo = new SendContact(replyTo, senderName),
                 CustomCampaign = _mailjetConfig.Campaign,
-                To = new List<SendContact>
-                {
-                    new SendContact(recipientAddress)
-                },
+                To = new List<SendContact> { to },
                 TextPart = textBody,
                 HTMLPart = htmlBody,
                 Attachments = new List<Attachment>(),
             };
-            
+
             foreach (var attachment in attachments)
             {
                 new FileExtensionContentTypeProvider().TryGetContentType(attachment.Filename, out var contentType);

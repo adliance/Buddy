@@ -21,24 +21,23 @@ namespace Adliance.AspNetCore.Buddy.Email.SendGrid
             _emailConfig = emailConfig;
         }
 
-        public async Task Send(string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments)
+        public async Task Send(string recipientAddress, string subject, string htmlBody, string? textBody, params IEmailAttachment[] attachments)
         {
-            if (string.IsNullOrWhiteSpace(recipientAddress))
-            {
-                throw new ArgumentOutOfRangeException(nameof(recipientAddress));
-            }
+            await Send(_emailConfig.SenderName, _emailConfig.SenderAddress, _emailConfig.ReplyToAddress, "", recipientAddress, subject, htmlBody, textBody, attachments);
+        }
+
+        public async Task Send(string senderName, string senderAddress, string replyTo, string recipientName, string recipientAddress, string subject, string htmlBody, string? textBody, params IEmailAttachment[]? attachments)
+        {
+            if (string.IsNullOrWhiteSpace(recipientAddress)) throw new ArgumentOutOfRangeException(nameof(recipientAddress));
 
             var client = new SendGridClient(_sendgridConfig.SendgridSecret);
 
-            var from = new EmailAddress(_emailConfig.SenderAddress, _emailConfig.SenderName);
-            var to = new EmailAddress(recipientAddress);
-            var mail = MailHelper.CreateSingleEmail(from, to, subject, textBody ?? "", htmlBody ?? "");
+            var from = new EmailAddress(senderAddress, senderName);
+            var to = string.IsNullOrWhiteSpace(recipientName) ? new EmailAddress(recipientAddress) : new EmailAddress(recipientAddress, recipientName);
+            var mail = MailHelper.CreateSingleEmail(from, to, subject, textBody, htmlBody);
 
-            if (!string.IsNullOrWhiteSpace(_emailConfig.ReplyToAddress))
-            {
-                mail.SetReplyTo(new EmailAddress(_emailConfig.ReplyToAddress));
-            }
-            
+            if (!string.IsNullOrWhiteSpace(replyTo)) mail.SetReplyTo(new EmailAddress(replyTo));
+
             mail.Categories = new List<string>
             {
                 _sendgridConfig.SendgridLabel
@@ -58,8 +57,8 @@ namespace Adliance.AspNetCore.Buddy.Email.SendGrid
                         Content = Convert.ToBase64String(attachment.Bytes),
                         Type = contentType
                     });
-
                 }
+
                 mail.Attachments = mailAttachments;
             }
 
