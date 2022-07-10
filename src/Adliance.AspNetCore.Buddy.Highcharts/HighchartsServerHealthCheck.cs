@@ -14,7 +14,7 @@ namespace Adliance.AspNetCore.Buddy.Highcharts
             _server = server;
         }
 
-        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -24,10 +24,10 @@ namespace Adliance.AspNetCore.Buddy.Highcharts
                     Width = 200,
                     Scale = 1,
                     Chart = new Chart(),
-                    Resources = new HighchartsServerParameter.ResourcesParameter
+                    /*Resources = new HighchartsServerParameter.ResourcesParameter
                     {
-                        Files = "https://code.highcharts.com/modules/annotations.js"
-                    }
+                        Files = "https://cdnjs.cloudflare.com/ajax/libs/highcharts/8.1.0/modules/annotations.js"
+                    }*/
                 });
                 if (bytes.Length < 8000)
                 {

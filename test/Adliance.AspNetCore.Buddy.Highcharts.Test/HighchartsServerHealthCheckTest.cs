@@ -9,7 +9,7 @@ namespace Adliance.AspNetCore.Buddy.Highcharts.Test
         [Fact]
         public async Task Can_Run_HealthCheck()
         {
-            var service = new HighchartsServer(new HighchartsServerDefaultSettings());
+            var service = new HighchartsServer(new MockedHighchartsServerSettings());
             var healthCheck = new HighchartsServerHealthCheck(service);
             var result = await healthCheck.CheckHealthAsync(new HealthCheckContext());
             Assert.True(HealthStatus.Healthy == result.Status, $"Health check status is {result.Status} ({result.Description} / {result.Exception?.Message}).");

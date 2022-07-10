@@ -7,6 +7,6 @@
 
     public class HighchartsServerDefaultSettings : IHighchartsServerSettings
     {
-        public string HighchartsServerUrl { get; set; } = "https://adliance-highcharts-server.azurewebsites.net";
+        public string HighchartsServerUrl { get; set; } = "https://highcharts.adliance.dev";
     }
 }

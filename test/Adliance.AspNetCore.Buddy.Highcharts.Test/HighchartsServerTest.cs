@@ -12,10 +12,7 @@ namespace Adliance.AspNetCore.Buddy.Highcharts.Test
 
         public HighchartsServerTest()
         {
-            _server = new HighchartsServer(new HighchartsServerDefaultSettings
-            {
-                HighchartsServerUrl = "https://adliance-highcharts-server.azurewebsites.net"
-            });
+            _server = new HighchartsServer(new MockedHighchartsServerSettings());
         }
 
         [Theory]

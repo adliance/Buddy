@@ -16,8 +16,8 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="6.0.4" />
-    <PackageReference Include="Mailjet.Api" Version="2.0.2" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="6.0.5" />
+    <PackageReference Include="Mailjet.Api" Version="3.0.0" />
   </ItemGroup>
 
 </Project>

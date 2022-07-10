@@ -12,7 +12,7 @@ namespace Adliance.AspNetCore.Buddy.Highcharts.Extensions
     {
         public static IBuddyServiceCollection AddHighchartsServer(
             this IBuddyServiceCollection buddyServices,
-            IHighchartsServerConfiguration configuration)
+            IHighchartsServerSettings configuration)
         {
             buddyServices.Services.AddSingleton(configuration);
             return AddHighchartsServer(buddyServices);
@@ -22,8 +22,8 @@ namespace Adliance.AspNetCore.Buddy.Highcharts.Extensions
             this IBuddyServiceCollection buddyServices,
             IConfigurationSection configurationSection)
         {
-            var options = configurationSection.Get<DefaultHighchartsServerConfiguration>();
-            buddyServices.Services.Configure<DefaultHighchartsServerConfiguration>(configurationSection);
+            var options = configurationSection.Get<HighchartsServerDefaultSettings>();
+            buddyServices.Services.Configure<HighchartsServerDefaultSettings>(configurationSection);
             return AddHighchartsServer(buddyServices, options);
         }
 
