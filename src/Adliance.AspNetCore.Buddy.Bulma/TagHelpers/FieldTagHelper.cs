@@ -23,6 +23,8 @@ public class FieldTagHelper : TagHelper
     [HtmlAttributeNotBound, ViewContext] public ViewContext ViewContext { get; set; } = null!;
     [HtmlAttributeName("asp-for")] public ModelExpression? For { get; set; } = null!;
     [HtmlAttributeName("label")] public string? Label { get; set; }
+    [HtmlAttributeName("append")] public string? Append { get; set; }
+    [HtmlAttributeName("prepend")] public string? Prepend { get; set; }
     [HtmlAttributeName("icon")] public string? Icon { get; set; }
     [HtmlAttributeName("help")] public string? Help { get; set; }
     [HtmlAttributeName("placeholder")] public string? Placeholder { get; set; }
@@ -31,6 +33,7 @@ public class FieldTagHelper : TagHelper
     [HtmlAttributeName("file-upload")] public bool FileUpload { get; set; }
     [HtmlAttributeName("rows")] public int Rows { get; set; } = 6;
     [HtmlAttributeName("password")] public bool Password { get; set; }
+    [HtmlAttributeName("number")] public bool Number { get; set; }
     [HtmlAttributeName("readonly")] public bool Readonly { get; set; }
     [HtmlAttributeName("disabled")] public bool Disabled { get; set; }
 
@@ -47,21 +50,25 @@ public class FieldTagHelper : TagHelper
 
         output.TagName = "div";
         output.TagMode = TagMode.StartTagAndEndTag;
-        output.Attributes.SetAttribute("class", "field");
 
         var builder = new HtmlContentBuilder();
 
         // ReSharper disable MustUseReturnValue
         AppendLabel(builder);
+
+        builder.AppendHtml($"<div class=\"field{(!string.IsNullOrWhiteSpace(Append + Prepend) ? " has-addons" : "")}\" style=\"margin-bottom:0;\">");
+        if (!string.IsNullOrWhiteSpace(Prepend)) builder.AppendHtml($"<div class=\"control\"><a class=\"button is-static\">{Prepend}</a></div>");
         builder.AppendHtml($"<div class=\"control is-expanded{(HasIcon ? " has-icons-left" : "")}\">");
         if (!string.IsNullOrWhiteSpace(childContent)) builder.AppendHtml(childContent);
         AppendSelect(builder);
         AppendCheckbox(builder);
         AppendCheckBoxList(builder);
         AppendTextbox(builder);
+        builder.AppendHtml("</div>");
+        if (!string.IsNullOrWhiteSpace(Append)) builder.AppendHtml($"<div class=\"control\"><a class=\"button is-static\">{Append}</a></div>");
+        builder.AppendHtml("</div>");
         AppendValidationSection(builder);
         AppendHelpSection(builder);
-        builder.AppendHtml("</div>");
         // ReSharper restore MustUseReturnValue
 
         output.Content.SetHtmlContent(builder);
@@ -89,8 +96,8 @@ public class FieldTagHelper : TagHelper
         var select = _htmlGenerator.GenerateSelect(ViewContext, For?.ModelExplorer, null, For?.Name, Items, false, new { });
         builder.AppendHtml("<div class=\"select is-fullwidth\">");
         builder.AppendHtml(select);
-        if (HasIcon) builder.AppendHtml($"<span class=\"icon is-left\"><i class=\"fad fa-{Icon}\"></i></span>");
         builder.AppendHtml("</div>");
+        AppendIcon(builder);
     }
 
     private void AppendCheckbox(IHtmlContentBuilder builder)
@@ -99,16 +106,28 @@ public class FieldTagHelper : TagHelper
         var checkbox = _htmlGenerator.GenerateCheckBox(ViewContext, For?.ModelExplorer, For?.Name, For?.Model is true, new { });
         builder.AppendHtml("<label class=\"checkbox\">");
         builder.AppendHtml(checkbox);
-        if (!string.IsNullOrWhiteSpace(Icon))
+        builder.AppendHtml("&nbsp;&nbsp;");
+        
+        if (HasIcon)
         {
+            var icon = Icon ?? "";
+            if (!icon.StartsWith("fa", StringComparison.OrdinalIgnoreCase)) icon = $"fad fa-{icon}";
+            builder.AppendHtml($"<i class=\"{icon}\"></i>");
             builder.AppendHtml("&nbsp;&nbsp;");
-            builder.AppendHtml($"<i class=\"fad fa-{Icon}\"></i>");
         }
 
-        builder.AppendHtml("&nbsp;&nbsp;");
-        if (HasIcon) builder.AppendHtml($"<i class=\"fad {Icon}\"></i>");
         builder.AppendHtml(Label ?? "");
         builder.AppendHtml("</label>");
+    }
+
+    private void AppendIcon(IHtmlContentBuilder builder)
+    {
+        if (HasIcon)
+        {
+            var icon = Icon ?? "";
+            if (!icon.StartsWith("fa", StringComparison.OrdinalIgnoreCase)) icon = $"fad fa-{icon}";
+            builder.AppendHtml($"<span class=\"icon is-left\"><i class=\"{icon}\"></i></span>");
+        }
     }
 
     private void AppendCheckBoxList(IHtmlContentBuilder builder)
@@ -125,14 +144,16 @@ public class FieldTagHelper : TagHelper
         {
             builder.AppendHtml("<label class=\"checkbox\">");
             builder.AppendHtml($"<input type=\"checkbox\" value=\"{item.Value}\" name=\"{For.ModelExplorer.Metadata.Name}\" {(selectedItems.Any(x => x.Equals(item.Value, StringComparison.OrdinalIgnoreCase)) ? "checked" : "")} >");
-            if (!string.IsNullOrWhiteSpace(Icon))
+            builder.AppendHtml("&nbsp;&nbsp;");
+            
+            if (HasIcon)
             {
+                var icon = Icon ?? "";
+                if (!icon.StartsWith("fa", StringComparison.OrdinalIgnoreCase)) icon = $"fad fa-{icon}";
+                builder.AppendHtml($"<i class=\"{icon}\"></i>");
                 builder.AppendHtml("&nbsp;&nbsp;");
-                builder.AppendHtml($"<i class=\"fad fa-{Icon}\"></i>");
             }
 
-            builder.AppendHtml("&nbsp;&nbsp;");
-            if (HasIcon) builder.AppendHtml($"<i class=\"fad {Icon}\"></i>");
             builder.AppendHtml(item.Text ?? "");
             builder.AppendHtml("</label>");
         }
@@ -176,6 +197,10 @@ public class FieldTagHelper : TagHelper
         {
             control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateTime?)?.ToString("yyyy-MM-dd"), null, new { type = "date", @class = "input", placeholder = Placeholder ?? "" });
         }
+        else if (Number)
+        {
+            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, new { type = "number", @class = "input", placeholder = Placeholder ?? "" });
+        }
         else
         {
             control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, new
@@ -192,7 +217,7 @@ public class FieldTagHelper : TagHelper
             builder.AppendHtml(control);
         }
 
-        if (HasIcon) builder.AppendHtml($"<span class=\"icon is-left\"><i class=\"fad fa-{Icon}\"></i></span>");
+        AppendIcon(builder);
     }
 
     private void AppendValidationSection(IHtmlContentBuilder builder)

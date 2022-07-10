@@ -6,6 +6,7 @@ namespace Adliance.AspNetCore.Buddy.Bulma.Test.Pages;
 public class IndexModel : PageModel
 {
     [BindProperty] public string InputValue { get; set; } = "My initial input value";
+    [BindProperty] public int NumberValue { get; set; } = 123;
     [BindProperty] public string PasswordValue { get; set; } = "My initial password";
     [BindProperty] public string TextareaValue { get; set; } = $"My initial{Environment.NewLine}textarea value";
     [BindProperty] public IFormFile? FileValue { get; set; }

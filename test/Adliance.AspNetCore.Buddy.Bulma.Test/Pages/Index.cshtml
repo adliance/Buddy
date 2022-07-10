@@ -1,6 +1,6 @@
 @page
 @using Adliance.AspNetCore.Buddy.Bulma.Test.Pages
-@using SelectList = Adliance.AspNetCore.Buddy.Bulma.SelectList
+@using SelectList = Adliance.AspNetCore.Buddy.Bulma.SelectLists
 @model Adliance.AspNetCore.Buddy.Bulma.Test.Pages.IndexModel
 
 <!DOCTYPE html>
@@ -8,6 +8,8 @@
 <html lang="en">
 <head>
     <title></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/regular.min.css" integrity="sha512-YoxvmIzlVlt4nYJ6QwBqDzFc+2aXL7yQwkAuscf2ZAg7daNQxlgQHV+LLRHnRXFWPHRvXhJuBBjQqHAqRFkcVw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 </head>
 <body>
@@ -18,10 +20,24 @@
                 <field asp-for="InputValue" label="Input" help="Renders a simple input field"/>
             </div>
             <div class="column">
-                <field asp-for="PasswordValue" label="Password" help="Renders a password field" password/>
+                <field asp-for="PasswordValue" label="Password" help="Renders a password field" password icon="fa fa-trash"/>
             </div>
             <div class="column">
                 <field asp-for="DateValue" label="Date" help="Renders a date field"/>
+            </div>
+            <div class="column">
+                <field asp-for="NumberValue" label="Date" help="Renders a number field" number/>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column">
+                <field asp-for="InputValue" label="Input" help="Input with appended text" append="append" icon="fa fa-trash"/>
+            </div>
+            <div class="column">
+                <field asp-for="PasswordValue" label="Password" password/>
+            </div>
+            <div class="column">
+                <field asp-for="DateValue" label="Date" help="Date with prepended text" prepend="prepend"/>
             </div>
             <div class="column">
                 <field asp-for="FileValue" label="File" help="Renders a file upload" placeholder="Select file" file-upload/>
@@ -35,6 +51,10 @@
             <div class="column">
                 <field asp-for="CheckboxValue" label="Checkbox label" placeholder="Checkbox" help="Renders a checkbox"/>
             </div>
+            <div class="column">
+                <field asp-for="CheckboxValue" help="Renders a checkbox with icon" icon="fa fa-trash"/>
+            </div>
+            <div class="column"></div>
         </div>
 
         <div class="columns">
@@ -44,6 +64,10 @@
             <div class="column">
                 <field asp-for="SelectValue" items="@SelectList.For<IndexModel.PossibleValues>()" label="Select" help="Renders a select"/>
             </div>
+            <div class="column">
+                <field asp-for="SelectValue" items="@SelectList.For<IndexModel.PossibleValues>()" label="Select" help="Renders a select" icon="fa fa-trash"/>
+            </div>
+            <div class="column"></div>
         </div>
 
         <div class="mt-6">

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Adliance.AspNetCore.Buddy.Bulma;
 
-public static class SelectList
+public static class SelectLists
 {
     public static IList<SelectListItem> For(Enum enumValue)
     {
@@ -32,5 +32,20 @@ public static class SelectList
     public static IList<SelectListItem> For(IDictionary<Guid, string> dict)
     {
         return dict.Select(x => new SelectListItem(x.Value, x.Key.ToString())).ToList();
+    }
+
+    public static IList<SelectListItem> For(IDictionary<string, string> dict)
+    {
+        return dict.Select(x => new SelectListItem(x.Value, x.Key)).ToList();
+    }
+
+    public static IList<SelectListItem> For(IEnumerable<string> list)
+    {
+        return list.Select(x => new SelectListItem(x, x)).ToList();
+    }
+
+    public static IList<SelectListItem> For(IEnumerable<object> list)
+    {
+        return list.Select(x => new SelectListItem(x.ToString(), x.ToString())).ToList();
     }
 }

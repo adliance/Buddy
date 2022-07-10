@@ -24,10 +24,10 @@ namespace Adliance.AspNetCore.Buddy.Highcharts
                     Width = 200,
                     Scale = 1,
                     Chart = new Chart(),
-                    /*Resources = new HighchartsServerParameter.ResourcesParameter
+                    Resources = new HighchartsServerParameter.ResourcesParameter
                     {
                         Files = "https://cdnjs.cloudflare.com/ajax/libs/highcharts/8.1.0/modules/annotations.js"
-                    }*/
+                    }
                 });
                 if (bytes.Length < 8000)
                 {
