@@ -13,6 +13,13 @@ public static class SelectList
         return (from Enum e in Enum.GetValues(enumValue.GetType()) select new SelectListItem(e.GetDisplayName(), e.ToString())).ToList();
     }
 
+    public static IList<SelectListItem> For<T>() where T : struct, IConvertible
+    {
+        if (!typeof(T).IsEnum) throw new Exception("T must be an enum.");
+        if (!typeof(T).IsEnum) throw new Exception("T must be an enum.");
+        return (from Enum e in Enum.GetValues(typeof(T)) select new SelectListItem(e.GetDisplayName(), e.ToString())).ToList();
+    }
+
     public static IList<SelectListItem> For(string trueText = "Ja", string falseText = "Nein")
     {
         return new List<SelectListItem>

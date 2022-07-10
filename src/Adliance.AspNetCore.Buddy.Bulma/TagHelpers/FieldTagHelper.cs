@@ -28,6 +28,7 @@ public class FieldTagHelper : TagHelper
     [HtmlAttributeName("placeholder")] public string? Placeholder { get; set; }
     [HtmlAttributeName("items")] public IEnumerable<SelectListItem>? Items { get; set; }
     [HtmlAttributeName("multi-line")] public bool MultiLine { get; set; }
+    [HtmlAttributeName("file-upload")] public bool FileUpload { get; set; }
     [HtmlAttributeName("rows")] public int Rows { get; set; } = 6;
     [HtmlAttributeName("password")] public bool Password { get; set; }
     [HtmlAttributeName("readonly")] public bool Readonly { get; set; }
@@ -68,14 +69,17 @@ public class FieldTagHelper : TagHelper
 
     private void AppendLabel(IHtmlContentBuilder builder)
     {
-        if (IsCheckBox) return;
+        var labelText = Label;
+        if (IsCheckBox) labelText = Placeholder;
+        if (string.IsNullOrWhiteSpace(labelText)) return;
+
         if (For?.ModelExplorer == null)
         {
-            builder.AppendHtml($"<label class=\"label\">{Label}</label>");
+            builder.AppendHtml($"<label class=\"label\">{labelText}</label>");
             return;
         }
 
-        var label = _htmlGenerator.GenerateLabel(ViewContext, For?.ModelExplorer, For?.Name, Label, new { @class = "label" });
+        var label = _htmlGenerator.GenerateLabel(ViewContext, For?.ModelExplorer, For?.Name, labelText, new { @class = "label" });
         builder.AppendHtml(label);
     }
 
@@ -111,12 +115,11 @@ public class FieldTagHelper : TagHelper
     {
         if (!IsCheckBoxList || For?.ModelExplorer == null || Items == null) return;
 
-        IList<string> selectedItems = (For.ModelExplorer.Model as List<object>)?.Select(x => x.ToString() ?? "").ToList()
-                                      ?? (For.ModelExplorer.Model as List<Guid>)?.Select(x => x.ToString()).ToList()
-                                      ?? (For.ModelExplorer.Model as List<string>)?.ToList()
-                                      ?? (For.ModelExplorer.Model as IEnumerable<string>)?.ToList()
-                                      ?? (For.ModelExplorer.Model as IEnumerable<object>)?.Select(x => x.ToString() ?? "").ToList()
-                                      ?? new List<string>();
+        IList<string> selectedItems = new List<string>();
+        if (For.Model is IEnumerable e)
+        {
+            foreach (var l in e) selectedItems.Add(l.ToString() ?? "");
+        }
 
         foreach (var item in Items)
         {
@@ -139,7 +142,7 @@ public class FieldTagHelper : TagHelper
     {
         if (IsSelectList || IsCheckBox || IsCheckBoxList || For?.ModelExplorer == null) return;
 
-        TagBuilder control;
+        TagBuilder? control = null;
 
         if (Password)
         {
@@ -157,6 +160,18 @@ public class FieldTagHelper : TagHelper
                 placeholder = Placeholder ?? ""
             });
         }
+        else if (FileUpload)
+        {
+            builder.AppendHtml("<div class=\"file has-name is-fullwidth\"><label class=\"file-label\">");
+            builder.AppendHtml(_htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, new
+            {
+                type = "file",
+                @class = "file-input",
+                onchange = "if (this.files.length > 0) { this.closest(\"div.file\").querySelector(\"span.file-name\").innerText = this.files[0].name; }"
+            }));
+            builder.AppendHtml($"<span class=\"file-cta\"><span class=\"file-label\">{Placeholder}</span></span>");
+            builder.AppendHtml("<span class=\"file-name\"></span></label></div>");
+        }
         else if (IsDateTime)
         {
             control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateTime?)?.ToString("yyyy-MM-dd"), null, new { type = "date", @class = "input", placeholder = Placeholder ?? "" });
@@ -170,9 +185,12 @@ public class FieldTagHelper : TagHelper
             });
         }
 
-        if (Readonly) control.Attributes.Add("readonly", "readonly");
-        if (Disabled) control.Attributes.Add("disabled", "disabled");
-        builder.AppendHtml(control);
+        if (control != null)
+        {
+            if (Readonly) control.Attributes.Add("readonly", "readonly");
+            if (Disabled) control.Attributes.Add("disabled", "disabled");
+            builder.AppendHtml(control);
+        }
 
         if (HasIcon) builder.AppendHtml($"<span class=\"icon is-left\"><i class=\"fad fa-{Icon}\"></i></span>");
     }

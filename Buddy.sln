@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Bulma", "src\Adliance.AspNetCore.Buddy.Bulma\Adliance.AspNetCore.Buddy.Bulma.csproj", "{C0ED533D-8A60-4CA2-A290-1ACC8BD6DFEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Bulma.Test", "test\Adliance.AspNetCore.Buddy.Bulma.Test\Adliance.AspNetCore.Buddy.Bulma.Test.csproj", "{B8D2BBAD-1A15-428D-A7EF-D4075EC70958}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +121,10 @@ Global
 		{C0ED533D-8A60-4CA2-A290-1ACC8BD6DFEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0ED533D-8A60-4CA2-A290-1ACC8BD6DFEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0ED533D-8A60-4CA2-A290-1ACC8BD6DFEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8D2BBAD-1A15-428D-A7EF-D4075EC70958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8D2BBAD-1A15-428D-A7EF-D4075EC70958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8D2BBAD-1A15-428D-A7EF-D4075EC70958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D2BBAD-1A15-428D-A7EF-D4075EC70958}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,6 +136,7 @@ Global
 		{C4CC9F16-6461-4A2B-9004-AADA26038E4D} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
 		{28357706-8588-4631-9CD3-E5537B54AC96} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
 		{627F45DC-84EF-41DF-9D23-E7D580156BF5} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
+		{B8D2BBAD-1A15-428D-A7EF-D4075EC70958} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB86B6DA-4E94-41EF-8CAA-064DE0176535}

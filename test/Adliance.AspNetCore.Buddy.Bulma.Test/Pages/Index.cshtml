@@ -1,0 +1,55 @@
+@page
+@using Adliance.AspNetCore.Buddy.Bulma.Test.Pages
+@using SelectList = Adliance.AspNetCore.Buddy.Bulma.SelectList
+@model Adliance.AspNetCore.Buddy.Bulma.Test.Pages.IndexModel
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+</head>
+<body>
+<div class="container pt-6">
+    <form method="post">
+        <div class="columns">
+            <div class="column">
+                <field asp-for="InputValue" label="Input" help="Renders a simple input field"/>
+            </div>
+            <div class="column">
+                <field asp-for="PasswordValue" label="Password" help="Renders a password field" password/>
+            </div>
+            <div class="column">
+                <field asp-for="DateValue" label="Date" help="Renders a date field"/>
+            </div>
+            <div class="column">
+                <field asp-for="FileValue" label="File" help="Renders a file upload" placeholder="Select file" file-upload/>
+            </div>
+        </div>
+
+        <div class="columns">
+            <div class="column">
+                <field asp-for="TextareaValue" label="Textarea" help="Renders a textarea" multi-line rows="3"/>
+            </div>
+            <div class="column">
+                <field asp-for="CheckboxValue" label="Checkbox label" placeholder="Checkbox" help="Renders a checkbox"/>
+            </div>
+        </div>
+
+        <div class="columns">
+            <div class="column">
+                <field asp-for="SelectedCheckboxListValues" items="@SelectList.For<IndexModel.PossibleValues>()" label="Checkbox List" help="Renders a list of checkboxes"/>
+            </div>
+            <div class="column">
+                <field asp-for="SelectValue" items="@SelectList.For<IndexModel.PossibleValues>()" label="Select" help="Renders a select"/>
+            </div>
+        </div>
+
+        <div class="mt-6">
+            <button type="submit" class="button is-primary">Submit</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
