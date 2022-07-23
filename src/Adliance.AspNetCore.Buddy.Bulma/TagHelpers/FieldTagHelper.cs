@@ -31,6 +31,7 @@ public class FieldTagHelper : TagHelper
     [HtmlAttributeName("items")] public IEnumerable<SelectListItem>? Items { get; set; }
     [HtmlAttributeName("multi-line")] public bool MultiLine { get; set; }
     [HtmlAttributeName("file-upload")] public bool FileUpload { get; set; }
+    [HtmlAttributeName("checkboxes")] public bool Checkboxes { get; set; }
     [HtmlAttributeName("rows")] public int Rows { get; set; } = 6;
     [HtmlAttributeName("password")] public bool Password { get; set; }
     [HtmlAttributeName("number")] public bool Number { get; set; }
@@ -40,8 +41,8 @@ public class FieldTagHelper : TagHelper
 
     private bool IsCheckBox => Items == null && (For?.ModelExplorer.ModelType == typeof(bool) || For?.ModelExplorer.ModelType == typeof(bool?));
     private bool IsDateTime => Items == null && (For?.ModelExplorer.ModelType == typeof(DateTime) || For?.ModelExplorer.ModelType == typeof(DateTime?));
-    private bool IsSelectList => !IsCheckBoxList && Items != null;
-    private bool IsCheckBoxList => Items != null && For != null && typeof(IEnumerable).IsAssignableFrom(For.ModelExplorer.ModelType);
+    private bool IsSelectList => !IsCheckBoxList && Items != null && For != null;
+    private bool IsCheckBoxList => Items != null && For != null && Checkboxes;
     private bool HasIcon => !string.IsNullOrWhiteSpace(Icon);
 
     public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
@@ -107,7 +108,7 @@ public class FieldTagHelper : TagHelper
         builder.AppendHtml("<label class=\"checkbox\">");
         builder.AppendHtml(checkbox);
         builder.AppendHtml("&nbsp;&nbsp;");
-        
+
         if (HasIcon)
         {
             var icon = Icon ?? "";
@@ -145,7 +146,7 @@ public class FieldTagHelper : TagHelper
             builder.AppendHtml("<label class=\"checkbox\">");
             builder.AppendHtml($"<input type=\"checkbox\" value=\"{item.Value}\" name=\"{For.ModelExplorer.Metadata.Name}\" {(selectedItems.Any(x => x.Equals(item.Value, StringComparison.OrdinalIgnoreCase)) ? "checked" : "")} >");
             builder.AppendHtml("&nbsp;&nbsp;");
-            
+
             if (HasIcon)
             {
                 var icon = Icon ?? "";
