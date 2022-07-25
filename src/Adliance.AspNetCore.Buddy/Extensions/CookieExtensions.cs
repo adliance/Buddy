@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Metrics;
 using System.Globalization;
 using Microsoft.AspNetCore.Http;
 
@@ -43,7 +44,14 @@ namespace Adliance.AspNetCore.Buddy.Extensions
 
         public static IResponseCookies Set(this IResponseCookies cookies, string key, string value, TimeSpan expiration)
         {
-            cookies.Append(key, value, new CookieOptions { Expires = DateTime.UtcNow.Add(expiration) });
+            cookies.Append(key, value, new CookieOptions
+            {
+                IsEssential = true,
+                SameSite = SameSiteMode.Strict,
+                Secure = true,
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.Add(expiration)
+            });
             return cookies;
         }
 
