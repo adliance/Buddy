@@ -30,10 +30,13 @@ namespace Adliance.AspNetCore.Buddy.Email.SendGrid
         {
             if (string.IsNullOrWhiteSpace(recipientAddress)) throw new ArgumentOutOfRangeException(nameof(recipientAddress));
 
+            if (_emailConfig.Disable)
+                return;
+
             var client = new SendGridClient(_sendgridConfig.SendgridSecret);
 
             var from = new EmailAddress(senderAddress, senderName);
-            var to = string.IsNullOrWhiteSpace(recipientName) ? new EmailAddress(recipientAddress) : new EmailAddress(recipientAddress, recipientName);
+            var to = GetRecipient(recipientName, recipientAddress);
             var mail = MailHelper.CreateSingleEmail(from, to, subject, textBody, htmlBody);
 
             if (!string.IsNullOrWhiteSpace(replyTo)) mail.SetReplyTo(new EmailAddress(replyTo));
@@ -68,6 +71,16 @@ namespace Adliance.AspNetCore.Buddy.Email.SendGrid
                 var responseBody = await response.Body.ReadAsStringAsync();
                 throw new Exception($"Sending email via SendGrid failed.{Environment.NewLine}Status code: {response.StatusCode}{Environment.NewLine}Body: {responseBody}");
             }
+        }
+
+        private EmailAddress GetRecipient(string recipientName, string recipientAddress)
+        {
+            if (!string.IsNullOrWhiteSpace(_emailConfig.RedirectAllEmailsTo))
+                return new EmailAddress(_emailConfig.RedirectAllEmailsTo);
+            
+            return string.IsNullOrWhiteSpace(recipientName)
+                ? new EmailAddress(recipientAddress)
+                : new EmailAddress(recipientAddress, recipientName);
         }
     }
 }
