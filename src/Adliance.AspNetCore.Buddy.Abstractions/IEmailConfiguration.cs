@@ -20,6 +20,16 @@ namespace Adliance.AspNetCore.Buddy.Abstractions
         /// The "reply to" address (can be different from the sender address.
         /// </summary>
         string ReplyToAddress { get; }
+        
+        /// <summary>
+        /// The email address all emails are optionally redirected to.
+        /// </summary>
+        string RedirectAllEmailsTo { get; }
+        
+        /// <summary>
+        /// If true all emails are discarded.
+        /// </summary>
+        bool Disable { get; }
     }
 
     // ReSharper disable once UnusedType.Global
@@ -36,5 +46,11 @@ namespace Adliance.AspNetCore.Buddy.Abstractions
         
         /// <inheritdoc cref="IEmailConfiguration.ReplyToAddress"/>
         public string ReplyToAddress { get; set; } = string.Empty;
+        
+        /// <inheritdoc cref="IEmailConfiguration.RedirectAllEmailsTo"/>
+        public string RedirectAllEmailsTo { get; set; } = string.Empty;
+        
+        /// <inheritdoc cref="IEmailConfiguration.Disable"/>
+        public bool Disable { get; set; } = false;
     }
 }
