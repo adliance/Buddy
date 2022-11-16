@@ -14,6 +14,8 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Test
         public string SenderName => "Hannes Sachsenhofer";
         public string SenderAddress => "test@adliance.dev";
         public string ReplyToAddress => "hannes.sachsenhofer@adliance.net";
+        public string RedirectAllEmailsTo => "";
+        public bool Disable => false;
     }
 
     public class MockedEmailAttachment : IEmailAttachment
