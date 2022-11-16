@@ -28,9 +28,13 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet
         {
             if (string.IsNullOrWhiteSpace(recipientAddress)) throw new ArgumentOutOfRangeException(nameof(recipientAddress));
 
+            if (_emailConfig.Disable)
+                return;
+
             var client = new MailjetClient(_mailjetConfig.PublicApiKey, _mailjetConfig.PrivateApiKey);
 
-            var to = string.IsNullOrWhiteSpace(recipientName) ? new SendContact(recipientAddress) : new SendContact(recipientAddress, recipientName);
+            var to = GetRecipient(recipientName, recipientAddress);
+
             var email = new TransactionalEmail
             {
                 From = new SendContact(senderAddress, senderName),
@@ -57,6 +61,16 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet
             {
                 throw new Exception($"Sending email via MailJet failed.{Environment.NewLine}: {ex.Message}", ex);
             }
+        }
+
+        private SendContact GetRecipient(string recipientName, string recipientAddress)
+        {
+            if (!string.IsNullOrWhiteSpace(_emailConfig.RedirectAllEmailsTo))
+                return new SendContact(_emailConfig.RedirectAllEmailsTo);
+            
+            return string.IsNullOrWhiteSpace(recipientName)
+                ? new SendContact(recipientAddress)
+                : new SendContact(recipientAddress, recipientName);
         }
     }
 }

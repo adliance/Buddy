@@ -28,9 +28,12 @@ namespace Adliance.AspNetCore.Buddy.Email.Smtp
         {
             if (string.IsNullOrWhiteSpace(recipientAddress)) throw new ArgumentOutOfRangeException(nameof(recipientAddress));
 
+            if (_emailConfig.Disable)
+                return;
+
             var message = new MimeMessage();
             var from = new MailboxAddress(senderName, senderAddress);
-            var to = new MailboxAddress(string.IsNullOrWhiteSpace(recipientName) ? recipientAddress : recipientName, recipientAddress);
+            var to = GetRecipient(recipientName, recipientAddress);
             var reply = new MailboxAddress(senderName, replyTo);
 
             message.From.Add(from);
@@ -77,6 +80,14 @@ namespace Adliance.AspNetCore.Buddy.Email.Smtp
                     throw new Exception($"Sending email via SMTP failed.{Environment.NewLine}: {ex.Message}", ex);
                 }
             }
+        }
+
+        private MailboxAddress GetRecipient(string recipientName, string recipientAddress)
+        {
+            if (!string.IsNullOrWhiteSpace(_emailConfig.RedirectAllEmailsTo))
+                return new MailboxAddress(_emailConfig.RedirectAllEmailsTo, _emailConfig.RedirectAllEmailsTo);
+            
+            return new MailboxAddress(string.IsNullOrWhiteSpace(recipientName) ? recipientAddress : recipientName, recipientAddress);
         }
     }
 }
