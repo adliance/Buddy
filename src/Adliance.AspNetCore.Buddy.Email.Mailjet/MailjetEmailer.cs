@@ -59,7 +59,7 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet
             }
             catch (Exception ex)
             {
-                throw new Exception($"Sending email via MailJet failed.{Environment.NewLine}: {ex.Message}", ex);
+                throw new Exception($"Sending email via MailJet failed: {ex.Message}", ex);
             }
         }
 
