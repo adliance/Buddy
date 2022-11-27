@@ -1,13 +1,28 @@
 ﻿using System;
+using System.Text;
 using Adliance.AspNetCore.Buddy.Abstractions;
 
 namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Test
 {
     public class MockedMailjetConfiguration : IMailjetConfiguration
     {
-        public string PublicApiKey => Environment.GetEnvironmentVariable("Adliance_Buddy_Tests__Mailjet_PublicApiKey") ?? throw new Exception("Environment variable \"Adliance_Buddy_Tests__Mailjet_PublicApiKey\" missing.");
-        public string PrivateApiKey => Environment.GetEnvironmentVariable("Adliance_Buddy_Tests__Mailjet_PrivateApiKey") ?? throw new Exception("Environment variable \"Adliance_Buddy_Tests__Mailjet_PrivateApiKey\" missing.");
+        public string PublicApiKey => GetEnvironmentVariable("Adliance_Buddy_Tests__Mailjet_PublicApiKey");
+        public string PrivateApiKey => GetEnvironmentVariable("Adliance_Buddy_Tests__Mailjet_PrivateApiKey");
         public string Campaign => "Unit Tests";
+
+
+        public string GetEnvironmentVariable(string name)
+        {
+            return Environment.GetEnvironmentVariable(name) ?? throw BuildEnvironmentVariableException(name);
+        }
+
+        private Exception BuildEnvironmentVariableException(string name)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine($"Environment variable \"{name}\" missing. Available environment variables are:");
+            foreach (var o in Environment.GetEnvironmentVariables()) sb.AppendLine(o.ToString();
+            throw new Exception(sb.ToString());
+        }
     }
 
     public class MockedEmailConfiguration : IEmailConfiguration
@@ -26,7 +41,7 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Test
             Filename = fileName;
             Bytes = bytes;
         }
-        
+
         public string Filename { get; set; }
         public byte[] Bytes { get; set; }
     }
