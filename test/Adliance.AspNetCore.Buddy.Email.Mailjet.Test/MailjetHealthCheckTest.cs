@@ -7,7 +7,7 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Test
 {
     public class MailjetHealthCheckTest
     {
-        [Fact(Skip = "No API keys configured.")]
+        [Fact]
         public async Task Health_Check_Succeeds()
         {
             var check = new MailjetHealthCheck(new MockedMailjetConfiguration(), new MockedEmailConfiguration(), NullLogger<MailjetHealthCheck>.Instance);

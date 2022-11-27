@@ -1,6 +1,8 @@
-﻿using Adliance.AspNetCore.Buddy.Abstractions;
+﻿using System;
+using Adliance.AspNetCore.Buddy.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -18,21 +20,21 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Extensions
             buddyServices.Services.AddSingleton(mailjetConfiguration);
             return AddMailjet(buddyServices);
         }
-        
+
         public static IBuddyServiceCollection AddMailjet(
             this IBuddyServiceCollection buddyServices,
             IConfigurationSection emailConfigurationSection,
             IConfigurationSection mailjetConfigurationSection)
         {
-            var emailOptions = emailConfigurationSection.Get<DefaultEmailConfiguration>();
+            var emailOptions = emailConfigurationSection.Get<DefaultEmailConfiguration>() ?? throw new Exception($"Unable to load email configuration from {emailConfigurationSection.Path}.");
             buddyServices.Services.Configure<IEmailConfiguration>(emailConfigurationSection);
-            
-            var mailjetOptions = mailjetConfigurationSection.Get<DefaultMailjetConfiguration>();
+
+            var mailjetOptions = mailjetConfigurationSection.Get<DefaultMailjetConfiguration>()?? throw new Exception($"Unable to load mailjet configuration from {mailjetConfigurationSection.Path}.");
             buddyServices.Services.Configure<IMailjetConfiguration>(mailjetConfigurationSection);
 
             return AddMailjet(buddyServices, emailOptions, mailjetOptions);
         }
-        
+
         public static IBuddyServiceCollection AddMailjet(
             this IBuddyServiceCollection buddyServices)
         {

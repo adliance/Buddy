@@ -25,24 +25,12 @@ stages:
           vmImage: 'ubuntu-latest'
         steps:
           - task: DotNetCoreCLI@2
-            displayName: 'Restore'
-            inputs:
-              command: restore
-              projects: '**/*.csproj'
-          - task: DotNetCoreCLI@2
-            displayName: 'Build'
-            inputs:
-              projects: '**/*.csproj'
-              arguments: '--configuration Release'
-          - task: DotNetCoreCLI@2
             displayName: 'Test'
             inputs:
               command: test
-              projects: 'test/**/*.csproj'
+              projects: 'test/Adliance.AspNetCore.Buddy.Email.Mailjet.Test/*.csproj'
               arguments: '--configuration Release'
-            env:
-              Adliance_Buddy_Tests__AzureStorageConnectionString: $(AzureStorageConnectionString)
-            
+
   - stage: publish
     jobs:
       - job: push_to_nuget
@@ -50,17 +38,12 @@ stages:
           vmImage: 'ubuntu-latest'
         steps:
           - task: DotNetCoreCLI@2
-            displayName: 'Build'
-            inputs:
-              projects: '**/*.csproj'
-              arguments: '--configuration Release'
-          - task: DotNetCoreCLI@2
             displayName: 'DotNet Pack'
             inputs:
               command: pack
-              packagesToPack: 'src/**/*.csproj'
+              packagesToPack: 'src/Adliance.AspNetCore.Buddy.Email.Mailjet/*.csproj'
               versioningScheme: byBuildNumber
-              configuration: 'Release'     
+              configuration: 'Release'
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Artifact'
             inputs:

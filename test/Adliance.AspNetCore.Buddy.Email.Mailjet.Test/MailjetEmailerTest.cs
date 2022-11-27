@@ -5,7 +5,7 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Test
 {
     public class MailjetEmailerTest
     {
-        [Fact(Skip = "No API keys configured.")]
+        [Fact]
         public async Task CanSendEmailWithoutAttachments()
         {
             var mailer = new MailjetEmailer(new MockedMailjetConfiguration(), new MockedEmailConfiguration());
@@ -17,7 +17,7 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Test
                 "This is the **Text** body.");
         }
 
-        [Fact(Skip = "No API keys configured.")]
+        [Fact]
         public async Task CanSendEmailWithAttachments()
         {
             var mailer = new MailjetEmailer(new MockedMailjetConfiguration(), new MockedEmailConfiguration());
