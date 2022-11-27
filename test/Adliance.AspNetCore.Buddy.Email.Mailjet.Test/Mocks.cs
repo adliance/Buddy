@@ -13,7 +13,10 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Test
 
         public string GetEnvironmentVariable(string name)
         {
-            return Environment.GetEnvironmentVariable(name) ?? throw BuildEnvironmentVariableException(name);
+            return Environment.GetEnvironmentVariable(name)
+                   ?? Environment.GetEnvironmentVariable(name.ToUpper())
+                   ?? Environment.GetEnvironmentVariable(name.ToLower())
+                   ?? throw BuildEnvironmentVariableException(name);
         }
 
         private Exception BuildEnvironmentVariableException(string name)
