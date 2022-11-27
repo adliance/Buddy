@@ -59,6 +59,7 @@ stages:
               packagesToPack: 'src/Adliance.AspNetCore.Buddy.Email.Mailjet/*.csproj'
               versioningScheme: byBuildNumber
               configuration: 'Release'
+              includeReferencedProjects: true
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Artifact'
             inputs:
