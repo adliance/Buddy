@@ -1,0 +1,51 @@
+variables:
+  - template: pipeline-variables.yml
+
+name: ${{ variables.version }}.$(Rev:r)
+
+resources:
+  - repo: self
+
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - /src/Adliance.AspNetCore.Buddy
+      - /pipeline-buddy.yml
+
+stages:
+  - stage: publish
+    jobs:
+      - job: push_to_nuget
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: UseDotNet@2
+            displayName: "Install .NET"
+            inputs:
+              version: '7.0.x'
+              packageType: sdk
+          - task: DotNetCoreCLI@2
+            displayName: 'Build'
+            inputs:
+              projects: 'src/Adliance.AspNetCore.Buddy/*.csproj'
+              arguments: '--configuration Release'
+          - task: DotNetCoreCLI@2
+            displayName: 'Pack'
+            inputs:
+              command: pack
+              packagesToPack: 'src/Adliance.AspNetCore.Buddy/*.csproj'
+              versioningScheme: byBuildNumber
+              configuration: 'Release'
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Artifact'
+            inputs:
+              PathtoPublish: '$(build.artifactstagingdirectory)'
+          - task: NuGetCommand@2
+            displayName: 'NuGet Push'
+            inputs:
+              command: push
+              nuGetFeedType: external
+              publishFeedCredentials: 'Public NuGet'
