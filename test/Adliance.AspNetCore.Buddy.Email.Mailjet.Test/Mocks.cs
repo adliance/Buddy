@@ -20,7 +20,7 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Test
         {
             var sb = new StringBuilder();
             sb.AppendLine($"Environment variable \"{name}\" missing. Available environment variables are:");
-            foreach (var o in Environment.GetEnvironmentVariables()) sb.AppendLine(o.ToString();
+            foreach (var o in Environment.GetEnvironmentVariables()) sb.AppendLine(o.ToString());
             throw new Exception(sb.ToString());
         }
     }
