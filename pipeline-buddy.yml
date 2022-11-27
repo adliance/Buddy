@@ -39,6 +39,7 @@ stages:
               packagesToPack: 'src/Adliance.AspNetCore.Buddy/*.csproj'
               versioningScheme: byBuildNumber
               configuration: 'Release'
+              includeSymbols: true
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Artifact'
             inputs:

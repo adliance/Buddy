@@ -53,13 +53,21 @@ stages:
               projects: 'src/Adliance.AspNetCore.Buddy.Email.Mailjet/*.csproj'
               arguments: '--configuration Release'
           - task: DotNetCoreCLI@2
+            displayName: 'Pack Dependency Abstractions'
+            inputs:
+              command: pack
+              packagesToPack: 'src/Adliance.AspNetCore.Buddy.Abstractions/*.csproj'
+              versioningScheme: byBuildNumber
+              configuration: 'Release'
+              includeSymbols: true
+          - task: DotNetCoreCLI@2
             displayName: 'Pack'
             inputs:
               command: pack
               packagesToPack: 'src/Adliance.AspNetCore.Buddy.Email.Mailjet/*.csproj'
               versioningScheme: byBuildNumber
               configuration: 'Release'
-              includeReferencedProjects: true
+              includeSymbols: true
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Artifact'
             inputs:
