@@ -68,10 +68,6 @@ stages:
               versioningScheme: byBuildNumber
               configuration: 'Release'
               includeSymbols: true
-          - task: PublishBuildArtifacts@1
-            displayName: 'Publish Artifact'
-            inputs:
-              PathtoPublish: '$(build.artifactstagingdirectory)'
           - task: NuGetCommand@2
             displayName: 'NuGet Push'
             inputs:
