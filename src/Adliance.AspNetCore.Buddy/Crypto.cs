@@ -18,8 +18,7 @@ namespace Adliance.AspNetCore.Buddy
             var saltBytes = new byte[0];
             if (!string.IsNullOrEmpty(salt))
             {
-                saltBytes = Convert.FromBase64String(salt);
-            }
+                saltBytes = Convert.FromBase64String(salt);            }
 
             return Convert.ToBase64String(KeyDerivation.Pbkdf2(value, saltBytes, KeyDerivationPrf.HMACSHA1, 10000, 256 / 8));
         }

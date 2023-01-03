@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Adliance.AspNetCore.Buddy\Adliance.AspNetCore.Buddy.csproj" />
+        <ProjectReference Include="..\..\src\Adliance.Buddy.DateTime\Adliance.Buddy.DateTime.csproj" />
     </ItemGroup>
 
 </Project>

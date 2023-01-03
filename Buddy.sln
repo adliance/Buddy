@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		pipeline-mailjet.yml = pipeline-mailjet.yml
 		pipeline-variables.yml = pipeline-variables.yml
 		pipeline-buddy.yml = pipeline-buddy.yml
+		pipeline-datetime.yml = pipeline-datetime.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Email.SendGrid", "src\Adliance.AspNetCore.Buddy.Email.SendGrid\Adliance.AspNetCore.Buddy.Email.SendGrid.csproj", "{A9402D86-139E-48A6-8444-28C14B7CB310}"
@@ -49,7 +50,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Bulma.Test", "test\Adliance.AspNetCore.Buddy.Bulma.Test\Adliance.AspNetCore.Buddy.Bulma.Test.csproj", "{B8D2BBAD-1A15-428D-A7EF-D4075EC70958}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Test", "test\Adliance.AspNetCore.Buddy.Test\Adliance.AspNetCore.Buddy.Test.csproj", "{7D656016-35C2-4A72-9137-63439DF3D571}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.Buddy.DateTime.Test", "test\Adliance.Buddy.DateTime.Test\Adliance.Buddy.DateTime.Test.csproj", "{7D656016-35C2-4A72-9137-63439DF3D571}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.Buddy.DateTime", "src\Adliance.Buddy.DateTime\Adliance.Buddy.DateTime.csproj", "{F8D3C493-2752-4763-8AC1-2F802B31A24F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -133,6 +136,10 @@ Global
 		{7D656016-35C2-4A72-9137-63439DF3D571}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D656016-35C2-4A72-9137-63439DF3D571}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D656016-35C2-4A72-9137-63439DF3D571}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8D3C493-2752-4763-8AC1-2F802B31A24F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8D3C493-2752-4763-8AC1-2F802B31A24F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8D3C493-2752-4763-8AC1-2F802B31A24F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8D3C493-2752-4763-8AC1-2F802B31A24F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
