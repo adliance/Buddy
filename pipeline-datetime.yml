@@ -46,6 +46,11 @@ stages:
               version: '7.0.x'
               packageType: sdk
           - task: DotNetCoreCLI@2
+            displayName: 'Build'
+            inputs:
+              projects: 'src/Adliance.Buddy.DateTime/*.csproj'
+              arguments: '--configuration Release'
+          - task: DotNetCoreCLI@2
             displayName: 'Pack'
             inputs:
               command: pack
