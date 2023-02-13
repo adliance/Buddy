@@ -14,6 +14,7 @@
 </head>
 <body>
 <div class="container pt-6">
+    <h1 class="title is-1">Form</h1>
     <form method="post">
         <div class="columns">
             <div class="column">
@@ -74,6 +75,39 @@
             <button type="submit" class="button is-primary">Submit</button>
         </div>
     </form>
+
+    <h1 class="mt-6 title is-1">Cards</h1>
+    <div class="columns">
+        <div class="column">
+            <card>
+                <div>
+                    <p>
+                        This is a <b>Card</b> ...
+                    </p>
+                    <p>... with complex HTML structure.</p>
+                </div>
+            </card>
+        </div>
+        <div class="column">
+            <card title="Card title">
+                This is also a card.
+            </card>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column">
+            <card collapsible="true" collapsible-start-open="false">
+                This is a collapsible card.
+            </card>
+        </div>
+        <div class="column">
+            <card title="Card title" collapsible-start-open="true">
+                This is a collapsible card.
+            </card>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>
