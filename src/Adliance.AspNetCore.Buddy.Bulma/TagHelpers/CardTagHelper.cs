@@ -1,3 +1,4 @@
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
@@ -27,7 +28,7 @@ public class CardTagHelper : TagHelper
                 {Title}
                 </p>
                 """");
-            
+
             if (CollapsibleStartOpen.HasValue)
             {
                 builder.AppendHtml($""""
@@ -55,6 +56,6 @@ public class CardTagHelper : TagHelper
         output.Content.SetHtmlContent(builder);
         output.TagName = "div";
         output.TagMode = TagMode.StartTagAndEndTag;
-        output.Attributes.Add("class", "card");
+        output.AddClass("card", HtmlEncoder.Default);
     }
 }
