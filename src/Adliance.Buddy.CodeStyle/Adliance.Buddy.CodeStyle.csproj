@@ -18,7 +18,7 @@
   
   <!-- Select the MSBuild props and composed .editorconfig files to pack -->
   <ItemGroup>
-    <None Include="build\Adliance.Buddy.CodesStyle.props" Pack="true" PackagePath="build\" />
+    <None Include="build\Adliance.Buddy.CodeStyle.props" Pack="true" PackagePath="build\" />
     <None Include="Rules\.editorconfig" Pack="true" PackagePath="content\rules"></None>
     <None Include="readme.md" Pack="true" PackagePath="\"/>
   </ItemGroup>

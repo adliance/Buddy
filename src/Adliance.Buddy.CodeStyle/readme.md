@@ -1,4 +1,4 @@
-﻿# Adliance.Buddy.CodesStyle
+﻿# Adliance.Buddy.CodeStyle
 
 This package is used to distribute a common *.editorconfig* file. During the build an *.editorconfig* file is copied from the nuget package to the project folder.
 
@@ -13,7 +13,7 @@ Now the Nuget package is installed to all projects.
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild> <!--This is optional. If set to true the code style is also enforced during build.-->
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Adliance.Buddy.CodesStyle" Version="1.0.0">
+    <PackageReference Include="Adliance.Buddy.CodeStyle" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles;analyzers</IncludeAssets>
     </PackageReference>

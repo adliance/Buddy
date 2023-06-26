@@ -12,7 +12,7 @@ trigger:
       - master
   paths:
     include:
-      - /src/Adliance.Buddy.CodesStyle
+      - /src/Adliance.Buddy.CodeStyle
 
 stages:
   - stage: publish
@@ -29,13 +29,13 @@ stages:
           - task: DotNetCoreCLI@2
             displayName: 'Build'
             inputs:
-              projects: 'src/Adliance.Buddy.CodesStyle/*.csproj'
+              projects: 'src/Adliance.Buddy.CodeStyle/*.csproj'
               arguments: '--configuration Release'
           - task: DotNetCoreCLI@2
             displayName: 'Pack'
             inputs:
               command: pack
-              packagesToPack: 'src/Adliance.Buddy.CodesStyle/*.csproj'
+              packagesToPack: 'src/Adliance.Buddy.CodeStyle/*.csproj'
               versioningScheme: byBuildNumber
               configuration: 'Release'
               includeSymbols: true
