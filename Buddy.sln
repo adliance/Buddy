@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		pipeline-buddy.yml = pipeline-buddy.yml
 		pipeline-datetime.yml = pipeline-datetime.yml
 		pipeline-bulma.yml = pipeline-bulma.yml
+		pipeline-crypto.yml = pipeline-crypto.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Email.SendGrid", "src\Adliance.AspNetCore.Buddy.Email.SendGrid\Adliance.AspNetCore.Buddy.Email.SendGrid.csproj", "{A9402D86-139E-48A6-8444-28C14B7CB310}"
@@ -54,6 +55,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.Buddy.DateTime.Test", "test\Adliance.Buddy.DateTime.Test\Adliance.Buddy.DateTime.Test.csproj", "{7D656016-35C2-4A72-9137-63439DF3D571}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.Buddy.DateTime", "src\Adliance.Buddy.DateTime\Adliance.Buddy.DateTime.csproj", "{F8D3C493-2752-4763-8AC1-2F802B31A24F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.Buddy.Crypto", "src\Adliance.Buddy.Crypto\Adliance.Buddy.Crypto.csproj", "{5EF863C9-725E-402B-A3B1-CF7B3B2352B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.Buddy.Crypto.Test", "test\Adliance.Buddy.Crypto.Test\Adliance.Buddy.Crypto.Test.csproj", "{E2BB77E5-D5F6-461A-8B3A-5F2B010DFCEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,6 +146,14 @@ Global
 		{F8D3C493-2752-4763-8AC1-2F802B31A24F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8D3C493-2752-4763-8AC1-2F802B31A24F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8D3C493-2752-4763-8AC1-2F802B31A24F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EF863C9-725E-402B-A3B1-CF7B3B2352B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EF863C9-725E-402B-A3B1-CF7B3B2352B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EF863C9-725E-402B-A3B1-CF7B3B2352B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EF863C9-725E-402B-A3B1-CF7B3B2352B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2BB77E5-D5F6-461A-8B3A-5F2B010DFCEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2BB77E5-D5F6-461A-8B3A-5F2B010DFCEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2BB77E5-D5F6-461A-8B3A-5F2B010DFCEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2BB77E5-D5F6-461A-8B3A-5F2B010DFCEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -154,6 +167,7 @@ Global
 		{627F45DC-84EF-41DF-9D23-E7D580156BF5} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
 		{B8D2BBAD-1A15-428D-A7EF-D4075EC70958} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
 		{7D656016-35C2-4A72-9137-63439DF3D571} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
+		{E2BB77E5-D5F6-461A-8B3A-5F2B010DFCEA} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB86B6DA-4E94-41EF-8CAA-064DE0176535}
