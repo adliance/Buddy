@@ -38,6 +38,12 @@ public class FieldTagHelper : TagHelper
     [HtmlAttributeName("readonly")] public bool Readonly { get; set; }
     [HtmlAttributeName("disabled")] public bool Disabled { get; set; }
 
+    /// <summary>
+    /// Specifies the autocomplete attribute of the input text.
+    /// If has set to false, the autocomplete will be set to 'off'.
+    /// </summary>
+    [HtmlAttributeName("auto-complete")] public bool AutoComplete { get; set; }
+
 
     private bool IsCheckBox => Items == null && (For?.ModelExplorer.ModelType == typeof(bool) || For?.ModelExplorer.ModelType == typeof(bool?));
     private bool IsDateTime => Items == null && (For?.ModelExplorer.ModelType == typeof(DateTime) || For?.ModelExplorer.ModelType == typeof(DateTime?));
@@ -215,6 +221,7 @@ public class FieldTagHelper : TagHelper
         {
             if (Readonly) control.Attributes.Add("readonly", "readonly");
             if (Disabled) control.Attributes.Add("disabled", "disabled");
+            if (!AutoComplete) control.Attributes.Add("autocomplete", "off");
             builder.AppendHtml(control);
         }
 
