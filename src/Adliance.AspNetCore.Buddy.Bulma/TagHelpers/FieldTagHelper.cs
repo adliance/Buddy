@@ -42,7 +42,7 @@ public class FieldTagHelper : TagHelper
     /// Specifies the autocomplete attribute of the input text.
     /// If has set to false, the autocomplete will be set to 'off'.
     /// </summary>
-    [HtmlAttributeName("auto-complete")] public bool AutoComplete { get; set; }
+    [HtmlAttributeName("auto-complete")] public bool? AutoComplete { get; set; }
 
 
     private bool IsCheckBox => Items == null && (For?.ModelExplorer.ModelType == typeof(bool) || For?.ModelExplorer.ModelType == typeof(bool?));
