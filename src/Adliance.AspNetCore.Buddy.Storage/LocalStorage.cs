@@ -14,19 +14,22 @@ namespace Adliance.AspNetCore.Buddy.Storage
             _configuration = configuration;
         }
 
-        /// <inheritdoc cref="IStorage.Save(byte[],string[])"/>
-        public async Task Save(byte[] bytes, params string[] path)
+        /// <inheritdoc cref="IStorage.Save(byte[],bool,string[])"/>
+        public async Task Save(byte[] bytes, bool overwrite, params string[] path)
         {
-            await File.WriteAllBytesAsync(GetFilePath(path), bytes);
+            var filePath = GetFilePath(path);
+            var mode = GetFileMode(overwrite);
+            await using var fileStream = File.Open(filePath, mode, FileAccess.ReadWrite);
+            await fileStream.WriteAsync(bytes);
         }
 
-        /// <inheritdoc cref="IStorage.Save(System.IO.Stream,string[])"/>
-        public async Task Save(Stream stream, params string[] path)
+        /// <inheritdoc cref="IStorage.Save(System.IO.Stream,bool,string[])"/>
+        public async Task Save(Stream stream, bool overwrite, params string[] path)
         {
-            await using (var fileStream = File.OpenWrite(GetFilePath(path)))
-            {
-                await stream.CopyToAsync(fileStream);
-            }
+            var filePath = GetFilePath(path);
+            var mode = GetFileMode(overwrite);
+            await using var fileStream = File.Open(filePath, mode, FileAccess.ReadWrite);
+            await stream.CopyToAsync(fileStream);
         }
 
         /// <inheritdoc cref="IStorage.Load(string[])"/>
@@ -75,6 +78,11 @@ namespace Adliance.AspNetCore.Buddy.Storage
             {
                 File.Delete(GetFilePath(path));
             }
+        }
+
+        private static FileMode GetFileMode(bool overwrite)
+        {
+            return overwrite ? FileMode.Create : FileMode.CreateNew;
         }
 
         private string GetFilePath(params string[] path)

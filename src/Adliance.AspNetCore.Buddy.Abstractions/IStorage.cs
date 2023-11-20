@@ -13,15 +13,17 @@ namespace Adliance.AspNetCore.Buddy.Abstractions
         /// Stores a blob file <paramref name="bytes"/> with a specified <paramref name="path"/>.
         /// </summary>
         /// <param name="bytes">The file content as byte array.</param>
+        /// <param name="overwrite">Whether the upload should overwrite any files or throw if the file already exists. The default value is true.</param>
         /// <param name="path">The path of the file to store.</param>
-        Task Save(byte[] bytes, params string[] path);
-        
+        Task Save(byte[] bytes, bool overwrite = true, params string[] path);
+
         /// <summary>
         /// Stores a blob file <paramref name="stream"/> with a specified <paramref name="path"/>.
         /// </summary>
         /// <param name="stream">The file content as stream.</param>
+        /// <param name="overwrite">Whether the upload should overwrite any files or throw if the file already exists. The default value is true.</param>
         /// <param name="path">The path of the file to store.</param>
-        Task Save(Stream stream, params string[] path);
+        Task Save(Stream stream, bool overwrite = true, params string[] path);
 
         /// <summary>
         /// Loads a blob file by a specified <paramref name="path"/>.

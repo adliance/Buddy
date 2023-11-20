@@ -20,21 +20,19 @@ namespace Adliance.AspNetCore.Buddy.Storage
             _configuration = configuration;
         }
 
-        /// <inheritdoc cref="IStorage.Save(byte[],string[])"/>
-        public async Task Save(byte[] bytes, params string[] path)
+        /// <inheritdoc cref="IStorage.Save(byte[],bool,string[])"/>
+        public async Task Save(byte[] bytes, bool overwrite = true, params string[] path)
         {
-            await using (var ms = new MemoryStream())
-            {
-                ms.Write(bytes);
-                ms.Seek(0, SeekOrigin.Begin);
-                await Save(ms, path);
-            }
+            await using var ms = new MemoryStream();
+            ms.Write(bytes);
+            ms.Seek(0, SeekOrigin.Begin);
+            await Save(ms, overwrite, path);
         }
 
-        /// <inheritdoc cref="IStorage.Save(System.IO.Stream,string[])"/>
-        public async Task Save(Stream stream, params string[] path)
+        /// <inheritdoc cref="IStorage.Save(System.IO.Stream,bool,string[])"/>
+        public async Task Save(Stream stream, bool overwrite = true, params string[] path)
         {
-            await GetBlobClient(path).UploadAsync(stream, true);
+            await GetBlobClient(path).UploadAsync(stream, overwrite);
         }
 
         /// <inheritdoc cref="IStorage.Load(string[])"/>
