@@ -6,6 +6,8 @@ name: ${{ variables.version }}.$(Rev:r)
 resources:
   - repo: self
 
+pr: none
+
 trigger:
   branches:
     include:

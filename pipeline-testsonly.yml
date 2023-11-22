@@ -1,0 +1,33 @@
+name: 0.0.0.$(Rev:r)
+
+resources:
+  - repo: self
+
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - /src
+      - /test
+
+stages:
+  - stage: test
+    jobs:
+      - job: run_tests
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: UseDotNet@2
+            displayName: "Install .NET"
+            inputs:
+              version: '7.0.x'
+              packageType: sdk
+          - task: DotNetCoreCLI@2
+            displayName: 'Test'
+            inputs:
+              command: test
+              projects: 'test/**/*.csproj'
+              arguments: '--configuration Release'    
+   

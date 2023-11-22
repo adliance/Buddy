@@ -16,6 +16,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		pipeline-datetime.yml = pipeline-datetime.yml
 		pipeline-bulma.yml = pipeline-bulma.yml
 		pipeline-crypto.yml = pipeline-crypto.yml
+		pipeline-storage.yml = pipeline-storage.yml
+		pipeline-testsonly.yml = pipeline-testsonly.yml
+		pipeline-codestyle.yml = pipeline-codestyle.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Email.SendGrid", "src\Adliance.AspNetCore.Buddy.Email.SendGrid\Adliance.AspNetCore.Buddy.Email.SendGrid.csproj", "{A9402D86-139E-48A6-8444-28C14B7CB310}"
