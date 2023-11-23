@@ -16,7 +16,7 @@
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="Azure.Storage.Blobs" Version="12.13.0" />
+        <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
         <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.2.1" />
     </ItemGroup>
 
