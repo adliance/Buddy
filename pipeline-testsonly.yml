@@ -20,7 +20,12 @@ stages:
           vmImage: 'ubuntu-latest'
         steps:
           - task: UseDotNet@2
-            displayName: "Install .NET"
+            displayName: "Install .NET 6"
+            inputs:
+              version: '6.0.x'
+              packageType: sdk
+          - task: UseDotNet@2
+            displayName: "Install .NET 7"
             inputs:
               version: '7.0.x'
               packageType: sdk
