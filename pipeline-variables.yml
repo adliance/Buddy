@@ -1,4 +1,3 @@
 variables:
   version: 7.0.0
-  Adliance_Buddy_Tests__AzureStorageConnectionString: $(AzureStorageConnectionString)
   

@@ -32,6 +32,8 @@ stages:
               packageType: sdk
           - task: DotNetCoreCLI@2
             displayName: 'Test'
+            env:
+              Adliance_Buddy_Tests__AzureStorageConnectionString: '$(AzureStorageConnectionString)'
             inputs:
               command: test
               projects: 'test/Adliance.AspNetCore.Buddy.Storage.Test/*.csproj'
