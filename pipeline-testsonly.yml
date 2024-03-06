@@ -29,6 +29,11 @@ stages:
             inputs:
               version: '7.0.x'
               packageType: sdk
+          - task: UseDotNet@2
+            displayName: "Install .NET 8"
+            inputs:
+              version: '8.0.x'
+              packageType: sdk
           - task: DotNetCoreCLI@2
             displayName: 'Test'
             inputs:
