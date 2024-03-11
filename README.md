@@ -19,3 +19,7 @@ Buddy is a set of libraries and utilities with common functionality that is shar
 ### Twilio SMS client
 
 [Adliance.AspNetCore.Buddy.Sms.Twilio](src/Adliance.AspNetCore.Buddy.Sms.Twilio/readme.md)
+
+### Azure Communication Services - E-Mail
+
+[Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices](src/Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices/readme.md)
