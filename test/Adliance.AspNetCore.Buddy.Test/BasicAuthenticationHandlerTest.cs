@@ -1,4 +1,3 @@
-using System.Text;
 using System.Text.Encodings.Web;
 using Adliance.AspNetCore.Buddy.Authentication;
 using Microsoft.AspNetCore.Authentication;
@@ -70,9 +69,8 @@ public class BasicAuthenticationHandlerTest
     public async Task HandleAuthenticateAsync_ValidAuthorizationHeader_ReturnsAuthenticationTicket()
     {
         var context = new DefaultHttpContext();
-        var credentials = Encoding.UTF8.GetBytes("username:password");
-        var credentialsEncoded = Convert.ToBase64String(credentials);
-        context.Request.Headers[HeaderNames.Authorization] = new StringValues($"Basic {credentialsEncoded}");
+        var credentials = Convert.ToBase64String("username:password"u8.ToArray());
+        context.Request.Headers[HeaderNames.Authorization] = new StringValues($"Basic {credentials}");
 
         await _handler.InitializeAsync(
             new AuthenticationScheme(BasicAuthenticationDefaults.AuthenticationScheme, null,
