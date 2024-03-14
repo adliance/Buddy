@@ -63,6 +63,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.Buddy.Crypto", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.Buddy.Crypto.Test", "test\Adliance.Buddy.Crypto.Test\Adliance.Buddy.Crypto.Test.csproj", "{E2BB77E5-D5F6-461A-8B3A-5F2B010DFCEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Test", "test\Adliance.AspNetCore.Buddy.Test\Adliance.AspNetCore.Buddy.Test.csproj", "{C5B7AD5E-5C64-46B2-BC08-98C3C10BACF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,6 +159,10 @@ Global
 		{E2BB77E5-D5F6-461A-8B3A-5F2B010DFCEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2BB77E5-D5F6-461A-8B3A-5F2B010DFCEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2BB77E5-D5F6-461A-8B3A-5F2B010DFCEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5B7AD5E-5C64-46B2-BC08-98C3C10BACF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5B7AD5E-5C64-46B2-BC08-98C3C10BACF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5B7AD5E-5C64-46B2-BC08-98C3C10BACF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5B7AD5E-5C64-46B2-BC08-98C3C10BACF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -171,6 +177,7 @@ Global
 		{B8D2BBAD-1A15-428D-A7EF-D4075EC70958} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
 		{7D656016-35C2-4A72-9137-63439DF3D571} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
 		{E2BB77E5-D5F6-461A-8B3A-5F2B010DFCEA} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
+		{C5B7AD5E-5C64-46B2-BC08-98C3C10BACF9} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB86B6DA-4E94-41EF-8CAA-064DE0176535}
