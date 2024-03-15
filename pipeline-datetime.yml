@@ -27,7 +27,7 @@ stages:
           - task: UseDotNet@2
             displayName: "Install .NET"
             inputs:
-              version: '7.0.x'
+              version: '8.0.x'
               packageType: sdk
           - task: DotNetCoreCLI@2
             displayName: 'Test'
@@ -45,7 +45,7 @@ stages:
           - task: UseDotNet@2
             displayName: "Install .NET"
             inputs:
-              version: '7.0.x'
+              version: '8.0.x'
               packageType: sdk
           - task: DotNetCoreCLI@2
             displayName: 'Build'

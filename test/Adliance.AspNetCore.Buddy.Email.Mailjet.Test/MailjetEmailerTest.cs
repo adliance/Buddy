@@ -12,7 +12,7 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Test
 
             await mailer.Send(
                 "hannes@sachsenhofer.com",
-                "Unit Test (no attachments)",
+                "Unit Test for MailJet (no attachments)",
                 "This is the <b>HTML</b> body.",
                 "This is the **Text** body.");
         }
@@ -24,7 +24,7 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Test
 
             await mailer.Send(
                 "hannes@sachsenhofer.com",
-                "Unit Test (with attachments)",
+                "Unit Test for MailJet (with attachments)",
                 "This is the <b>HTML</b> body.<br /><br />And <a href='https://www.igevia.com'>this</a> is a link.",
                 "This is the **Text** body.",
                 new MockedEmailAttachment("textfile.txt", new byte[] {1}),

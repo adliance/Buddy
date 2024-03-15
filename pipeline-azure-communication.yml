@@ -38,41 +38,41 @@ stages:
               projects: 'test/Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices.Test/*.csproj'
               arguments: '--configuration Release'
 
-#  - stage: publish
-#    jobs:
-#      - job: push_to_nuget
-#        pool:
-#          vmImage: 'ubuntu-latest'
-#        steps:
-#          - task: UseDotNet@2
-#            displayName: "Install .NET"
-#            inputs:
-#              version: '8.0.x'
-#              packageType: sdk
-#          - task: DotNetCoreCLI@2
-#            displayName: 'Build'
-#            inputs:
-#              projects: 'src/Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices/*.csproj'
-#              arguments: '--configuration Release'
-#          - task: DotNetCoreCLI@2
-#            displayName: 'Pack Dependency Abstractions'
-#            inputs:
-#              command: pack
-#              packagesToPack: 'src/Adliance.AspNetCore.Buddy.Abstractions/*.csproj'
-#              versioningScheme: byBuildNumber
-#              configuration: 'Release'
-#              includeSymbols: true
-#          - task: DotNetCoreCLI@2
-#            displayName: 'Pack'
-#            inputs:
-#              command: pack
-#              packagesToPack: 'src/Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices/*.csproj'
-#              versioningScheme: byBuildNumber
-#              configuration: 'Release'
-#              includeSymbols: true
-#          - task: NuGetCommand@2
-#            displayName: 'NuGet Push'
-#            inputs:
-#              command: push
-#              nuGetFeedType: external
-#              publishFeedCredentials: 'Public NuGet'
+  - stage: publish
+    jobs:
+      - job: push_to_nuget
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: UseDotNet@2
+            displayName: "Install .NET"
+            inputs:
+              version: '8.0.x'
+              packageType: sdk
+          - task: DotNetCoreCLI@2
+            displayName: 'Build'
+            inputs:
+              projects: 'src/Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices/*.csproj'
+              arguments: '--configuration Release'
+          - task: DotNetCoreCLI@2
+            displayName: 'Pack Dependency Abstractions'
+            inputs:
+              command: pack
+              packagesToPack: 'src/Adliance.AspNetCore.Buddy.Abstractions/*.csproj'
+              versioningScheme: byBuildNumber
+              configuration: 'Release'
+              includeSymbols: true
+          - task: DotNetCoreCLI@2
+            displayName: 'Pack'
+            inputs:
+              command: pack
+              packagesToPack: 'src/Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices/*.csproj'
+              versioningScheme: byBuildNumber
+              configuration: 'Release'
+              includeSymbols: true
+          - task: NuGetCommand@2
+            displayName: 'NuGet Push'
+            inputs:
+              command: push
+              nuGetFeedType: external
+              publishFeedCredentials: 'Public NuGet'

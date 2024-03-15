@@ -15,9 +15,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="6.0.5" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="7.0.0.20" />
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="System.Text.Json" Version="6.0.5" />
+    <PackageReference Include="System.Text.Json" Version="8.0.3" />
   </ItemGroup>
 
 </Project>

@@ -14,7 +14,7 @@ public class AzureCommunicationEmailerTest
 
         await mailer.Send(
             _testRecipientAddress,
-            "Unit Test (no attachments)",
+            "Unit Test for AzureCommunicationEmailer (no attachments)",
             "This is the <b>HTML</b> body.",
             "This is the **Text** body.");
     }
@@ -31,7 +31,7 @@ public class AzureCommunicationEmailerTest
 
         var exp = await Assert.ThrowsAsync<Exception>(async () => await mailer.Send(
             _testRecipientAddress,
-            "Unit Test (no attachments)",
+            "Unit Test for AzureCommunicationEmailer (no attachments)",
             "This is the <b>HTML</b> body.",
             "This is the **Text** body."));
         
@@ -46,7 +46,7 @@ public class AzureCommunicationEmailerTest
         
         await mailer.Send(
             _testRecipientAddress,
-            "Unit Test (with attachments)",
+            "Unit Test for AzureCommunicationEmailer (with attachments)",
             "This is the <b>HTML</b> body.<br /><br />And <a href='https://www.igevia.com'>this</a> is a link.",
             "This is the **Text** body.",
             new MockedEmailAttachment("textfile.txt", new byte[] {1}),
