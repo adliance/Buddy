@@ -1,4 +1,5 @@
-﻿using Adliance.AspNetCore.Buddy.Abstractions;
+﻿using System;
+using Adliance.AspNetCore.Buddy.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -31,6 +32,9 @@ namespace Adliance.AspNetCore.Buddy.Email.Smtp.Extensions
             var smtpOptions = smtpConfigurationSection.Get<DefaultSmtpConfiguration>();
             buddyServices.Services.Configure<ISmtpConfiguration>(smtpConfigurationSection);
 
+            ArgumentNullException.ThrowIfNull(emailOptions, "Email Configuration");
+            ArgumentNullException.ThrowIfNull(smtpOptions, "SMTP Configuration");
+            
             return AddSmtp(buddyServices, emailOptions, smtpOptions);
         }
 

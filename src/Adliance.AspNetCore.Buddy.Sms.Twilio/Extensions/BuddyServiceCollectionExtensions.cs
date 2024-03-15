@@ -1,4 +1,5 @@
-﻿using Adliance.AspNetCore.Buddy.Abstractions;
+﻿using System;
+using Adliance.AspNetCore.Buddy.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -38,7 +39,7 @@ namespace Adliance.AspNetCore.Buddy.Sms.Twilio.Extensions
         {
             var smsOptions = smsConfigurationSection.Get<TwilioSmsConfiguration>();
             buddyServices.Services.Configure<ITwilioSmsConfiguration>(smsConfigurationSection);
-
+            ArgumentNullException.ThrowIfNull(smsOptions, "SMS Configuration");
             return AddTwilio(buddyServices, smsOptions);
         }
     }

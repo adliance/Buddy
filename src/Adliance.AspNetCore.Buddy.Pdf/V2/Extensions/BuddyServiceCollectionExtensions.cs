@@ -1,4 +1,5 @@
-﻿using Adliance.AspNetCore.Buddy.Abstractions;
+﻿using System;
+using Adliance.AspNetCore.Buddy.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,6 +25,7 @@ namespace Adliance.AspNetCore.Buddy.Pdf.V2.Extensions
         {
             var pdferOptions = pdferConfigurationSection.Get<DefaultPdferConfiguration>();
             buddyServices.Services.Configure<DefaultPdferConfiguration>(pdferConfigurationSection);
+            ArgumentNullException.ThrowIfNull(pdferOptions, "PDFer Configuration");
             return AddPdf(buddyServices, pdferOptions);
         }
 

@@ -1,4 +1,5 @@
-﻿using Adliance.AspNetCore.Buddy.Abstractions;
+﻿using System;
+using Adliance.AspNetCore.Buddy.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,6 +25,7 @@ namespace Adliance.AspNetCore.Buddy.Highcharts.Extensions
         {
             var options = configurationSection.Get<HighchartsServerDefaultSettings>();
             buddyServices.Services.Configure<HighchartsServerDefaultSettings>(configurationSection);
+            ArgumentNullException.ThrowIfNull(options, "Highchart Configuration");
             return AddHighchartsServer(buddyServices, options);
         }
 
