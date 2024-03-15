@@ -17,7 +17,7 @@ namespace Adliance.AspNetCore.Buddy.Abstractions
         string SenderAddress { get; }
 
         /// <summary>
-        /// The "reply to" address (can be different from the sender address.
+        /// The "reply to" address (can be different from the sender address).
         /// </summary>
         string ReplyToAddress { get; }
         
