@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="7.0.0.20" />
+        <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.5" />
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Twilio" Version="7.0.2" />
     </ItemGroup>
