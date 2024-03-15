@@ -71,6 +71,7 @@ namespace Adliance.AspNetCore.Buddy.Storage.Extensions
         {
             var configuration = configurationSection.Get<DefaultStorageConfiguration>();
             buddyServices.Services.Configure<DefaultStorageConfiguration>(configurationSection);
+            ArgumentNullException.ThrowIfNull(configuration, "Storage Configuration");
             return AddStorage(buddyServices, configuration);
         }
     }
