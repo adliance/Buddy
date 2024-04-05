@@ -8,3 +8,5 @@ obj
 .DS_Store
 
 Buddy.sln.DotSettings.user
+
+node_modules

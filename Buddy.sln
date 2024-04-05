@@ -72,6 +72,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.Buddy.CodeStyle", "src\Adliance.Buddy.CodeStyle\Adliance.Buddy.CodeStyle.csproj", "{EA4F1356-AF68-4917-B4D6-5BAA552E6339}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.OpenTelemetry", "src\Adliance.AspNetCore.Buddy.OpenTelemetry\Adliance.AspNetCore.Buddy.OpenTelemetry.csproj", "{AE070B7E-9BAC-496B-B2B0-FFB0C8953EAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -178,6 +180,10 @@ Global
 		{EA4F1356-AF68-4917-B4D6-5BAA552E6339}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA4F1356-AF68-4917-B4D6-5BAA552E6339}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA4F1356-AF68-4917-B4D6-5BAA552E6339}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE070B7E-9BAC-496B-B2B0-FFB0C8953EAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE070B7E-9BAC-496B-B2B0-FFB0C8953EAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE070B7E-9BAC-496B-B2B0-FFB0C8953EAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE070B7E-9BAC-496B-B2B0-FFB0C8953EAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
