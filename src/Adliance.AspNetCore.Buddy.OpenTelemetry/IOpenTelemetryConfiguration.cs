@@ -7,15 +7,24 @@ public interface IOpenTelemetryConfiguration
 {
     public string ServiceName { get; set; }
 
-    public OtlpExporterOptions OtlpExporterOptions { get; set; }
+    public OtlpExporterOptions OtlpExporter { get; set; }
+
+    public void ConfigureExporterOptions(OtlpExporterOptions options)
+    {
+        options.Endpoint = OtlpExporter.Endpoint;
+        options.Protocol = OtlpExporter.Protocol;
+        options.Headers = OtlpExporter.Headers;
+        options.TimeoutMilliseconds = OtlpExporter.TimeoutMilliseconds;
+    }
 }
 
 public class DefaultOpenTelemetryConfiguration : IOpenTelemetryConfiguration
 {
     public string ServiceName { get; set; } = "adliance otel buddy";
 
-    public OtlpExporterOptions OtlpExporterOptions { get; set; } = new()
+    public OtlpExporterOptions OtlpExporter { get; set; } = new()
     {
-        Endpoint = new Uri("localhost:4317")
+        Endpoint = new Uri("https://otc-grpc.adliance.dev"),
+        TimeoutMilliseconds = 1000
     };
 }

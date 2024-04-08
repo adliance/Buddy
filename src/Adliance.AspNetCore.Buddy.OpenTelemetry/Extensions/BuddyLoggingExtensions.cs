@@ -31,13 +31,7 @@ public static class BuddyLoggingExtensions
                 .SetResourceBuilder(
                     ResourceBuilder.CreateDefault().AddService(configuration.ServiceName))
                 .AddConsoleExporter()
-                .AddOtlpExporter(exporterOptions =>
-                {
-                    if (configuration.OtlpExporterOptions?.Endpoint != null)
-                        exporterOptions.Endpoint = configuration.OtlpExporterOptions.Endpoint;
-                    if (configuration.OtlpExporterOptions?.Headers != null)
-                        exporterOptions.Headers = configuration.OtlpExporterOptions.Headers;
-                });
+                .AddOtlpExporter(configuration.ConfigureExporterOptions);
         });
         return buddyLoggingBuilder;
     }

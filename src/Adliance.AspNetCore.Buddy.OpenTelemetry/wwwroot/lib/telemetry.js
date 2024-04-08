@@ -7,12 +7,8 @@ import {ZoneContextManager} from '@opentelemetry/context-zone';
 import {Resource} from '@opentelemetry/resources';
 import {DocumentLoadInstrumentation} from '@opentelemetry/instrumentation-document-load';
 
-
 export class Telemetry {
-    constructor(serviceName, exporterEndpoint = "http://localhost:4318/v1/traces") {
-        // this.serviceName = serviceName;
-        // this.exporterEndpoint = exporterEndpoint;
-
+    constructor(serviceName, exporterEndpoint = "https://otc-http.adliance.dev/v1/traces") {
         this.exporter = new OTLPTraceExporter({
             url: exporterEndpoint
         });
@@ -47,12 +43,12 @@ export class Telemetry {
 
     traceSpan(name, func) {
         let singleSpan;
-        if (bindingSpan) {
-            const ctx = trace.setSpan(context.active(), bindingSpan);
+        if (this.bindingSpan) {
+            const ctx = trace.setSpan(context.active(), this.bindingSpan);
             singleSpan = this.webTracerWithZone.startSpan(name, undefined, ctx);
             this.bindingSpan = undefined;
         } else {
-            singleSpan = webTracerWithZone.startSpan(name);
+            singleSpan = this.webTracerWithZone.startSpan(name);
         }
         return context.with(trace.setSpan(context.active(), singleSpan), () => {
             try {
