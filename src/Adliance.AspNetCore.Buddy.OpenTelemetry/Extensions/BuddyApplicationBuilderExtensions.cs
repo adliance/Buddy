@@ -1,5 +1,4 @@
 using System.Reflection;
-using Adliance.AspNetCore.Buddy.Abstractions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
@@ -13,8 +12,8 @@ public static class BuddyApplicationBuilderExtensions
     /// </summary>
     /// <param name="applicationBuilder">The application builder.</param>
     /// <returns>The application builder to allow further calls.</returns>
-    public static IBuddyApplicationBuilder AddOpenTelemetryBrowserAssets(
-        this IBuddyApplicationBuilder applicationBuilder)
+    public static IApplicationBuilder AddBuddyOpenTelemetryBrowserAssets(
+        this IApplicationBuilder applicationBuilder)
     {
         var assembly = typeof(BuddyApplicationBuilderExtensions).GetTypeInfo().Assembly;
         var embeddedFileProvider = new EmbeddedFileProvider(
@@ -22,7 +21,7 @@ public static class BuddyApplicationBuilderExtensions
             "Adliance.AspNetCore.Buddy.OpenTelemetry.wwwroot.lib.dist"
         );
         
-        applicationBuilder.Builder.UseStaticFiles(new StaticFileOptions
+        applicationBuilder.UseStaticFiles(new StaticFileOptions
         {
             
             FileProvider = embeddedFileProvider,

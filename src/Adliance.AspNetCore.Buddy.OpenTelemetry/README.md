@@ -10,10 +10,9 @@ The OpenTelemetry Buddy makes instrumentation of ASP.NET Core web services easy.
 
 ## Setup library in an ASP.NET project
 
-The `IBuddyServiceCollection` of the `Adliance.AspNetCore.Buddy.Abstractions` package offers the `AddBuddy` method, which provides `AddOpenTelemetry` extensions to add the instrumentation and exporter.
+The package offers the `AddBuddyOpenTelemetry` extensions to add the instrumentation and exporter.
 
 ```c#
-using Adliance.AspNetCore.Buddy.Abstractions.Extensions;
 using Adliance.AspNetCore.Buddy.OpenTelemetry.Extensions;
 
 // ...
@@ -21,27 +20,21 @@ using Adliance.AspNetCore.Buddy.OpenTelemetry.Extensions;
 public void ConfigureServices(IServiceCollection services)
 {
   //...
-  services.AddBuddy()
-    .AddOpenTelemetry(Configuration.GetSection("OpenTelemetry"))    
+  services.AddBuddyOpenTelemetry(Configuration.GetSection("OpenTelemetry"))    
   // if you use Hangfire, also add
-  services.AddBuddy()
-    .AddOpenTelemetryHangfire(Configuration.GetSection("OpenTelemetry"));
-  }
+  services.AddBuddyOpenTelemetryHangfire(Configuration.GetSection("OpenTelemetry"));
 }
 
 public void Configure(IApplicationBuilder app)
 {
     // if you want to instrument the frontend
-    app.AddBuddy()
-        .AddOpenTelemetryBrowserAssets();
+    app.AddBuddyOpenTelemetryBrowserAssets();
 }
 ```
 
-To also send log messages from `Microsoft.Extensions.Logging`, `IBuddyLoggingBuilder` of the `Adliance.AspNetCore.Buddy.Abstractions` package offers another `AddBuddy` method,
-which also provides an `AddOpenTelemetry` extension.
+To also send log messages from `Microsoft.Extensions.Logging`, the package offers another `AddBuddyOpenTelemetry` extension.
 
 ```c#
-using Adliance.AspNetCore.Buddy.Abstractions.Extensions;
 using Adliance.AspNetCore.Buddy.OpenTelemetry.Extensions;
 
 // ...
@@ -53,8 +46,7 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
             webBuilder.UseStartup<Startup>();
             webBuilder.ConfigureLogging((context, builder) =>
             {
-                builder.AddBuddy()
-                    .AddOpenTelemetry(context.Configuration.GetSection("OpenTelemetry"));
+                builder.AddBuddyOpenTelemetry(context.Configuration.GetSection("OpenTelemetry"));
             });
         });
 ```
@@ -112,7 +104,7 @@ This can be achieved by adding a `meta` tag to the `head` section of the HTML.
 />
 ```
 
-The `AddOpenTelemetryBrowserAssets` extension method adds a middleware to serve the necessary JavaScript file at the
+The `AddBuddyOpenTelemetryBrowserAssets` extension method adds a middleware to serve the necessary JavaScript file at the
 `/otel-js/telemetry.js` endpoint. This must also be referenced in your `_Layout.cshtml`:
 
 ```html

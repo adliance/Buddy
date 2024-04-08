@@ -25,10 +25,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Adliance.AspNetCore.Buddy.Abstractions\Adliance.AspNetCore.Buddy.Abstractions.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <EmbeddedResource Include="wwwroot\lib\dist\telemetry.js" />
     </ItemGroup>
 

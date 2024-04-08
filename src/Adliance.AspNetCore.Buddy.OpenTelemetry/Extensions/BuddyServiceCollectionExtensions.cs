@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Adliance.AspNetCore.Buddy.Abstractions;
 using Adliance.AspNetCore.Buddy.OpenTelemetry.Middleware;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,14 +21,14 @@ namespace Adliance.AspNetCore.Buddy.OpenTelemetry.Extensions
         /// <summary>
         /// Adds auto-instrumentation for ASP.NET core, http client, EF core, and an OpenTelemetry exporter.
         /// </summary>
-        /// <param name="buddyServices">The logging builder returned by <see cref="Adliance.AspNetCore.Buddy.Abstractions.Extensions.ServiceCollectionExtensions.AddBuddy">AddBuddy</see>.</param>
+        /// <param name="buddyServices">The logging builder</param>
         /// <param name="configuration">The (parsed) configuration</param>
         /// <returns>The builder for further calls.</returns>
-        public static IBuddyServiceCollection AddOpenTelemetry(
-            this IBuddyServiceCollection buddyServices,
+        public static IServiceCollection AddBuddyOpenTelemetry(
+            this IServiceCollection buddyServices,
             IOpenTelemetryConfiguration configuration)
         {
-            buddyServices.Services.TryAddSingleton(configuration);
+            buddyServices.TryAddSingleton(configuration);
 
             var resourceBuilder = ResourceBuilder.CreateDefault().AddService(configuration.ServiceName);
 
@@ -41,9 +40,9 @@ namespace Adliance.AspNetCore.Buddy.OpenTelemetry.Extensions
                 .AddOtlpExporter(configuration.ConfigureExporterOptions)
                 .Build();
 
-            buddyServices.Services.AddSingleton(telServer);
+            buddyServices.AddSingleton(telServer);
 
-            buddyServices.Services.AddOpenTelemetry()
+            buddyServices.AddOpenTelemetry()
                 .WithMetrics(metrics => metrics
                     .SetResourceBuilder(resourceBuilder)
                     .AddAspNetCoreInstrumentation()
@@ -51,7 +50,7 @@ namespace Adliance.AspNetCore.Buddy.OpenTelemetry.Extensions
                     .AddOtlpExporter(configuration.ConfigureExporterOptions)
                 );
 
-            buddyServices.Services.AddExceptionHandler<OpenTelemetryExceptionTracer>();
+            buddyServices.AddExceptionHandler<OpenTelemetryExceptionTracer>();
 
             return buddyServices;
         }
@@ -59,33 +58,33 @@ namespace Adliance.AspNetCore.Buddy.OpenTelemetry.Extensions
         /// <summary>
         /// Adds auto-instrumentation for ASP.NET core, http client, EF core, and an OpenTelemetry exporter.
         /// </summary>
-        /// <param name="buddyServices">The logging builder returned by <see cref="Adliance.AspNetCore.Buddy.Abstractions.Extensions.ServiceCollectionExtensions.AddBuddy">AddBuddy</see>.</param>
+        /// <param name="buddyServices">The logging builder</param>
         /// <param name="openTelemetryConfigurationSection">The configuration section from appsettings.json</param>
         /// <returns>The builder for further calls.</returns>
         /// <exception cref="Exception">If the configuration section is faulty</exception>
-        public static IBuddyServiceCollection AddOpenTelemetry(
-            this IBuddyServiceCollection buddyServices,
+        public static IServiceCollection AddBuddyOpenTelemetry(
+            this IServiceCollection buddyServices,
             IConfigurationSection openTelemetryConfigurationSection)
         {
             var openTelemetryOptions = openTelemetryConfigurationSection.Get<DefaultOpenTelemetryConfiguration>() ??
                                        throw new Exception(
                                            $"Unable to load OpenTelemetry configuration from {openTelemetryConfigurationSection.Path}.");
-            buddyServices.Services.Configure<IOpenTelemetryConfiguration>(openTelemetryConfigurationSection);
+            buddyServices.Configure<IOpenTelemetryConfiguration>(openTelemetryConfigurationSection);
 
-            return AddOpenTelemetry(buddyServices, openTelemetryOptions);
+            return AddBuddyOpenTelemetry(buddyServices, openTelemetryOptions);
         }
 
         /// <summary>
         /// Adds auto-instrumentation for Hangfire and an OpenTelemetry exporter.
         /// </summary>
-        /// <param name="buddyServices">The logging builder returned by <see cref="Adliance.AspNetCore.Buddy.Abstractions.Extensions.ServiceCollectionExtensions.AddBuddy">AddBuddy</see>.</param>
+        /// <param name="buddyServices">The logging builder</param>
         /// <param name="configuration">The (parsed) configuration</param>
         /// <returns>The builder for further calls.</returns>
-        public static IBuddyServiceCollection AddOpenTelemetryHangfire(
-            this IBuddyServiceCollection buddyServices,
+        public static IServiceCollection AddBuddyOpenTelemetryHangfire(
+            this IServiceCollection buddyServices,
             IOpenTelemetryConfiguration configuration)
         {
-            buddyServices.Services.TryAddSingleton(configuration);
+            buddyServices.TryAddSingleton(configuration);
 
             var telBackgroundJobs = Sdk.CreateTracerProviderBuilder()
                 .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService($"{configuration.ServiceName} hangfire"))
@@ -93,7 +92,7 @@ namespace Adliance.AspNetCore.Buddy.OpenTelemetry.Extensions
                 .AddOtlpExporter(configuration.ConfigureExporterOptions)
                 .Build();
 
-            buddyServices.Services.AddSingleton(telBackgroundJobs);
+            buddyServices.AddSingleton(telBackgroundJobs);
 
             return buddyServices;
         }
@@ -101,22 +100,22 @@ namespace Adliance.AspNetCore.Buddy.OpenTelemetry.Extensions
         /// <summary>
         /// Adds auto-instrumentation for Hangfire and an OpenTelemetry exporter.
         /// </summary>
-        /// <param name="buddyServices">The logging builder returned by <see cref="Adliance.AspNetCore.Buddy.Abstractions.Extensions.ServiceCollectionExtensions.AddBuddy">AddBuddy</see>.</param>
+        /// <param name="buddyServices">The logging builder</param>
         /// <param name="openTelemetryConfigurationSection">The configuration section from appsettings.json</param>
         /// <returns>The builder for further calls.</returns>
         /// <exception cref="Exception">If the configuration section is faulty</exception>
-        public static IBuddyServiceCollection AddOpenTelemetryHangfire(
-            this IBuddyServiceCollection buddyServices,
+        public static IServiceCollection AddBuddyOpenTelemetryHangfire(
+            this IServiceCollection buddyServices,
             IConfigurationSection openTelemetryConfigurationSection)
         {
             var openTelemetryOptions = openTelemetryConfigurationSection.Get<DefaultOpenTelemetryConfiguration>() ??
                                        throw new Exception(
                                            $"Unable to load OpenTelemetry configuration from {openTelemetryConfigurationSection.Path}.");
-            if (buddyServices.Services.All(d =>
+            if (buddyServices.All(d =>
                     d.ServiceType != typeof(IConfigureOptions<IOpenTelemetryConfiguration>)))
-                buddyServices.Services.Configure<IOpenTelemetryConfiguration>(openTelemetryConfigurationSection);
+                buddyServices.Configure<IOpenTelemetryConfiguration>(openTelemetryConfigurationSection);
 
-            return AddOpenTelemetryHangfire(buddyServices, openTelemetryOptions);
+            return AddBuddyOpenTelemetryHangfire(buddyServices, openTelemetryOptions);
         }
     }
 }
