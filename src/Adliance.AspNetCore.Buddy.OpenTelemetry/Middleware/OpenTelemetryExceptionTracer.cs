@@ -8,8 +8,18 @@ using OpenTelemetry.Trace;
 
 namespace Adliance.AspNetCore.Buddy.OpenTelemetry.Middleware;
 
+/// <summary>
+/// This exception handler adds the unhandled exception to the current trace.
+/// </summary>
 public class OpenTelemetryExceptionTracer : IExceptionHandler
 {
+    /// <summary>
+    /// Adds exception to current trace.
+    /// </summary>
+    /// <param name="httpContext"></param>
+    /// <param name="exception"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>False, so the exception will be handled further</returns>
     public ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         Activity.Current?.RecordException(exception);

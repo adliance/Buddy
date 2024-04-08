@@ -8,6 +8,11 @@ namespace Adliance.AspNetCore.Buddy.OpenTelemetry.Extensions;
 
 public static class BuddyApplicationBuilderExtensions
 {
+    /// <summary>
+    /// Adds a static file server for /otel-js/telemetry.js.
+    /// </summary>
+    /// <param name="applicationBuilder">The application builder.</param>
+    /// <returns>The application builder to allow further calls.</returns>
     public static IBuddyApplicationBuilder AddOpenTelemetryBrowserAssets(
         this IBuddyApplicationBuilder applicationBuilder)
     {
