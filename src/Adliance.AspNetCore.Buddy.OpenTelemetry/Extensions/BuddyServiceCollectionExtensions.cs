@@ -44,7 +44,9 @@ namespace Adliance.AspNetCore.Buddy.OpenTelemetry.Extensions
                     .AddHttpClientInstrumentation()
                     .AddOtlpExporter(configuration.ConfigureExporterOptions)
                 );
-            
+
+            buddyServices.Services.AddExceptionHandler<OpenTelemetryExceptionTracer>();
+
             return buddyServices;
         }
 
