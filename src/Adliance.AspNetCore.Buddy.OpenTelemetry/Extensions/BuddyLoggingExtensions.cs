@@ -21,7 +21,7 @@ public static class BuddyLoggingExtensions
     {
         var openTelemetryOptions = openTelemetryConfigurationSection.Get<DefaultOpenTelemetryConfiguration>() ??
                                    throw new Exception(
-                                       $"Unable to OpenTelemetry email configuration from {openTelemetryConfigurationSection.Path}.");
+                                       $"Unable to load OpenTelemetry configuration from {openTelemetryConfigurationSection.Path}.");
 
         return AddBuddyOpenTelemetry(buddyLoggingBuilder, openTelemetryOptions);
     }
