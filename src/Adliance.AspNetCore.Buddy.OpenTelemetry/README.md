@@ -28,7 +28,7 @@ public void ConfigureServices(IServiceCollection services)
 public void Configure(IApplicationBuilder app)
 {
     // if you want to instrument the frontend
-    app.AddBuddyOpenTelemetryBrowserAssets();
+    app.UseBuddyOpenTelemetryBrowserAssets();
 }
 ```
 
@@ -82,37 +82,28 @@ It is also possible to overwrite defaults for the exporter like this:
 ### Frontend instrumentation
 
 It is important to pass a trace parent to the frontend tracing SDK, such that the spans can be grouped together later on.
-This can be achieved by adding a `meta` tag to the `head` section of the HTML.
+This can be achieved by adding a `meta` tag to the `head` section of the HTML by
 
-```html
-@using System.Diagnostics
-
-@{ var traceParent = $"00-{Activity.Current?.TraceId}-{Activity.Current?.SpanId}-01"; }
-
-<!--
-  https://www.w3.org/TR/trace-context/
-  Set the `traceparent` in the server's HTML template code. It should be
-  dynamically generated server side to have the server's request trace Id,
-  a parent span Id that was set on the server's request span, and the trace
-  flags to indicate the server's sampling decision
-  (01 = sampled, 00 = not sampled).
-  '{version}-{traceId}-{spanId}-{sampleDecision}'
--->
-<meta
-  name="traceparent"
-  content="@traceParent"
-/>
+1. Adding the following code to `_ViewImports.cshtml`:
+```cshtml
+@inject Adliance.AspNetCore.Buddy.OpenTelemetry.HtmlHelper OtelHtmlHelper
 ```
 
-The `AddBuddyOpenTelemetryBrowserAssets` extension method adds a middleware to serve the necessary JavaScript file at the
-`/otel-js/telemetry.js` endpoint. This must also be referenced in your `_Layout.cshtml`:
+2. Adding the following in the `head` section of your `_Layout.cshtml` before closing the `body` section:
 
 ```html
-<script src="~/otel-js/telemetry.js?v=@version"></script>
+@Html.Raw(OtelHtmlHelper.TraceParentTag)
+```
+
+The `UseBuddyOpenTelemetryBrowserAssets` extension method adds a middleware to serve the necessary JavaScript file at the
+`/otel-$version/telemetry.js` endpoint. This must also be referenced in your `_Layout.cshtml`:
+
+```html
+@Html.Raw(OtelHtmlHelper.IncludeAndInitializeJavascript)
+
+<!-- optionally, you also have the option for manual instrumentation -->
 <script>
-    <!-- initialize the frontend instrumentation -->
-    let telemetry = new Adliance.Buddy.Telemetry("example frontend");
     <!-- manually create a span -->
-    telemetry.traceSpan("example span", () => "the result");
+    window.buddyTelemetry.traceSpan("example span", () => "the result");
 </script>
 ```

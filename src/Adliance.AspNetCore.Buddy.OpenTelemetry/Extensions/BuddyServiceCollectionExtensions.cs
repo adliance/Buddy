@@ -50,6 +50,8 @@ namespace Adliance.AspNetCore.Buddy.OpenTelemetry.Extensions
                     .AddOtlpExporter(configuration.ConfigureExporterOptions)
                 );
 
+            buddyServices.AddSingleton(new HtmlHelper(configuration.ServiceName));
+
             buddyServices.AddExceptionHandler<OpenTelemetryExceptionTracer>();
 
             return buddyServices;
