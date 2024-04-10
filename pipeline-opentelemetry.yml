@@ -14,7 +14,6 @@ trigger:
       - master
   paths:
     include:
-      - /src/Adliance.AspNetCore.Buddy.Abstractions
       - /src/Adliance.AspNetCore.Buddy.OpenTelemetry
       - /pipeline-opentelemetry.yml
 
