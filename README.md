@@ -71,32 +71,21 @@ Buddy is a set of libraries and utilities with common functionality that is shar
 
 
 ### Storage
-
 [![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20Storage?branchName=master)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=173&branchName=master)
 [![NuGet](https://img.shields.io/nuget/v/Adliance.AspNetCore.Buddy.Storage.svg)](https://www.nuget.org/packages/Adliance.AspNetCore.Buddy.Storage/)
 
-
-### Code style
-
+### [Code Style](src/Adliance.Buddy.CodeStyle/readme.md)
 [![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20CodeStyle?branchName=refs%2Fpull%2F12%2Fmerge)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=159&branchName=refs%2Fpull%2F12%2Fmerge)
 [![NuGet](https://img.shields.io/nuget/v/Adliance.Buddy.CodeStyle.svg)](https://www.nuget.org/packages/Adliance.Buddy.CodeStyle/)
 
-[Adliance.Buddy.CodeStyle](src/Adliance.Buddy.CodeStyle/readme.md)
-
 ### Crypto
-
 [![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20Crypto?branchName=master)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=172&branchName=master)
 [![NuGet](https://img.shields.io/nuget/v/Adliance.Buddy.Crypto.svg)](https://www.nuget.org/packages/Adliance.Buddy.Crypto/)
 
-
 ### DateTime
-
 [![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20DateTime?branchName=master)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=141&branchName=master)
 [![NuGet](https://img.shields.io/nuget/v/Adliance.Buddy.DateTime.svg)](https://www.nuget.org/packages/Adliance.Buddy.DateTime/)
 
-### OpenTelemetry
-
+### [OpenTelemetry](src/Adliance.AspNetCore.Buddy.OpenTelemetry/README.md)
 [![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20OpenTelemetry?branchName=master)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=183&branchName=master)
-[![NuGet](https://img.shields.io/nuget/v/Adliance.AspNetCore.Buddy.OpenTelemetry.svg)](https://www.nuget.org/packages/Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices/)
-
-[Adliance.AspNetCore.Buddy.OpenTelemetry](src/Adliance.AspNetCore.Buddy.OpenTelemetry/README.md)
+[![NuGet](https://img.shields.io/nuget/v/Adliance.AspNetCore.Buddy.OpenTelemetry.svg)](https://www.nuget.org/packages/Adliance.AspNetCore.Buddy.OpenTelemetry/)
