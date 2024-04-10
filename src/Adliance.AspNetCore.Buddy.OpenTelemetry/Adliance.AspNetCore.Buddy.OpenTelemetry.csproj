@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Version>0.0.0</Version>
+        <Authors>Hannes Sachsenhofer</Authors>
+        <Company>Adliance GmbH</Company>
+        <Product/>
+        <Copyright>(c) Adliance GmbH</Copyright>
+        <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
+        <Description>Easy opentelemetry instrumentation for ASP.NET Core services.</Description>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <NoWarn>NU5104</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.8.0" />
+      <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.8.0" />
+      <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.8.0" />
+      <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.7.1" />
+      <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.10" />
+      <PackageReference Include="OpenTelemetry.Instrumentation.Hangfire" Version="1.6.0-beta.1" />
+      <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.7.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="wwwroot\lib\dist\telemetry.js" />
+      <EmbeddedResource Update="Resources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Resources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Resources.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>
