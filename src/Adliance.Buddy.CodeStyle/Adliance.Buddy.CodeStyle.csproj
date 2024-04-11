@@ -8,6 +8,9 @@
     <Product />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>(c) Adliance GmbH</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/adliance/Buddy</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
     <Description>Common .editorconfig file.</Description>
     <Nullable>enable</Nullable>

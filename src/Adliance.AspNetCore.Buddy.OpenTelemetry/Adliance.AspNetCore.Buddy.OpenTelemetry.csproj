@@ -7,11 +7,16 @@
         <Company>Adliance GmbH</Company>
         <Product/>
         <Copyright>(c) Adliance GmbH</Copyright>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/adliance/Buddy</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
-        <Description>Easy opentelemetry instrumentation for ASP.NET Core services.</Description>
+        <Description>Easy OpenTelemetry instrumentation for ASP.NET Core services.</Description>
         <Nullable>enable</Nullable>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <NoWarn>NU5104</NoWarn>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,6 +29,10 @@
       <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.8.0" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+    
     <ItemGroup>
       <EmbeddedResource Include="wwwroot\lib\dist\telemetry.js" />
       <EmbeddedResource Update="Resources.resx">
