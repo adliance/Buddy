@@ -63,7 +63,7 @@
         <value>&lt;script type="text/javascript" src="{0}"&gt;&lt;/script&gt;</value>
     </data>
     <data name="JavaScriptInitialization" xml:space="preserve">
-        <value>&lt;script type="text/javascript"&gt;window.buddyTelemetry = new Adliance.Buddy.Telemetry("{0} web");&lt;/script&gt;</value>
+        <value>&lt;script type="text/javascript"&gt;window.buddyTelemetry = new Adliance.Buddy.Telemetry("{0} browser");&lt;/script&gt;</value>
     </data>
     <data name="TraceParentTag" xml:space="preserve">
         <value>&lt;meta name="traceparent" content="{0}" /&gt;</value>

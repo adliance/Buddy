@@ -15,7 +15,7 @@ public class HtmlHelper(string serviceName)
         string.Format(CultureInfo.InvariantCulture, Resources.JavaScriptInitialization, serviceName);
 
     /// <summary>
-    /// Includes the telemetry SDK and initializes it with the configured service name + " web"
+    /// Includes the telemetry SDK and initializes it with the configured service name + " browser"
     /// </summary>
     public string IncludeAndInitializeJavascript => string.Concat(IncludeScriptTag, _initializationSnippet);
 
