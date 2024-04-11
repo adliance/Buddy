@@ -42,8 +42,12 @@ public static class BuddyLoggingExtensions
             options
                 .SetResourceBuilder(
                     ResourceBuilder.CreateDefault().AddService(configuration.ServiceName))
-                .AddConsoleExporter()
                 .AddOtlpExporter(configuration.ConfigureExporterOptions);
+
+            if (configuration.EnableConsoleExporter)
+            {
+                options.AddConsoleExporter();
+            }
         });
         return buddyLoggingBuilder;
     }

@@ -14,6 +14,11 @@ public interface IOpenTelemetryConfiguration
     public string ServiceName { get; set; }
 
     /// <summary>
+    /// Whether OpenTelemetry should also log to the console (default: false)
+    /// </summary>
+    public bool EnableConsoleExporter { get; set; }
+    
+    /// <summary>
     /// OpenTelemetry Protocol Exporter configuration.
     /// </summary>
     public OtlpExporterOptions OtlpExporter { get; set; }
@@ -38,6 +43,10 @@ public class DefaultOpenTelemetryConfiguration : IOpenTelemetryConfiguration
 {
     /// <inheritdoc cref="IOpenTelemetryConfiguration.ServiceName"/>
     public string ServiceName { get; set; } = "adliance otel buddy";
+
+    /// <inheritdoc cref="IOpenTelemetryConfiguration.EnableConsoleExporter"/>
+    // ReSharper disable once RedundantDefaultMemberInitializer
+    public bool EnableConsoleExporter { get; set; } = false;
 
     /// <inheritdoc cref="IOpenTelemetryConfiguration.OtlpExporter"/>
     public OtlpExporterOptions OtlpExporter { get; set; } = new()
