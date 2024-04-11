@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using OpenTelemetry.Exporter;
 
 namespace Adliance.AspNetCore.Buddy.OpenTelemetry;
@@ -42,7 +43,7 @@ public interface IOpenTelemetryConfiguration
 public class DefaultOpenTelemetryConfiguration : IOpenTelemetryConfiguration
 {
     /// <inheritdoc cref="IOpenTelemetryConfiguration.ServiceName"/>
-    public string ServiceName { get; set; } = "adliance otel buddy";
+    public string ServiceName { get; set; } = Assembly.GetEntryAssembly()?.GetName().Name ?? "adliance otel buddy";
 
     /// <inheritdoc cref="IOpenTelemetryConfiguration.EnableConsoleExporter"/>
     // ReSharper disable once RedundantDefaultMemberInitializer
