@@ -14,8 +14,6 @@ public class RenderConfiguration
     public required int Height;
     
     public int Margin { get; set; } = 4;
-
-    public bool Rounded = true;
     
     private int QrWidth => Matrix.Width + (Margin * 2);
     private int QrHeight => Matrix.Height + (Margin * 2);
@@ -34,14 +32,14 @@ public class RenderConfiguration
     
     public int FinderPatternDiameter => (int)(Multiple * FinderPatternSize / 1.9f);
 
-    public int LeftTopFinderPatternX => LeftPadding + FinderPatternDiameter;
-    public int LeftTopFinderPatternY => TopPadding + FinderPatternDiameter;
+    public int LeftTopFinderPatternX => LeftPadding;
+    public int LeftTopFinderPatternY => TopPadding;
     
-    public int RightTopFinderPatternX => LeftPadding + FinderPatternDiameter + (Matrix.Width - FinderPatternSize) * Multiple + 5;
-    public int RightTopFinderPatternY => TopPadding + FinderPatternDiameter;
+    public int RightTopFinderPatternX => LeftPadding + (Matrix.Width - FinderPatternSize) * Multiple + 5;
+    public int RightTopFinderPatternY => TopPadding;
     
-    public int LeftBottomFinderPatternX => LeftPadding + FinderPatternDiameter;
-    public int LeftBottomFinderPatternY => TopPadding + FinderPatternDiameter + (Matrix.Height - FinderPatternSize) * Multiple + 5;
+    public int LeftBottomFinderPatternX => LeftPadding;
+    public int LeftBottomFinderPatternY => TopPadding + (Matrix.Height - FinderPatternSize) * Multiple + 5;
     
     public bool InFinderPatternRegion(int x, int y)
     {
