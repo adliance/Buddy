@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Adliance.AspNetCore.Buddy.OpenTelemetry.Middleware;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +32,19 @@ namespace Adliance.AspNetCore.Buddy.OpenTelemetry.Extensions
         {
             buddyServices.TryAddSingleton(configuration);
 
-            var resourceBuilder = ResourceBuilder.CreateDefault().AddService(configuration.ServiceName);
+            IDictionary<string, object> resourceAttributes = new Dictionary<string, object>
+            {
+                { SemanticConventions.ResourceAttributeServiceVersion, configuration.ServiceVersion },
+                { SemanticConventions.ResourceAttributeHostName, Dns.GetHostName() },
+            };
+
+            if (configuration.Environment != null)
+                resourceAttributes.Add(SemanticConventions.ResourceAttributeDeploymentEnvironment,
+                    configuration.Environment);
+
+            var resourceBuilder = ResourceBuilder.CreateDefault()
+                .AddService(configuration.ServiceName)
+                .AddAttributes(resourceAttributes);
 
             var telServer = Sdk.CreateTracerProviderBuilder()
                 .SetResourceBuilder(resourceBuilder)

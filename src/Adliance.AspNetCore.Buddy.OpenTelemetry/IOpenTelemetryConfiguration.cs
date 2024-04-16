@@ -15,10 +15,20 @@ public interface IOpenTelemetryConfiguration
     public string ServiceName { get; set; }
 
     /// <summary>
+    /// Service version as reported to the OpenTelemetry collector.
+    /// </summary>
+    public string ServiceVersion { get; set; }
+
+    /// <summary>
+    /// Deployment environment as reported to the OpenTelemetry collector.
+    /// </summary>
+    public string? Environment { get; set; }
+
+    /// <summary>
     /// Whether OpenTelemetry should also log to the console (default: false)
     /// </summary>
     public bool EnableConsoleExporter { get; set; }
-    
+
     /// <summary>
     /// OpenTelemetry Protocol Exporter configuration.
     /// </summary>
@@ -44,6 +54,15 @@ public class DefaultOpenTelemetryConfiguration : IOpenTelemetryConfiguration
 {
     /// <inheritdoc cref="IOpenTelemetryConfiguration.ServiceName"/>
     public string ServiceName { get; set; } = Assembly.GetEntryAssembly()?.GetName().Name ?? "adliance otel buddy";
+
+    /// <inheritdoc cref="IOpenTelemetryConfiguration.ServiceVersion"/>
+    public string ServiceVersion { get; set; } =
+        Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+            ?.InformationalVersion ?? Assembly.GetEntryAssembly()?.GetName().Version?.ToString() ?? "unknown";
+
+    /// <inheritdoc cref="IOpenTelemetryConfiguration.Environment"/>
+    public string? Environment { get; set; } =
+        System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
     /// <inheritdoc cref="IOpenTelemetryConfiguration.EnableConsoleExporter"/>
     // ReSharper disable once RedundantDefaultMemberInitializer
