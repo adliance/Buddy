@@ -15,17 +15,28 @@ public class QrCodeBuilder<TPixel>(string content)
 {
     private int _width = 250;
     private int _height = 250;
+    private int _margin = 4;
 
     private ErrorCorrectionLevel _errorCorrectionLevel = ErrorCorrectionLevel.L;
-    
+
     private bool _roundedFinderPattern = false;
     private bool _roundedContentDots = false;
 
+    private Brush _backgroundBrush = Brushes.Solid(Color.White);
     private Brush _finderPatternBrush = Brushes.Solid(Color.Black);
     private Brush _contentBrush = Brushes.Solid(Color.Black);
 
     private Image? _overlayImage;
+    private int _overlayMargin = 0;
+    private Brush? _overlayImageBrush;
 
+    /// <summary>
+    /// Sets the dimensions of the generated QR code image.
+    /// </summary>
+    /// <param name="width">In pixels</param>
+    /// <param name="height">In Pixels</param>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
+    /// <exception cref="ArgumentException">If one of the parameters is below 0</exception>
     public QrCodeBuilder<TPixel> SetDimensions(int width, int height)
     {
         if (width < 0 || height < 0) throw new ArgumentException("Height and width must be greater than 0.");
@@ -36,52 +47,149 @@ public class QrCodeBuilder<TPixel>(string content)
         return this;
     }
 
+    /// <summary>
+    /// Sets the error correction level of the QR code.
+    /// Default: low.
+    /// </summary>
+    /// <param name="level"></param>
+    /// <returns></returns>
     public QrCodeBuilder<TPixel> WithErrorCorrectionLevel(ErrorCorrectionLevel level)
     {
         _errorCorrectionLevel = level;
         return this;
     }
 
+    /// <summary>
+    /// Set the brush to paint the background. Default: solid white.
+    /// </summary>
+    /// <param name="brush"></param>
+    /// <returns></returns>
+    public QrCodeBuilder<TPixel> WithBackgroundBrush(Brush brush)
+    {
+        _backgroundBrush = brush;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the background to be transparent.
+    /// </summary>
+    /// <returns></returns>
+    public QrCodeBuilder<TPixel> Transparent()
+    {
+        _backgroundBrush = Brushes.Solid(Color.Transparent);
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the brush to paint the finder patterns in the corners.
+    /// Default: solid black.
+    /// </summary>
+    /// <param name="brush"></param>
+    /// <returns></returns>
     public QrCodeBuilder<TPixel> WithFinderPatternBrush(Brush brush)
     {
         _finderPatternBrush = brush;
         return this;
     }
-    
+
+    /// <summary>
+    /// Sets the brush to paint the data content.
+    /// Default: solid black.
+    /// </summary>
+    /// <param name="brush"></param>
+    /// <returns></returns>
     public QrCodeBuilder<TPixel> WithContentBrush(Brush brush)
     {
         _contentBrush = brush;
         return this;
     }
-    
+
+    /// <summary>
+    /// Sets the finder patterns and content to be rendered rounded.
+    /// </summary>
+    /// <returns></returns>
     public QrCodeBuilder<TPixel> Rounded()
     {
         WithRoundedFinderPattern();
         return WithRoundedContentDots();
     }
-    
+
+    /// <summary>
+    /// Sets the finder patterns in the corners to be rendered rounded.
+    /// </summary>
+    /// <returns></returns>
     public QrCodeBuilder<TPixel> WithRoundedFinderPattern()
     {
         _roundedFinderPattern = true;
         return this;
     }
-    
+
+    /// <summary>
+    /// Sets the content dots to be rendered rounded.
+    /// </summary>
+    /// <returns></returns>
     public QrCodeBuilder<TPixel> WithRoundedContentDots()
     {
         _roundedContentDots = true;
         return this;
     }
-    
+
+    /// <summary>
+    /// Sets the margin around the QR code.
+    /// </summary>
+    /// <param name="numberOfDataPoints">The margin measured in the number of content dots.</param>
+    /// <returns></returns>
+    public QrCodeBuilder<TPixel> WithMargin(int numberOfDataPoints)
+    {
+        _margin = numberOfDataPoints;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the image to be rendered over the center of the QR code.
+    /// </summary>
+    /// <param name="image"></param>
+    /// <returns></returns>
     public QrCodeBuilder<TPixel> WithOverlayImage(Image image)
     {
         _overlayImage = image;
-        if (_errorCorrectionLevel == ErrorCorrectionLevel.L || _errorCorrectionLevel == ErrorCorrectionLevel.M)
+        if (_errorCorrectionLevel.ordinal() <= 1)
         {
             _errorCorrectionLevel = ErrorCorrectionLevel.Q;
         }
+
         return this;
     }
-    
+
+    /// <summary>
+    /// Sets a margin for the overlay image.
+    /// Used in combination with <see cref="WithOverlayImage"/>.
+    /// </summary>
+    /// <param name="numberOfDataPoints">The margin measured in the number of content dots.</param>
+    /// <returns></returns>
+    public QrCodeBuilder<TPixel> WithOverlayMargin(int numberOfDataPoints)
+    {
+        _overlayMargin = numberOfDataPoints;
+        _errorCorrectionLevel = ErrorCorrectionLevel.H;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets a brush to recolor the overlay image with.
+    /// The overlay image is first binarized with a threshold, and the recolored with this brush.
+    /// </summary>
+    /// <param name="brush"></param>
+    /// <returns></returns>
+    public QrCodeBuilder<TPixel> WithOverlayImageBrush(Brush brush)
+    {
+        _overlayImageBrush = brush;
+        return this;
+    }
+
+    /// <summary>
+    /// Renders the final QR code image.
+    /// </summary>
+    /// <returns>the resulting QR code image</returns>
     public Image<TPixel> Render()
     {
         Dictionary<EncodeHintType, object> encodingHints = new Dictionary<EncodeHintType, object>
@@ -95,22 +203,17 @@ public class QrCodeBuilder<TPixel>(string content)
         {
             Matrix = code.Matrix,
             Height = _height,
-            Width = _width
+            Width = _width,
+            Margin = _margin
         };
 
         var image = new Image<TPixel>(_width, _height);
 
-        image.Mutate(x => x.Fill(Color.White));
+        image.Mutate(x => x.Fill(_backgroundBrush));
 
         RenderContent(renderConfig, image);
         RenderFinderPattern(renderConfig, image);
-
-        if (_overlayImage != null)
-        {
-            _overlayImage.Mutate(x => x.Resize(_width/4, _height/4));
-            var location = new Point((_width - _overlayImage.Width) / 2, (_height - _overlayImage.Height) / 2);
-            image.Mutate(x => x.DrawImage(_overlayImage, location, 1f));
-        }
+        RenderOverlayImage(renderConfig, image, code);
 
         return image;
     }
@@ -162,7 +265,8 @@ public class QrCodeBuilder<TPixel>(string content)
             DrawFinderPatternRectangleStyle(image, configuration.RightTopFinderPatternX,
                 configuration.RightTopFinderPatternY, configuration.FinderPatternDiameter * 2, configuration.Multiple);
             DrawFinderPatternRectangleStyle(image, configuration.LeftBottomFinderPatternX,
-                configuration.LeftBottomFinderPatternY, configuration.FinderPatternDiameter * 2, configuration.Multiple);
+                configuration.LeftBottomFinderPatternY, configuration.FinderPatternDiameter * 2,
+                configuration.Multiple);
         }
     }
 
@@ -193,8 +297,43 @@ public class QrCodeBuilder<TPixel>(string content)
             img.Fill(_finderPatternBrush, circle);
             circle = new RectangularPolygon(x + offset, y + offset, whiteRectangleSize, whiteRectangleSize);
             img.Fill(Color.White, circle);
-            circle = new RectangularPolygon(x + 2*offset, y + 2*offset, centerRectangleSize, centerRectangleSize);
+            circle = new RectangularPolygon(x + 2 * offset, y + 2 * offset, centerRectangleSize, centerRectangleSize);
             img.Fill(_finderPatternBrush, circle);
+        });
+    }
+
+    private void RenderOverlayImage(RenderConfiguration configuration, Image<TPixel> image, QRCode code)
+    {
+        if (_overlayImage == null) return;
+
+        if (_overlayImageBrush != null)
+        {
+            _overlayImage.Mutate(x =>
+            {
+                x.BinaryThreshold(0.1f, BinaryThresholdMode.Saturation);
+                x.Invert();
+                x.Fill(new DrawingOptions()
+                {
+                    GraphicsOptions = new GraphicsOptions()
+                    {
+                        ColorBlendingMode = PixelColorBlendingMode.Screen,
+                        AlphaCompositionMode = PixelAlphaCompositionMode.SrcAtop
+                    }
+                }, _overlayImageBrush);
+            });
+        }
+
+        var cutoutSize = configuration.GetCutoutSize(code, _overlayMargin);
+        var overlayImageSize = configuration.GetOverlayImageSize(code);
+        _overlayImage.Mutate(x => x.Resize(overlayImageSize));
+        var cutoutLocation = new Point((_width - cutoutSize.Width) / 2, (_height - cutoutSize.Height) / 2);
+        var overlayImageLocation =
+            new Point((_width - overlayImageSize.Width) / 2, (_height - overlayImageSize.Height) / 2);
+        var cutout = new Rectangle(cutoutLocation, cutoutSize);
+        image.Mutate(x =>
+        {
+            x.Clear(_backgroundBrush, cutout);
+            x.DrawImage(_overlayImage, overlayImageLocation, 1f);
         });
     }
 }
