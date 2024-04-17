@@ -10,6 +10,11 @@ using ZXing.QrCode.Internal;
 
 namespace Adliance.Buddy.QrCode;
 
+/// <summary>
+/// A simple-to-use builder to render fancy QR codes.
+/// </summary>
+/// <param name="content">The content encoded in the QR code</param>
+/// <typeparam name="TPixel"><see cref="SixLabors.ImageSharp.Image{TPixel}"/></typeparam>
 public class QrCodeBuilder<TPixel>(string content)
     where TPixel : unmanaged, IPixel<TPixel>
 {
@@ -28,7 +33,6 @@ public class QrCodeBuilder<TPixel>(string content)
 
     private Image? _overlayImage;
     private int _overlayMargin = 0;
-    private Brush? _overlayImageBrush;
 
     /// <summary>
     /// Sets the dimensions of the generated QR code image.
@@ -37,7 +41,7 @@ public class QrCodeBuilder<TPixel>(string content)
     /// <param name="height">In Pixels</param>
     /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     /// <exception cref="ArgumentException">If one of the parameters is below 0</exception>
-    public QrCodeBuilder<TPixel> SetDimensions(int width, int height)
+    public QrCodeBuilder<TPixel> WithDimensions(int width, int height)
     {
         if (width < 0 || height < 0) throw new ArgumentException("Height and width must be greater than 0.");
 
@@ -173,19 +177,7 @@ public class QrCodeBuilder<TPixel>(string content)
         _errorCorrectionLevel = ErrorCorrectionLevel.H;
         return this;
     }
-
-    /// <summary>
-    /// Sets a brush to recolor the overlay image with.
-    /// The overlay image is first binarized with a threshold, and the recolored with this brush.
-    /// </summary>
-    /// <param name="brush"></param>
-    /// <returns></returns>
-    public QrCodeBuilder<TPixel> WithOverlayImageBrush(Brush brush)
-    {
-        _overlayImageBrush = brush;
-        return this;
-    }
-
+    
     /// <summary>
     /// Renders the final QR code image.
     /// </summary>
@@ -305,23 +297,6 @@ public class QrCodeBuilder<TPixel>(string content)
     private void RenderOverlayImage(RenderConfiguration configuration, Image<TPixel> image, QRCode code)
     {
         if (_overlayImage == null) return;
-
-        if (_overlayImageBrush != null)
-        {
-            _overlayImage.Mutate(x =>
-            {
-                x.BinaryThreshold(0.1f, BinaryThresholdMode.Saturation);
-                x.Invert();
-                x.Fill(new DrawingOptions()
-                {
-                    GraphicsOptions = new GraphicsOptions()
-                    {
-                        ColorBlendingMode = PixelColorBlendingMode.Screen,
-                        AlphaCompositionMode = PixelAlphaCompositionMode.SrcAtop
-                    }
-                }, _overlayImageBrush);
-            });
-        }
 
         var cutoutSize = configuration.GetCutoutSize(code, _overlayMargin);
         var overlayImageSize = configuration.GetOverlayImageSize(code);
