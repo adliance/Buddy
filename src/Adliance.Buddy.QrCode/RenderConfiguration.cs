@@ -32,15 +32,16 @@ internal class RenderConfiguration
     public int PixelSize => Math.Max(Multiple, 1);
 
     public int FinderPatternDiameter => (int)(Multiple * FinderPatternSize / 1.9f);
+    public int FinderPatternOutputSize => Multiple * FinderPatternSize;
 
     public int LeftTopFinderPatternX => LeftPadding;
     public int LeftTopFinderPatternY => TopPadding;
 
-    public int RightTopFinderPatternX => LeftPadding + (Matrix.Width - FinderPatternSize) * Multiple + 5;
+    public int RightTopFinderPatternX => LeftPadding + (Matrix.Width - FinderPatternSize) * Multiple;
     public int RightTopFinderPatternY => TopPadding;
 
     public int LeftBottomFinderPatternX => LeftPadding;
-    public int LeftBottomFinderPatternY => TopPadding + (Matrix.Height - FinderPatternSize) * Multiple + 5;
+    public int LeftBottomFinderPatternY => TopPadding + (Matrix.Height - FinderPatternSize) * Multiple;
 
     public bool InFinderPatternRegion(int x, int y)
     {

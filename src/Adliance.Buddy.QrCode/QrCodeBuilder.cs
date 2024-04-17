@@ -261,11 +261,11 @@ public class QrCodeBuilder<TPixel>(string content)
         else
         {
             DrawFinderPatternRectangleStyle(image, configuration.LeftTopFinderPatternX,
-                configuration.LeftTopFinderPatternY, configuration.FinderPatternDiameter * 2, configuration.Multiple);
+                configuration.LeftTopFinderPatternY, configuration.FinderPatternOutputSize, configuration.Multiple);
             DrawFinderPatternRectangleStyle(image, configuration.RightTopFinderPatternX,
-                configuration.RightTopFinderPatternY, configuration.FinderPatternDiameter * 2, configuration.Multiple);
+                configuration.RightTopFinderPatternY, configuration.FinderPatternOutputSize, configuration.Multiple);
             DrawFinderPatternRectangleStyle(image, configuration.LeftBottomFinderPatternX,
-                configuration.LeftBottomFinderPatternY, configuration.FinderPatternDiameter * 2,
+                configuration.LeftBottomFinderPatternY, configuration.FinderPatternOutputSize,
                 configuration.Multiple);
         }
     }
