@@ -20,34 +20,26 @@ Buddy is a set of libraries and utilities with common functionality that is shar
 [![NuGet](https://img.shields.io/nuget/v/Adliance.AspNetCore.Buddy.Bulma.svg)](https://www.nuget.org/packages/Adliance.AspNetCore.Buddy.Bulma/)
 
 
-### Razor templating
+### [Razor templating](src/Adliance.AspNetCore.Buddy.Template.Razor/readme.md)
 
 [![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20Template.Razor?branchName=master)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=186&branchName=master)
 [![NuGet](https://img.shields.io/nuget/v/Adliance.AspNetCore.Buddy.Template.Razor.svg)](https://www.nuget.org/packages/Adliance.AspNetCore.Buddy.Template.Razor/)
 
-[Adliance.AspNetCore.Buddy.Template.Razor](src/Adliance.AspNetCore.Buddy.Template.Razor/readme.md)
-
-### PDF service
+### [PDF service](src/Adliance.AspNetCore.Buddy.Pdf/readme.md)
 
 [![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20PDF?branchName=master)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=185&branchName=master)
 [![NuGet](https://img.shields.io/nuget/v/Adliance.AspNetCore.Buddy.Pdf.svg)](https://www.nuget.org/packages/Adliance.AspNetCore.Buddy.Pdf/)
 
-[Adliance.AspNetCore.Buddy.Pdf](src/Adliance.AspNetCore.Buddy.Pdf/readme.md)
-
-### Twilio SMS client
+### [Twilio SMS client](src/Adliance.AspNetCore.Buddy.Sms.Twilio/readme.md)
 
 [![NuGet](https://img.shields.io/nuget/v/Adliance.AspNetCore.Buddy.Sms.Twilio.svg)](https://www.nuget.org/packages/Adliance.AspNetCore.Buddy.Sms.Twilio/)
 
-[Adliance.AspNetCore.Buddy.Sms.Twilio](src/Adliance.AspNetCore.Buddy.Sms.Twilio/readme.md)
-
 ### E-Mail
 
-#### Azure Communication Services
+#### [Azure Communication Services](src/Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices/readme.md)
 
 [![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20AzureCommunication?branchName=master)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=183&branchName=master)
 [![NuGet](https://img.shields.io/nuget/v/Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices.svg)](https://www.nuget.org/packages/Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices/)
-
-[Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices](src/Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices/readme.md)
 
 #### Mailjet
 
@@ -89,3 +81,7 @@ Buddy is a set of libraries and utilities with common functionality that is shar
 ### [OpenTelemetry](src/Adliance.AspNetCore.Buddy.OpenTelemetry/README.md)
 [![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20OpenTelemetry?branchName=master)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=183&branchName=master)
 [![NuGet](https://img.shields.io/nuget/v/Adliance.AspNetCore.Buddy.OpenTelemetry.svg)](https://www.nuget.org/packages/Adliance.AspNetCore.Buddy.OpenTelemetry/)
+
+### [QR Code](src/Adliance.Buddy.QrCode/README.md)
+[![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20QR-Code?branchName=master)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=183&branchName=master)
+[![NuGet](https://img.shields.io/nuget/v/Adliance.Buddy.QrCode.svg)](https://www.nuget.org/packages/Adliance.Buddy.QrCode/)
