@@ -55,8 +55,8 @@ public class QrCodeBuilder<TPixel>(string content)
     /// Sets the error correction level of the QR code.
     /// Default: low.
     /// </summary>
-    /// <param name="level"></param>
-    /// <returns></returns>
+    /// <param name="level">The error correction level</param>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithErrorCorrectionLevel(ErrorCorrectionLevel level)
     {
         _errorCorrectionLevel = level;
@@ -66,8 +66,8 @@ public class QrCodeBuilder<TPixel>(string content)
     /// <summary>
     /// Set the brush to paint the background. Default: solid white.
     /// </summary>
-    /// <param name="brush"></param>
-    /// <returns></returns>
+    /// <param name="brush">The ImageSharp brush</param>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithBackgroundBrush(Brush brush)
     {
         _backgroundBrush = brush;
@@ -77,7 +77,7 @@ public class QrCodeBuilder<TPixel>(string content)
     /// <summary>
     /// Sets the background to be transparent.
     /// </summary>
-    /// <returns></returns>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> Transparent()
     {
         _backgroundBrush = Brushes.Solid(Color.Transparent);
@@ -88,8 +88,8 @@ public class QrCodeBuilder<TPixel>(string content)
     /// Sets the brush to paint the finder patterns in the corners.
     /// Default: solid black.
     /// </summary>
-    /// <param name="brush"></param>
-    /// <returns></returns>
+    /// <param name="brush">The ImageSharp brush</param>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithFinderPatternBrush(Brush brush)
     {
         _finderPatternBrush = brush;
@@ -100,8 +100,8 @@ public class QrCodeBuilder<TPixel>(string content)
     /// Sets the brush to paint the data content.
     /// Default: solid black.
     /// </summary>
-    /// <param name="brush"></param>
-    /// <returns></returns>
+    /// <param name="brush">The ImageSharp brush</param>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithContentBrush(Brush brush)
     {
         _contentBrush = brush;
@@ -111,7 +111,7 @@ public class QrCodeBuilder<TPixel>(string content)
     /// <summary>
     /// Sets the finder patterns and content to be rendered rounded.
     /// </summary>
-    /// <returns></returns>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> Rounded()
     {
         WithRoundedFinderPattern();
@@ -121,7 +121,7 @@ public class QrCodeBuilder<TPixel>(string content)
     /// <summary>
     /// Sets the finder patterns in the corners to be rendered rounded.
     /// </summary>
-    /// <returns></returns>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithRoundedFinderPattern()
     {
         _roundedFinderPattern = true;
@@ -131,7 +131,7 @@ public class QrCodeBuilder<TPixel>(string content)
     /// <summary>
     /// Sets the content dots to be rendered rounded.
     /// </summary>
-    /// <returns></returns>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithRoundedContentDots()
     {
         _roundedContentDots = true;
@@ -142,7 +142,7 @@ public class QrCodeBuilder<TPixel>(string content)
     /// Sets the margin around the QR code.
     /// </summary>
     /// <param name="numberOfDataPoints">The margin measured in the number of content dots.</param>
-    /// <returns></returns>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithMargin(int numberOfDataPoints)
     {
         _margin = numberOfDataPoints;
@@ -152,8 +152,8 @@ public class QrCodeBuilder<TPixel>(string content)
     /// <summary>
     /// Sets the image to be rendered over the center of the QR code.
     /// </summary>
-    /// <param name="image"></param>
-    /// <returns></returns>
+    /// <param name="image">An ImageSharp image</param>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithOverlayImage(Image image)
     {
         _overlayImage = image;
@@ -170,7 +170,7 @@ public class QrCodeBuilder<TPixel>(string content)
     /// Used in combination with <see cref="WithOverlayImage"/>.
     /// </summary>
     /// <param name="numberOfDataPoints">The margin measured in the number of content dots.</param>
-    /// <returns></returns>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithOverlayMargin(int numberOfDataPoints)
     {
         _overlayMargin = numberOfDataPoints;

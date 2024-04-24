@@ -9,10 +9,10 @@ internal class RenderConfiguration
     private const int FinderPatternSize = 7;
     private const float CircleScaleDownFactor = 0.5f;
 
-    public required ByteMatrix Matrix;
+    public required ByteMatrix Matrix { get; set; }
 
-    public required int Width;
-    public required int Height;
+    public required int Width { get; set; }
+    public required int Height { get; set; }
 
     public int Margin { get; set; } = 4;
 
