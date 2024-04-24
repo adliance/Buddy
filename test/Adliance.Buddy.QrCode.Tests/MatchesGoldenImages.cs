@@ -5,7 +5,7 @@ using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Processing.Processors.Binarization;
 using Xunit;
 
-namespace Adliance.Buddy.QrCode.Test;
+namespace Adliance.Buddy.QrCode.Tests;
 
 public class MatchesGoldenImages
 {
