@@ -21,6 +21,38 @@ public class MatchesGoldenImages
     }
     
     [Fact]
+    public void ComplexAdlianceQrCodeMatchesGoldenImage()
+    {
+        var expected = Image.Load<Rgba32>("GoldenImages/complex-adliance.png");
+        
+        var finderBrush = Brushes.Solid(new Color(new Rgb24(134, 184, 31)));
+            
+        var topCenter = new PointF(250, 0);
+        var bottomCenter = new PointF(250, 500);
+        var repetitionMode = GradientRepetitionMode.None;
+        var topColor = new ColorStop(0.1f, new Color(new Rgb24(134, 184, 31)));
+        var centerColor = new ColorStop(0.5f, new Color(new Rgb24(11, 176, 219)));
+        var bottomColor = new ColorStop(0.9f, new Color(new Rgb24(18, 66, 146)));
+
+        var contentBrush = new LinearGradientBrush(topCenter, bottomCenter,
+            repetitionMode, topColor, centerColor, bottomColor);
+            
+        var adlianceLogo = Image.Load("adliance.png");
+        var actual = new QrCodeBuilder<Rgba32>("https://adliance.net")
+            .WithContentBrush(contentBrush)
+            .WithFinderPatternBrush(finderBrush)
+            .WithDimensions(500, 500)
+            .WithSquircleFinderPattern()
+            .WithSquircleContentDots()
+            .WithOverlayImage(adlianceLogo)
+            .WithOverlayMargin(1)
+            .WithMargin(2)
+            .Render();
+        
+        Assert.True(ImagesAreEqual(expected, actual));
+    }
+    
+    [Fact]
     public void MadxQrCodeMatchesGoldenImage()
     {
         var expected = Image.Load<Rgba32>("GoldenImages/complex-madx.png");
