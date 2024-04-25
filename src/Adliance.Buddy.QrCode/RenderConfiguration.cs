@@ -52,7 +52,8 @@ internal class RenderConfiguration
 
     public Size GetCutoutSize(QRCode code, int margin)
     {
-        var columnCount = code.Matrix.Width / 3 + margin;
+        // margin * 2 for both sides
+        var columnCount = code.Matrix.Width / 3 + margin * 2;
         return new Size(columnCount * Multiple);
     }
 
