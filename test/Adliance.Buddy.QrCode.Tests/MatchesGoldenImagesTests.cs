@@ -27,8 +27,8 @@ public class MatchesGoldenImagesTests
 
         var finderBrush = Brushes.Solid(new Color(new Rgb24(134, 184, 31)));
 
-        var topCenter = new PointF(250, 0);
-        var bottomCenter = new PointF(250, 500);
+        var topCenter = new PointF(100, 0);
+        var bottomCenter = new PointF(100, 200);
         var repetitionMode = GradientRepetitionMode.None;
         var topColor = new ColorStop(0.1f, new Color(new Rgb24(134, 184, 31)));
         var centerColor = new ColorStop(0.5f, new Color(new Rgb24(11, 176, 219)));
@@ -41,7 +41,7 @@ public class MatchesGoldenImagesTests
         var actual = new QrCodeBuilder<Rgba32>("https://adliance.net")
             .WithContentBrush(contentBrush)
             .WithFinderPatternBrush(finderBrush)
-            .WithDimensions(500, 500)
+            .WithDimensions(200, 200)
             .WithSquircleFinderPattern()
             .WithSquircleContentDots()
             .WithOverlayImage(adlianceLogo)
@@ -61,7 +61,8 @@ public class MatchesGoldenImagesTests
         var madxContentTopColor = new Color(new Rgba32(139, 137, 62));
         var madxContentBottomColor = new Color(new Rgba32(69, 68, 37));
         var madxContentBrush = new LinearGradientBrush(new PointF(250, 0), new PointF(250, 500),
-            GradientRepetitionMode.None, new ColorStop(0.1f, madxContentTopColor), new ColorStop(0.9f, madxContentBottomColor));
+            GradientRepetitionMode.None, new ColorStop(0.1f, madxContentTopColor),
+            new ColorStop(0.9f, madxContentBottomColor));
         var madxOverlayBrush = new RecolorBrush(Color.Black, new Color(new Rgba32(188, 187, 74)), 1);
 
         var madxLogo = Image.Load("madx.png");
