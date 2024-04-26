@@ -7,7 +7,7 @@ libraries internally, and can be used in device and cloud scenarios.
 
 **Note:** make sure to buy a [license for ImageSharp](https://sixlabors.com/pricing/), when you meet their criteria.
 
-![Example QR code](https://github.com/adliance/Buddy/blob/master/test/Adliance.Buddy.QrCode.Tests/GoldenImages/complex-adliance.png?raw=true)
+![Example QR code](https://raw.githubusercontent.com/adliance/Buddy/master/test/Adliance.Buddy.QrCode.Tests/GoldenImages/complex-adliance.png)
 
 ## Using the library
 
