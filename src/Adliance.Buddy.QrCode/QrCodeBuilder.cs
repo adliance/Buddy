@@ -26,6 +26,9 @@ public class QrCodeBuilder<TPixel>(string content)
 
     private bool _roundedFinderPattern = false;
     private bool _roundedContentDots = false;
+    private bool _squircleFinderPattern = false;
+    private bool _squircleContentDots = false;
+    private float _squircleContentDotsSizeFactor = 0.96f;
 
     private Brush _backgroundBrush = Brushes.Solid(Color.White);
     private Brush _finderPatternBrush = Brushes.Solid(Color.Black);
@@ -55,8 +58,8 @@ public class QrCodeBuilder<TPixel>(string content)
     /// Sets the error correction level of the QR code.
     /// Default: low.
     /// </summary>
-    /// <param name="level"></param>
-    /// <returns></returns>
+    /// <param name="level">The error correction level</param>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithErrorCorrectionLevel(ErrorCorrectionLevel level)
     {
         _errorCorrectionLevel = level;
@@ -66,8 +69,8 @@ public class QrCodeBuilder<TPixel>(string content)
     /// <summary>
     /// Set the brush to paint the background. Default: solid white.
     /// </summary>
-    /// <param name="brush"></param>
-    /// <returns></returns>
+    /// <param name="brush">The ImageSharp brush</param>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithBackgroundBrush(Brush brush)
     {
         _backgroundBrush = brush;
@@ -77,7 +80,7 @@ public class QrCodeBuilder<TPixel>(string content)
     /// <summary>
     /// Sets the background to be transparent.
     /// </summary>
-    /// <returns></returns>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> Transparent()
     {
         _backgroundBrush = Brushes.Solid(Color.Transparent);
@@ -88,8 +91,8 @@ public class QrCodeBuilder<TPixel>(string content)
     /// Sets the brush to paint the finder patterns in the corners.
     /// Default: solid black.
     /// </summary>
-    /// <param name="brush"></param>
-    /// <returns></returns>
+    /// <param name="brush">The ImageSharp brush</param>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithFinderPatternBrush(Brush brush)
     {
         _finderPatternBrush = brush;
@@ -100,8 +103,8 @@ public class QrCodeBuilder<TPixel>(string content)
     /// Sets the brush to paint the data content.
     /// Default: solid black.
     /// </summary>
-    /// <param name="brush"></param>
-    /// <returns></returns>
+    /// <param name="brush">The ImageSharp brush</param>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithContentBrush(Brush brush)
     {
         _contentBrush = brush;
@@ -111,7 +114,7 @@ public class QrCodeBuilder<TPixel>(string content)
     /// <summary>
     /// Sets the finder patterns and content to be rendered rounded.
     /// </summary>
-    /// <returns></returns>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> Rounded()
     {
         WithRoundedFinderPattern();
@@ -119,9 +122,19 @@ public class QrCodeBuilder<TPixel>(string content)
     }
 
     /// <summary>
+    /// Sets the finder patterns and content to be rendered in a squircle shape.
+    /// </summary>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
+    public QrCodeBuilder<TPixel> Squircle()
+    {
+        WithSquircleFinderPattern();
+        return WithSquircleContentDots();
+    }
+
+    /// <summary>
     /// Sets the finder patterns in the corners to be rendered rounded.
     /// </summary>
-    /// <returns></returns>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithRoundedFinderPattern()
     {
         _roundedFinderPattern = true;
@@ -131,7 +144,7 @@ public class QrCodeBuilder<TPixel>(string content)
     /// <summary>
     /// Sets the content dots to be rendered rounded.
     /// </summary>
-    /// <returns></returns>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithRoundedContentDots()
     {
         _roundedContentDots = true;
@@ -139,10 +152,40 @@ public class QrCodeBuilder<TPixel>(string content)
     }
 
     /// <summary>
+    /// Sets the finder patterns in the corners to be rendered in a squircle shape.
+    /// </summary>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
+    public QrCodeBuilder<TPixel> WithSquircleFinderPattern()
+    {
+        _squircleFinderPattern = true;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the content dots to be rendered in a squircle shape.
+    /// </summary>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
+    public QrCodeBuilder<TPixel> WithSquircleContentDots()
+    {
+        _squircleContentDots = true;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the content dots sizing factor to control the margin between dots.
+    /// </summary>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
+    public QrCodeBuilder<TPixel> WithSquircleContentDotsSize(float factor)
+    {
+        _squircleContentDotsSizeFactor = factor;
+        return this;
+    }
+
+    /// <summary>
     /// Sets the margin around the QR code.
     /// </summary>
     /// <param name="numberOfDataPoints">The margin measured in the number of content dots.</param>
-    /// <returns></returns>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithMargin(int numberOfDataPoints)
     {
         _margin = numberOfDataPoints;
@@ -152,8 +195,8 @@ public class QrCodeBuilder<TPixel>(string content)
     /// <summary>
     /// Sets the image to be rendered over the center of the QR code.
     /// </summary>
-    /// <param name="image"></param>
-    /// <returns></returns>
+    /// <param name="image">An ImageSharp image</param>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithOverlayImage(Image image)
     {
         _overlayImage = image;
@@ -170,14 +213,14 @@ public class QrCodeBuilder<TPixel>(string content)
     /// Used in combination with <see cref="WithOverlayImage"/>.
     /// </summary>
     /// <param name="numberOfDataPoints">The margin measured in the number of content dots.</param>
-    /// <returns></returns>
+    /// <returns><see cref="QrCodeBuilder{TPixel}"/> for further calls</returns>
     public QrCodeBuilder<TPixel> WithOverlayMargin(int numberOfDataPoints)
     {
         _overlayMargin = numberOfDataPoints;
         _errorCorrectionLevel = ErrorCorrectionLevel.H;
         return this;
     }
-    
+
     /// <summary>
     /// Renders the final QR code image.
     /// </summary>
@@ -229,6 +272,13 @@ public class QrCodeBuilder<TPixel>(string content)
                         configuration.DotSize);
                     image.Mutate(x => x.Fill(_contentBrush, circle));
                 }
+                else if (_squircleContentDots)
+                {
+                    var squircle = new Squircle(outputX, outputY,
+                        configuration.PixelSize * _squircleContentDotsSizeFactor,
+                        configuration.PixelSize * _squircleContentDotsSizeFactor);
+                    image.Mutate(x => x.Fill(_contentBrush, squircle));
+                }
                 else
                 {
                     var rect = new RectangularPolygon(outputX, outputY, configuration.PixelSize,
@@ -249,6 +299,16 @@ public class QrCodeBuilder<TPixel>(string content)
                 configuration.RightTopFinderPatternY, configuration.FinderPatternDiameter);
             DrawFinderPatternCircleStyle(image, configuration.LeftBottomFinderPatternX,
                 configuration.LeftBottomFinderPatternY, configuration.FinderPatternDiameter);
+        }
+        else if (_squircleFinderPattern)
+        {
+            DrawFinderPatternSquircleStyle(image, configuration.LeftTopFinderPatternX,
+                configuration.LeftTopFinderPatternY, configuration.FinderPatternOutputSize, configuration.Multiple);
+            DrawFinderPatternSquircleStyle(image, configuration.RightTopFinderPatternX,
+                configuration.RightTopFinderPatternY, configuration.FinderPatternOutputSize, configuration.Multiple);
+            DrawFinderPatternSquircleStyle(image, configuration.LeftBottomFinderPatternX,
+                configuration.LeftBottomFinderPatternY, configuration.FinderPatternOutputSize,
+                configuration.Multiple);
         }
         else
         {
@@ -275,6 +335,22 @@ public class QrCodeBuilder<TPixel>(string content)
             img.Fill(Color.White, circle);
             circle = new EllipsePolygon(x + circleDiameter, y + circleDiameter, middleDotDiameter);
             img.Fill(_finderPatternBrush, circle);
+        });
+    }
+
+    private void DrawFinderPatternSquircleStyle(Image<TPixel> image, int x, int y, int size, int offset)
+    {
+        var whiteRectangleSize = 5 * size / 7;
+        var centerRectangleSize = 3 * size / 7;
+
+        image.Mutate(img =>
+        {
+            var squircle = new Squircle(x, y, size, size);
+            img.Fill(_finderPatternBrush, squircle);
+            squircle = new Squircle(x + offset, y + offset, whiteRectangleSize, whiteRectangleSize);
+            img.Fill(Color.White, squircle);
+            squircle = new Squircle(x + 2 * offset, y + 2 * offset, centerRectangleSize, centerRectangleSize);
+            img.Fill(_finderPatternBrush, squircle);
         });
     }
 

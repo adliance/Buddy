@@ -30,7 +30,7 @@
         <None Update="GoldenImages\*">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Update="madx.png">
+        <None Update="*.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>

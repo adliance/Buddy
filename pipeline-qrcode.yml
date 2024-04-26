@@ -33,7 +33,7 @@ stages:
             displayName: 'Test'
             inputs:
               command: test
-              projects: 'test/Adliance.Buddy.QrCode.Test/*.csproj'
+              projects: 'test/Adliance.Buddy.QrCode.Tests/*.csproj'
               arguments: '--configuration Release'
 
   - stage: publish

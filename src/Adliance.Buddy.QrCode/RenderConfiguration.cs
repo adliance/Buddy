@@ -9,10 +9,10 @@ internal class RenderConfiguration
     private const int FinderPatternSize = 7;
     private const float CircleScaleDownFactor = 0.5f;
 
-    public required ByteMatrix Matrix;
+    public required ByteMatrix Matrix { get; set; }
 
-    public required int Width;
-    public required int Height;
+    public required int Width { get; set; }
+    public required int Height { get; set; }
 
     public int Margin { get; set; } = 4;
 
@@ -52,7 +52,8 @@ internal class RenderConfiguration
 
     public Size GetCutoutSize(QRCode code, int margin)
     {
-        var columnCount = code.Matrix.Width / 3 + margin;
+        // margin * 2 for both sides
+        var columnCount = code.Matrix.Width / 3 + margin * 2;
         return new Size(columnCount * Multiple);
     }
 

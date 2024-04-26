@@ -29,5 +29,8 @@ stages:
             inputs:
               command: test
               projects: 'test/**/*.csproj'
-              arguments: '--configuration Release'    
-   
+              arguments: '--configuration Release --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+          - task: PublishCodeCoverageResults@2
+            displayName: 'Publish code coverage report'
+            inputs:
+              summaryFileLocation: '$(Agent.TempDirectory)/**/*.cobertura.xml'
