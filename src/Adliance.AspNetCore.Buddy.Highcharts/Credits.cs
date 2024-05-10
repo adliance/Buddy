@@ -1,13 +1,12 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
-namespace Adliance.AspNetCore.Buddy.Highcharts
+namespace Adliance.AspNetCore.Buddy.Highcharts;
+
+public class Credits
 {
-    public class Credits
-    {
-        [JsonProperty("enabled")] public bool? Enabled { get; set; }
-        [JsonProperty("text")] public string? Text { get; set; }
-        [JsonProperty("href")] public string? Href { get; set; }   
-        [JsonProperty("style")] public Style? Style { get; set; }
-        [JsonProperty("position")] public Position? Position { get; set; }
-    }
+    [JsonProperty("enabled")] public bool? Enabled { get; set; }
+    [JsonProperty("text")] public string? Text { get; set; }
+    [JsonProperty("href")] public string? Href { get; set; }
+    [JsonProperty("style")] public Style? Style { get; set; }
+    [JsonProperty("position")] public Position? Position { get; set; }
 }

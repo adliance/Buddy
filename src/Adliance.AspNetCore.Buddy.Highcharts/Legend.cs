@@ -1,9 +1,8 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
-namespace Adliance.AspNetCore.Buddy.Highcharts
+namespace Adliance.AspNetCore.Buddy.Highcharts;
+
+public class Legend
 {
-    public class Legend
-    {
-        [JsonProperty("enabled")] public bool? Enabled { get; set; }
-    }
+    [JsonProperty("enabled")] public bool? Enabled { get; set; }
 }

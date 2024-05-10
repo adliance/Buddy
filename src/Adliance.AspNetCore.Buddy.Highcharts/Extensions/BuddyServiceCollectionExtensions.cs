@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Adliance.AspNetCore.Buddy.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,33 +7,32 @@ using Microsoft.Extensions.DependencyInjection;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
-namespace Adliance.AspNetCore.Buddy.Highcharts.Extensions
+namespace Adliance.AspNetCore.Buddy.Highcharts.Extensions;
+
+public static class BuddyServiceCollectionExtensions
 {
-    public static class BuddyServiceCollectionExtensions
+    public static IBuddyServiceCollection AddHighchartsServer(
+        this IBuddyServiceCollection buddyServices,
+        IHighchartsServerSettings configuration)
     {
-        public static IBuddyServiceCollection AddHighchartsServer(
-            this IBuddyServiceCollection buddyServices,
-            IHighchartsServerSettings configuration)
-        {
-            buddyServices.Services.AddSingleton(configuration);
-            return AddHighchartsServer(buddyServices);
-        }
+        buddyServices.Services.AddSingleton(configuration);
+        return AddHighchartsServer(buddyServices);
+    }
 
-        public static IBuddyServiceCollection AddHighchartsServer(
-            this IBuddyServiceCollection buddyServices,
-            IConfigurationSection configurationSection)
-        {
-            var options = configurationSection.Get<HighchartsServerDefaultSettings>();
-            buddyServices.Services.Configure<HighchartsServerDefaultSettings>(configurationSection);
-            ArgumentNullException.ThrowIfNull(options, "Highchart Configuration");
-            return AddHighchartsServer(buddyServices, options);
-        }
+    public static IBuddyServiceCollection AddHighchartsServer(
+        this IBuddyServiceCollection buddyServices,
+        IConfigurationSection configurationSection)
+    {
+        var options = configurationSection.Get<HighchartsServerDefaultSettings>();
+        buddyServices.Services.Configure<HighchartsServerDefaultSettings>(configurationSection);
+        ArgumentNullException.ThrowIfNull(options, "Highchart Configuration");
+        return AddHighchartsServer(buddyServices, options);
+    }
 
-        public static IBuddyServiceCollection AddHighchartsServer(
-            this IBuddyServiceCollection buddyServices)
-        {
-            buddyServices.Services.AddTransient<HighchartsServer>();
-            return buddyServices;
-        }
+    public static IBuddyServiceCollection AddHighchartsServer(
+        this IBuddyServiceCollection buddyServices)
+    {
+        buddyServices.Services.AddTransient<HighchartsServer>();
+        return buddyServices;
     }
 }

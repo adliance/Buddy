@@ -1,12 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Adliance.AspNetCore.Buddy.Highcharts.Extensions
+namespace Adliance.AspNetCore.Buddy.Highcharts.Extensions;
+
+public static class HealthChecksBuilderExtensions
 {
-    public static class HealthChecksBuilderExtensions
+    public static IHealthChecksBuilder AddPdfCheck(this IHealthChecksBuilder builder)
     {
-        public static IHealthChecksBuilder AddPdfCheck(this IHealthChecksBuilder builder)
-        {
-            return builder.AddCheck<HighchartsServerHealthCheck>("HighchartsServer");
-        }
+        return builder.AddCheck<HighchartsServerHealthCheck>("HighchartsServer");
     }
 }

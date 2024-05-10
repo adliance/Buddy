@@ -22,6 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.5" />
     <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.5" />
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
