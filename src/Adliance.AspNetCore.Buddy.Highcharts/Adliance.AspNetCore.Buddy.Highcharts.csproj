@@ -13,7 +13,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
     <Description>
-      Library of utility methods that make working with Highcharts from .NET easier. 
+      Library of utility methods that make working with Highcharts from .NET easier.
       Noteable features are a collection of classes that maps to Highcharts chart JSON, and support for calling the Highcharts Export Server.
     </Description>
     <LangVersion>default</LangVersion>
@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.5" />
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.5" />
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>

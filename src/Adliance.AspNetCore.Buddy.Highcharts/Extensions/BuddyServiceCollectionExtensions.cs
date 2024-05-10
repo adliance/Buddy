@@ -1,5 +1,4 @@
 using System;
-using Adliance.AspNetCore.Buddy.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,28 +10,28 @@ namespace Adliance.AspNetCore.Buddy.Highcharts.Extensions;
 
 public static class BuddyServiceCollectionExtensions
 {
-    public static IBuddyServiceCollection AddHighchartsServer(
-        this IBuddyServiceCollection buddyServices,
+    public static IServiceCollection AddHighchartsServer(
+        this IServiceCollection services,
         IHighchartsServerSettings configuration)
     {
-        buddyServices.Services.AddSingleton(configuration);
-        return AddHighchartsServer(buddyServices);
+        services.AddSingleton(configuration);
+        return AddHighchartsServer(services);
     }
 
-    public static IBuddyServiceCollection AddHighchartsServer(
-        this IBuddyServiceCollection buddyServices,
+    public static IServiceCollection AddHighchartsServer(
+        this IServiceCollection services,
         IConfigurationSection configurationSection)
     {
         var options = configurationSection.Get<HighchartsServerDefaultSettings>();
-        buddyServices.Services.Configure<HighchartsServerDefaultSettings>(configurationSection);
+        services.Configure<HighchartsServerDefaultSettings>(configurationSection);
         ArgumentNullException.ThrowIfNull(options, "Highchart Configuration");
-        return AddHighchartsServer(buddyServices, options);
+        return AddHighchartsServer(services, options);
     }
 
-    public static IBuddyServiceCollection AddHighchartsServer(
-        this IBuddyServiceCollection buddyServices)
+    public static IServiceCollection AddHighchartsServer(
+        this IServiceCollection services)
     {
-        buddyServices.Services.AddTransient<HighchartsServer>();
-        return buddyServices;
+        services.AddTransient<HighchartsServer>();
+        return services;
     }
 }
