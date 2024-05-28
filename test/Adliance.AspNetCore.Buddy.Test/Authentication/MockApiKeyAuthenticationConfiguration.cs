@@ -1,6 +1,6 @@
 using Adliance.AspNetCore.Buddy.Authentication;
 
-namespace Adliance.AspNetCore.Buddy.Test;
+namespace Adliance.AspNetCore.Buddy.Test.Authentication;
 
 public class MockApiKeyAuthenticationConfiguration : IApiKeyAuthenticationConfiguration
 {

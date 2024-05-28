@@ -11,7 +11,7 @@ using Microsoft.Net.Http.Headers;
 using Moq;
 using Xunit;
 
-namespace Adliance.AspNetCore.Buddy.Test;
+namespace Adliance.AspNetCore.Buddy.Test.Authentication;
 
 public class ApiKeyAuthenticationHandlerTest
 {

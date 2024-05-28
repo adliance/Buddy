@@ -16,7 +16,25 @@ trigger:
     include:
       - /src/Adliance.AspNetCore.Buddy
 
-stages:   
+stages:
+  - stage: test
+    jobs:
+      - job: run_tests
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: UseDotNet@2
+            displayName: "Install .NET"
+            inputs:
+              version: '8.0.x'
+              packageType: sdk
+          - task: DotNetCoreCLI@2
+            displayName: 'Test'
+            inputs:
+              command: test
+              projects: 'test/Adliance.AspNetCore.Buddy.Test/*.csproj'
+              arguments: '--configuration Release'
+  
   - stage: publish
     jobs:
       - job: push_to_nuget
