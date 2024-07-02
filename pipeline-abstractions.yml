@@ -14,29 +14,10 @@ trigger:
       - master
   paths:
     include:
-      - /src/Adliance.AspNetCore.Buddy.Email.Mailjet
-      - /test/Adliance.AspNetCore.Buddy.Email.Mailjet.Test
-      - /pipeline-mailjet.yml
+      - /src/Adliance.AspNetCore.Buddy.Abstractions
+      - /pipeline-abstractions.yml
 
 stages:
-  - stage: test
-    jobs:
-      - job: run_tests
-        pool:
-          vmImage: 'ubuntu-latest'
-        steps:
-          - task: UseDotNet@2
-            displayName: "Install .NET"
-            inputs:
-              version: '8.0.x'
-              packageType: sdk
-          - task: DotNetCoreCLI@2
-            displayName: 'Test'
-            inputs:
-              command: test
-              projects: 'test/Adliance.AspNetCore.Buddy.Email.Mailjet.Test/*.csproj'
-              arguments: '--configuration Release'
-
   - stage: publish
     jobs:
       - job: push_to_nuget
@@ -51,13 +32,13 @@ stages:
           - task: DotNetCoreCLI@2
             displayName: 'Build'
             inputs:
-              projects: 'src/Adliance.AspNetCore.Buddy.Email.Mailjet/*.csproj'
+              projects: 'src/Adliance.AspNetCore.Buddy.Abstractions/*.csproj'
               arguments: '--configuration Release'
           - task: DotNetCoreCLI@2
             displayName: 'Pack'
             inputs:
               command: pack
-              packagesToPack: 'src/Adliance.AspNetCore.Buddy.Email.Mailjet/*.csproj'
+              packagesToPack: 'src/Adliance.AspNetCore.Buddy.Abstractions/*.csproj'
               versioningScheme: byBuildNumber
               configuration: 'Release'
               includeSymbols: true

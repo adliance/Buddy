@@ -20,6 +20,7 @@
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.7" />
       <PackageReference Include="Azure.Communication.Email" Version="1.0.1" />
     </ItemGroup>
     
@@ -28,7 +29,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Adliance.AspNetCore.Buddy.Abstractions\Adliance.AspNetCore.Buddy.Abstractions.csproj" />
       <ProjectReference Include="..\Adliance.Buddy.CodeStyle\Adliance.Buddy.CodeStyle.csproj" />
     </ItemGroup>
 

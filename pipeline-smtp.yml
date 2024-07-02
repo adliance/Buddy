@@ -14,7 +14,6 @@ trigger:
       - master
   paths:
     include:
-      - /src/Adliance.AspNetCore.Buddy.Abstractions
       - /src/Adliance.AspNetCore.Buddy.Email.Smtp
       - /test/Adliance.AspNetCore.Buddy.Email.Smtp.Test
       - /pipeline-smtp.yml
@@ -54,14 +53,6 @@ stages:
             inputs:
               projects: 'src/Adliance.AspNetCore.Buddy.Email.Smtp/*.csproj'
               arguments: '--configuration Release'
-          - task: DotNetCoreCLI@2
-            displayName: 'Pack Dependency Abstractions'
-            inputs:
-              command: pack
-              packagesToPack: 'src/Adliance.AspNetCore.Buddy.Abstractions/*.csproj'
-              versioningScheme: byBuildNumber
-              configuration: 'Release'
-              includeSymbols: true
           - task: DotNetCoreCLI@2
             displayName: 'Pack'
             inputs:
