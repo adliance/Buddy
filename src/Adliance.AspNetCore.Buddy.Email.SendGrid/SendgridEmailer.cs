@@ -77,7 +77,7 @@ namespace Adliance.AspNetCore.Buddy.Email.SendGrid
         {
             if (!string.IsNullOrWhiteSpace(_emailConfig.RedirectAllEmailsTo))
                 return new EmailAddress(_emailConfig.RedirectAllEmailsTo);
-            
+
             return string.IsNullOrWhiteSpace(recipientName)
                 ? new EmailAddress(recipientAddress)
                 : new EmailAddress(recipientAddress, recipientName);

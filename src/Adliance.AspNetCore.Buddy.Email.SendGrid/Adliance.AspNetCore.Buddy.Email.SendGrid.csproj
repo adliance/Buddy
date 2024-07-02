@@ -23,4 +23,8 @@
     <PackageReference Include="Sendgrid" Version="9.29.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Adliance.Buddy.CodeStyle\Adliance.Buddy.CodeStyle.csproj" />
+  </ItemGroup>
+
 </Project>
