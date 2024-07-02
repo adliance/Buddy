@@ -11,6 +11,7 @@ Buddy is a set of libraries and utilities with common functionality that is shar
 
 ### Abstractions
 
+[![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20Abstractions?branchName=master)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=201&branchName=master)
 [![NuGet](https://img.shields.io/nuget/v/Adliance.AspNetCore.Buddy.Abstractions.svg)](https://www.nuget.org/packages/Adliance.AspNetCore.Buddy.Abstractions/)
 
 
@@ -49,16 +50,19 @@ Buddy is a set of libraries and utilities with common functionality that is shar
 
 #### SendGrid
 
+[![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20SendGrid?branchName=master)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=202&branchName=master)
 [![NuGet](https://img.shields.io/nuget/v/Adliance.AspNetCore.Buddy.Email.SendGrid.svg)](https://www.nuget.org/packages/Adliance.AspNetCore.Buddy.Email.SendGrid/)
 
 
 #### SMTP
 
+[![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20SMTP?branchName=master)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=200&branchName=master)
 [![NuGet](https://img.shields.io/nuget/v/Adliance.AspNetCore.Buddy.Email.Smtp.svg)](https://www.nuget.org/packages/Adliance.AspNetCore.Buddy.Email.Smtp/)
 
 
 ### Highcharts
 
+[![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20Highcharts?branchName=master)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=194&branchName=master)
 [![NuGet](https://img.shields.io/nuget/v/Adliance.AspNetCore.Buddy.Highcharts.svg)](https://www.nuget.org/packages/Adliance.AspNetCore.Buddy.Highcharts/)
 
 
@@ -67,7 +71,7 @@ Buddy is a set of libraries and utilities with common functionality that is shar
 [![NuGet](https://img.shields.io/nuget/v/Adliance.AspNetCore.Buddy.Storage.svg)](https://www.nuget.org/packages/Adliance.AspNetCore.Buddy.Storage/)
 
 ### [Code Style](src/Adliance.Buddy.CodeStyle/readme.md)
-[![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20CodeStyle?branchName=refs%2Fpull%2F12%2Fmerge)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=159&branchName=refs%2Fpull%2F12%2Fmerge)
+[![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20CodeStyle?branchName=master)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=159&branchName=master)
 [![NuGet](https://img.shields.io/nuget/v/Adliance.Buddy.CodeStyle.svg)](https://www.nuget.org/packages/Adliance.Buddy.CodeStyle/)
 
 ### Crypto
