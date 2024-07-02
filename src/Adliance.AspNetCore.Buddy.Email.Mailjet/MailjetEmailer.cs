@@ -67,7 +67,7 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet
         {
             if (!string.IsNullOrWhiteSpace(_emailConfig.RedirectAllEmailsTo))
                 return new SendContact(_emailConfig.RedirectAllEmailsTo);
-            
+
             return string.IsNullOrWhiteSpace(recipientName)
                 ? new SendContact(recipientAddress)
                 : new SendContact(recipientAddress, recipientName);

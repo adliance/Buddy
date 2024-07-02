@@ -29,7 +29,7 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Extensions
             var emailOptions = emailConfigurationSection.Get<DefaultEmailConfiguration>() ?? throw new Exception($"Unable to load email configuration from {emailConfigurationSection.Path}.");
             buddyServices.Services.Configure<IEmailConfiguration>(emailConfigurationSection);
 
-            var mailjetOptions = mailjetConfigurationSection.Get<DefaultMailjetConfiguration>()?? throw new Exception($"Unable to load mailjet configuration from {mailjetConfigurationSection.Path}.");
+            var mailjetOptions = mailjetConfigurationSection.Get<DefaultMailjetConfiguration>() ?? throw new Exception($"Unable to load mailjet configuration from {mailjetConfigurationSection.Path}.");
             buddyServices.Services.Configure<IMailjetConfiguration>(mailjetConfigurationSection);
 
             return AddMailjet(buddyServices, emailOptions, mailjetOptions);
