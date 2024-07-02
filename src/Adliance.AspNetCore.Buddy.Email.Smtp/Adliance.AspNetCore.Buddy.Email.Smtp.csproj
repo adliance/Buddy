@@ -23,4 +23,8 @@
     <PackageReference Include="MailKit" Version="4.6.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Adliance.Buddy.CodeStyle\Adliance.Buddy.CodeStyle.csproj" />
+  </ItemGroup>
+
 </Project>
