@@ -86,7 +86,7 @@ namespace Adliance.AspNetCore.Buddy.Email.Smtp
         {
             if (!string.IsNullOrWhiteSpace(_emailConfig.RedirectAllEmailsTo))
                 return new MailboxAddress(_emailConfig.RedirectAllEmailsTo, _emailConfig.RedirectAllEmailsTo);
-            
+
             return new MailboxAddress(string.IsNullOrWhiteSpace(recipientName) ? recipientAddress : recipientName, recipientAddress);
         }
     }
