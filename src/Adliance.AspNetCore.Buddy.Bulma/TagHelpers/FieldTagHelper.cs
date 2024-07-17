@@ -101,6 +101,7 @@ public class FieldTagHelper : TagHelper
     {
         if (!IsSelectList || For?.ModelExplorer == null) return;
         var select = _htmlGenerator.GenerateSelect(ViewContext, For?.ModelExplorer, null, For?.Name, Items, false, new { });
+        if (Disabled) select.Attributes.Add("disabled", "disabled");
         builder.AppendHtml("<div class=\"select is-fullwidth\">");
         builder.AppendHtml(select);
         builder.AppendHtml("</div>");

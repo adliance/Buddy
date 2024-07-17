@@ -22,7 +22,7 @@ public class IndexModel : PageModel
     };
 
     [BindProperty] public PossibleValues SelectValue { get; set; }
-    
+
     public enum PossibleValues
     {
         One,
