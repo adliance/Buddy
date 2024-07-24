@@ -15,8 +15,8 @@ public void ConfigureServices(IServiceCollection services)
 {
   //...
   services.AddBuddy()
-    .AddAzureCommunicationEmail(Configuration.GetSection("E-Mail"),
-      Configuration.GetSection("Azure-Communication-Email"))    
+    .AddAzureCommunicationEmail(Configuration.GetSection("EMail"),
+      Configuration.GetSection("AzureCommunicationEmail"))    
   //...
  }
 ```
@@ -27,14 +27,14 @@ Add a section in the configuration of your project and add following configurati
 
 ```json
 {
-  "E-Mail": {
+  "EMail": {
     "SenderName": "unused (always taken from config in Azure)",
     "SenderAddress": "sender@example.com",
     "ReplyToAddress": "reply@example.com",
     "RedirectAllEmailsTo": "",
     "Disable": false
   },
-  "Azure-Communication-Email": {
+  "AzureCommunicationEmail": {
     "Endpoint": "https://<your-communication-service-name>.<region>.communication.azure.com/",
     "AccessKey": "your-access-key",
     "UserEngagementTrackingDisabled": false
