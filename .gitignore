@@ -11,3 +11,8 @@ Buddy.sln.DotSettings.user
 
 node_modules
 src/Adliance.AspNetCore.Buddy.Highcharts/.editorconfig
+
+## Ignore .editorconfig files from nuget package
+
+src/**/.editorconfig
+test/**/.editorconfig
