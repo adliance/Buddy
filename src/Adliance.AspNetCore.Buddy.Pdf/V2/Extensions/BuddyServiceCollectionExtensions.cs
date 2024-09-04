@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Adliance.AspNetCore.Buddy.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,33 +7,32 @@ using Microsoft.Extensions.DependencyInjection;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
-namespace Adliance.AspNetCore.Buddy.Pdf.V2.Extensions
+namespace Adliance.AspNetCore.Buddy.Pdf.V2.Extensions;
+
+public static class BuddyServiceCollectionExtensions
 {
-    public static class BuddyServiceCollectionExtensions
+    public static IBuddyServiceCollection AddPdf(
+        this IBuddyServiceCollection buddyServices,
+        IPdferConfiguration pdferConfiguration)
     {
-        public static IBuddyServiceCollection AddPdf(
-            this IBuddyServiceCollection buddyServices,
-            IPdferConfiguration pdferConfiguration)
-        {
-            buddyServices.Services.AddSingleton(pdferConfiguration);
-            return AddPdf(buddyServices);
-        }
+        buddyServices.Services.AddSingleton(pdferConfiguration);
+        return AddPdf(buddyServices);
+    }
 
-        public static IBuddyServiceCollection AddPdf(
-            this IBuddyServiceCollection buddyServices,
-            IConfigurationSection pdferConfigurationSection)
-        {
-            var pdferOptions = pdferConfigurationSection.Get<DefaultPdferConfiguration>();
-            buddyServices.Services.Configure<DefaultPdferConfiguration>(pdferConfigurationSection);
-            ArgumentNullException.ThrowIfNull(pdferOptions, "PDFer Configuration");
-            return AddPdf(buddyServices, pdferOptions);
-        }
+    public static IBuddyServiceCollection AddPdf(
+        this IBuddyServiceCollection buddyServices,
+        IConfigurationSection pdferConfigurationSection)
+    {
+        var pdferOptions = pdferConfigurationSection.Get<DefaultPdferConfiguration>();
+        buddyServices.Services.Configure<DefaultPdferConfiguration>(pdferConfigurationSection);
+        ArgumentNullException.ThrowIfNull(pdferOptions, "PDFer Configuration");
+        return AddPdf(buddyServices, pdferOptions);
+    }
 
-        public static IBuddyServiceCollection AddPdf(
-            this IBuddyServiceCollection buddyServices)
-        {
-            buddyServices.Services.AddTransient<IPdfer, AdliancePdfer>();
-            return buddyServices;
-        }
+    public static IBuddyServiceCollection AddPdf(
+        this IBuddyServiceCollection buddyServices)
+    {
+        buddyServices.Services.AddTransient<IPdfer, AdliancePdfer>();
+        return buddyServices;
     }
 }

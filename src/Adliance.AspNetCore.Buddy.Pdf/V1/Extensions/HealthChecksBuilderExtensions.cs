@@ -1,12 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Adliance.AspNetCore.Buddy.Pdf.V1.Extensions
+namespace Adliance.AspNetCore.Buddy.Pdf.V1.Extensions;
+
+public static class HealthChecksBuilderExtensions
 {
-    public static class HealthChecksBuilderExtensions
+    public static IHealthChecksBuilder AddPdfCheck(this IHealthChecksBuilder builder)
     {
-        public static IHealthChecksBuilder AddPdfCheck(this IHealthChecksBuilder builder)
-        {
-            return builder.AddCheck<PdferHealthCheck>("PDFer");
-        }
+        return builder.AddCheck<PdferHealthCheck>("PDFer");
     }
 }
