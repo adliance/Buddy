@@ -257,11 +257,11 @@ public class QrCodeBuilder<TPixel>(string content)
     {
         for (int inputY = 0, outputY = configuration.TopPadding;
              inputY < configuration.Matrix.Height;
-             inputY++, outputY += configuration.Multiple)
+             inputY++, outputY += configuration.PixelRatio)
         {
             for (int inputX = 0, outputX = configuration.LeftPadding;
                  inputX < configuration.Matrix.Width;
-                 inputX++, outputX += configuration.Multiple)
+                 inputX++, outputX += configuration.PixelRatio)
             {
                 if (configuration.Matrix[inputX, inputY] != 1) continue;
                 if (configuration.InFinderPatternRegion(inputX, inputY)) continue;
@@ -303,22 +303,22 @@ public class QrCodeBuilder<TPixel>(string content)
         else if (_squircleFinderPattern)
         {
             DrawFinderPatternSquircleStyle(image, configuration.LeftTopFinderPatternX,
-                configuration.LeftTopFinderPatternY, configuration.FinderPatternOutputSize, configuration.Multiple);
+                configuration.LeftTopFinderPatternY, configuration.FinderPatternOutputSize, configuration.PixelRatio);
             DrawFinderPatternSquircleStyle(image, configuration.RightTopFinderPatternX,
-                configuration.RightTopFinderPatternY, configuration.FinderPatternOutputSize, configuration.Multiple);
+                configuration.RightTopFinderPatternY, configuration.FinderPatternOutputSize, configuration.PixelRatio);
             DrawFinderPatternSquircleStyle(image, configuration.LeftBottomFinderPatternX,
                 configuration.LeftBottomFinderPatternY, configuration.FinderPatternOutputSize,
-                configuration.Multiple);
+                configuration.PixelRatio);
         }
         else
         {
             DrawFinderPatternRectangleStyle(image, configuration.LeftTopFinderPatternX,
-                configuration.LeftTopFinderPatternY, configuration.FinderPatternOutputSize, configuration.Multiple);
+                configuration.LeftTopFinderPatternY, configuration.FinderPatternOutputSize, configuration.PixelRatio);
             DrawFinderPatternRectangleStyle(image, configuration.RightTopFinderPatternX,
-                configuration.RightTopFinderPatternY, configuration.FinderPatternOutputSize, configuration.Multiple);
+                configuration.RightTopFinderPatternY, configuration.FinderPatternOutputSize, configuration.PixelRatio);
             DrawFinderPatternRectangleStyle(image, configuration.LeftBottomFinderPatternX,
                 configuration.LeftBottomFinderPatternY, configuration.FinderPatternOutputSize,
-                configuration.Multiple);
+                configuration.PixelRatio);
         }
     }
 

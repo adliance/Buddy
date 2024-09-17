@@ -23,25 +23,25 @@ internal class RenderConfiguration
 
     private int OutputHeight => Math.Max(Height, QrHeight);
 
-    public int Multiple => Math.Min(OutputWidth / QrWidth, OutputHeight / QrHeight);
+    public int PixelRatio => (int)Math.Min(Math.Round(OutputWidth / (decimal)QrWidth), Math.Round(OutputHeight / (decimal)QrHeight));
 
-    public int LeftPadding => (OutputWidth - Matrix.Width * Multiple) / 2;
-    public int TopPadding => (OutputHeight - Matrix.Height * Multiple) / 2;
+    public int LeftPadding => Margin * PixelRatio;
+    public int TopPadding => Margin * PixelRatio;
 
-    public int DotSize => Math.Max((int)(Multiple * CircleScaleDownFactor), 1);
-    public int PixelSize => Math.Max(Multiple, 1);
+    public int DotSize => Math.Max((int)(PixelRatio * CircleScaleDownFactor), 1);
+    public int PixelSize => Math.Max(PixelRatio, 1);
 
-    public int FinderPatternDiameter => (int)(Multiple * FinderPatternSize / 1.9f);
-    public int FinderPatternOutputSize => Multiple * FinderPatternSize;
+    public int FinderPatternDiameter => (int)(PixelRatio * FinderPatternSize / 1.9f);
+    public int FinderPatternOutputSize => PixelRatio * FinderPatternSize;
 
     public int LeftTopFinderPatternX => LeftPadding;
     public int LeftTopFinderPatternY => TopPadding;
 
-    public int RightTopFinderPatternX => LeftPadding + (Matrix.Width - FinderPatternSize) * Multiple;
+    public int RightTopFinderPatternX => LeftPadding + (Matrix.Width - FinderPatternSize) * PixelRatio;
     public int RightTopFinderPatternY => TopPadding;
 
     public int LeftBottomFinderPatternX => LeftPadding;
-    public int LeftBottomFinderPatternY => TopPadding + (Matrix.Height - FinderPatternSize) * Multiple;
+    public int LeftBottomFinderPatternY => TopPadding + (Matrix.Height - FinderPatternSize) * PixelRatio;
 
     public bool InFinderPatternRegion(int x, int y)
     {
@@ -54,7 +54,7 @@ internal class RenderConfiguration
     {
         // margin * 2 for both sides
         var columnCount = code.Matrix.Width / 3 + margin * 2;
-        return new Size(columnCount * Multiple);
+        return new Size(columnCount * PixelRatio);
     }
 
     public Size GetOverlayImageSize(QRCode code)
