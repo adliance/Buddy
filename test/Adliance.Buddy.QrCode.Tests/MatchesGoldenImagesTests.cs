@@ -17,7 +17,11 @@ public class MatchesGoldenImagesTests
         var actual = new QrCodeBuilder<Rgba32>("https://adliance.net")
             .Render();
 
-        Assert.True(ImagesAreEqual(expected, actual));
+        if (!ImagesAreEqual(expected, actual))
+        {
+            actual.SaveAsPng("actual-simple-adliance.png");
+            Assert.Fail("Images did not match.");
+        }
     }
 
     [Fact]
@@ -49,11 +53,15 @@ public class MatchesGoldenImagesTests
             .WithMargin(2)
             .Render();
 
-        Assert.True(ImagesAreEqual(expected, actual));
+        if (!ImagesAreEqual(expected, actual))
+        {
+            actual.SaveAsPng("actual-complex-adliance.png");
+            Assert.Fail("Images did not match.");
+        }
     }
 
     [Fact]
-    public void MadxQrCodeMatchesGoldenImage()
+    public async Task MadxQrCodeMatchesGoldenImage()
     {
         var expected = Image.Load<Rgba32>("GoldenImages/complex-madx.png");
 
@@ -90,7 +98,11 @@ public class MatchesGoldenImagesTests
             .WithMargin(2)
             .Render();
 
-        Assert.True(ImagesAreEqual(expected, actual));
+        if (!ImagesAreEqual(expected, actual))
+        {
+            await actual.SaveAsPngAsync("actual-complex-madx.png");
+            Assert.Fail("Images did not match.");
+        }
     }
 
     private bool ImagesAreEqual(Image<Rgba32> expected, Image<Rgba32> actual)
