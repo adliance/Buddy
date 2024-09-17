@@ -23,25 +23,25 @@ internal class RenderConfiguration
 
     private int OutputHeight => Math.Max(Height, QrHeight);
 
-    public int PixelRatio => (int)Math.Min(Math.Round(OutputWidth / (decimal)QrWidth), Math.Round(OutputHeight / (decimal)QrHeight));
+    public float PixelRatio => Math.Min(OutputWidth / (float)QrWidth, OutputHeight / (float)QrHeight);
 
-    public int LeftPadding => Margin * PixelRatio;
-    public int TopPadding => Margin * PixelRatio;
+    public int LeftPadding => (int)Math.Round(Margin * PixelRatio);
+    public int TopPadding => (int)Math.Round(Margin * PixelRatio);
 
     public int DotSize => Math.Max((int)(PixelRatio * CircleScaleDownFactor), 1);
-    public int PixelSize => Math.Max(PixelRatio, 1);
+    public int PixelSize => (int)Math.Max(PixelRatio, 1);
 
-    public int FinderPatternDiameter => (int)(PixelRatio * FinderPatternSize / 1.9f);
-    public int FinderPatternOutputSize => PixelRatio * FinderPatternSize;
+    public float FinderPatternDiameter => PixelRatio * FinderPatternSize / 1.9f;
+    public float FinderPatternOutputSize => PixelRatio * FinderPatternSize;
 
     public int LeftTopFinderPatternX => LeftPadding;
     public int LeftTopFinderPatternY => TopPadding;
 
-    public int RightTopFinderPatternX => LeftPadding + (Matrix.Width - FinderPatternSize) * PixelRatio;
+    public int RightTopFinderPatternX => (int)(LeftPadding + (Matrix.Width - FinderPatternSize) * PixelRatio);
     public int RightTopFinderPatternY => TopPadding;
 
     public int LeftBottomFinderPatternX => LeftPadding;
-    public int LeftBottomFinderPatternY => TopPadding + (Matrix.Height - FinderPatternSize) * PixelRatio;
+    public int LeftBottomFinderPatternY => (int)(TopPadding + (Matrix.Height - FinderPatternSize) * PixelRatio);
 
     public bool InFinderPatternRegion(int x, int y)
     {
@@ -50,15 +50,20 @@ internal class RenderConfiguration
                x <= FinderPatternSize && y >= Matrix.Height - FinderPatternSize;
     }
 
-    public Size GetCutoutSize(QRCode code, int margin)
+    public Size GetCutoutSize(int overlayMargin)
     {
         // margin * 2 for both sides
-        var columnCount = code.Matrix.Width / 3 + margin * 2;
-        return new Size(columnCount * PixelRatio);
+        var portion = Matrix.Width > 28 ? 3f : 4f;
+        var columnCount = Math.Ceiling(QrWidth / portion) + overlayMargin * 2;
+        if (QrWidth % 2 != columnCount % 2)
+        {
+            columnCount--;
+        }
+        return new Size((int)Math.Round(columnCount * PixelRatio));
     }
 
-    public Size GetOverlayImageSize(QRCode code)
+    public Size GetOverlayImageSize()
     {
-        return GetCutoutSize(code, 0);
+        return GetCutoutSize(0);
     }
 }

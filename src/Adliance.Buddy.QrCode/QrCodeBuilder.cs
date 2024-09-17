@@ -248,18 +248,20 @@ public class QrCodeBuilder<TPixel>(string content)
 
         RenderContent(renderConfig, image);
         RenderFinderPattern(renderConfig, image);
-        RenderOverlayImage(renderConfig, image, code);
+        RenderOverlayImage(renderConfig, image);
 
         return image;
     }
 
     private void RenderContent(RenderConfiguration configuration, Image<TPixel> image)
     {
-        for (int inputY = 0, outputY = configuration.TopPadding;
+        float outputY = configuration.TopPadding;
+        for (int inputY = 0;
              inputY < configuration.Matrix.Height;
              inputY++, outputY += configuration.PixelRatio)
         {
-            for (int inputX = 0, outputX = configuration.LeftPadding;
+            float outputX = configuration.LeftPadding;
+            for (int inputX = 0;
                  inputX < configuration.Matrix.Width;
                  inputX++, outputX += configuration.PixelRatio)
             {
@@ -322,7 +324,7 @@ public class QrCodeBuilder<TPixel>(string content)
         }
     }
 
-    private void DrawFinderPatternCircleStyle(Image<TPixel> image, int x, int y, int circleDiameter)
+    private void DrawFinderPatternCircleStyle(Image<TPixel> image, int x, int y, float circleDiameter)
     {
         var whiteCircleDiameter = 5 * circleDiameter / 7;
         var middleDotDiameter = 3 * circleDiameter / 7;
@@ -338,7 +340,7 @@ public class QrCodeBuilder<TPixel>(string content)
         });
     }
 
-    private void DrawFinderPatternSquircleStyle(Image<TPixel> image, int x, int y, int size, int offset)
+    private void DrawFinderPatternSquircleStyle(Image<TPixel> image, int x, int y, float size, float offset)
     {
         var whiteRectangleSize = 5 * size / 7;
         var centerRectangleSize = 3 * size / 7;
@@ -354,7 +356,7 @@ public class QrCodeBuilder<TPixel>(string content)
         });
     }
 
-    private void DrawFinderPatternRectangleStyle(Image<TPixel> image, int x, int y, int size, int offset)
+    private void DrawFinderPatternRectangleStyle(Image<TPixel> image, int x, int y, float size, float offset)
     {
         var whiteRectangleSize = 5 * size / 7;
         var centerRectangleSize = 3 * size / 7;
@@ -370,12 +372,12 @@ public class QrCodeBuilder<TPixel>(string content)
         });
     }
 
-    private void RenderOverlayImage(RenderConfiguration configuration, Image<TPixel> image, QRCode code)
+    private void RenderOverlayImage(RenderConfiguration configuration, Image<TPixel> image)
     {
         if (_overlayImage == null) return;
 
-        var cutoutSize = configuration.GetCutoutSize(code, _overlayMargin);
-        var overlayImageSize = configuration.GetOverlayImageSize(code);
+        var cutoutSize = configuration.GetCutoutSize(_overlayMargin);
+        var overlayImageSize = configuration.GetOverlayImageSize();
         _overlayImage.Mutate(x => x.Resize(overlayImageSize));
         var cutoutLocation = new Point((_width - cutoutSize.Width) / 2, (_height - cutoutSize.Height) / 2);
         var overlayImageLocation =
