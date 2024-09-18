@@ -53,7 +53,7 @@ internal class RenderConfiguration
     public Size GetCutoutSize(int overlayMargin)
     {
         // margin * 2 for both sides
-        var portion = Matrix.Width > 28 ? 3f : 4f;
+        var portion = Matrix.Width > 40 ? 3f : 4f;
         var columnCount = Math.Ceiling(QrWidth / portion) + overlayMargin * 2;
         if (QrWidth % 2 != columnCount % 2)
         {
