@@ -1,7 +1,7 @@
 variables:
   - template: pipeline-variables.yml
 
-name: ${{ variables.version }}.$(Rev:r)
+name: 8.0.1.$(Rev:r)
 
 resources:
   - repo: self
