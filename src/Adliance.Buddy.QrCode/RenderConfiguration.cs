@@ -50,11 +50,19 @@ internal class RenderConfiguration
                x <= FinderPatternSize && y >= Matrix.Height - FinderPatternSize;
     }
 
+    /// <summary>
+    /// Calculates the size to be cut out from the QR code and place the overlay image into.
+    /// The size is a multiple of one data pixel size. For smaller QR codes it is one quarter
+    /// of the overall matrix columns, for more complex QR codes it is one third.
+    /// </summary>
+    /// <param name="overlayMargin">Number of columns margin around the overlay image.</param>
+    /// <returns>The calculated square size.</returns>
     public Size GetCutoutSize(int overlayMargin)
     {
-        // margin * 2 for both sides
         var portion = Matrix.Width > 40 ? 3f : 4f;
+        // margin * 2 for both sides
         var columnCount = Math.Ceiling(QrWidth / portion) + overlayMargin * 2;
+        // Both must be either even or odd for correct placement
         if (QrWidth % 2 != columnCount % 2)
         {
             columnCount--;
