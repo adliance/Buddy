@@ -35,12 +35,16 @@ public class FieldTagHelper : TagHelper
     [HtmlAttributeName("rows")] public int Rows { get; set; } = 6;
     [HtmlAttributeName("password")] public bool Password { get; set; }
     [HtmlAttributeName("number")] public bool Number { get; set; }
+    /// <summary>
+    /// Defines the size of the field. Available for all types, except checkboxes.
+    /// </summary>
+    [HtmlAttributeName("size")] public Size FieldSize { get; set; } = Size.Normal;
     [HtmlAttributeName("readonly")] public bool Readonly { get; set; }
     [HtmlAttributeName("disabled")] public bool Disabled { get; set; }
 
     /// <summary>
     /// Specifies the autocomplete attribute of the input text.
-    /// If has set to false, the autocomplete will be set to 'off'.
+    /// If set to false, the autocomplete will be set to 'off'.
     /// </summary>
     [HtmlAttributeName("auto-complete")] public bool? AutoComplete { get; set; }
 
@@ -50,6 +54,13 @@ public class FieldTagHelper : TagHelper
     private bool IsSelectList => !IsCheckBoxList && Items != null && For != null;
     private bool IsCheckBoxList => Items != null && For != null && Checkboxes;
     private bool HasIcon => !string.IsNullOrWhiteSpace(Icon);
+    private string SizeClass => FieldSize switch
+    {
+        Size.Small => " is-small",
+        Size.Medium => " is-medium",
+        Size.Large => " is-large",
+        _ => ""
+    };
 
     public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
     {
@@ -64,7 +75,7 @@ public class FieldTagHelper : TagHelper
         AppendLabel(builder);
 
         builder.AppendHtml($"<div class=\"field{(!string.IsNullOrWhiteSpace(Append + Prepend) ? " has-addons" : "")}\" style=\"margin-bottom:0;\">");
-        if (!string.IsNullOrWhiteSpace(Prepend)) builder.AppendHtml($"<div class=\"control\"><a class=\"button is-static\">{Prepend}</a></div>");
+        if (!string.IsNullOrWhiteSpace(Prepend)) builder.AppendHtml($"<div class=\"control\"><a class=\"button is-static{SizeClass}\">{Prepend}</a></div>");
         builder.AppendHtml($"<div class=\"control is-expanded{(HasIcon ? " has-icons-left" : "")}\">");
         if (!string.IsNullOrWhiteSpace(childContent)) builder.AppendHtml(childContent);
         AppendSelect(builder);
@@ -72,7 +83,7 @@ public class FieldTagHelper : TagHelper
         AppendCheckBoxList(builder);
         AppendTextbox(builder);
         builder.AppendHtml("</div>");
-        if (!string.IsNullOrWhiteSpace(Append)) builder.AppendHtml($"<div class=\"control\"><a class=\"button is-static\">{Append}</a></div>");
+        if (!string.IsNullOrWhiteSpace(Append)) builder.AppendHtml($"<div class=\"control\"><a class=\"button is-static{SizeClass}\">{Append}</a></div>");
         builder.AppendHtml("</div>");
         AppendValidationSection(builder);
         AppendHelpSection(builder);
@@ -89,11 +100,11 @@ public class FieldTagHelper : TagHelper
 
         if (For?.ModelExplorer == null)
         {
-            builder.AppendHtml($"<label class=\"label\">{labelText}</label>");
+            builder.AppendHtml($"<label class=\"label{SizeClass}\">{labelText}</label>");
             return;
         }
 
-        var label = _htmlGenerator.GenerateLabel(ViewContext, For?.ModelExplorer, For?.Name, labelText, new { @class = "label" });
+        var label = _htmlGenerator.GenerateLabel(ViewContext, For?.ModelExplorer, For?.Name, labelText, new { @class = $"label{SizeClass}" });
         builder.AppendHtml(label);
     }
 
@@ -102,7 +113,7 @@ public class FieldTagHelper : TagHelper
         if (!IsSelectList || For?.ModelExplorer == null) return;
         var select = _htmlGenerator.GenerateSelect(ViewContext, For?.ModelExplorer, null, For?.Name, Items, false, new { });
         if (Disabled) select.Attributes.Add("disabled", "disabled");
-        builder.AppendHtml("<div class=\"select is-fullwidth\">");
+        builder.AppendHtml($"<div class=\"select is-fullwidth{SizeClass}\">");
         builder.AppendHtml(select);
         builder.AppendHtml("</div>");
         AppendIcon(builder);
@@ -134,7 +145,7 @@ public class FieldTagHelper : TagHelper
         {
             var icon = Icon ?? "";
             if (!icon.StartsWith("fa", StringComparison.OrdinalIgnoreCase)) icon = $"fad fa-{icon}";
-            builder.AppendHtml($"<span class=\"icon is-left\"><i class=\"{icon}\"></i></span>");
+            builder.AppendHtml($"<span class=\"icon is-left{SizeClass}\"><i class=\"{icon}\"></i></span>");
         }
     }
 
@@ -177,7 +188,7 @@ public class FieldTagHelper : TagHelper
         {
             control = _htmlGenerator.GeneratePassword(ViewContext, For?.ModelExplorer, For?.Name, null, new
             {
-                @class = "input",
+                @class = $"input{SizeClass}",
                 placeholder = Placeholder ?? ""
             });
         }
@@ -185,13 +196,13 @@ public class FieldTagHelper : TagHelper
         {
             control = _htmlGenerator.GenerateTextArea(ViewContext, For?.ModelExplorer, For?.Name, Rows, 0, new
             {
-                @class = "textarea",
+                @class = $"textarea{SizeClass}",
                 placeholder = Placeholder ?? ""
             });
         }
         else if (FileUpload)
         {
-            builder.AppendHtml("<div class=\"file has-name is-fullwidth\"><label class=\"file-label\">");
+            builder.AppendHtml($"<div class=\"file has-name is-fullwidth{SizeClass}\"><label class=\"file-label\">");
             builder.AppendHtml(_htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, new
             {
                 type = "file",
@@ -203,17 +214,17 @@ public class FieldTagHelper : TagHelper
         }
         else if (IsDateTime)
         {
-            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateTime?)?.ToString("yyyy-MM-dd"), null, new { type = "date", @class = "input", placeholder = Placeholder ?? "" });
+            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateTime?)?.ToString("yyyy-MM-dd"), null, new { type = "date", @class = $"input{SizeClass}", placeholder = Placeholder ?? "" });
         }
         else if (Number)
         {
-            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, new { type = "number", @class = "input", placeholder = Placeholder ?? "" });
+            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, new { type = "number", @class = $"input{SizeClass}", placeholder = Placeholder ?? "" });
         }
         else
         {
             control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, new
             {
-                @class = "input",
+                @class = $"input{SizeClass}",
                 placeholder = Placeholder ?? ""
             });
         }
@@ -232,7 +243,7 @@ public class FieldTagHelper : TagHelper
     private void AppendValidationSection(IHtmlContentBuilder builder)
     {
         if (For == null) return;
-        var validation = _htmlGenerator.GenerateValidationMessage(ViewContext, For.ModelExplorer, For.Name, null, "div", new { @class = "help is-danger" });
+        var validation = _htmlGenerator.GenerateValidationMessage(ViewContext, For.ModelExplorer, For.Name, null, "div", new { @class = $"help is-danger{SizeClass}" });
         builder.AppendHtml(validation);
     }
 
@@ -242,5 +253,13 @@ public class FieldTagHelper : TagHelper
         builder.AppendHtml("<div class=\"help\">");
         builder.AppendHtml(Help);
         builder.AppendHtml("</div>");
+    }
+    
+    public enum Size
+    {
+        Small,
+        Normal,
+        Medium,
+        Large
     }
 }
