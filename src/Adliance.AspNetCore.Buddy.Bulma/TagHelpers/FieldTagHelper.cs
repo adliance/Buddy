@@ -31,6 +31,7 @@ public class FieldTagHelper : TagHelper
     [HtmlAttributeName("items")] public IEnumerable<SelectListItem>? Items { get; set; }
     [HtmlAttributeName("multi-line")] public bool MultiLine { get; set; }
     [HtmlAttributeName("file-upload")] public bool FileUpload { get; set; }
+    [HtmlAttributeName("file-upload-accept")] public string? FileUploadAcceptFilter { get; set; }
     [HtmlAttributeName("checkboxes")] public bool Checkboxes { get; set; }
     [HtmlAttributeName("rows")] public int Rows { get; set; } = 6;
     [HtmlAttributeName("password")] public bool Password { get; set; }
@@ -207,6 +208,7 @@ public class FieldTagHelper : TagHelper
             {
                 type = "file",
                 @class = "file-input",
+                accept = FileUploadAcceptFilter,
                 onchange = "if (this.files.length > 0) { this.closest(\"div.file\").querySelector(\"span.file-name\").innerText = this.files[0].name; }"
             }));
             builder.AppendHtml($"<span class=\"file-cta\"><span class=\"file-label\">{Placeholder}</span></span>");
