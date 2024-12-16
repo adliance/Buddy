@@ -22,7 +22,9 @@ public class OpenTelemetryExceptionTracer : IExceptionHandler
     /// <returns>False, so the exception will be handled further</returns>
     public ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         Activity.Current?.RecordException(exception);
+#pragma warning restore CS0618 // Type or member is obsolete
         Activity.Current?.SetStatus(ActivityStatusCode.Error, "Unhandled exception");
         
         // Return false to continue with the default behavior

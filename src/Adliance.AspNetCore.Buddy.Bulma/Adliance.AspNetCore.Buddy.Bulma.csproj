@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Adliance.AspNetCore.Buddy" Version="8.0.0.3" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy" Version="8.0.0.4" />
   </ItemGroup>
 
 </Project>

@@ -16,6 +16,7 @@
     <Description>Library of utility methods and common functionality that are useful for most Adliance projects.</Description>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1901;NU1902;NU1903;NU1904;</WarningsNotAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,8 +25,8 @@
   
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.6" />
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Pdf" Version="8.0.0.3" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.7" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Pdf" Version="8.0.0.6" />
   </ItemGroup>
 
 </Project>
