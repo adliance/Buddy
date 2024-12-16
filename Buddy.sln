@@ -27,6 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		pipeline-sendgrid.yml = pipeline-sendgrid.yml
 		pipeline-smtp.yml = pipeline-smtp.yml
 		pipeline-abstractions.yml = pipeline-abstractions.yml
+		Adliance.AspNetCore.Buddy.Testing.Test.dockerfile = Adliance.AspNetCore.Buddy.Testing.Test.dockerfile
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Email.SendGrid", "src\Adliance.AspNetCore.Buddy.Email.SendGrid\Adliance.AspNetCore.Buddy.Email.SendGrid.csproj", "{A9402D86-139E-48A6-8444-28C14B7CB310}"
@@ -84,6 +85,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.Buddy.QrCode.Tests", "test\Adliance.Buddy.QrCode.Tests\Adliance.Buddy.QrCode.Tests.csproj", "{6D63DDB3-0380-46D4-B420-1C3D8AEE7D33}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Test", "test\Adliance.AspNetCore.Buddy.Test\Adliance.AspNetCore.Buddy.Test.csproj", "{8FE79C4F-5532-4C5A-BA00-E2E01E90A166}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Testing", "src\Adliance.AspNetCore.Buddy.Testing\Adliance.AspNetCore.Buddy.Testing.csproj", "{3439A935-0519-41F6-8455-C3E28CB6CCA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Testing.Test", "test\Adliance.AspNetCore.Buddy.Testing.Test\Adliance.AspNetCore.Buddy.Testing.Test.csproj", "{313C8BA7-D84E-4B18-8047-F9F3A2D81B6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -207,6 +212,14 @@ Global
 		{8FE79C4F-5532-4C5A-BA00-E2E01E90A166}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FE79C4F-5532-4C5A-BA00-E2E01E90A166}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FE79C4F-5532-4C5A-BA00-E2E01E90A166}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3439A935-0519-41F6-8455-C3E28CB6CCA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3439A935-0519-41F6-8455-C3E28CB6CCA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3439A935-0519-41F6-8455-C3E28CB6CCA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3439A935-0519-41F6-8455-C3E28CB6CCA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{313C8BA7-D84E-4B18-8047-F9F3A2D81B6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{313C8BA7-D84E-4B18-8047-F9F3A2D81B6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{313C8BA7-D84E-4B18-8047-F9F3A2D81B6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{313C8BA7-D84E-4B18-8047-F9F3A2D81B6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -224,6 +237,7 @@ Global
 		{5908F0F0-2A74-462B-B01D-A891D8CB3AAB} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
 		{6D63DDB3-0380-46D4-B420-1C3D8AEE7D33} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
 		{8FE79C4F-5532-4C5A-BA00-E2E01E90A166} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
+		{313C8BA7-D84E-4B18-8047-F9F3A2D81B6C} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB86B6DA-4E94-41EF-8CAA-064DE0176535}

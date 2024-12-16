@@ -1,0 +1,34 @@
+using System;
+using DotNet.Testcontainers.Builders;
+
+namespace Adliance.AspNetCore.Buddy.Testing;
+
+public interface IFixtureOptions
+{
+    WebAppOptions WebApp { get; }
+    string? ContentRootPath { get; }
+
+    string? DockerFileDirectory { get; }
+    string? DockerFileName { get; }
+}
+
+public class DefaultFixtureOptions : IFixtureOptions
+{
+    public virtual WebAppOptions WebApp => WebAppOptions.InProcess;
+    public virtual string? ContentRootPath => null;
+    public virtual string? DockerFileDirectory => CommonDirectoryPath.GetSolutionDirectory().DirectoryPath;
+    public virtual string? DockerFileName => "dockerfile";
+}
+
+public enum WebAppOptions
+{
+    InProcess,
+    InContainer
+}
+
+public enum DbOptions
+{
+    None,
+    UseSqlServerPreferDefaultInstance,
+    UseSqlServer
+}
