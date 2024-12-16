@@ -9,6 +9,7 @@ using DotNet.Testcontainers.Images;
 using DotNet.Testcontainers.Networks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Playwright;
 using Xunit;
 
 namespace Adliance.AspNetCore.Buddy.Testing;
@@ -22,6 +23,9 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
     private IImage? _webImage;
     private INetwork? _network;
     private IContainer? _webContainer;
+    private IPage? _page;
+    private IPlaywright? _playwright;
+    private IBrowser? _browser;
 
     protected WebApplicationFactory<TEntryPoint>? Factory;
     protected HttpClient Client = null!;
@@ -45,6 +49,8 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
             if (Options.WebApp == WebAppOptions.InProcess) await InitWebAppInProcess();
             else if (Options.WebApp == WebAppOptions.InContainer) await InitWebAppInContainer();
             else throw new Exception("Unsupported WebAppOption.");
+
+            if (Options.Playwright != PlaywrightOptions.None) await InitPlaywright();
         }
         finally
         {
@@ -108,11 +114,42 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
         };
     }
 
+    public IPage Page
+    {
+        get
+        {
+            if (_page == null) throw new Exception("Playwright is not initialized.");
+            return _page;
+        }
+    }
+
+    private async Task InitPlaywright()
+    {
+        _playwright = await Playwright.CreateAsync();
+        _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+        {
+            Headless = Options.Playwright == PlaywrightOptions.Headless
+        });
+        _page = await _browser.NewPageAsync(new BrowserNewPageOptions
+        {
+            Locale = "en-US",
+            ScreenSize = new ScreenSize
+            {
+                Height = 1000,
+                Width = 1200
+            }
+        });
+    }
 
     public async Task DisposeAsync()
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (Client != null) Client.Dispose();
+
+        if (_page != null) await _page.CloseAsync().ConfigureAwait(false);
+        if (_browser != null) await _browser.DisposeAsync().ConfigureAwait(false);
+        if (_playwright != null) _playwright.Dispose();
+
         if (Factory != null) await Factory.DisposeAsync().ConfigureAwait(false);
         if (_webContainer != null) await _webContainer.DisposeAsync().ConfigureAwait(false);
         if (_network != null) await _network.DisposeAsync().ConfigureAwait(false);
