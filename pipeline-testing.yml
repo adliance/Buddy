@@ -34,7 +34,7 @@ stages:
             displayName: 'Test'
             inputs:
               command: test
-              projects: 'test/Adliance.AspNetCore.Buddy.Email.Mailjet.Test/*.csproj'
+              projects: 'test/Adliance.AspNetCore.Buddy.Testing.Test/*.csproj'
               arguments: '--configuration Release'
 
   - stage: publish
