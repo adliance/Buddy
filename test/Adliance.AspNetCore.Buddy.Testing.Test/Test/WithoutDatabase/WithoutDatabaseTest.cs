@@ -8,7 +8,7 @@ public class InProcessTest(WebApplicationFactory<Program> factory) : BaseTest<In
 {
 }
 
-public class InContainerTest() : BaseTest<InContainerOptions>(null)
+public class InContainerTest() : BaseTest<InContainerOptions>(null!)
 {
 }
 
@@ -16,16 +16,16 @@ public abstract class BaseTest<TOptions>(WebApplicationFactory<Program>? factory
     : BuddyFixture<TOptions, Program>(factory) where TOptions : IFixtureOptions, new()
 {
     [Fact]
-    public async Task Get_Get_Home()
+    public async Task Can_Get_Home()
     {
         var response = await Client.GetAsync("/");
         var responseString = await response.Content.ReadAsStringAsync();
         response.EnsureSuccessStatusCode();
         Assert.Contains("This is our view.", responseString);
     }
-
+    
     [Fact]
-    public async Task Get_Post_Home()
+    public async Task Can_Post_Home()
     {
         var response = await Client.PostAsync("/", new FormUrlEncodedContent(new Dictionary<string, string>
         {
@@ -37,13 +37,13 @@ public abstract class BaseTest<TOptions>(WebApplicationFactory<Program>? factory
     }
 
     [Fact]
-    public async Task Get_Make_Screenshot_of_Home()
+    public async Task Can_Make_Screenshot_of_Home()
     {
         if (Options.Playwright == PlaywrightOptions.None) return; // Assert.Skip is only available in XUnit 3
         
         await Page.Navigate(Client);
         var pageContent = await Page.ContentAsync();
-        await Page.Screenshot("screenshot_from_test4_1");
+        await Page.Screenshot("home");
         Assert.Contains("This is our view.", pageContent);
     }
 }
