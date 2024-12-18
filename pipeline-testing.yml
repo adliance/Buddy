@@ -31,11 +31,23 @@ stages:
               version: '8.0.x'
               packageType: sdk
           - task: DotNetCoreCLI@2
+            displayName: 'Build'
+            inputs:
+              command: test
+              projects: 'test/Adliance.AspNetCore.Buddy.Testing.Test/*.csproj'
+              arguments: '--configuration Debug'
+          - script: |
+              dotnet tool install --global PowerShell
+            displayName: 'Install PowerShell'
+          - script: |
+              pwsh bin/Debug/net8.0/playwright.ps1 install   
+            displayName: 'Download Playwright executable'
+          - task: DotNetCoreCLI@2
             displayName: 'Test'
             inputs:
               command: test
               projects: 'test/Adliance.AspNetCore.Buddy.Testing.Test/*.csproj'
-              arguments: '--configuration Release'
+              arguments: '--configuration Debug'
 
   - stage: publish
     jobs:
