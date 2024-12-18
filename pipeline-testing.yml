@@ -40,7 +40,7 @@ stages:
               dotnet tool install --global PowerShell
             displayName: 'Install PowerShell'
           - script: |
-              pwsh bin/Debug/net8.0/playwright.ps1 install   
+              pwsh test/Adliance.AspNetCore.Buddy.Testing.Test/bin/Debug/net8.0/playwright.ps1 install   
             displayName: 'Download Playwright executable'
           - task: DotNetCoreCLI@2
             displayName: 'Test'
