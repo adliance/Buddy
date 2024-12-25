@@ -27,7 +27,7 @@ public class DefaultFixtureOptions : IFixtureOptions
     public virtual string? ContentRootPath => null;
     public virtual string? DockerFileDirectory => CommonDirectoryPath.GetSolutionDirectory().DirectoryPath;
     public virtual string DockerFileName => "dockerfile";
-    public Dictionary<string, string?> WebAppConfiguration { get; } = new();
+    public virtual Dictionary<string, string?> WebAppConfiguration { get; } = new();
     public virtual Action<IServiceCollection>? ConfigureWebAppServices => null;
     public virtual Action<IServiceCollection>? ConfigureWebAppTestServices => null;
 

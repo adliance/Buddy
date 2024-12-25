@@ -33,7 +33,7 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
 
     protected WebApplicationFactory<TEntryPoint>? Factory { get; private set; }
     protected HttpClient Client { get; private set; } = null!;
-    protected IFixtureOptions Options { get; } = new TOptions();
+    protected TOptions Options { get; } = new();
     protected string? DbConnectionStringInternal { get; private set; }
     protected string? DbConnectionStringExternal { get; private set; }
     protected InMemoryLogger? WebContainerLogger { get; private set; }
@@ -76,14 +76,9 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
         {
             if (Options.ContentRootPath != null) config.UseContentRoot(Options.ContentRootPath);
 
-            if (Options.WebApp == WebAppOptions.InContainer && !string.IsNullOrWhiteSpace(DbConnectionStringInternal) && !string.IsNullOrWhiteSpace(Options.DbConnectionStringConfigurationKey))
+            if (!string.IsNullOrWhiteSpace(DbConnectionStringExternal) && !string.IsNullOrWhiteSpace(Options.DbConnectionStringConfigurationKey))
             {
-                // we set it both in ENV variable as well as configuration, becase in the app startup we may not have built the full ASP.NET configuration system, and only ENV variables are availavble
-                Environment.SetEnvironmentVariable(Options.DbConnectionStringConfigurationKey, DbConnectionStringInternal);
-                Options.WebAppConfiguration.TryAdd(Options.DbConnectionStringConfigurationKey, DbConnectionStringInternal);
-            }
-            else if (Options.WebApp == WebAppOptions.InProcess && !string.IsNullOrWhiteSpace(DbConnectionStringExternal) && !string.IsNullOrWhiteSpace(Options.DbConnectionStringConfigurationKey))
-            {
+                // we set it both in ENV variable as well as configuration, becase in the app startup we may not have built the full ASP.NET configuration system, and only ENV variables are available
                 Environment.SetEnvironmentVariable(Options.DbConnectionStringConfigurationKey, DbConnectionStringExternal);
                 Options.WebAppConfiguration.TryAdd(Options.DbConnectionStringConfigurationKey, DbConnectionStringExternal);
             }
@@ -97,6 +92,7 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
             if (Options.ConfigureWebAppServices != null) config.ConfigureServices(Options.ConfigureWebAppServices);
             if (Options.ConfigureWebAppTestServices != null) config.ConfigureTestServices(Options.ConfigureWebAppTestServices);
         });
+
         await Task.CompletedTask.ConfigureAwait(false);
         Client = Factory.CreateClient();
     }
