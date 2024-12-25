@@ -101,7 +101,7 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
     {
         try
         {
-            _webImage = new DockerImage("localhost/" + typeof(TEntryPoint).FullName!.ToLower(), "web", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture), null);
+            _webImage = new DockerImage("localhost/" + typeof(TEntryPoint).FullName!.ToLower(), "web", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture));
             await new ImageFromDockerfileBuilder()
                 .WithName(_webImage)
                 .WithDockerfileDirectory(Options.DockerFileDirectory)
