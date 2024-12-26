@@ -53,6 +53,8 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
 
         try
         {
+            await BeforeInit();
+
             if (Options.Db != DbOptions.None) await InitDatabase();
 
             if (Options.WebApp == WebAppOptions.InProcess) await InitWebAppInProcess();
@@ -60,6 +62,8 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
             else throw new Exception("Unsupported WebAppOption.");
 
             if (Options.Playwright != PlaywrightOptions.None) await InitPlaywright();
+
+            await AfterInit();
         }
         finally
         {
@@ -67,6 +71,22 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
         }
     }
 
+    /// <summary>
+    /// Is called after the initialization of all fixture dependencies (containers etc.).
+    /// Use (override) to initialize your test-specific stuff, for example a database or additional containers.
+    /// </summary>
+    protected virtual async Task AfterInit()
+    {
+        await Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Is called before any initialization of the fixture dependencies (containers etc.).
+    /// </summary>
+    protected virtual async Task BeforeInit()
+    {
+        await Task.CompletedTask;
+    }
 
     private async Task InitWebAppInProcess()
     {

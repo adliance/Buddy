@@ -30,7 +30,6 @@ public class DefaultFixtureOptions : IFixtureOptions
     public virtual Dictionary<string, string?> WebAppConfiguration { get; } = new();
     public virtual Action<IServiceCollection>? ConfigureWebAppServices => null;
     public virtual Action<IServiceCollection>? ConfigureWebAppTestServices => null;
-
     public virtual PlaywrightOptions Playwright => PlaywrightOptions.None;
     public virtual DbOptions Db => DbOptions.None;
     public virtual string DbConnectionStringConfigurationKey => "";
