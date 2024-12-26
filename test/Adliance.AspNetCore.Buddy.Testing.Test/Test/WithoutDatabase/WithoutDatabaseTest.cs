@@ -1,4 +1,3 @@
-using System.Collections;
 using Adliance.AspNetCore.Buddy.Testing.Extensions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
@@ -18,16 +17,6 @@ public abstract class BaseTest<TOptions>(WebApplicationFactory<Program>? factory
 {
     [Fact]
     public async Task Can_Get_Home()
-    {
-        var response = await Client.GetAsync("/");
-        var responseString = await response.Content.ReadAsStringAsync();
-        response.EnsureSuccessStatusCode();
-        Assert.Contains("This is our view.", responseString);
-    }
-
-    [Theory]
-    [ClassData(typeof(TestSet))]
-    public async Task Try_Trigger_Inotify_Instances_Error(int i)
     {
         var response = await Client.GetAsync("/");
         var responseString = await response.Content.ReadAsStringAsync();
@@ -57,17 +46,4 @@ public abstract class BaseTest<TOptions>(WebApplicationFactory<Program>? factory
         await Page.Screenshot("home");
         Assert.Contains("This is our view.", pageContent);
     }
-}
-
-public class TestSet : IEnumerable<object[]>
-{
-    public IEnumerator<object[]> GetEnumerator()
-    {
-        for (var i = 1; i <= 10_000; i++)
-        {
-            yield return [i];
-        }
-    }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
