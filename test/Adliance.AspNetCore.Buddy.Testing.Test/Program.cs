@@ -2,14 +2,16 @@ using Adliance.AspNetCore.Buddy.Testing.Test.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetValue<string>("DatabaseConnectionString");
-if (!string.IsNullOrWhiteSpace(connectionString))
-    builder.Services.AddDbContext<Db>(x => x.UseSqlServer(connectionString));
-
+builder.Services.AddDbContext<Db>(options =>
+{
+    var connectionString = builder.Configuration.GetValue<string>("DatabaseConnectionString");
+    options.UseSqlServer(connectionString);
+});
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+var connectionString = app.Configuration.GetValue<string>("DatabaseConnectionString");
 if (!string.IsNullOrWhiteSpace(connectionString))
 {
     await using (var scope = app.Services.CreateAsyncScope())

@@ -100,9 +100,6 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
             {
                 if (string.IsNullOrWhiteSpace(DbConnectionStringExternal)) throw new Exception("Unable to set connection string, as DbConnectionStringExternal is empty.");
                 if (string.IsNullOrWhiteSpace(Options.DbConnectionStringConfigurationKey)) throw new Exception("Unable to set connection string, as DbConnectionStringConfigurationKey is empty.");
-
-                // we set it both in ENV variable as well as configuration, becase in the app startup we may not have built the full ASP.NET configuration system, and only ENV variables are available
-                Environment.SetEnvironmentVariable(Options.DbConnectionStringConfigurationKey, DbConnectionStringExternal);
                 Options.WebAppConfiguration.TryAdd(Options.DbConnectionStringConfigurationKey, DbConnectionStringExternal);
             }
 
