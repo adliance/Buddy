@@ -7,4 +7,5 @@ public class InProcessOptions : DefaultFixtureOptions
 {
     public override string? ContentRootPath => CommonDirectoryPath.GetProjectDirectory().DirectoryPath;
     public override DbOptions Db => DbOptions.UseSqlServer;
+    public override string DbConnectionStringConfigurationKey => "DatabaseConnectionString";
 }

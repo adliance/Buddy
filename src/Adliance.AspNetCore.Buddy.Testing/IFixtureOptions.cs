@@ -33,7 +33,7 @@ public class DefaultFixtureOptions : IFixtureOptions
 
     public virtual PlaywrightOptions Playwright => PlaywrightOptions.None;
     public virtual DbOptions Db => DbOptions.None;
-    public virtual string DbConnectionStringConfigurationKey => "DatabaseConnectionString";
+    public virtual string DbConnectionStringConfigurationKey => "";
 }
 
 public enum WebAppOptions

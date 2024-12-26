@@ -113,15 +113,20 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
                 .ConfigureAwait(false);
             await InitNetwork();
 
-            _webContainer = new ContainerBuilder()
+            var webContainerBuilder = new ContainerBuilder()
                 .WithImage(_webImage)
                 .WithNetwork(_network)
                 .WithPortBinding(80, true)
-                .WithEnvironment(Options.DbConnectionStringConfigurationKey, DbConnectionStringInternal)
                 .WithEnvironment("ASPNETCORE_URLS", "http://+")
                 .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))
-                .WithLogger(WebContainerLogger = new InMemoryLogger())
-                .Build();
+                .WithLogger(WebContainerLogger = new InMemoryLogger());
+
+            if (!string.IsNullOrWhiteSpace(DbConnectionStringInternal))
+            {
+                webContainerBuilder = webContainerBuilder.WithEnvironment(Options.DbConnectionStringConfigurationKey, DbConnectionStringInternal);
+            }
+
+            _webContainer = webContainerBuilder.Build();
             await _webContainer.StartAsync().ConfigureAwait(false);
 
             var baseUri = new UriBuilder("http", _webContainer.Hostname, _webContainer.GetMappedPublicPort(80)).Uri;
