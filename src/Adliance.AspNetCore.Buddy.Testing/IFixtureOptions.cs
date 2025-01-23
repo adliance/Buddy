@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DotNet.Testcontainers.Builders;
+using DotNet.Testcontainers.Configurations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Adliance.AspNetCore.Buddy.Testing;
@@ -8,6 +9,7 @@ namespace Adliance.AspNetCore.Buddy.Testing;
 public interface IFixtureOptions
 {
     WebAppOptions WebApp { get; }
+    IWaitForContainerOS? WebAppWaitStrategy { get; }
     string? ContentRootPath { get; }
     string? DockerFileDirectory { get; }
     string? DockerFileName { get; }
@@ -16,9 +18,9 @@ public interface IFixtureOptions
     Action<IServiceCollection>? ConfigureWebAppTestServices { get; }
 
     PlaywrightOptions Playwright { get; }
-
     DbOptions Db { get; }
-    public string? DbConnectionStringConfigurationKey { get; }
+    IWaitForContainerOS? DbWaitStrategy { get; }
+    string? DbConnectionStringConfigurationKey { get; }
 }
 
 public class DefaultFixtureOptions : IFixtureOptions
@@ -32,7 +34,9 @@ public class DefaultFixtureOptions : IFixtureOptions
     public virtual Action<IServiceCollection>? ConfigureWebAppTestServices => null;
     public virtual PlaywrightOptions Playwright => PlaywrightOptions.None;
     public virtual DbOptions Db => DbOptions.None;
+    public IWaitForContainerOS? DbWaitStrategy => null;
     public virtual string DbConnectionStringConfigurationKey => "";
+    public IWaitForContainerOS WebAppWaitStrategy => Wait.ForUnixContainer().UntilPortIsAvailable(80);
 }
 
 public enum WebAppOptions

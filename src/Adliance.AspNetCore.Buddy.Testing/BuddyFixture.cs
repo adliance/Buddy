@@ -138,12 +138,16 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
                 .WithNetwork(_network)
                 .WithPortBinding(80, true)
                 .WithEnvironment("ASPNETCORE_URLS", "http://+")
-                .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(80))
                 .WithLogger(WebContainerLogger = new InMemoryLogger());
 
             if (!string.IsNullOrWhiteSpace(DbConnectionStringInternal))
             {
                 webContainerBuilder = webContainerBuilder.WithEnvironment(Options.DbConnectionStringConfigurationKey, DbConnectionStringInternal);
+            }
+
+            if (Options.WebAppWaitStrategy != null)
+            {
+                webContainerBuilder = webContainerBuilder.WithWaitStrategy(Options.WebAppWaitStrategy);
             }
 
             _webContainer = webContainerBuilder.Build();
@@ -199,11 +203,18 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
     {
         await InitNetwork();
 
-        _dbContainer = new MsSqlBuilder()
+        var dbContainer = new MsSqlBuilder()
             .WithNetwork(_network)
             .WithNetworkAliases("dbserver")
-            .WithPortBinding(1433, true)
-            .Build();
+            .WithPortBinding(1433, true);
+
+        if (Options.DbWaitStrategy != null)
+        {
+            dbContainer = dbContainer.WithWaitStrategy(Options.DbWaitStrategy);
+        }
+
+        _dbContainer = dbContainer.Build();
+
         await _dbContainer.StartAsync().ConfigureAwait(false);
         DbConnectionStringInternal = $"server=dbserver;user id={MsSqlBuilder.DefaultUsername};password={MsSqlBuilder.DefaultPassword};database=db;encrypt=false;";
         DbConnectionStringExternal = DbConnectionStringInternal.Replace("server=dbserver", $"server=localhost,{_dbContainer.GetMappedPublicPort(1433)}");
