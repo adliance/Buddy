@@ -34,9 +34,9 @@ public class DefaultFixtureOptions : IFixtureOptions
     public virtual Action<IServiceCollection>? ConfigureWebAppTestServices => null;
     public virtual PlaywrightOptions Playwright => PlaywrightOptions.None;
     public virtual DbOptions Db => DbOptions.None;
-    public IWaitForContainerOS? DbWaitStrategy => null;
+    public virtual IWaitForContainerOS? DbWaitStrategy => null;
     public virtual string DbConnectionStringConfigurationKey => "";
-    public IWaitForContainerOS WebAppWaitStrategy => Wait.ForUnixContainer().UntilPortIsAvailable(80);
+    public virtual IWaitForContainerOS WebAppWaitStrategy => Wait.ForUnixContainer().UntilPortIsAvailable(80);
 }
 
 public enum WebAppOptions
