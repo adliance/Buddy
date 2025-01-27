@@ -37,7 +37,7 @@ stages:
               projects: 'test/Adliance.AspNetCore.Buddy.Testing.Test/*.csproj'
               arguments: '--configuration Debug'
           - script: |
-              dotnet tool install --global PowerShell
+              dotnet tool install --global PowerShell --version 7.4.7
             displayName: 'Install PowerShell'
           - script: |
               pwsh test/Adliance.AspNetCore.Buddy.Testing.Test/bin/Debug/net8.0/playwright.ps1 install   
