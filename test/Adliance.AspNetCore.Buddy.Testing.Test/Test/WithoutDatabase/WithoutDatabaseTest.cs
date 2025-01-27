@@ -1,24 +1,30 @@
 using Adliance.AspNetCore.Buddy.Testing.Extensions;
-using Microsoft.AspNetCore.Mvc.Testing;
+using Adliance.AspNetCore.Buddy.Testing.Test.Test.WithDatabaseTest;
 using Xunit;
 
 namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithoutDatabase;
 
-public class InProcessTest(WebApplicationFactory<Program> factory) : BaseTest<InProcessOptions>(factory)
+public class InProcessTest (WithoutDatabaseFixture<InProcessOptions> fixture) : BaseTest<InProcessOptions>(fixture)
 {
 }
 
-public class InContainerTest() : BaseTest<InContainerOptions>(null!)
+public class InContainerTest(WithoutDatabaseFixture<InContainerOptions> fixture) : BaseTest<InContainerOptions>(fixture)
 {
 }
 
-public abstract class BaseTest<TOptions>(WebApplicationFactory<Program>? factory)
-    : BuddyFixture<TOptions, Program>(factory) where TOptions : IFixtureOptions, new()
+public abstract class BaseTest<TOptions> : IClassFixture<WithoutDatabaseFixture<TOptions>> where TOptions : IFixtureOptions, new()
 {
+    protected readonly WithoutDatabaseFixture<TOptions> Fixture;
+
+    protected BaseTest(WithoutDatabaseFixture<TOptions> fixture)
+    {
+        Fixture = fixture;
+    }
+    
     [Fact]
     public async Task Can_Get_Home()
     {
-        var response = await Client.GetAsync("/");
+        var response = await Fixture.Client.GetAsync("/");
         var responseString = await response.Content.ReadAsStringAsync();
         response.EnsureSuccessStatusCode();
         Assert.Contains("This is our view.", responseString);
@@ -27,7 +33,7 @@ public abstract class BaseTest<TOptions>(WebApplicationFactory<Program>? factory
     [Fact]
     public async Task Can_Post_Home()
     {
-        var response = await Client.PostAsync("/", new FormUrlEncodedContent(new Dictionary<string, string>
+        var response = await Fixture.Client.PostAsync("/", new FormUrlEncodedContent(new Dictionary<string, string>
         {
             ["postContent"] = "My post content."
         }));
@@ -39,11 +45,11 @@ public abstract class BaseTest<TOptions>(WebApplicationFactory<Program>? factory
     [Fact]
     public async Task Can_Make_Screenshot_of_Home()
     {
-        if (Options.Playwright == PlaywrightOptions.None) return; // Assert.Skip is only available in XUnit 3
+        if (Fixture.Options.Playwright == PlaywrightOptions.None) return; // Assert.Skip is only available in XUnit 3
 
-        await Page.Navigate(Client);
-        var pageContent = await Page.ContentAsync();
-        await Page.Screenshot("home");
+        await Fixture.Page.Navigate(Fixture.Client);
+        var pageContent = await Fixture.Page.ContentAsync();
+        await Fixture.Page.Screenshot("home");
         Assert.Contains("This is our view.", pageContent);
     }
 }

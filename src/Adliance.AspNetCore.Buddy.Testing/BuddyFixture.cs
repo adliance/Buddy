@@ -17,7 +17,7 @@ using Xunit;
 
 namespace Adliance.AspNetCore.Buddy.Testing;
 
-public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationFactory<TEntryPoint>>, IAsyncLifetime
+public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationFactory<TEntryPoint>>, IAsyncDisposable
     where TEntryPoint : class
     where TOptions : IFixtureOptions, new()
 {
@@ -31,39 +31,31 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
     private IPlaywright? _playwright;
     private IBrowser? _browser;
 
-    protected WebApplicationFactory<TEntryPoint>? Factory { get; private set; }
-    protected HttpClient Client { get; private set; } = null!;
-    protected TOptions Options { get; } = new();
-    protected string? DbConnectionStringInternal { get; private set; }
-    protected string? DbConnectionStringExternal { get; private set; }
-    protected InMemoryLogger? WebContainerLogger { get; private set; }
+    public WebApplicationFactory<TEntryPoint>? Factory { get; private set; }
+    public HttpClient Client { get; private set; } = null!;
+    public TOptions Options { get; } = new();
+    public string? DbConnectionStringInternal { get; private set; }
+    public string? DbConnectionStringExternal { get; private set; }
+    public InMemoryLogger? WebContainerLogger { get; private set; }
+    public InMemoryLogger? DbContainerLogger { get; private set; }
 
     protected BuddyFixture()
     {
-    }
-
-    protected BuddyFixture(WebApplicationFactory<TEntryPoint>? factory)
-    {
-        Factory = factory;
-    }
-
-    public async Task InitializeAsync()
-    {
-        await SemaphoreSlim.WaitAsync().ConfigureAwait(false);
+        SemaphoreSlim.Wait();
 
         try
         {
-            await BeforeInit();
+            // ReSharper disable once VirtualMemberCallInConstructor
+            BeforeInit().GetAwaiter().GetResult();
 
-            if (Options.Db != DbOptions.None) await InitDatabase();
+            if (Options.Db != DbOptions.None) InitDatabase().GetAwaiter().GetResult();
 
-            if (Options.WebApp == WebAppOptions.InProcess) await InitWebAppInProcess();
-            else if (Options.WebApp == WebAppOptions.InContainer) await InitWebAppInContainer();
-            else throw new Exception("Unsupported WebAppOption.");
+            if (Options.WebApp == WebAppOptions.InProcess) InitWebAppInProcess().GetAwaiter().GetResult();
+            else if (Options.WebApp == WebAppOptions.InContainer) InitWebAppInContainer().GetAwaiter().GetResult();
+            if (Options.Playwright != PlaywrightOptions.None) InitPlaywright().GetAwaiter().GetResult();
 
-            if (Options.Playwright != PlaywrightOptions.None) await InitPlaywright();
-
-            await AfterInit();
+            // ReSharper disable once VirtualMemberCallInConstructor
+            AfterInit().GetAwaiter().GetResult();
         }
         finally
         {
@@ -90,8 +82,7 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
 
     private async Task InitWebAppInProcess()
     {
-        if (Factory == null) throw new Exception("WebApplicationFactory was not initialized.");
-
+        Factory = new WebApplicationFactory<TEntryPoint>();
         Factory = Factory.WithWebHostBuilder(config =>
         {
             if (Options.ContentRootPath != null) config.UseContentRoot(Options.ContentRootPath);
@@ -206,6 +197,7 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
         var dbContainer = new MsSqlBuilder()
             .WithNetwork(_network)
             .WithNetworkAliases("dbserver")
+            .WithLogger(DbContainerLogger = new InMemoryLogger())
             .WithPortBinding(1433, true);
 
         if (Options.DbWaitStrategy != null)
@@ -220,7 +212,7 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
         DbConnectionStringExternal = DbConnectionStringInternal.Replace("server=dbserver", $"server=localhost,{_dbContainer.GetMappedPublicPort(1433)}");
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (Client != null) Client.Dispose();
