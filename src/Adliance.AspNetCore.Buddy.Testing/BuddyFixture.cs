@@ -17,18 +17,18 @@ using Xunit;
 
 namespace Adliance.AspNetCore.Buddy.Testing;
 
-public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationFactory<TEntryPoint>>, IAsyncDisposable
+public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationFactory<TEntryPoint>>, IAsyncLifetime
     where TEntryPoint : class
     where TOptions : IFixtureOptions, new()
 {
     // ReSharper disable once StaticMemberInGenericType
     private static readonly SemaphoreSlim SemaphoreSlim = new(1, 1);
-    private IImage? _webImage;
-    private INetwork? _network;
-    private MsSqlContainer? _dbContainer;
-    private IContainer? _webContainer;
     private IPage? _page;
 
+    public IImage? WebImage;
+    public INetwork? Network;
+    public MsSqlContainer? DbContainer;
+    public IContainer? WebContainer;
     public IPlaywright? Playwright;
     public IBrowser? Browser;
     public WebApplicationFactory<TEntryPoint>? Factory { get; private set; }
@@ -38,29 +38,6 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
     public string? DbConnectionStringExternal { get; private set; }
     public InMemoryLogger? WebContainerLogger { get; private set; }
     public InMemoryLogger? DbContainerLogger { get; private set; }
-
-    protected BuddyFixture()
-    {
-        SemaphoreSlim.Wait();
-
-        try
-        {
-            // ReSharper disable once VirtualMemberCallInConstructor
-            BeforeInit().GetAwaiter().GetResult();
-
-            if (Options.Db != DbOptions.None) InitDatabase().GetAwaiter().GetResult();
-            if (Options.WebApp == WebAppOptions.InProcess) InitWebAppInProcess().GetAwaiter().GetResult();
-            else if (Options.WebApp == WebAppOptions.InContainer) InitWebAppInContainer().GetAwaiter().GetResult();
-            if (Options.Playwright != PlaywrightOptions.None) InitPlaywright().GetAwaiter().GetResult();
-
-            // ReSharper disable once VirtualMemberCallInConstructor
-            AfterInit().GetAwaiter().GetResult();
-        }
-        finally
-        {
-            SemaphoreSlim.Release();
-        }
-    }
 
     /// <summary>
     /// Is called after the initialization of all fixture dependencies (containers etc.).
@@ -111,9 +88,9 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
     {
         try
         {
-            _webImage = new DockerImage("localhost/" + typeof(TEntryPoint).FullName!.ToLower(), "web", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture));
+            WebImage = new DockerImage("localhost/" + typeof(TEntryPoint).FullName!.ToLower(), "web", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture));
             await new ImageFromDockerfileBuilder()
-                .WithName(_webImage)
+                .WithName(WebImage)
                 .WithDockerfileDirectory(Options.DockerFileDirectory)
                 .WithDockerfile(Options.DockerFileName)
                 .WithBuildArgument("RESOURCE_REAPER_SESSION_ID", ResourceReaper.DefaultSessionId.ToString("D"))
@@ -124,8 +101,8 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
             await InitNetwork();
 
             var webContainerBuilder = new ContainerBuilder()
-                .WithImage(_webImage)
-                .WithNetwork(_network)
+                .WithImage(WebImage)
+                .WithNetwork(Network)
                 .WithPortBinding(80, true)
                 .WithEnvironment("ASPNETCORE_URLS", "http://+")
                 .WithLogger(WebContainerLogger = new InMemoryLogger());
@@ -140,10 +117,10 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
                 webContainerBuilder = webContainerBuilder.WithWaitStrategy(Options.WebAppWaitStrategy);
             }
 
-            _webContainer = webContainerBuilder.Build();
-            await _webContainer.StartAsync().ConfigureAwait(false);
+            WebContainer = webContainerBuilder.Build();
+            await WebContainer.StartAsync().ConfigureAwait(false);
 
-            var baseUri = new UriBuilder("http", _webContainer.Hostname, _webContainer.GetMappedPublicPort(80)).Uri;
+            var baseUri = new UriBuilder("http", WebContainer.Hostname, WebContainer.GetMappedPublicPort(80)).Uri;
             Client = new HttpClient
             {
                 BaseAddress = baseUri
@@ -184,9 +161,9 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
 
     private async Task InitNetwork()
     {
-        if (_network != null) return;
-        _network = new NetworkBuilder().Build();
-        await _network.CreateAsync().ConfigureAwait(false);
+        if (Network != null) return;
+        Network = new NetworkBuilder().Build();
+        await Network.CreateAsync().ConfigureAwait(false);
     }
 
     private async Task InitDatabase()
@@ -194,7 +171,7 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
         await InitNetwork();
 
         var dbContainer = new MsSqlBuilder()
-            .WithNetwork(_network)
+            .WithNetwork(Network)
             .WithNetworkAliases("dbserver")
             .WithLogger(DbContainerLogger = new InMemoryLogger())
             .WithPortBinding(1433, true);
@@ -204,14 +181,37 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
             dbContainer = dbContainer.WithWaitStrategy(Options.DbWaitStrategy);
         }
 
-        _dbContainer = dbContainer.Build();
+        DbContainer = dbContainer.Build();
 
-        await _dbContainer.StartAsync().ConfigureAwait(false);
+        await DbContainer.StartAsync().ConfigureAwait(false);
         DbConnectionStringInternal = $"server=dbserver;user id={MsSqlBuilder.DefaultUsername};password={MsSqlBuilder.DefaultPassword};database=db;encrypt=false;";
-        DbConnectionStringExternal = DbConnectionStringInternal.Replace("server=dbserver", $"server=localhost,{_dbContainer.GetMappedPublicPort(1433)}");
+        DbConnectionStringExternal = DbConnectionStringInternal.Replace("server=dbserver", $"server=localhost,{DbContainer.GetMappedPublicPort(1433)}");
     }
 
-    public async ValueTask DisposeAsync()
+    public async Task InitializeAsync()
+    {
+        await SemaphoreSlim.WaitAsync().ConfigureAwait(false);
+
+        try
+        {
+            // ReSharper disable once VirtualMemberCallInConstructor
+            await BeforeInit().ConfigureAwait(false);
+
+            if (Options.Db != DbOptions.None) await InitDatabase().ConfigureAwait(false);
+            if (Options.WebApp == WebAppOptions.InProcess) await InitWebAppInProcess().ConfigureAwait(false);
+            else if (Options.WebApp == WebAppOptions.InContainer) await InitWebAppInContainer().ConfigureAwait(false);
+            if (Options.Playwright != PlaywrightOptions.None) await InitPlaywright().ConfigureAwait(false);
+
+            // ReSharper disable once VirtualMemberCallInConstructor
+            await AfterInit().ConfigureAwait(false);
+        }
+        finally
+        {
+            SemaphoreSlim.Release();
+        }
+    }
+
+    public async Task DisposeAsync()
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (Client != null) Client.Dispose();
@@ -221,8 +221,8 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
         if (Playwright != null) Playwright.Dispose();
 
         if (Factory != null) await Factory.DisposeAsync().ConfigureAwait(false);
-        if (_webContainer != null) await _webContainer.DisposeAsync().ConfigureAwait(false);
-        if (_dbContainer != null) await _dbContainer.DisposeAsync().ConfigureAwait(false);
-        if (_network != null) await _network.DisposeAsync().ConfigureAwait(false);
+        if (WebContainer != null) await WebContainer.DisposeAsync().ConfigureAwait(false);
+        if (DbContainer != null) await DbContainer.DisposeAsync().ConfigureAwait(false);
+        if (Network != null) await Network.DisposeAsync().ConfigureAwait(false);
     }
 }
