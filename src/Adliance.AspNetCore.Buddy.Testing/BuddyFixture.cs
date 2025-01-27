@@ -28,9 +28,9 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
     private MsSqlContainer? _dbContainer;
     private IContainer? _webContainer;
     private IPage? _page;
-    private IPlaywright? _playwright;
-    private IBrowser? _browser;
 
+    public IPlaywright? Playwright;
+    public IBrowser? Browser;
     public WebApplicationFactory<TEntryPoint>? Factory { get; private set; }
     public HttpClient Client { get; private set; } = null!;
     public TOptions Options { get; } = new();
@@ -49,7 +49,6 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
             BeforeInit().GetAwaiter().GetResult();
 
             if (Options.Db != DbOptions.None) InitDatabase().GetAwaiter().GetResult();
-
             if (Options.WebApp == WebAppOptions.InProcess) InitWebAppInProcess().GetAwaiter().GetResult();
             else if (Options.WebApp == WebAppOptions.InContainer) InitWebAppInContainer().GetAwaiter().GetResult();
             if (Options.Playwright != PlaywrightOptions.None) InitPlaywright().GetAwaiter().GetResult();
@@ -167,12 +166,12 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
 
     private async Task InitPlaywright()
     {
-        _playwright = await Playwright.CreateAsync();
-        _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+        Playwright = await Microsoft.Playwright.Playwright.CreateAsync();
+        Browser = await Playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
             Headless = Options.Playwright == PlaywrightOptions.Headless
         });
-        _page = await _browser.NewPageAsync(new BrowserNewPageOptions
+        _page = await Browser.NewPageAsync(new BrowserNewPageOptions
         {
             Locale = "en-US",
             ScreenSize = new ScreenSize
@@ -218,8 +217,8 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
         if (Client != null) Client.Dispose();
 
         if (_page != null) await _page.CloseAsync().ConfigureAwait(false);
-        if (_browser != null) await _browser.DisposeAsync().ConfigureAwait(false);
-        if (_playwright != null) _playwright.Dispose();
+        if (Browser != null) await Browser.DisposeAsync().ConfigureAwait(false);
+        if (Playwright != null) Playwright.Dispose();
 
         if (Factory != null) await Factory.DisposeAsync().ConfigureAwait(false);
         if (_webContainer != null) await _webContainer.DisposeAsync().ConfigureAwait(false);

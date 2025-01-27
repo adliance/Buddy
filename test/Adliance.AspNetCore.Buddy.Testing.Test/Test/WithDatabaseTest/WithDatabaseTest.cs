@@ -61,7 +61,7 @@ public abstract class BaseTest<TOptions> : IClassFixture<WithDatabaseFixture<TOp
     {
         if (Fixture.Options.Playwright == PlaywrightOptions.None) return; // Assert.Skip is only available in XUnit 3
         await Fixture.Db.Table.ExecuteDeleteAsync();
-        for (var i = 1; i <= 50; i++)
+        for (var i = 1; i <= 1; i++)
             await Fixture.Db.Table.AddAsync(new TableRow
             {
                 Name = "Row " + i
@@ -71,6 +71,42 @@ public abstract class BaseTest<TOptions> : IClassFixture<WithDatabaseFixture<TOp
         await Fixture.Page.Navigate(Fixture.Client, "/Home/Database");
         var pageContent = await Fixture.Page.ContentAsync();
         await Fixture.Page.Screenshot("database");
-        Assert.Contains("There are 50 rows in the database.", pageContent);
+        Assert.Contains("There are 1 rows in the database.", pageContent);
+    }
+    
+    [Fact]
+    public async Task Can_Make_Second_Screenshot_of_Database()
+    {
+        if (Fixture.Options.Playwright == PlaywrightOptions.None) return; // Assert.Skip is only available in XUnit 3
+        await Fixture.Db.Table.ExecuteDeleteAsync();
+        for (var i = 1; i <= 2; i++)
+            await Fixture.Db.Table.AddAsync(new TableRow
+            {
+                Name = "Row " + i
+            });
+        await Fixture.Db.SaveChangesAsync();
+
+        await Fixture.Page.Navigate(Fixture.Client, "/Home/Database");
+        var pageContent = await Fixture.Page.ContentAsync();
+        await Fixture.Page.Screenshot("database");
+        Assert.Contains("There are 2 rows in the database.", pageContent);
+    }
+    
+    [Fact]
+    public async Task Can_Make_Third_of_Database()
+    {
+        if (Fixture.Options.Playwright == PlaywrightOptions.None) return; // Assert.Skip is only available in XUnit 3
+        await Fixture.Db.Table.ExecuteDeleteAsync();
+        for (var i = 1; i <= 3; i++)
+            await Fixture.Db.Table.AddAsync(new TableRow
+            {
+                Name = "Row " + i
+            });
+        await Fixture.Db.SaveChangesAsync();
+
+        await Fixture.Page.Navigate(Fixture.Client, "/Home/Database");
+        var pageContent = await Fixture.Page.ContentAsync();
+        await Fixture.Page.Screenshot("database");
+        Assert.Contains("There are 3 rows in the database.", pageContent);
     }
 }

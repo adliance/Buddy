@@ -52,4 +52,26 @@ public abstract class BaseTest<TOptions> : IClassFixture<WithoutDatabaseFixture<
         await Fixture.Page.Screenshot("home");
         Assert.Contains("This is our view.", pageContent);
     }
+    
+    [Fact]
+    public async Task Can_Make_Second_Screenshot_of_Home()
+    {
+        if (Fixture.Options.Playwright == PlaywrightOptions.None) return; // Assert.Skip is only available in XUnit 3
+
+        await Fixture.Page.Navigate(Fixture.Client);
+        var pageContent = await Fixture.Page.ContentAsync();
+        await Fixture.Page.Screenshot("home");
+        Assert.Contains("This is our view.", pageContent);
+    }
+    
+    [Fact]
+    public async Task Can_Make_Third_Screenshot_of_Home()
+    {
+        if (Fixture.Options.Playwright == PlaywrightOptions.None) return; // Assert.Skip is only available in XUnit 3
+
+        await Fixture.Page.Navigate(Fixture.Client);
+        var pageContent = await Fixture.Page.ContentAsync();
+        await Fixture.Page.Screenshot("home");
+        Assert.Contains("This is our view.", pageContent);
+    }
 }
