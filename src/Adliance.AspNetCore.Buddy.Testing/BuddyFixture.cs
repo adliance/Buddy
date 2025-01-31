@@ -112,20 +112,34 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
 
     public IPage Page
     {
-        get
-        {
-            if (_page == null) throw new Exception("Playwright is not initialized.");
-            return _page;
-        }
+        get => _page ?? throw new Exception("Playwright is not initialized.");
+        set => _page = value;
     }
 
     private async Task InitPlaywright()
     {
         Playwright = await Microsoft.Playwright.Playwright.CreateAsync();
+        await InitNewPlaywrightBrowser();
+    }
+
+    public async Task InitNewPlaywrightBrowser()
+    {
+        if (Playwright == null) throw new Exception("Playwright is not initialized.");
+        if (_page != null) await _page.CloseAsync().ConfigureAwait(false);
+        if (Browser != null) await Browser.DisposeAsync().ConfigureAwait(false);
+
         Browser = await Playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
             Headless = Options.Playwright == PlaywrightOptions.Headless
         });
+        await InitNewPlaywrightPage();
+    }
+
+    public async Task InitNewPlaywrightPage()
+    {
+        if (Browser == null) throw new Exception("Browser is not initialized.");
+        if (_page != null) await _page.CloseAsync().ConfigureAwait(false);
+
         _page = await Browser.NewPageAsync(new BrowserNewPageOptions
         {
             Locale = "en-US",
