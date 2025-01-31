@@ -117,6 +117,11 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
                 webContainerBuilder = webContainerBuilder.WithWaitStrategy(Options.WebAppWaitStrategy);
             }
 
+            foreach (var (key, value) in Options.WebAppConfiguration)
+            {
+                webContainerBuilder = webContainerBuilder.WithEnvironment(key, value);
+            }
+
             WebContainer = webContainerBuilder.Build();
             await WebContainer.StartAsync().ConfigureAwait(false);
 
