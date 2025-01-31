@@ -1,11 +1,9 @@
 using System;
-using System.Globalization;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
-using DotNet.Testcontainers.Images;
 using DotNet.Testcontainers.Networks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -25,7 +23,6 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
     private static readonly SemaphoreSlim SemaphoreSlim = new(1, 1);
     private IPage? _page;
 
-    public IImage? WebImage;
     public INetwork? Network;
     public MsSqlContainer? DbContainer;
     public IContainer? WebContainer;
@@ -88,47 +85,23 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
     {
         try
         {
-            WebImage = new DockerImage("localhost/" + typeof(TEntryPoint).FullName!.ToLower(), "web", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture));
-            await new ImageFromDockerfileBuilder()
-                .WithName(WebImage)
-                .WithDockerfileDirectory(Options.DockerFileDirectory)
-                .WithDockerfile(Options.DockerFileName)
-                .WithBuildArgument("RESOURCE_REAPER_SESSION_ID", ResourceReaper.DefaultSessionId.ToString("D"))
-                .WithDeleteIfExists(true)
-                .Build()
-                .CreateAsync()
-                .ConfigureAwait(false);
             await InitNetwork();
 
-            var webContainerBuilder = new ContainerBuilder()
-                .WithImage(WebImage)
-                .WithNetwork(Network)
-                .WithPortBinding(80, true)
-                .WithEnvironment("ASPNETCORE_URLS", "http://+")
-                .WithLogger(WebContainerLogger = new InMemoryLogger());
-
-            if (!string.IsNullOrWhiteSpace(DbConnectionStringInternal))
+            var containerOptions = WebContainerOptions.FromFixtureOptions("localhost/" + typeof(TEntryPoint).FullName!.ToLower(), Network!, Options);
+            containerOptions.Logger = new InMemoryLogger();
+            if (Options.Db != DbOptions.None)
             {
-                webContainerBuilder = webContainerBuilder.WithEnvironment(Options.DbConnectionStringConfigurationKey, DbConnectionStringInternal);
+                if (string.IsNullOrWhiteSpace(DbConnectionStringInternal)) throw new Exception("Unable to set connection string, as DbConnectionStringInternal is empty.");
+                if (string.IsNullOrWhiteSpace(Options.DbConnectionStringConfigurationKey)) throw new Exception("Unable to set connection string, as DbConnectionStringConfigurationKey is empty.");
+                containerOptions.Configuration.TryAdd(Options.DbConnectionStringConfigurationKey, DbConnectionStringInternal);
             }
 
-            if (Options.WebAppWaitStrategy != null)
-            {
-                webContainerBuilder = webContainerBuilder.WithWaitStrategy(Options.WebAppWaitStrategy);
-            }
-
-            foreach (var (key, value) in Options.WebAppConfiguration)
-            {
-                webContainerBuilder = webContainerBuilder.WithEnvironment(key, value);
-            }
-
-            WebContainer = webContainerBuilder.Build();
-            await WebContainer.StartAsync().ConfigureAwait(false);
-
-            var baseUri = new UriBuilder("http", WebContainer.Hostname, WebContainer.GetMappedPublicPort(80)).Uri;
+            var containerResult = await WebContainerHelper.BuildAndStartWebContainer(containerOptions);
+            WebContainer = containerResult.Container;
+            WebContainerLogger = (InMemoryLogger)containerResult.Logger;
             Client = new HttpClient
             {
-                BaseAddress = baseUri
+                BaseAddress = containerResult.Url
             };
         }
         catch (Exception ex)
