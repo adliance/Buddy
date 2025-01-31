@@ -33,6 +33,7 @@ public static class WebContainerHelper
         var webContainerBuilder = new ContainerBuilder()
             .WithImage(result.Image)
             .WithNetwork(options.Network)
+            .WithNetworkAliases(options.NetworkAlias)
             .WithPortBinding(options.Port, true)
             .WithEnvironment("ASPNETCORE_URLS", "http://+")
             .WithLogger(result.Logger = options.Logger ?? new InMemoryLogger());
@@ -66,7 +67,8 @@ public class WebContainerOptions
             WaitStrategy = fixtureOptions.WebAppWaitStrategy,
             Network = network,
             Repository = repository,
-            Configuration = fixtureOptions.WebAppConfiguration
+            Configuration = fixtureOptions.WebAppConfiguration,
+            NetworkAlias = fixtureOptions.WebAppNetworkAlias
         };
         return result;
     }
@@ -75,17 +77,24 @@ public class WebContainerOptions
     public required string DockerFileName { get; set; }
     public required string DockerFileDirectory { get; set; } = "";
     public required INetwork Network { get; set; }
+    public required string NetworkAlias { get; set; }
     public Dictionary<string, string?> Configuration { get; set; } = new();
     public IWaitForContainerOS? WaitStrategy { get; set; }
     public ILogger? Logger { get; set; }
     public int Port { get; set; } = 80;
 }
 
-public class WebContainerResult
+public class WebContainerResult : IAsyncDisposable
 {
     public IImage Image { get; internal set; } = null!;
     public INetwork Network { get; internal set; } = null!;
     public IContainer Container { get; internal set; } = null!;
     public Uri Url { get; internal set; } = null!;
     public ILogger Logger { get; internal set; } = null!;
+
+    public async ValueTask DisposeAsync()
+    {
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+        if (Container != null) await Container.DisposeAsync().ConfigureAwait(false);
+    }
 }

@@ -10,6 +10,7 @@ public interface IFixtureOptions
 {
     WebAppOptions WebApp { get; }
     IWaitForContainerOS? WebAppWaitStrategy { get; }
+    string WebAppNetworkAlias { get; }
     string? ContentRootPath { get; }
     string? DockerFileDirectory { get; }
     string? DockerFileName { get; }
@@ -26,6 +27,7 @@ public interface IFixtureOptions
 public class DefaultFixtureOptions : IFixtureOptions
 {
     public virtual WebAppOptions WebApp => WebAppOptions.InProcess;
+    public string WebAppNetworkAlias => "webapp";
     public virtual string? ContentRootPath => null;
     public virtual string? DockerFileDirectory => CommonDirectoryPath.GetSolutionDirectory().DirectoryPath;
     public virtual string DockerFileName => "dockerfile";
