@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App"/>
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.8"/>
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.9" />
     <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.8"/>
     <PackageReference Include="Mailjet.Api" Version="3.0.0"/>
     <PackageReference Include="System.Net.Http" Version="4.3.4"/>

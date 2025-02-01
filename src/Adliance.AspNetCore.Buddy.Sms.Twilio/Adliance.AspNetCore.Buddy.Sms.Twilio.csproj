@@ -14,7 +14,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.8" />
+        <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.9" />
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Twilio" Version="7.8.3" />
     </ItemGroup>
