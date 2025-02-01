@@ -37,6 +37,14 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
     public InMemoryLogger? DbContainerLogger { get; private set; }
 
     /// <summary>
+    /// Is called before any initialization of the fixture dependencies (containers etc.).
+    /// </summary>
+    protected virtual async Task BeforeInit()
+    {
+        await Task.CompletedTask;
+    }
+
+    /// <summary>
     /// Is called after the initialization of all fixture dependencies (containers etc.).
     /// Use (override) to initialize your test-specific stuff, for example a database or additional containers.
     /// </summary>
@@ -46,9 +54,18 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
     }
 
     /// <summary>
-    /// Is called before any initialization of the fixture dependencies (containers etc.).
+    /// Is called before any dependencies are being disposed.
+    /// Use (override) to dispose you own dependencies that you create in, for example, AfterInit.
     /// </summary>
-    protected virtual async Task BeforeInit()
+    protected virtual async Task BeforeDispose()
+    {
+        await Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Is called after all dependencies have been disposed.
+    /// </summary>
+    protected virtual async Task AfterDispose()
     {
         await Task.CompletedTask;
     }
@@ -205,6 +222,8 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
 
     public async Task DisposeAsync()
     {
+        await BeforeDispose();
+
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (Client != null) Client.Dispose();
 
@@ -216,5 +235,7 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
         if (WebContainer != null) await WebContainer.DisposeAsync().ConfigureAwait(false);
         if (DbContainer != null) await DbContainer.DisposeAsync().ConfigureAwait(false);
         if (Network != null) await Network.DisposeAsync().ConfigureAwait(false);
+
+        await AfterDispose();
     }
 }
