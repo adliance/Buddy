@@ -24,23 +24,6 @@ public interface IFixtureOptions
     string? DbConnectionStringConfigurationKey { get; }
 }
 
-public class DefaultFixtureOptions : IFixtureOptions
-{
-    public virtual WebAppOptions WebApp => WebAppOptions.InProcess;
-    public virtual string WebAppNetworkAlias => "webapp";
-    public virtual string? ContentRootPath => null;
-    public virtual string? DockerFileDirectory => CommonDirectoryPath.GetSolutionDirectory().DirectoryPath;
-    public virtual string DockerFileName => "dockerfile";
-    public virtual Dictionary<string, string?> WebAppConfiguration { get; } = new();
-    public virtual Action<IServiceCollection>? ConfigureWebAppServices => null;
-    public virtual Action<IServiceCollection>? ConfigureWebAppTestServices => null;
-    public virtual PlaywrightOptions Playwright => PlaywrightOptions.None;
-    public virtual DbOptions Db => DbOptions.None;
-    public virtual IWaitForContainerOS? DbWaitStrategy => null;
-    public virtual string DbConnectionStringConfigurationKey => "";
-    public virtual IWaitForContainerOS WebAppWaitStrategy => Wait.ForUnixContainer().UntilPortIsAvailable(80);
-}
-
 public enum WebAppOptions
 {
     InProcess,
