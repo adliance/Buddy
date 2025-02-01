@@ -17,7 +17,7 @@ public static class WebContainerHelper
     {
         var result = new WebContainerResult
         {
-            Image = new DockerImage(options.Repository, "web", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture))
+            Image = new DockerImage(options.Repository, "localhost", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture))
         };
 
         await new ImageFromDockerfileBuilder()

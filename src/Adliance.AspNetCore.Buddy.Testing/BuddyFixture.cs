@@ -104,7 +104,7 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
         {
             await InitNetwork();
 
-            var containerOptions = WebContainerOptions.FromFixtureOptions("localhost/" + typeof(TEntryPoint).FullName!.ToLower(), Network!, Options);
+            var containerOptions = WebContainerOptions.FromFixtureOptions("webapp", Network!, Options);
             containerOptions.Logger = new InMemoryLogger();
             if (Options.Db != DbOptions.None)
             {
