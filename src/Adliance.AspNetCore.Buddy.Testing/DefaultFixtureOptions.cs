@@ -11,7 +11,7 @@ public class DefaultFixtureOptions : IFixtureOptions
     public virtual WebAppOptions WebApp { get; set; } = WebAppOptions.InProcess;
     public virtual string WebAppNetworkAlias { get; set; } = "webapp";
     public virtual string? ContentRootPath { get; set; }
-    public virtual string? DockerFileDirectory { get; set; } = CommonDirectoryPath.GetSolutionDirectory().DirectoryPath;
+    public virtual string? DockerFileDirectory { get; set; } = "./";
     public virtual string DockerFileName { get; set; } = "dockerfile";
     public virtual Dictionary<string, string?> WebAppConfiguration { get; set; } = new();
     public virtual Action<IServiceCollection>? ConfigureWebAppServices { get; set; }
