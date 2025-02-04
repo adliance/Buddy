@@ -21,6 +21,6 @@ public class DefaultFixtureOptions : IFixtureOptions
     public virtual IWaitForContainerOS? DbWaitStrategy { get; set; }
     public virtual string DbConnectionStringConfigurationKey { get; set; } = "";
     public virtual IWaitForContainerOS WebAppWaitStrategy { get; set; } = Wait.ForUnixContainer().UntilPortIsAvailable(80);
-    public virtual string? LocalDbConnectionString { get; }
+    public virtual string? LocalDbConnectionString { get; set; }
 
 }
