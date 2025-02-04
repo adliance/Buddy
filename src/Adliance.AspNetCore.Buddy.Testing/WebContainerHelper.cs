@@ -13,11 +13,15 @@ namespace Adliance.AspNetCore.Buddy.Testing;
 
 public static class WebContainerHelper
 {
+    private static Random? random;
+
     public static async Task<WebContainerResult> BuildAndStartWebContainer(WebContainerOptions options)
     {
+        random ??= new Random();
+
         var result = new WebContainerResult
         {
-            Image = new DockerImage(options.Repository, "localhost", DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(CultureInfo.InvariantCulture))
+            Image = new DockerImage(options.Repository, "localhost", random.NextInt64().ToString(CultureInfo.InvariantCulture))
         };
 
         await new ImageFromDockerfileBuilder()

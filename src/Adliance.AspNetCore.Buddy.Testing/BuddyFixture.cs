@@ -20,7 +20,7 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
     where TOptions : IFixtureOptions, new()
 {
     // ReSharper disable once StaticMemberInGenericType
-    private static readonly SemaphoreSlim SemaphoreSlim = new(1, 1);
+    private static readonly SemaphoreSlim SemaphoreSlim = new(1);
     private IPage? _page;
 
     public INetwork? Network;
@@ -123,7 +123,7 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
         }
         catch (Exception ex)
         {
-            throw new Exception($"Unable to start webapp container: {ex.Message}");
+            throw new Exception($"Unable to start webapp container: {ex.Message}", ex);
         }
     }
 
@@ -177,24 +177,37 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
 
     private async Task InitDatabase()
     {
-        await InitNetwork();
-
-        var dbContainer = new MsSqlBuilder()
-            .WithNetwork(Network)
-            .WithNetworkAliases("dbserver")
-            .WithLogger(DbContainerLogger = new InMemoryLogger())
-            .WithPortBinding(1433, true);
-
-        if (Options.DbWaitStrategy != null)
+        if (Options.Db == DbOptions.UseSqlServerContainer)
         {
-            dbContainer = dbContainer.WithWaitStrategy(Options.DbWaitStrategy);
+            await InitNetwork();
+
+            var dbContainer = new MsSqlBuilder()
+                .WithNetwork(Network)
+                .WithNetworkAliases("dbserver")
+                .WithLogger(DbContainerLogger = new InMemoryLogger())
+                .WithPortBinding(1433, true);
+
+            if (Options.DbWaitStrategy != null)
+            {
+                dbContainer = dbContainer.WithWaitStrategy(Options.DbWaitStrategy);
+            }
+
+            DbContainer = dbContainer.Build();
+
+            await DbContainer.StartAsync().ConfigureAwait(false);
+            DbConnectionStringInternal = $"server=dbserver;user id={MsSqlBuilder.DefaultUsername};password={MsSqlBuilder.DefaultPassword};database=db;encrypt=false;";
+            DbConnectionStringExternal = DbConnectionStringInternal.Replace("server=dbserver", $"server=localhost,{DbContainer.GetMappedPublicPort(1433)}");
         }
-
-        DbContainer = dbContainer.Build();
-
-        await DbContainer.StartAsync().ConfigureAwait(false);
-        DbConnectionStringInternal = $"server=dbserver;user id={MsSqlBuilder.DefaultUsername};password={MsSqlBuilder.DefaultPassword};database=db;encrypt=false;";
-        DbConnectionStringExternal = DbConnectionStringInternal.Replace("server=dbserver", $"server=localhost,{DbContainer.GetMappedPublicPort(1433)}");
+        else if (Options.Db == DbOptions.UseSqlServerLocal)
+        {
+            if (string.IsNullOrWhiteSpace(Options.LocalDbConnectionString)) throw new Exception("Unable to use local SQL Server, as setting \"LocalDbConnectionString\" is not specified.");
+            DbConnectionStringInternal = Options.LocalDbConnectionString.Replace("localhost", "host.docker.internal");
+            DbConnectionStringExternal = Options.LocalDbConnectionString;
+        }
+        else
+        {
+            throw new Exception("Unable to init database, as no database setting specified.");
+        }
     }
 
     public async Task InitializeAsync()

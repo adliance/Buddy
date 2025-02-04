@@ -1,5 +1,4 @@
 using Adliance.AspNetCore.Buddy.Testing.Extensions;
-using Adliance.AspNetCore.Buddy.Testing.Test.Test.WithDatabaseTest;
 using Xunit;
 
 namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithoutDatabase;

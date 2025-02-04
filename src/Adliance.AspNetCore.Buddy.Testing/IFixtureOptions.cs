@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,6 +21,7 @@ public interface IFixtureOptions
     DbOptions Db { get; }
     IWaitForContainerOS? DbWaitStrategy { get; }
     string? DbConnectionStringConfigurationKey { get; }
+    string? LocalDbConnectionString { get; }
 }
 
 public enum WebAppOptions
@@ -33,7 +33,8 @@ public enum WebAppOptions
 public enum DbOptions
 {
     None,
-    UseSqlServer
+    UseSqlServerContainer,
+    UseSqlServerLocal
 }
 
 public enum PlaywrightOptions
