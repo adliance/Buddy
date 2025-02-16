@@ -2,7 +2,6 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using DotNet.Testcontainers.Builders;
-using DotNet.Testcontainers.Containers;
 using DotNet.Testcontainers.Images;
 
 namespace Adliance.AspNetCore.Buddy.Testing.Containers;
@@ -11,6 +10,18 @@ public static class ContainerHelper
 {
     public static async Task<ContainerResult> Setup(ContainerOptions options)
     {
+        if (options.UseLocalAppInstead != null)
+        {
+            return new ContainerResult
+            {
+                Url = options.UseLocalAppInstead,
+                Client = new HttpClient
+                {
+                    BaseAddress = options.UseLocalAppInstead
+                }
+            };
+        }
+
         var result = new ContainerResult
         {
             Image = new DockerImage(options.Repository, "localhost", "latest")

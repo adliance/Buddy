@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
@@ -36,4 +37,10 @@ public class ContainerOptions
     public int Port { get; set; } = 80;
     public ILogger Logger { get; set; } = new InMemoryLogger();
     public string DbConnectionStringConfigurationKey { get; set; } = "";
+
+    /// <summary>
+    /// Set this to a local URL (eg. of an already running web app); if this value is set, then no container will be started.
+    /// This is useful for local debugging scenarios.
+    /// </summary>
+    public Uri? UseLocalAppInstead { get; set; }
 }
