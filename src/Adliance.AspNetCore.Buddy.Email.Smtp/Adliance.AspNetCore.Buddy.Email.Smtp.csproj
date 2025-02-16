@@ -22,5 +22,6 @@
     <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.9" />
     <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.8" />
     <PackageReference Include="MailKit" Version="4.10.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.2" />
   </ItemGroup>
 </Project>

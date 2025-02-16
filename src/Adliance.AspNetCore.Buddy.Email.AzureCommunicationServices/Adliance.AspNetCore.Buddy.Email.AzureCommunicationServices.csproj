@@ -23,6 +23,8 @@
         <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.9" />
         <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.8" />
       <PackageReference Include="Azure.Communication.Email" Version="1.0.1" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.2" />
+      <PackageReference Include="System.Text.Json" Version="9.0.2" />
     </ItemGroup>
     
     <ItemGroup>

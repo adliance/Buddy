@@ -20,7 +20,8 @@ public class ContainerOptions
             Configuration = options.Configuration,
             NetworkAlias = options.NetworkAlias,
             Port = options.Port,
-            Logger = options.Logger
+            Logger = options.Logger,
+            DbConnectionStringConfigurationKey = options.DbConnectionStringConfigurationKey
         };
         return result;
     }
