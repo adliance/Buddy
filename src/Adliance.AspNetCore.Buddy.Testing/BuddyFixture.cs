@@ -46,6 +46,8 @@ public class BuddyFixture<TOptions, TEntryPoint> : IAsyncLifetime where TOptions
                 Database = await DatabaseHelper.Setup(Options.Database).ConfigureAwait(false);
             }
 
+            await AfterDatabaseInit().ConfigureAwait(false);
+
             if (Options.InContainer.Any())
             {
                 foreach (var o in Options.InContainer) o.Network = Network!;
@@ -100,6 +102,14 @@ public class BuddyFixture<TOptions, TEntryPoint> : IAsyncLifetime where TOptions
     /// Use (override) to initialize your test-specific stuff, for example a database or additional containers.
     /// </summary>
     protected virtual async Task AfterInit()
+    {
+        await Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Is called after the initialization of database dependencies.
+    /// </summary>
+    protected virtual async Task AfterDatabaseInit()
     {
         await Task.CompletedTask;
     }
