@@ -1,10 +1,22 @@
+using Adliance.AspNetCore.Buddy.Testing.Database;
+using Adliance.AspNetCore.Buddy.Testing.InProcess;
 using DotNet.Testcontainers.Builders;
 
 namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithDatabaseTest;
 
-public class InProcessOptions : DefaultFixtureOptions
+public class InProcessOptions : BuddyFixtureOptions<Program>
 {
-    public override string? ContentRootPath => CommonDirectoryPath.GetProjectDirectory().DirectoryPath;
-    public override DbOptions Db => DbOptions.UseSqlServerContainer;
-    public override string DbConnectionStringConfigurationKey => "DatabaseConnectionString";
+    public InProcessOptions()
+    {
+        InProcess = new InProcessOptions<Program>
+        {
+            ContentRoot = CommonDirectoryPath.GetProjectDirectory().DirectoryPath,
+            DbConnectionStringConfigurationKey = "DatabaseConnectionString"
+        };
+
+        Database = new DatabaseOptions
+        {
+            Type = DatabaseType.UseSqlServerContainer
+        };
+    }
 }

@@ -1,11 +1,19 @@
+using Adliance.AspNetCore.Buddy.Testing.Containers;
+using Adliance.AspNetCore.Buddy.Testing.Playwright;
 using DotNet.Testcontainers.Builders;
 
 namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithoutDatabase;
 
-public class InContainerOptions : DefaultFixtureOptions
+public class InContainerOptions : BuddyFixtureOptions<Program>
 {
-    public override string? DockerFileDirectory => CommonDirectoryPath.GetSolutionDirectory().DirectoryPath;
-    public override WebAppOptions WebApp => WebAppOptions.InContainer;
-    public override string DockerFileName => "Adliance.AspNetCore.Buddy.Testing.Test.dockerfile";
-    public override PlaywrightOptions Playwright => PlaywrightOptions.Headless;
+    public InContainerOptions()
+    {
+        InContainer.Add(new ContainerOptions
+        {
+            DockerFileDirectory = CommonDirectoryPath.GetSolutionDirectory().DirectoryPath,
+            DockerFileName = "Adliance.AspNetCore.Buddy.Testing.Test.dockerfile"
+        });
+
+        Playwright = new PlaywrightOptions();
+    }
 }

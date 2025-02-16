@@ -1,40 +1,91 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Adliance.AspNetCore.Buddy.Testing.Containers;
+using Adliance.AspNetCore.Buddy.Testing.Database;
+using Adliance.AspNetCore.Buddy.Testing.InProcess;
+using Adliance.AspNetCore.Buddy.Testing.Playwright;
 using DotNet.Testcontainers.Builders;
-using DotNet.Testcontainers.Containers;
 using DotNet.Testcontainers.Networks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Playwright;
-using Testcontainers.MsSql;
 using Xunit;
 
 namespace Adliance.AspNetCore.Buddy.Testing;
 
-public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationFactory<TEntryPoint>>, IAsyncLifetime
-    where TEntryPoint : class
-    where TOptions : IFixtureOptions, new()
+internal static class SemaphoreHelper
 {
-    // ReSharper disable once StaticMemberInGenericType
-    private static readonly SemaphoreSlim SemaphoreSlim = new(1);
-    private IPage? _page;
+    internal static readonly SemaphoreSlim SemaphoreSlim = new(1);
+}
 
+public class BuddyFixture<TOptions, TEntryPoint> : IAsyncLifetime where TOptions : BuddyFixtureOptions<TEntryPoint>, new() where TEntryPoint : class
+{
     public INetwork? Network;
-    public MsSqlContainer? DbContainer;
-    public IContainer? WebContainer;
-    public IPlaywright? Playwright;
-    public IBrowser? Browser;
-    public WebApplicationFactory<TEntryPoint>? Factory { get; private set; }
-    public HttpClient Client { get; private set; } = null!;
+    public DatabaseResult? Database { get; set; }
+    public List<ContainerResult> InContainers { get; set; } = [];
+    public InProcessResult<TEntryPoint>? InProcess { get; set; }
+    public PlaywrightResult? Playwright { get; set; }
     public TOptions Options { get; } = new();
-    public string? DbConnectionStringInternal { get; private set; }
-    public string? DbConnectionStringExternal { get; private set; }
-    public InMemoryLogger? WebContainerLogger { get; private set; }
-    public InMemoryLogger? DbContainerLogger { get; private set; }
+
+    public async Task InitializeAsync()
+    {
+        await SemaphoreHelper.SemaphoreSlim.WaitAsync().ConfigureAwait(false);
+
+        try
+        {
+            // ReSharper disable once VirtualMemberCallInConstructor
+            await BeforeInit().ConfigureAwait(false);
+
+            await InitNetworkIfNecessary().ConfigureAwait(false);
+
+            if (Options.Database != null)
+            {
+                Options.Database.Network = Network!;
+                Database = await DatabaseHelper.Setup(Options.Database).ConfigureAwait(false);
+            }
+
+            if (Options.InContainer.Any())
+            {
+                foreach (var o in Options.InContainer) o.Network = Network!;
+
+                if (Database != null)
+                {
+                    foreach (var o in Options.InContainer)
+                    {
+                        if (!string.IsNullOrWhiteSpace(o.DbConnectionStringConfigurationKey)) o.Configuration.TryAdd(o.DbConnectionStringConfigurationKey, Database.DbConnectionStringInternal);
+                    }
+                }
+
+                var containerTasks = Options.InContainer.Select(ContainerHelper.Setup);
+                InContainers = (await Task.WhenAll(containerTasks).ConfigureAwait(false)).ToList();
+            }
+
+            if (Options.InProcess != null)
+            {
+                if (Database != null && !string.IsNullOrWhiteSpace(Options.InProcess.DbConnectionStringConfigurationKey))
+                {
+                    Options.InProcess.Configuration.TryAdd(Options.InProcess.DbConnectionStringConfigurationKey, Database.DbConnectionStringExternal);
+                }
+
+                InProcess = await InProcessHelper.Setup(Options.InProcess).ConfigureAwait(false);
+            }
+
+            if (Options.Playwright != null)
+            {
+                Playwright = await PlaywrightHelper.Setup(Options.Playwright).ConfigureAwait(false);
+            }
+
+            // ReSharper disable once VirtualMemberCallInConstructor
+            await AfterInit().ConfigureAwait(false);
+        }
+        finally
+        {
+            SemaphoreHelper.SemaphoreSlim.Release();
+        }
+    }
+
 
     /// <summary>
     /// Is called before any initialization of the fixture dependencies (containers etc.).
@@ -70,185 +121,64 @@ public class BuddyFixture<TOptions, TEntryPoint> : IClassFixture<WebApplicationF
         await Task.CompletedTask;
     }
 
-    private async Task InitWebAppInProcess()
+    private async Task InitNetworkIfNecessary()
     {
-        Factory = new WebApplicationFactory<TEntryPoint>();
-        Factory = Factory.WithWebHostBuilder(config =>
-        {
-            if (Options.ContentRootPath != null) config.UseContentRoot(Options.ContentRootPath);
-
-            if (Options.Db != DbOptions.None)
-            {
-                if (string.IsNullOrWhiteSpace(DbConnectionStringExternal)) throw new Exception("Unable to set connection string, as DbConnectionStringExternal is empty.");
-                if (string.IsNullOrWhiteSpace(Options.DbConnectionStringConfigurationKey)) throw new Exception("Unable to set connection string, as DbConnectionStringConfigurationKey is empty.");
-                Options.WebAppConfiguration.TryAdd(Options.DbConnectionStringConfigurationKey, DbConnectionStringExternal);
-            }
-
-            config.ConfigureAppConfiguration((_, configBuilder) =>
-            {
-                configBuilder.AddInMemoryCollection(Options.WebAppConfiguration);
-                configBuilder.AddEnvironmentVariables();
-            });
-
-            if (Options.ConfigureWebAppServices != null) config.ConfigureServices(Options.ConfigureWebAppServices);
-            if (Options.ConfigureWebAppTestServices != null) config.ConfigureTestServices(Options.ConfigureWebAppTestServices);
-        });
-
-        await Task.CompletedTask.ConfigureAwait(false);
-        Client = Factory.CreateClient();
-    }
-
-    private async Task InitWebAppInContainer()
-    {
-        try
-        {
-            await InitNetwork();
-
-            var containerOptions = WebContainerOptions.FromFixtureOptions("webapp", Network!, Options);
-            containerOptions.Logger = new InMemoryLogger();
-            if (Options.Db != DbOptions.None)
-            {
-                if (string.IsNullOrWhiteSpace(DbConnectionStringInternal)) throw new Exception("Unable to set connection string, as DbConnectionStringInternal is empty.");
-                if (string.IsNullOrWhiteSpace(Options.DbConnectionStringConfigurationKey)) throw new Exception("Unable to set connection string, as DbConnectionStringConfigurationKey is empty.");
-                containerOptions.Configuration.TryAdd(Options.DbConnectionStringConfigurationKey, DbConnectionStringInternal);
-            }
-
-            var containerResult = await WebContainerHelper.BuildAndStartWebContainer(containerOptions);
-            WebContainer = containerResult.Container;
-            WebContainerLogger = (InMemoryLogger)containerResult.Logger;
-            Client = new HttpClient
-            {
-                BaseAddress = containerResult.Url
-            };
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Unable to start webapp container: {ex.Message}", ex);
-        }
-    }
-
-    public IPage Page
-    {
-        get => _page ?? throw new Exception("Playwright is not initialized.");
-        set => _page = value;
-    }
-
-    private async Task InitPlaywright()
-    {
-        Playwright = await Microsoft.Playwright.Playwright.CreateAsync();
-        await InitNewPlaywrightBrowser();
-    }
-
-    public async Task InitNewPlaywrightBrowser()
-    {
-        if (Playwright == null) throw new Exception("Playwright is not initialized.");
-        if (_page != null) await _page.CloseAsync().ConfigureAwait(false);
-        if (Browser != null) await Browser.DisposeAsync().ConfigureAwait(false);
-
-        Browser = await Playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
-        {
-            Headless = Options.Playwright == PlaywrightOptions.Headless
-        });
-        await InitNewPlaywrightPage();
-    }
-
-    public async Task InitNewPlaywrightPage()
-    {
-        if (Browser == null) throw new Exception("Browser is not initialized.");
-        if (_page != null) await _page.CloseAsync().ConfigureAwait(false);
-
-        _page = await Browser.NewPageAsync(new BrowserNewPageOptions
-        {
-            Locale = "en-US",
-            ScreenSize = new ScreenSize
-            {
-                Height = 1000,
-                Width = 1200
-            }
-        });
-    }
-
-    private async Task InitNetwork()
-    {
+        var networkIsRequired = false;
+        networkIsRequired = networkIsRequired || Options.Database?.Type == DatabaseType.UseSqlServerContainer;
+        networkIsRequired = networkIsRequired || Options.InContainer.Any();
+        if (!networkIsRequired) return;
         if (Network != null) return;
-        Network = new NetworkBuilder().Build();
+
+        var withReuse = true;
+        var networkBuilder = new NetworkBuilder().WithReuse(withReuse);
+
+        if (withReuse)
+        {
+            // we need to set a network name, if reuse is own, to enable reuse of the network
+            networkBuilder = networkBuilder.WithName("network-with-reuse");
+        }
+
+        Network = networkBuilder.Build();
         await Network.CreateAsync().ConfigureAwait(false);
-    }
-
-    private async Task InitDatabase()
-    {
-        if (Options.Db == DbOptions.UseSqlServerContainer)
-        {
-            await InitNetwork();
-
-            var dbContainer = new MsSqlBuilder()
-                .WithNetwork(Network)
-                .WithNetworkAliases("dbserver")
-                .WithLogger(DbContainerLogger = new InMemoryLogger())
-                .WithPortBinding(1433, true);
-
-            if (Options.DbWaitStrategy != null)
-            {
-                dbContainer = dbContainer.WithWaitStrategy(Options.DbWaitStrategy);
-            }
-
-            DbContainer = dbContainer.Build();
-
-            await DbContainer.StartAsync().ConfigureAwait(false);
-            DbConnectionStringInternal = $"server=dbserver;user id={MsSqlBuilder.DefaultUsername};password={MsSqlBuilder.DefaultPassword};database=db;encrypt=false;";
-            DbConnectionStringExternal = DbConnectionStringInternal.Replace("server=dbserver", $"server=localhost,{DbContainer.GetMappedPublicPort(1433)}");
-        }
-        else if (Options.Db == DbOptions.UseSqlServerLocal)
-        {
-            if (string.IsNullOrWhiteSpace(Options.LocalDbConnectionString)) throw new Exception("Unable to use local SQL Server, as setting \"LocalDbConnectionString\" is not specified.");
-            DbConnectionStringInternal = Options.LocalDbConnectionString.Replace("localhost", "host.docker.internal");
-            DbConnectionStringExternal = Options.LocalDbConnectionString;
-        }
-        else
-        {
-            throw new Exception("Unable to init database, as no database setting specified.");
-        }
-    }
-
-    public async Task InitializeAsync()
-    {
-        await SemaphoreSlim.WaitAsync().ConfigureAwait(false);
-
-        try
-        {
-            // ReSharper disable once VirtualMemberCallInConstructor
-            await BeforeInit().ConfigureAwait(false);
-
-            if (Options.Db != DbOptions.None) await InitDatabase().ConfigureAwait(false);
-            if (Options.WebApp == WebAppOptions.InProcess) await InitWebAppInProcess().ConfigureAwait(false);
-            else if (Options.WebApp == WebAppOptions.InContainer) await InitWebAppInContainer().ConfigureAwait(false);
-            if (Options.Playwright != PlaywrightOptions.None) await InitPlaywright().ConfigureAwait(false);
-
-            // ReSharper disable once VirtualMemberCallInConstructor
-            await AfterInit().ConfigureAwait(false);
-        }
-        finally
-        {
-            SemaphoreSlim.Release();
-        }
     }
 
     public async Task DisposeAsync()
     {
         await BeforeDispose();
 
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        if (Client != null) Client.Dispose();
-
-        if (_page != null) await _page.CloseAsync().ConfigureAwait(false);
-        if (Browser != null) await Browser.DisposeAsync().ConfigureAwait(false);
-        if (Playwright != null) Playwright.Dispose();
-
-        if (Factory != null) await Factory.DisposeAsync().ConfigureAwait(false);
-        if (WebContainer != null) await WebContainer.DisposeAsync().ConfigureAwait(false);
-        if (DbContainer != null) await DbContainer.DisposeAsync().ConfigureAwait(false);
-        if (Network != null) await Network.DisposeAsync().ConfigureAwait(false);
+        var disposeTasks = new List<Task>();
+        if (Playwright != null) disposeTasks.Add(Playwright.DisposeAsync().AsTask());
+        foreach (var c in InContainers) disposeTasks.Add(c.DisposeAsync().AsTask());
+        if (Network != null) disposeTasks.Add(Network.DisposeAsync().AsTask());
+        if (InProcess != null) disposeTasks.Add(InProcess.DisposeAsync().AsTask());
+        if (Database != null) disposeTasks.Add(Database.DisposeAsync().AsTask());
+        await Task.WhenAll(disposeTasks).ConfigureAwait(false);
 
         await AfterDispose();
+    }
+
+    /// <summary>
+    /// Convenience property that returns the HttpClient that is most likely useful.
+    /// </summary>
+    public HttpClient Client
+    {
+        get
+        {
+            if (InProcess != null) return InProcess.Client;
+            if (InContainers.Any()) return InContainers.First().Client;
+            throw new Exception("No HttpClient initialized.");
+        }
+    }
+
+    /// <summary>
+    /// Convenience property that returns a new Playwright page.
+    /// </summary>
+    public IPage Page
+    {
+        get
+        {
+            if (Playwright != null) return Playwright.Page;
+            throw new Exception("No Playwright initialized.");
+        }
     }
 }

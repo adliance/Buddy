@@ -10,19 +10,19 @@ public class InContainerAdditionalTest(WithDatabaseFixture<InContainerOptions> f
     [Fact]
     public async Task Can_Make_Another_Screenshot_of_Database()
     {
-        if (Fixture.Options.Playwright == PlaywrightOptions.None) return; // Assert.Skip is only available in XUnit 3
+        if (fixture.Options.Playwright == null) return; // Assert.Skip is only available in XUnit 3
 
-        await Fixture.Db.Table.ExecuteDeleteAsync();
+        await fixture.Db.Table.ExecuteDeleteAsync();
         for (var i = 1; i <= 200; i++)
-            await Fixture.Db.Table.AddAsync(new TableRow
+            await fixture.Db.Table.AddAsync(new TableRow
             {
                 Name = "Row " + i
             });
-        await Fixture.Db.SaveChangesAsync();
+        await fixture.Db.SaveChangesAsync();
 
-        await Fixture.Page.Navigate(Fixture.Client, "/Home/Database");
-        var pageContent = await Fixture.Page.ContentAsync();
-        await Fixture.Page.Screenshot("database");
+        await fixture.Page.Navigate(fixture.Client, "/Home/Database");
+        var pageContent = await fixture.Page.ContentAsync();
+        await fixture.Page.Screenshot("database");
         Assert.Contains("There are 200 rows in the database.", pageContent);
     }
 }
