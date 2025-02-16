@@ -135,7 +135,7 @@ public class BuddyFixture<TOptions, TEntryPoint> : IAsyncLifetime where TOptions
     {
         var networkIsRequired = false;
         networkIsRequired = networkIsRequired || Options.Database?.Type == DatabaseType.UseSqlServerContainer;
-        networkIsRequired = networkIsRequired || Options.InContainer.Any();
+        networkIsRequired = networkIsRequired || Options.InContainer.Any(x => x.UseLocalAppInstead == null);
         if (!networkIsRequired) return;
         if (Network != null) return;
 
