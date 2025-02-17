@@ -139,15 +139,7 @@ public class BuddyFixture<TOptions, TEntryPoint> : IAsyncLifetime where TOptions
         if (!networkIsRequired) return;
         if (Network != null) return;
 
-        var withReuse = true;
-        var networkBuilder = new NetworkBuilder().WithReuse(withReuse);
-
-        if (withReuse)
-        {
-            // we need to set a network name, if reuse is own, to enable reuse of the network
-            networkBuilder = networkBuilder.WithName("network-with-reuse");
-        }
-
+        var networkBuilder = new NetworkBuilder();
         Network = networkBuilder.Build();
         await Network.CreateAsync().ConfigureAwait(false);
     }

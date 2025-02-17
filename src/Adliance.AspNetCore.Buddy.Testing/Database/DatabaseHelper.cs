@@ -14,9 +14,6 @@ public static class DatabaseHelper
                 .WithNetwork(options.Network)
                 .WithNetworkAliases("db")
                 .WithLogger(options.Logger)
-                .WithReuse(true)
-                .WithAutoRemove(false)
-                .WithCleanUp(false)
                 .WithPortBinding(1433, true);
 
             if (options.DbWaitStrategy != null)

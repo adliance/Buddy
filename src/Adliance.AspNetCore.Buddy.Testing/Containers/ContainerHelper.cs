@@ -43,9 +43,6 @@ public static class ContainerHelper
             .WithNetworkAliases(options.NetworkAlias)
             .WithPortBinding(options.Port, true)
             .WithEnvironment("ASPNETCORE_URLS", "http://+")
-            .WithReuse(true)
-            .WithAutoRemove(false)
-            .WithCleanUp(false)
             .WithLogger(options.Logger);
 
         if (options.WaitStrategy != null) webContainerBuilder = webContainerBuilder.WithWaitStrategy(options.WaitStrategy);
