@@ -52,7 +52,7 @@ public static class ContainerHelper
 
         result.Container = webContainerBuilder.Build();
         await result.Container.StartAsync().ConfigureAwait(false);
-        result.Url = new UriBuilder("http", result.Container.Hostname, result.Container.GetMappedPublicPort(80)).Uri;
+        result.Url = new UriBuilder("http", result.Container.Hostname, result.Container.GetMappedPublicPort(options.Port)).Uri;
         result.Client = new HttpClient
         {
             BaseAddress = result.Url
