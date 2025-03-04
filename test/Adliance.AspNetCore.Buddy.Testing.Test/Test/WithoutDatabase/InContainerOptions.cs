@@ -13,7 +13,7 @@ public class InContainerOptions : BuddyFixtureOptions<Program>
             DockerFileDirectory = CommonDirectoryPath.GetSolutionDirectory().DirectoryPath,
             DockerFileName = "Adliance.AspNetCore.Buddy.Testing.Test.dockerfile"
         });
-
+        
         Playwright = new PlaywrightOptions();
     }
 }

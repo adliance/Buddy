@@ -60,8 +60,10 @@ public class BuddyFixture<TOptions, TEntryPoint> : IAsyncLifetime where TOptions
                     }
                 }
 
-                var containerTasks = Options.InContainer.Select(ContainerHelper.Setup);
-                InContainers = (await Task.WhenAll(containerTasks).ConfigureAwait(false)).ToList();
+                foreach (var o in Options.InContainer)
+                {
+                    InContainers.Add(await ContainerHelper.Setup(o).ConfigureAwait(false));
+                }
             }
 
             if (Options.InProcess != null)

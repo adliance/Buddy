@@ -31,8 +31,6 @@ public static class ContainerHelper
             .WithName(result.Image)
             .WithDockerfileDirectory(options.DockerFileDirectory)
             .WithDockerfile(options.DockerFileName)
-            // .WithBuildArgument("RESOURCE_REAPER_SESSION_ID", ResourceReaper.DefaultSessionId.ToString("D"))
-            .WithCleanUp(false)
             .Build()
             .CreateAsync()
             .ConfigureAwait(false);
