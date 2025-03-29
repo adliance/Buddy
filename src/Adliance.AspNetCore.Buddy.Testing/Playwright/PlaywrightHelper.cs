@@ -44,8 +44,8 @@ public static class PlaywrightHelper
             Locale = "en-US",
             ScreenSize = new ScreenSize
             {
-                Height = 1000,
-                Width = 1200
+                Height = 1200,
+                Width = 1800
             }
         });
 

@@ -25,10 +25,10 @@
   
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.9" />
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Pdf" Version="8.0.0.12" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.2" />
-    <PackageReference Include="System.Text.Json" Version="9.0.2" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.10" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Pdf" Version="8.0.0.13" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3" />
+    <PackageReference Include="System.Text.Json" Version="9.0.3" />
   </ItemGroup>
 
 </Project>
