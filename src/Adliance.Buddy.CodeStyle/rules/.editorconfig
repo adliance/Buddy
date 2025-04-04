@@ -411,13 +411,3 @@ dotnet_diagnostic.IDE0200.severity = suggestion
 
 # CA2016: Forward the 'CancellationToken' parameter to methods that take one
 dotnet_diagnostic.CA2016.severity = suggestion
-
-[*.razor.cs]
-
-# These rules appear to be broken for dotnet format after the .NET 8.0.3 upgrade (8.0.203).
-# So we're disabling them for now and hopefully they can be re-enabled in time.
-dotnet_diagnostic.IDE0044.severity = none
-dotnet_diagnostic.IDE0051.severity = none
-dotnet_diagnostic.IDE0060.severity = none
-dotnet_diagnostic.CA1822.severity = none
-dotnet_diagnostic.CA1823.severity = none
