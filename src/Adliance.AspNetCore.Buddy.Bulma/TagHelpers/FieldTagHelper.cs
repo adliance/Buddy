@@ -32,6 +32,9 @@ public class FieldTagHelper : TagHelper
     [HtmlAttributeName("multi-line")] public bool MultiLine { get; set; }
     [HtmlAttributeName("file-upload")] public bool FileUpload { get; set; }
     [HtmlAttributeName("file-upload-accept")] public string? FileUploadAcceptFilter { get; set; }
+    [HtmlAttributeName("multiple-file-upload")] public bool MultipleFileUpload { get; set; }
+    [HtmlAttributeName("multiple-file-upload-files-label")]
+    public string? MultipleFileUploadFilesLabel { get; set; } = "Files";
     [HtmlAttributeName("checkboxes")] public bool Checkboxes { get; set; }
     [HtmlAttributeName("rows")] public int Rows { get; set; } = 6;
     [HtmlAttributeName("password")] public bool Password { get; set; }
@@ -201,16 +204,33 @@ public class FieldTagHelper : TagHelper
                 placeholder = Placeholder ?? ""
             });
         }
-        else if (FileUpload)
+        else if (FileUpload || MultipleFileUpload)
         {
             builder.AppendHtml($"<div class=\"file has-name is-fullwidth{SizeClass}\"><label class=\"file-label\">");
-            builder.AppendHtml(_htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, new
+
+            if (FileUpload)
             {
-                type = "file",
-                @class = "file-input",
-                accept = FileUploadAcceptFilter,
-                onchange = "if (this.files.length > 0) { this.closest(\"div.file\").querySelector(\"span.file-name\").innerText = this.files[0].name; }"
-            }));
+                builder.AppendHtml(_htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name,
+                    For?.ModelExplorer.Model, null, new
+                    {
+                        type = "file",
+                        @class = "file-input",
+                        accept = FileUploadAcceptFilter,
+                        onchange = "if (this.files.length > 0) { this.closest(\"div.file\").querySelector(\"span.file-name\").innerText = this.files[0].name; }"
+                    }));
+            }
+            else
+            {
+                builder.AppendHtml(_htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, new
+                {
+                    type = "file",
+                    @class = "file-input",
+                    accept = FileUploadAcceptFilter,
+                    multiple = "multiple",
+                    onchange = $"if (this.files.length > 0) {{ this.closest(\"div.file\").querySelector(\"span.file-name\").innerText = this.files.length > 1 ? `${{this.files.length}} {MultipleFileUploadFilesLabel}` : this.files[0].name; }}"
+                }));
+            }
+
             builder.AppendHtml($"<span class=\"file-cta\"><span class=\"file-label\">{Placeholder}</span></span>");
             builder.AppendHtml("<span class=\"file-name\"></span></label></div>");
         }
