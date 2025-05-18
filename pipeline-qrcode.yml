@@ -1,7 +1,7 @@
 variables:
-  - template: pipeline-variables.yml
+  - group: shared_buddy_variable_group
 
-name: 8.0.1.$(Rev:r)
+name: $(version).$(Rev:r)
 
 resources:
   - repo: self
@@ -15,60 +15,9 @@ trigger:
   paths:
     include:
       - /src/Adliance.Buddy.QrCode
-      - /pipeline-qrcode.yml
 
 stages:
-  - stage: test
-    jobs:
-      - job: run_tests
-        pool:
-          vmImage: 'ubuntu-latest'
-        steps:
-          - task: UseDotNet@2
-            displayName: "Install .NET"
-            inputs:
-              version: '8.0.x'
-              packageType: sdk
-          - task: DotNetCoreCLI@2
-            displayName: 'Test'
-            inputs:
-              command: test
-              projects: 'test/Adliance.Buddy.QrCode.Tests/*.csproj'
-              arguments: '--configuration Release'
-
-  - stage: publish
-    jobs:
-      - job: push_to_nuget
-        pool:
-          vmImage: 'ubuntu-latest'
-        steps:
-          - task: UseDotNet@2
-            displayName: "Install .NET"
-            inputs:
-              version: '8.0.x'
-              packageType: sdk
-          - script: |
-              dotnet tool install -g dotnet-setversion
-              dotnet tool update -g dotnet-setversion
-              cd $(Build.SourcesDirectory)/src/Adliance.Buddy.QrCode
-              setversion $(Build.BuildNumber)
-            displayName: 'Run Set-Version'
-          - task: DotNetCoreCLI@2
-            displayName: 'Build'
-            inputs:
-              projects: 'src/Adliance.Buddy.QrCode/*.csproj'
-              arguments: '--configuration Release'
-          - task: DotNetCoreCLI@2
-            displayName: 'Pack'
-            inputs:
-              command: pack
-              packagesToPack: 'src/Adliance.Buddy.QrCode/*.csproj'
-              versioningScheme: byBuildNumber
-              configuration: 'Release'
-              includeSymbols: true
-          - task: NuGetCommand@2
-            displayName: 'NuGet Push'
-            inputs:
-              command: push
-              nuGetFeedType: external
-              publishFeedCredentials: 'Public NuGet'
+  - template: pipeline-template-build-and-push.yml
+    parameters:
+      project: "src/Adliance.Buddy.QrCode/*.csproj"
+      nugetApiKey: "$(nuget_api_key)"

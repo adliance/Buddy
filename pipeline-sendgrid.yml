@@ -21,4 +21,3 @@ stages:
     parameters:
       project: "src/Adliance.AspNetCore.Buddy.Email.SendGrid/*.csproj"
       nugetApiKey: "$(nuget_api_key)"
-

@@ -1,7 +1,7 @@
 variables:
   - group: shared_buddy_variable_group
 
-name:  $(version).$(Rev:r)
+name: $(version).$(Rev:r)
 
 resources:
   - repo: self
@@ -19,5 +19,5 @@ trigger:
 stages:
   - template: pipeline-template-build-and-push.yml
     parameters:
-      project: "test/Adliance.Buddy.Crypto.Test/*.csproj"
+      project: "src/Adliance.Buddy.Crypto.Test/*.csproj"
       nugetApiKey: "$(nuget_api_key)"
