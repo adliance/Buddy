@@ -1,0 +1,43 @@
+parameters:
+- name: project 
+  type: string
+
+stages:
+  - stage: publish
+    jobs:
+      - job: build_and_push_to_nuget
+        pool:
+          vmImage: 'ubuntu-latest'
+          
+        steps:
+          - task: UseDotNet@2
+            displayName: "Install .NET"
+            inputs:
+              version: '8.0.x'
+              packageType: sdk
+              
+          - task: DotNetCoreCLI@2
+            displayName: 'Build'
+            inputs:
+              projects: '${{ project }}'
+              arguments: '--configuration Release'
+              
+          - task: DotNetCoreCLI@2
+            displayName: 'Pack'
+            inputs:
+              command: pack
+              packagesToPack: '${{ project }}'
+              versioningScheme: byBuildNumber
+              configuration: 'Release'
+              includeSymbols: true
+              outputDir: '$(Build.ArtifactStagingDirectory)'
+              
+          - task: DotNetCoreCLI@2
+            displayName: 'Push'
+            inputs:
+              command: 'custom'
+              custom: 'nuget'
+              arguments: >
+                push "$(Build.ArtifactStagingDirectory)/*.nupkg"
+                --source "https://api.nuget.org/v3/index.json"
+                --api-key "$(NUGET_API_KEY)"

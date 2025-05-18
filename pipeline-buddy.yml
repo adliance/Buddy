@@ -58,10 +58,13 @@ stages:
               packagesToPack: 'src/Adliance.AspNetCore.Buddy/*.csproj'
               versioningScheme: byBuildNumber
               configuration: 'Release'
-              includeSymbols: true
-          - task: NuGetCommand@2
-            displayName: 'NuGet Push'
+              includeSymbols: true              
+          - task: DotNetCoreCLI@2
+            displayName: Push
             inputs:
-              command: push
-              nuGetFeedType: external
-              publishFeedCredentials: 'Public NuGet'
+              command: 'custom'
+              custom: 'nuget'
+              arguments: >
+                push "$(Build.ArtifactStagingDirectory)/*.nupkg"
+                --source "https://api.nuget.org/v3/index.json"
+                --api-key "$(NUGET_API_KEY)"
