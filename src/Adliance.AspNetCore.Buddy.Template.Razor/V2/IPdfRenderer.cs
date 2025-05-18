@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Pdf;
 using Adliance.AspNetCore.Buddy.Pdf.V2;
 

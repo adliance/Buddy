@@ -1,4 +1,4 @@
-﻿using Adliance.AspNetCore.Buddy.Abstractions;
+using Adliance.AspNetCore.Buddy.Abstractions;
 
 namespace Adliance.AspNetCore.Buddy.Email.Smtp.Test;
 

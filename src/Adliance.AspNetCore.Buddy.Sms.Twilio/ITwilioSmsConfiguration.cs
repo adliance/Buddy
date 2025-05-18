@@ -1,4 +1,4 @@
-﻿namespace Adliance.AspNetCore.Buddy.Sms.Twilio;
+namespace Adliance.AspNetCore.Buddy.Sms.Twilio;
 
 public interface ITwilioSmsConfiguration
 {

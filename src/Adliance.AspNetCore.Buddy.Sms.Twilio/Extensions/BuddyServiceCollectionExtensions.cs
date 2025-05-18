@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Adliance.AspNetCore.Buddy.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

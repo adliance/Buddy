@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using Adliance.AspNetCore.Buddy.Abstractions;
 using Microsoft.AspNetCore.DataProtection;

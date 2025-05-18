@@ -1,4 +1,4 @@
-﻿namespace Adliance.AspNetCore.Buddy.Authentication;
+namespace Adliance.AspNetCore.Buddy.Authentication;
 
 /// <summary>
 /// The configuration for the <see cref="ApiKeyAuthenticationHandler"/>.

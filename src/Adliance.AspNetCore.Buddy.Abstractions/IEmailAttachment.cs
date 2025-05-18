@@ -1,4 +1,4 @@
-﻿namespace Adliance.AspNetCore.Buddy.Abstractions;
+namespace Adliance.AspNetCore.Buddy.Abstractions;
 
 /// <summary>
 /// Specifies the contract for an attachment of an email.

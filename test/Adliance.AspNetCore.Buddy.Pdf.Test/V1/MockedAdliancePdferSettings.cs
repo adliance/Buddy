@@ -1,4 +1,4 @@
-﻿using Adliance.AspNetCore.Buddy.Pdf.V1;
+using Adliance.AspNetCore.Buddy.Pdf.V1;
 
 namespace Adliance.AspNetCore.Buddy.Pdf.Test.V1;
 

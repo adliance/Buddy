@@ -1,4 +1,4 @@
-﻿namespace Adliance.AspNetCore.Buddy.Authentication;
+namespace Adliance.AspNetCore.Buddy.Authentication;
 
 public class ApiKeyAuthenticationDefaults
 {

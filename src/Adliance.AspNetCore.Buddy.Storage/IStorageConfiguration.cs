@@ -1,4 +1,4 @@
-﻿namespace Adliance.AspNetCore.Buddy.Storage;
+namespace Adliance.AspNetCore.Buddy.Storage;
 
 public interface IStorageConfiguration
 {

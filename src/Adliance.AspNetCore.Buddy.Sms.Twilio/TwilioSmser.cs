@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Abstractions;
+using Microsoft.Extensions.Logging;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;

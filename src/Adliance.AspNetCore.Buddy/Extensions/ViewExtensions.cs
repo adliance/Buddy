@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Adliance.AspNetCore.Buddy.Extensions;
