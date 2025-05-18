@@ -21,7 +21,7 @@ stages:
           - task: DotNetCoreCLI@2
             displayName: 'Build'
             inputs:
-              projects: '${{  parameters.project }}'
+              projects: '${{ parameters.project }}'
               arguments: '--configuration Release'
               
           - task: DotNetCoreCLI@2

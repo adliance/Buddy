@@ -21,4 +21,4 @@ stages:
   - template: pipeline-template-build-and-push.yml
     parameters:
       project: 'src/Adliance.AspNetCore.Buddy.Bulma/*.csproj'    
-      nugetApiKey: "${{ NUGET_API_KEY }}"
+      nugetApiKey: "${{ variables.NUGET_API_KEY }}"
