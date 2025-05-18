@@ -80,7 +80,7 @@ public class MatchesGoldenImagesTests
             x.ApplyProcessor(binarizer);
             x.Fill(new DrawingOptions()
             {
-                GraphicsOptions = new GraphicsOptions()
+                GraphicsOptions = new GraphicsOptions
                 {
                     ColorBlendingMode = PixelColorBlendingMode.Screen,
                     AlphaCompositionMode = PixelAlphaCompositionMode.SrcAtop

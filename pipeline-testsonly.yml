@@ -25,6 +25,19 @@ stages:
               version: '8.0.x'
               packageType: sdk
           - task: DotNetCoreCLI@2
+            displayName: 'Build'
+            inputs:
+              command: build
+              projects: 'test/**/*.csproj'
+              arguments: '--configuration Release'
+          - script: |
+              dotnet tool update --global PowerShell --version 7.4.6
+            displayName: 'Install PowerShell tool'
+          - script: |
+              pwsh test/${{ parameters.project }}/bin/Debug/net8.0/playwright.ps1 install-deps   
+              pwsh test/${{ parameters.project }}/bin/Debug/net8.0/playwright.ps1 install   
+            displayName: 'Download Playwright executable'
+          - task: DotNetCoreCLI@2
             displayName: 'Test'
             inputs:
               command: test
