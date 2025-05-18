@@ -19,14 +19,14 @@ stages:
           - task: DotNetCoreCLI@2
             displayName: 'Build'
             inputs:
-              projects: '${{ project }}'
+              projects: '${{  parameters.project }}'
               arguments: '--configuration Release'
               
           - task: DotNetCoreCLI@2
             displayName: 'Pack'
             inputs:
               command: pack
-              packagesToPack: '${{ project }}'
+              packagesToPack: '${{ parameters.project }}'
               versioningScheme: byBuildNumber
               configuration: 'Release'
               includeSymbols: true
