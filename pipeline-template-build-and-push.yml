@@ -18,6 +18,12 @@ stages:
               version: '8.0.x'
               packageType: sdk
               
+          - script: |
+              dotnet tool install -g dotnet-setversion
+              dotnet tool update -g dotnet-setversion
+              setversion $(Build.BuildNumber) ${{ parameters.project }}
+            displayName: 'Run Set-Version'
+                     
           - task: DotNetCoreCLI@2
             displayName: 'Build'
             inputs:
@@ -31,7 +37,7 @@ stages:
               packagesToPack: '${{ parameters.project }}'
               versioningScheme: byBuildNumber
               configuration: 'Release'
-              includeSymbols: true
+              includeSymbols: false
               outputDir: '$(Build.ArtifactStagingDirectory)'
               
           - task: DotNetCoreCLI@2

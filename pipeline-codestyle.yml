@@ -1,7 +1,7 @@
 variables:
-  - template: pipeline-variables.yml
+  - group: shared_buddy_variable_group
 
-name: ${{ variables.version }}.$(Rev:r)
+name:  $(version).$(Rev:r)
 
 resources:
   - repo: self
@@ -17,33 +17,7 @@ trigger:
       - /src/Adliance.Buddy.CodeStyle
 
 stages:
-  - stage: publish
-    jobs:
-      - job: push_to_nuget
-        pool:
-          vmImage: 'ubuntu-latest'
-        steps:
-          - task: UseDotNet@2
-            displayName: "Install .NET"
-            inputs:
-              version: '8.0.x'
-              packageType: sdk
-          - task: DotNetCoreCLI@2
-            displayName: 'Build'
-            inputs:
-              projects: 'src/Adliance.Buddy.CodeStyle/*.csproj'
-              arguments: '--configuration Release'
-          - task: DotNetCoreCLI@2
-            displayName: 'Pack'
-            inputs:
-              command: pack
-              packagesToPack: 'src/Adliance.Buddy.CodeStyle/*.csproj'
-              versioningScheme: byBuildNumber
-              configuration: 'Release'
-              includeSymbols: true
-          - task: NuGetCommand@2
-            displayName: 'NuGet Push'
-            inputs:
-              command: push
-              nuGetFeedType: external
-              publishFeedCredentials: 'Public NuGet'
+  - template: pipeline-template-build-and-push.yml
+    parameters:
+      project: "src/Adliance.Buddy.CodeStyle/*.csproj"
+      nugetApiKey: "$(nuget_api_key)"

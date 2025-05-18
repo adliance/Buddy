@@ -11,7 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 		pipeline-mailjet.yml = pipeline-mailjet.yml
-		pipeline-variables.yml = pipeline-variables.yml
 		pipeline-buddy.yml = pipeline-buddy.yml
 		pipeline-datetime.yml = pipeline-datetime.yml
 		pipeline-bulma.yml = pipeline-bulma.yml
