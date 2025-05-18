@@ -13,8 +13,6 @@
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
     <Description>Library of utility methods and common functionality that are useful for most Adliance projects.</Description>
-    <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,5 +20,9 @@
     <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.11" />
     <PackageReference Include="MailKit" Version="4.12.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
+    <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@
     <Version>0.0.0</Version>
     <Authors>Hannes Sachsenhofer</Authors>
     <Company>Adliance GmbH</Company>
-    <Product />
+    <Product/>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>(c) Adliance GmbH</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -14,19 +14,21 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
     <Description>Library of utility methods and common functionality that are useful for most Adliance projects.</Description>
-    <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="readme.md" Pack="true" PackagePath="\" />
+    <None Include="readme.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
-  
+
   <ItemGroup>
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.11" />
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
-    <PackageReference Include="System.Text.Json" Version="9.0.5" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.11"/>
+    <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5"/>
+    <PackageReference Include="System.Text.Json" Version="9.0.5"/>
+    <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@
     <Version>0.0.0</Version>
     <Authors>Hannes Sachsenhofer</Authors>
     <Company>Adliance GmbH</Company>
-    <Product />
+    <Product/>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>(c) Adliance GmbH</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -16,14 +16,15 @@
       Library of utility methods that make working with Highcharts from .NET easier.
       Noteable features are a collection of classes that maps to Highcharts chart JSON, and support for calling the Highcharts Export Server.
     </Description>
-    <LangVersion>default</LangVersion>
-    <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+    <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

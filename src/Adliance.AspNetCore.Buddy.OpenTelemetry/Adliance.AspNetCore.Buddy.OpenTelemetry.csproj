@@ -1,56 +1,55 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <Version>0.0.0</Version>
-        <Authors>Hannes Sachsenhofer</Authors>
-        <Company>Adliance GmbH</Company>
-        <Product/>
-        <Copyright>(c) Adliance GmbH</Copyright>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <RepositoryUrl>https://github.com/adliance/Buddy</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
-        <Description>Easy OpenTelemetry instrumentation for ASP.NET Core services.</Description>
-        <Nullable>enable</Nullable>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <NoWarn>NU5104</NoWarn>
-        <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1901;NU1902;NU1903;NU1904;</WarningsNotAsErrors>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Version>0.0.0</Version>
+    <Authors>Hannes Sachsenhofer</Authors>
+    <Company>Adliance GmbH</Company>
+    <Product/>
+    <Copyright>(c) Adliance GmbH</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/adliance/Buddy</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
+    <Description>Easy OpenTelemetry instrumentation for ASP.NET Core services.</Description>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-      <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.12.0" />
-      <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.12.0" />
-      <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.12.0" />
-      <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.12.0" />
-      <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.10.0-beta.1" />
-      <PackageReference Include="OpenTelemetry.Instrumentation.Hangfire" Version="1.9.0-beta.1" />
-      <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.12.0" />
-      <PackageReference Include="System.Text.Json" Version="9.0.5" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5"/>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+    <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.12.0"/>
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.12.0"/>
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.12.0"/>
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.12.0"/>
+    <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.10.0-beta.1"/>
+    <PackageReference Include="OpenTelemetry.Instrumentation.Hangfire" Version="1.9.0-beta.1"/>
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.12.0"/>
+    <PackageReference Include="System.Text.Json" Version="9.0.5"/>
+    <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 
-    <ItemGroup>
-        <None Include="README.md" Pack="true" PackagePath="\" />
-    </ItemGroup>
-    
-    <ItemGroup>
-      <EmbeddedResource Include="wwwroot\lib\dist\telemetry.js" />
-      <EmbeddedResource Update="Resources.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-    </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
-    <ItemGroup>
-      <Compile Update="Resources.Designer.cs">
-        <DesignTime>True</DesignTime>
-        <AutoGen>True</AutoGen>
-        <DependentUpon>Resources.resx</DependentUpon>
-      </Compile>
-    </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\lib\dist\telemetry.js"/>
+    <EmbeddedResource Update="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
 </Project>

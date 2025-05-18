@@ -13,8 +13,6 @@
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
     <Description>Common .editorconfig file.</Description>
-    <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoDefaultExcludes>true</NoDefaultExcludes><!-- include files starting with . -->
     <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
@@ -22,7 +20,7 @@
   <!-- Select the MSBuild props and composed .editorconfig files to pack -->
   <ItemGroup>
     <None Include="build\Adliance.Buddy.CodeStyle.props" Pack="true" PackagePath="build\" />
-    <None Include="rules\.editorconfig" Pack="true" PackagePath="content\rules"></None>
+    <None Include="rules\.editorconfig" Pack="true" PackagePath="content\rules" />
     <None Include="readme.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
