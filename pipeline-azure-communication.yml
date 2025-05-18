@@ -19,6 +19,6 @@ trigger:
 stages:
   - template: pipeline-template-build-and-push.yml
     parameters:
-      project: "test/Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices.Test/*.csproj"
+      project: "src/Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices/*.csproj"
       nugetApiKey: "$(nuget_api_key)"
       

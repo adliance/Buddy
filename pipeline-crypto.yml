@@ -19,5 +19,5 @@ trigger:
 stages:
   - template: pipeline-template-build-and-push.yml
     parameters:
-      project: "src/Adliance.Buddy.Crypto.Test/*.csproj"
+      project: "src/Adliance.Buddy.Crypto/*.csproj"
       nugetApiKey: "$(nuget_api_key)"
