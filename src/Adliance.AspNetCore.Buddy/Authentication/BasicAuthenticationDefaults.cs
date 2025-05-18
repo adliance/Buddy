@@ -1,7 +1,6 @@
-﻿namespace Adliance.AspNetCore.Buddy.Authentication
+﻿namespace Adliance.AspNetCore.Buddy.Authentication;
+
+public class BasicAuthenticationDefaults
 {
-    public class BasicAuthenticationDefaults
-    {
-        public const string AuthenticationScheme = "BasicAuthentication";
-    }
+    public const string AuthenticationScheme = "BasicAuthentication";
 }

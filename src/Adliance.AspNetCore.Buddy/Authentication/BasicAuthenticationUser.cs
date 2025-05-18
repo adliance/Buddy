@@ -1,8 +1,7 @@
-﻿namespace Adliance.AspNetCore.Buddy.Authentication
+﻿namespace Adliance.AspNetCore.Buddy.Authentication;
+
+public class BasicAuthenticationUser
 {
-    public class BasicAuthenticationUser
-    {
-        public string? Id { get; set; }
-        public string? Name { get; set; }
-    }
+    public string? Id { get; set; }
+    public string? Name { get; set; }
 }

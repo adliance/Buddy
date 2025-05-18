@@ -1,5 +1,3 @@
-using System;
-
 namespace Adliance.AspNetCore.Buddy.Testing;
 
 public static class BuddyEnvironment

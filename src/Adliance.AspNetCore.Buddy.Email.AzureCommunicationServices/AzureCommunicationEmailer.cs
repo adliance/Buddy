@@ -1,4 +1,4 @@
-﻿using Adliance.AspNetCore.Buddy.Abstractions;
+using Adliance.AspNetCore.Buddy.Abstractions;
 using Azure;
 using Azure.Communication.Email;
 using Microsoft.AspNetCore.StaticFiles;
@@ -9,13 +9,13 @@ public class AzureCommunicationEmailer : IEmailer
 {
     private readonly IAzureCommunicationConfiguration _azureCommunicationConfig;
     private readonly IEmailConfiguration _emailConfig;
-    
+
     public AzureCommunicationEmailer(IAzureCommunicationConfiguration azureCommunicationConfig, IEmailConfiguration emailConfig)
     {
         _azureCommunicationConfig = azureCommunicationConfig;
         _emailConfig = emailConfig;
     }
-    
+
     public async Task Send(string recipientAddress, string subject, string htmlBody, string textBody,
         params IEmailAttachment[] attachments)
     {
@@ -29,12 +29,11 @@ public class AzureCommunicationEmailer : IEmailer
 
         if (_emailConfig.Disable)
             return;
-        
+
         string endpoint = _azureCommunicationConfig.Endpoint;
         var credential = new AzureKeyCredential(_azureCommunicationConfig.AccessKey);
         EmailClient client = new EmailClient(new Uri(endpoint), credential);
 
-        
         var to = GetRecipient(recipientName, recipientAddress);
 
         var content = new EmailContent(subject)
@@ -48,7 +47,7 @@ public class AzureCommunicationEmailer : IEmailer
             ReplyTo = { new EmailAddress(replyTo) },
             UserEngagementTrackingDisabled = _azureCommunicationConfig.UserEngagementTrackingDisabled,
         };
-        
+
         foreach (var attachment in attachments)
         {
             new FileExtensionContentTypeProvider().TryGetContentType(attachment.Filename, out var contentType);
@@ -64,7 +63,7 @@ public class AzureCommunicationEmailer : IEmailer
             throw new Exception($"Sending email via Azure Communication Services failed: {ex.Message}", ex);
         }
     }
-    
+
     private EmailRecipients GetRecipient(string recipientName, string recipientAddress)
     {
         if (!string.IsNullOrWhiteSpace(_emailConfig.RedirectAllEmailsTo))

@@ -4,52 +4,51 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Adliance.AspNetCore.Buddy.Highcharts.Test
+namespace Adliance.AspNetCore.Buddy.Highcharts.Test;
+
+public class HighchartsServerTest
 {
-    public class HighchartsServerTest
+    private readonly HighchartsServer _server;
+
+    public HighchartsServerTest()
     {
-        private readonly HighchartsServer _server;
+        _server = new HighchartsServer(new MockedHighchartsServerSettings());
+    }
 
-        public HighchartsServerTest()
+    [Theory]
+    [ClassData(typeof(TestData))]
+    public async Task Can_Generate_Charts(string filename, string format, int? width, double? scale)
+    {
+        var js = TestUtils.GetEmbeddedString("Charts", filename + ".js");
+
+        var bytes = await _server.Render(new HighchartsServerParameter
         {
-            _server = new HighchartsServer(new MockedHighchartsServerSettings());
-        }
+            Format = format,
+            Callback = js,
+            Width = width,
+            Scale = scale,
+            Chart = JsonConvert.DeserializeObject<Chart>(TestUtils.GetEmbeddedString("Charts", filename + ".json"))
+        });
 
-        [Theory]
-        [ClassData(typeof(TestData))]
-        public async Task Can_Generate_Charts(string filename, string format, int? width, double? scale)
+        TestUtils.StoreLocally($@"chart_{filename}_{format}_{width}_{scale}.{format}", bytes);
+        Assert.True(bytes.Length > 1000);
+    }
+
+    public class TestData : IEnumerable<object[]>
+    {
+        public IEnumerator<object[]> GetEnumerator()
         {
-            var js = TestUtils.GetEmbeddedString("Charts", filename + ".js");
-
-            var bytes = await _server.Render(new HighchartsServerParameter
+            foreach (var filename in new[] { "Chart01" })
             {
-                Format = format,
-                Callback = js,
-                Width = width,
-                Scale = scale,
-                Chart = JsonConvert.DeserializeObject<Chart>(TestUtils.GetEmbeddedString("Charts", filename + ".json"))
-            });
-
-            TestUtils.StoreLocally($@"chart_{filename}_{format}_{width}_{scale}.{format}", bytes);
-            Assert.True(bytes.Length > 1000);
-        }
-
-        public class TestData : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                foreach (var filename in new[] {"Chart01"})
+                foreach (var format in new[] { "png", "svg", "jpg", "pdf" })
                 {
-                    foreach (var format in new[] {"png", "svg", "jpg", "pdf"})
-                    {
-                        yield return new object[] {filename, format, null!, null!};
-                        yield return new object[] {filename, format, 100, null!};
-                        yield return new object[] {filename, format, null!, 5.5};
-                    }
+                    yield return new object[] { filename, format, null!, null! };
+                    yield return new object[] { filename, format, 100, null! };
+                    yield return new object[] { filename, format, null!, 5.5 };
                 }
             }
-
-            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

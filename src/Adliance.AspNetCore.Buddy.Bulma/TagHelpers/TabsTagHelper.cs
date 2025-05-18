@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Adliance.AspNetCore.Buddy.Bulma.TagHelpers;
@@ -20,7 +17,6 @@ public class TabsTagHelper : TagHelper
 
     public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
     {
-        var childContent = (await output.GetChildContentAsync()).GetContent();
         var tabs = (List<TabTagHelper>)context.Items["tabs"];
 
         var builder = new HtmlContentBuilder();
@@ -64,7 +60,6 @@ public class TabsTagHelper : TagHelper
 
         var postBuilder = new HtmlContentBuilder();
 
-
         tabIndex = 0;
         foreach (var tab in tabs)
         {
@@ -75,6 +70,7 @@ public class TabsTagHelper : TagHelper
         }
 
         output.PostContent.SetHtmlContent(postBuilder);
+        await Task.CompletedTask;
     }
 }
 

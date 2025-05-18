@@ -8,6 +8,9 @@ using Microsoft.Extensions.Primitives;
 
 namespace Adliance.AspNetCore.Buddy.OpenTelemetry.Extensions;
 
+/// <summary>
+///
+/// </summary>
 public static class BuddyApplicationBuilderExtensions
 {
     /// <summary>

@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 
 namespace Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices.Test;
@@ -15,7 +16,7 @@ public static class Utils
     private static Exception BuildEnvironmentVariableException(string name)
     {
         var sb = new StringBuilder();
-        sb.AppendLine($"Environment variable \"{name}\" missing. Available environment variables are:");
+        sb.AppendLine(CultureInfo.InvariantCulture, $"Environment variable \"{name}\" missing. Available environment variables are:");
         foreach (var o in Environment.GetEnvironmentVariables()) sb.AppendLine(o.ToString());
         throw new Exception(sb.ToString());
     }

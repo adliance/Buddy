@@ -3,7 +3,6 @@ using Adliance.AspNetCore.Buddy.Testing.Database;
 using Adliance.AspNetCore.Buddy.Testing.Playwright;
 using DotNet.Testcontainers.Builders;
 using Xunit;
-using DbType = System.Data.DbType;
 
 [assembly: CollectionBehavior(DisableTestParallelization = true)]
 
@@ -21,13 +20,10 @@ public class InContainerOptions : BuddyFixtureOptions<Program>
         });
 
         Playwright = new PlaywrightOptions();
-        
+
         Database = new DatabaseOptions
         {
             Type = DatabaseType.UseSqlServerContainer
         };
     }
 }
-
-
-

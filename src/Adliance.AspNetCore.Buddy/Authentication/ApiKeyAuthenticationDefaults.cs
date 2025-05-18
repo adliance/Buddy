@@ -1,7 +1,6 @@
-﻿namespace Adliance.AspNetCore.Buddy.Authentication
+﻿namespace Adliance.AspNetCore.Buddy.Authentication;
+
+public class ApiKeyAuthenticationDefaults
 {
-    public class ApiKeyAuthenticationDefaults
-    {
-        public const string AuthenticationScheme = "ApiKey";
-    }
+    public const string AuthenticationScheme = "ApiKey";
 }

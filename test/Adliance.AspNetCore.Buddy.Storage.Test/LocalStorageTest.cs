@@ -1,9 +1,8 @@
-﻿namespace Adliance.AspNetCore.Buddy.Storage.Test
+﻿namespace Adliance.AspNetCore.Buddy.Storage.Test;
+
+public class LocalStorageTest : StorageTestBase
 {
-    public class LocalStorageTest : StorageTestBase
+    public LocalStorageTest() : base(StorageType.Local)
     {
-        public LocalStorageTest() : base(StorageType.Local)
-        {
-        }
     }
 }

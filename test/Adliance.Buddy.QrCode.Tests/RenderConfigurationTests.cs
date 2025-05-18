@@ -32,7 +32,7 @@ public class RenderConfigurationTests
             Width = size,
             Margin = margin
         };
-        
+
         Assert.Equal(expectedMatrixColumnCount, code.Matrix.Width);
         Assert.Equal(expectedPixelRatio, renderConfig.PixelRatio, 2);
         Assert.Equal(expectedPixelRatio * margin, renderConfig.LeftPadding, 0);

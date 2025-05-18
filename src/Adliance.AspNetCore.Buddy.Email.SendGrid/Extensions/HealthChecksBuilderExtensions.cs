@@ -1,12 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Adliance.AspNetCore.Buddy.Email.SendGrid.Extensions
+namespace Adliance.AspNetCore.Buddy.Email.SendGrid.Extensions;
+
+public static class HealthChecksBuilderExtensions
 {
-    public static class HealthChecksBuilderExtensions
+    public static IHealthChecksBuilder AddSendgridCheck(this IHealthChecksBuilder builder)
     {
-        public static IHealthChecksBuilder AddSendgridCheck(this IHealthChecksBuilder builder)
-        {
-            return builder.AddCheck<SendgridHealthCheck>("SendGrid");
-        }
+        return builder.AddCheck<SendgridHealthCheck>("SendGrid");
     }
 }

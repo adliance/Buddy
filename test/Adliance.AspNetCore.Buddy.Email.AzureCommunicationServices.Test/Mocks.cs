@@ -1,4 +1,3 @@
-using System.Text;
 using Adliance.AspNetCore.Buddy.Abstractions;
 
 namespace Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices.Test;
@@ -8,7 +7,7 @@ namespace Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices.Test;
 public class MockedAzureCommunicationConfiguration : IAzureCommunicationConfiguration
 {
     public string Endpoint => Utils.GetEnvironmentVariable("Adliance_Buddy_Tests__AzureCommunication_Endpoint");
-    public string AccessKey { get; init; } =  Utils.GetEnvironmentVariable("Adliance_Buddy_Tests__AzureCommunication_AccessKey");
+    public string AccessKey { get; init; } = Utils.GetEnvironmentVariable("Adliance_Buddy_Tests__AzureCommunication_AccessKey");
 
     public bool UserEngagementTrackingDisabled => true;
 }

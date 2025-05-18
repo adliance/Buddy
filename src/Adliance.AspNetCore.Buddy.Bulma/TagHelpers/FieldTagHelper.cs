@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
@@ -51,7 +52,6 @@ public class FieldTagHelper : TagHelper
     /// If set to false, the autocomplete will be set to 'off'.
     /// </summary>
     [HtmlAttributeName("auto-complete")] public bool? AutoComplete { get; set; }
-
 
     private bool IsCheckBox => Items == null && (For?.ModelExplorer.ModelType == typeof(bool) || For?.ModelExplorer.ModelType == typeof(bool?));
     private bool IsDateTime => Items == null && (For?.ModelExplorer.ModelType == typeof(DateTime) || For?.ModelExplorer.ModelType == typeof(DateTime?));
@@ -236,7 +236,7 @@ public class FieldTagHelper : TagHelper
         }
         else if (IsDateTime)
         {
-            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateTime?)?.ToString("yyyy-MM-dd"), null, new { type = "date", @class = $"input{SizeClass}", placeholder = Placeholder ?? "" });
+            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateTime?)?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), null, new { type = "date", @class = $"input{SizeClass}", placeholder = Placeholder ?? "" });
         }
         else if (Number)
         {
@@ -276,7 +276,7 @@ public class FieldTagHelper : TagHelper
         builder.AppendHtml(Help);
         builder.AppendHtml("</div>");
     }
-    
+
     public enum Size
     {
         Small,

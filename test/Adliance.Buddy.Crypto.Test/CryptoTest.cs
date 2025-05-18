@@ -169,7 +169,7 @@ public class CryptoTest
     public void RandomString_Contains_Correct_Characters()
     {
         var random = Crypto.RandomString(10000, "ab");
-        var charactersValid = random.All(x => "ab".Contains(x));
+        var charactersValid = random.All("ab".Contains);
         Assert.True(charactersValid);
         Assert.Equal(10000, random.Length);
     }

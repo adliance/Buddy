@@ -24,10 +24,10 @@ public class QrCodeBuilder<TPixel>(string content)
 
     private ErrorCorrectionLevel _errorCorrectionLevel = ErrorCorrectionLevel.L;
 
-    private bool _roundedFinderPattern = false;
-    private bool _roundedContentDots = false;
-    private bool _squircleFinderPattern = false;
-    private bool _squircleContentDots = false;
+    private bool _roundedFinderPattern;
+    private bool _roundedContentDots;
+    private bool _squircleFinderPattern;
+    private bool _squircleContentDots;
     private float _squircleContentDotsSizeFactor = 0.96f;
 
     private Brush _backgroundBrush = Brushes.Solid(Color.White);
@@ -35,7 +35,7 @@ public class QrCodeBuilder<TPixel>(string content)
     private Brush _contentBrush = Brushes.Solid(Color.Black);
 
     private Image? _overlayImage;
-    private int _overlayMargin = 0;
+    private int _overlayMargin;
 
     /// <summary>
     /// Sets the dimensions of the generated QR code image.

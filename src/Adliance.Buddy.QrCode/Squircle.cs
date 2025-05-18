@@ -57,7 +57,6 @@ public class Squircle(
 
         points = points.Select(x => PointF.Add(x, location)).ToArray();
 
-
         return new CubicBezierLineSegment(points);
     }
 }

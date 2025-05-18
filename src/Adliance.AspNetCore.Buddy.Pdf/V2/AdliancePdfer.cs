@@ -41,11 +41,11 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
     }
 
     /// <summary>
-    /// Paper size can be either set via enum <see cref="size"/> or directly via width and height properties.
-    /// If <see cref="paperWidth"/> and <see cref="paperHeight"/> are set, those values are used. Otherwise the <see cref="size"/> parameter is used.
+    /// Paper size can be either set via enum size" or directly via width and height properties.
+    /// If paperWidth and paperHeight are set, those values are used. Otherwise the size parameter is used.
     /// As fallback always "A4" is used.
     /// </summary>
-    /// <param name="size">The paper size as <see cref="PdfSize"/>.</param>
+    /// <param name="size">The paper size as PdfSize.</param>
     /// <param name="paperWidth">The width in pixels.</param>
     /// <param name="paperHeight">The height in pixels.</param>
     /// <returns></returns>

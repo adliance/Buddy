@@ -90,7 +90,6 @@ public class BuddyFixture<TOptions, TEntryPoint> : IAsyncLifetime where TOptions
         }
     }
 
-
     /// <summary>
     /// Is called before any initialization of the fixture dependencies (containers etc.).
     /// </summary>

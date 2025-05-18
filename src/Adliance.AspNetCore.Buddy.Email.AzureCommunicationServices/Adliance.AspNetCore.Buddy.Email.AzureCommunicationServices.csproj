@@ -1,33 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <Version>0.0.0</Version>
-        <Authors>Hannes Sachsenhofer</Authors>
-        <Company>Adliance GmbH</Company>
-        <Product />
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <Copyright>(c) Adliance GmbH</Copyright>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <RepositoryUrl>https://github.com/adliance/Buddy</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-        <PackageReadmeFile>readme.md</PackageReadmeFile>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Version>0.0.0</Version>
+    <Authors>Hannes Sachsenhofer</Authors>
+    <Company>Adliance GmbH</Company>
+    <Product/>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Copyright>(c) Adliance GmbH</Copyright>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/adliance/Buddy</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.11" />
-        <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.9" />
-      <PackageReference Include="Azure.Communication.Email" Version="1.0.1" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
-      <PackageReference Include="System.Text.Json" Version="9.0.5" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <None Include="readme.md" Pack="true" PackagePath="\"/>
-    </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.11"/>
+    <PackageReference Include="Azure.Communication.Email" Version="1.0.1"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5"/>
+    <PackageReference Include="System.Text.Json" Version="9.0.5"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="readme.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 </Project>

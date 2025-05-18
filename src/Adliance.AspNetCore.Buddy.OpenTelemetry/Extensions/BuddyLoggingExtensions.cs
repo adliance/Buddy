@@ -6,6 +6,9 @@ using OpenTelemetry.Resources;
 
 namespace Adliance.AspNetCore.Buddy.OpenTelemetry.Extensions;
 
+/// <summary>
+///
+/// </summary>
 public static class BuddyLoggingExtensions
 {
     /// <summary>
@@ -29,7 +32,7 @@ public static class BuddyLoggingExtensions
     /// <summary>
     /// Adds the OpenTelemetry exporter. Prints logs also to console.
     /// </summary>
-    /// <param name="buddyLoggingBuilder">The logging builder returned by <see cref="Adliance.AspNetCore.Buddy.Abstractions.Extensions.LoggingBuilderExtensions.AddBuddy">AddBuddy</see>.</param>
+    /// <param name="buddyLoggingBuilder">The logging builder returned by AddBuddy.</param>
     /// <param name="configuration">The (parsed) configuration</param>
     /// <returns>The builder for further calls.</returns>
     // ReSharper disable once MemberCanBePrivate.Global

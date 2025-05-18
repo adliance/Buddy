@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace Adliance.AspNetCore.Buddy.OpenTelemetry;
 
+/// <summary>
+///
+/// </summary>
 public class HtmlHelper(string serviceName)
 {
     private readonly string _scriptUrl =

@@ -27,7 +27,6 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.11" />
     <PackageReference Include="Adliance.AspNetCore.Buddy.Pdf" Version="8.0.0.14" />
-    <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.9" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
     <PackageReference Include="System.Text.Json" Version="9.0.5" />
   </ItemGroup>

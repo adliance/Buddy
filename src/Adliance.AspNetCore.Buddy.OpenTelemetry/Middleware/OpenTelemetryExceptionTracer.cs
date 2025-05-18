@@ -26,7 +26,7 @@ public class OpenTelemetryExceptionTracer : IExceptionHandler
         Activity.Current?.RecordException(exception);
 #pragma warning restore CS0618 // Type or member is obsolete
         Activity.Current?.SetStatus(ActivityStatusCode.Error, "Unhandled exception");
-        
+
         // Return false to continue with the default behavior
         return ValueTask.FromResult(false);
     }

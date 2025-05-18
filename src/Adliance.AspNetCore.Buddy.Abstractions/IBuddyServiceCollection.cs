@@ -1,33 +1,32 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Adliance.AspNetCore.Buddy.Abstractions
+namespace Adliance.AspNetCore.Buddy.Abstractions;
+
+/// <summary>
+/// Specifies the contract for a buddy collection of service descriptors.
+/// </summary>
+public interface IBuddyServiceCollection
 {
     /// <summary>
-    /// Specifies the contract for a buddy collection of service descriptors.
+    /// The collection of service descriptors.
     /// </summary>
-    public interface IBuddyServiceCollection
-    {
-        /// <summary>
-        /// The collection of service descriptors.
-        /// </summary>
-        public IServiceCollection Services { get; }
-    }
+    public IServiceCollection Services { get; }
+}
 
+/// <summary>
+/// A buddy collection of service descriptors.
+/// </summary>
+public class BuddyServiceCollection : IBuddyServiceCollection
+{
     /// <summary>
-    /// A buddy collection of service descriptors.
+    /// Creates an instance of a buddy collection.
     /// </summary>
-    public class BuddyServiceCollection : IBuddyServiceCollection
+    /// <param name="services">A collection of service descriptors.</param>
+    public BuddyServiceCollection(IServiceCollection services)
     {
-        /// <summary>
-        /// Creates an instance of a buddy collection.
-        /// </summary>
-        /// <param name="services">A collection of service descriptors.</param>
-        public BuddyServiceCollection(IServiceCollection services)
-        {
-            Services = services;
-        }
-
-        /// <inheritdoc />
-        public IServiceCollection Services { get; }
+        Services = services;
     }
+
+    /// <inheritdoc />
+    public IServiceCollection Services { get; }
 }

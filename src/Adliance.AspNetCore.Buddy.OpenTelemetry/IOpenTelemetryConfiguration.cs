@@ -66,7 +66,7 @@ public class DefaultOpenTelemetryConfiguration : IOpenTelemetryConfiguration
 
     /// <inheritdoc cref="IOpenTelemetryConfiguration.EnableConsoleExporter"/>
     // ReSharper disable once RedundantDefaultMemberInitializer
-    public bool EnableConsoleExporter { get; set; } = false;
+    public bool EnableConsoleExporter { get; set; }
 
     /// <inheritdoc cref="IOpenTelemetryConfiguration.OtlpExporter"/>
     public OtlpExporterOptions OtlpExporter { get; set; } = new()

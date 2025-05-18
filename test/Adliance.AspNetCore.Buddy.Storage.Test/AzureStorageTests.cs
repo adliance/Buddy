@@ -1,9 +1,8 @@
-﻿namespace Adliance.AspNetCore.Buddy.Storage.Test
+﻿namespace Adliance.AspNetCore.Buddy.Storage.Test;
+
+public class AzureStorageTest : StorageTestBase
 {
-    public class AzureStorageTest : StorageTestBase
+    public AzureStorageTest() : base(StorageType.Azure)
     {
-        public AzureStorageTest() : base(StorageType.Azure)
-        {
-        }
     }
 }

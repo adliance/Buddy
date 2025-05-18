@@ -29,9 +29,8 @@ public class ApiKeyAuthenticationHandler(
             apiKey = Request.Query[conf.QueryStringKey];
 
         // HTTP header takes precedence over querystring
-        if (!string.IsNullOrWhiteSpace(conf.HttpHeaderKey) && Request.Headers.ContainsKey(conf.HttpHeaderKey) &&
-            !string.IsNullOrWhiteSpace(Request.Headers[conf.HttpHeaderKey]))
-            apiKey = Request.Headers[conf.HttpHeaderKey];
+        if (!string.IsNullOrWhiteSpace(conf.HttpHeaderKey) && Request.Headers.TryGetValue(conf.HttpHeaderKey, out var value) && !string.IsNullOrWhiteSpace(value))
+            apiKey = value;
 
         if (!conf.AllowEmptyApiKey && string.IsNullOrWhiteSpace(apiKey))
             return AuthenticateResult.Fail("No API key specified.");

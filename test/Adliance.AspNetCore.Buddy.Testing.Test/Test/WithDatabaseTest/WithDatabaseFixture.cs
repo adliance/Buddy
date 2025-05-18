@@ -1,6 +1,5 @@
 using Adliance.AspNetCore.Buddy.Testing.Test.Models;
 using Microsoft.EntityFrameworkCore;
-using Xunit;
 
 namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithDatabaseTest;
 

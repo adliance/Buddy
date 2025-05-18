@@ -7,22 +7,24 @@ namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithDatabaseTest;
 
 public class InContainerAdditionalTest(WithDatabaseFixture<InContainerOptions> fixture) : BaseTest<InContainerOptions>(fixture)
 {
+    private readonly WithDatabaseFixture<InContainerOptions> _fixture = fixture;
+
     [Fact]
     public async Task Can_Make_Another_Screenshot_of_Database()
     {
-        if (fixture.Options.Playwright == null) return; // Assert.Skip is only available in XUnit 3
+        if (_fixture.Options.Playwright == null) return; // Assert.Skip is only available in XUnit 3
 
-        await fixture.Db.Table.ExecuteDeleteAsync();
+        await _fixture.Db.Table.ExecuteDeleteAsync();
         for (var i = 1; i <= 200; i++)
-            await fixture.Db.Table.AddAsync(new TableRow
+            await _fixture.Db.Table.AddAsync(new TableRow
             {
                 Name = "Row " + i
             });
-        await fixture.Db.SaveChangesAsync();
+        await _fixture.Db.SaveChangesAsync();
 
-        await fixture.Page.Navigate(fixture.Client, "/Home/Database");
-        var pageContent = await fixture.Page.ContentAsync();
-        await fixture.Page.Screenshot("database");
+        await _fixture.Page.Navigate(_fixture.Client, "/Home/Database");
+        var pageContent = await _fixture.Page.ContentAsync();
+        await _fixture.Page.Screenshot("database");
         Assert.Contains("There are 200 rows in the database.", pageContent);
     }
 }

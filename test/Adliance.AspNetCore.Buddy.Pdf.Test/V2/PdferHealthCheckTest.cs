@@ -4,15 +4,14 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
-namespace Adliance.AspNetCore.Buddy.Pdf.Test.V2
+namespace Adliance.AspNetCore.Buddy.Pdf.Test.V2;
+
+public class PdferHealthCheckTest
 {
-    public class PdferHealthCheckTest
+    [Fact]
+    public async Task Health_Check_Succeeds()
     {
-        [Fact]
-        public async Task Health_Check_Succeeds()
-        {
-            var check = new PdferHealthCheck(new AdliancePdfer(new MockedPdferConfiguration()), new NullLogger<PdferHealthCheck>());
-            Assert.Equal(HealthStatus.Healthy, (await check.CheckHealthAsync(new HealthCheckContext())).Status);
-        }
+        var check = new PdferHealthCheck(new AdliancePdfer(new MockedPdferConfiguration()), new NullLogger<PdferHealthCheck>());
+        Assert.Equal(HealthStatus.Healthy, (await check.CheckHealthAsync(new HealthCheckContext())).Status);
     }
 }
