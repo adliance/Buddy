@@ -25,25 +25,41 @@ stages:
             inputs:
               version: '8.0.x'
               packageType: sdk
+              
           - task: DotNetCoreCLI@2
             displayName: 'Build'
             inputs:
               command: build
               projects: 'test/**/*.csproj'
               arguments: '--configuration Release'
+              
+          - task: DotNetCoreCLI@2
+            displayName: 'Lint'
+            inputs:
+              command: custom
+              projects: 'Buddy.sln'
+              custom: format
+              arguments: '-v diag --verify-no-changes'
+              
           - script: |
               dotnet tool update --global PowerShell --version 7.4.6
             displayName: 'Install PowerShell tool'
+            
           - script: |
               pwsh test/Adliance.AspNetCore.Buddy.Testing.Test/bin/Release/net8.0/playwright.ps1 install-deps   
+            displayName: 'Install Playwright dependencies'
+            
+          - script: |
               pwsh test/Adliance.AspNetCore.Buddy.Testing.Test/bin/Release/net8.0/playwright.ps1 install   
-            displayName: 'Download Playwright executable'
+            displayName: 'Install Playwright executables'
+            
           - task: DotNetCoreCLI@2
             displayName: 'Test'
             inputs:
               command: test
               projects: 'test/**/*.csproj'
               arguments: '--configuration Release --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+              
           - task: PublishCodeCoverageResults@2
             displayName: 'Publish code coverage report'
             inputs:

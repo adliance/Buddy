@@ -78,7 +78,7 @@ public class MatchesGoldenImagesTests
         {
             var binarizer = new BinaryThresholdProcessor(0.1f, Color.Black, Color.Transparent);
             x.ApplyProcessor(binarizer);
-            x.Fill(new DrawingOptions()
+            x.Fill(new DrawingOptions
             {
                 GraphicsOptions = new GraphicsOptions
                 {
