@@ -16,7 +16,7 @@ namespace Adliance.AspNetCore.Buddy.Storage.Test
         public string DataProtectionContainer => "dataprotection";
         public bool UseAzureStorage => false;
         public bool UseLocalStorage => false;
-        
+
         public string GetEnvironmentVariable(string name)
         {
             return Environment.GetEnvironmentVariable(name)

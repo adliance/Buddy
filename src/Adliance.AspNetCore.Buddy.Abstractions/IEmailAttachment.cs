@@ -9,7 +9,7 @@
         /// The filename of the email attachment.
         /// </summary>
         string Filename { get; }
-        
+
         /// <summary>
         /// The binary content of the email attachment. 
         /// </summary>

@@ -27,8 +27,8 @@ namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Test
                 "Unit Test for MailJet (with attachments)",
                 "This is the <b>HTML</b> body.<br /><br />And <a href='https://www.igevia.com'>this</a> is a link.",
                 "This is the **Text** body.",
-                new MockedEmailAttachment("textfile.txt", new byte[] {1}),
-                new MockedEmailAttachment("musicfile.mp3", new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9}));
+                new MockedEmailAttachment("textfile.txt", new byte[] { 1 }),
+                new MockedEmailAttachment("musicfile.mp3", new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }));
         }
     }
 }

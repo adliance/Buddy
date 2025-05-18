@@ -11,14 +11,14 @@ public class HomeController : Controller
         await Task.CompletedTask;
         return View();
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> Index(string? postContent)
     {
         await Task.CompletedTask;
         return View(nameof(Index), postContent);
     }
-    
+
     public async Task<IActionResult> Database([FromServices] Db db)
     {
         return View(await db.Table.CountAsync());

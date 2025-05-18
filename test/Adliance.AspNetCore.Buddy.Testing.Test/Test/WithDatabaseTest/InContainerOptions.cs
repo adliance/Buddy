@@ -21,7 +21,7 @@ public class InContainerOptions : BuddyFixtureOptions<Program>
         });
 
         Playwright = new PlaywrightOptions();
-        
+
         Database = new DatabaseOptions
         {
             Type = DatabaseType.UseSqlServerContainer

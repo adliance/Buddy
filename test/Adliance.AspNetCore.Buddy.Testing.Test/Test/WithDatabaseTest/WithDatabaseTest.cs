@@ -29,7 +29,7 @@ public abstract class BaseTest<TOptions>(WithDatabaseFixture<TOptions> fixture) 
         response.EnsureSuccessStatusCode();
         Assert.Contains("There are 100 rows in the database.", responseString);
     }
-    
+
     [Fact]
     public async Task Can_Get_Database_A_Second_time()
     {
@@ -64,12 +64,12 @@ public abstract class BaseTest<TOptions>(WithDatabaseFixture<TOptions> fixture) 
         await fixture.Page.Screenshot("database");
         Assert.Contains("There are 1 rows in the database.", pageContent);
     }
-    
+
     [Fact]
     public async Task Can_Make_Second_Screenshot_of_Database()
     {
         if (fixture.Options.Playwright == null) return; // Assert.Skip is only available in XUnit 3
-        
+
         await fixture.Db.Table.ExecuteDeleteAsync();
         for (var i = 1; i <= 2; i++)
             await fixture.Db.Table.AddAsync(new TableRow
@@ -83,7 +83,7 @@ public abstract class BaseTest<TOptions>(WithDatabaseFixture<TOptions> fixture) 
         await fixture.Page.Screenshot("database");
         Assert.Contains("There are 2 rows in the database.", pageContent);
     }
-    
+
     [Fact]
     public async Task Can_Make_Third_of_Database()
     {

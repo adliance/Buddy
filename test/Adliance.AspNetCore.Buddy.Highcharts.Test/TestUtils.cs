@@ -23,7 +23,7 @@ namespace Adliance.AspNetCore.Buddy.Highcharts.Test
         {
             var directory = @"C:\Users\Hannes\Downloads"; // yes, yes, I know
             if (Directory.Exists(directory)) File.WriteAllBytes(Path.Combine(directory, filename), bytes);
-                
+
             directory = @"/Users/hannes/Downloads"; // yes, yes, I know
             if (Directory.Exists(directory)) File.WriteAllBytes(Path.Combine(directory, filename), bytes);
         }

@@ -17,7 +17,7 @@ public class DateTimeExtensionsTest
     {
         Assert.Null((null as System.DateTime?).UtcToCet());
     }
-    
+
     [Theory]
     [InlineData("2022-07-19 12:34:56", "2022-07-19 10:34:56")]
     [InlineData("2022-12-18 12:34:56", "2022-12-18 11:34:56")]
@@ -39,13 +39,13 @@ public class DateTimeExtensionsTest
     {
         Assert.Equal(expectedResult, System.DateTime.Parse(date).FormatDate());
     }
-    
+
     [Fact]
     public void Can_Support_Null_When_Formatting_Date()
     {
         Assert.Equal("", (null as System.DateTime?).FormatDate());
     }
-    
+
     [Theory]
     [InlineData("2022-07-19 23:45:56", "20. Juli 2022")]
     [InlineData("2022-12-18 23:45:56", "19. Dezember 2022")]
@@ -53,7 +53,7 @@ public class DateTimeExtensionsTest
     {
         Assert.Equal(expectedResult, System.DateTime.Parse(date).FormatUtcAsCetDate());
     }
-    
+
     [Fact]
     public void Can_Support_Null_When_Formatting_Utc_Date()
     {
@@ -67,13 +67,13 @@ public class DateTimeExtensionsTest
     {
         Assert.Equal(expectedResult, System.DateTime.Parse(date).FormatDateTime());
     }
-    
+
     [Fact]
     public void Can_Support_Null_When_Formatting_DateTime()
     {
         Assert.Equal("", (null as System.DateTime?).FormatDateTime());
     }
-    
+
     [Theory]
     [InlineData("2022-07-19 23:45:56", "20. Juli 2022, 01:45:56")]
     [InlineData("2022-12-18 23:45:56", "19. Dezember 2022, 00:45:56")]
@@ -81,7 +81,7 @@ public class DateTimeExtensionsTest
     {
         Assert.Equal(expectedResult, System.DateTime.Parse(date).FormatUtcAsCetDateTime());
     }
-    
+
     [Fact]
     public void Can_Support_Null_When_Formatting_Utc_DateTime()
     {

@@ -16,7 +16,7 @@ namespace Adliance.AspNetCore.Buddy.Sms.Twilio
 
         private readonly ITwilioSmsConfiguration _configuration;
         private readonly ILogger<TwilioSmser> _logger;
-        
+
         public TwilioSmser(ITwilioSmsConfiguration configuration, ILogger<TwilioSmser> logger)
         {
             _configuration = configuration;
@@ -30,7 +30,7 @@ namespace Adliance.AspNetCore.Buddy.Sms.Twilio
         {
             TwilioClient.Init(_configuration.AccountSid, _configuration.AuthToken);
         }
-        
+
         /// <summary>
         /// Send a message from the account used in <see cref="ITwilioSmsConfiguration"/> to make the request.
         /// </summary>

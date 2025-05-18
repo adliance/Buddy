@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Adliance.AspNetCore.Buddy.Testing.Containers;
 using Adliance.AspNetCore.Buddy.Testing.Database;

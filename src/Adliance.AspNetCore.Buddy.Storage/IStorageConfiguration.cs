@@ -17,7 +17,7 @@
         bool AutomaticallyCreateDirectories { get; }
         bool ConfigureDataProtection { get; }
         string DataProtectionContainer { get; }
-        
+
         bool UseAzureStorage { get; }
         bool UseLocalStorage { get; }
     }

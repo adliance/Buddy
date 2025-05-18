@@ -276,7 +276,7 @@ public class FieldTagHelper : TagHelper
         builder.AppendHtml(Help);
         builder.AppendHtml("</div>");
     }
-    
+
     public enum Size
     {
         Small,

@@ -19,14 +19,14 @@ namespace Adliance.AspNetCore.Buddy.Storage
         }
 
         /// <inheritdoc cref="IHealthCheck.CheckHealthAsync"/>
-        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, 
+        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
-                var path = new[] {"healthcheck", "healthcheck_file.bin"};
+                var path = new[] { "healthcheck", "healthcheck_file.bin" };
 
-                await _storage.Save(new byte[] {1, 2, 3}, true, path);
+                await _storage.Save(new byte[] { 1, 2, 3 }, true, path);
                 var bytes = await _storage.Load(path);
                 await _storage.Delete(path);
 

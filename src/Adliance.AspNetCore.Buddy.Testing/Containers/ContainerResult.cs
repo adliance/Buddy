@@ -3,8 +3,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using DotNet.Testcontainers.Containers;
 using DotNet.Testcontainers.Images;
-using DotNet.Testcontainers.Networks;
-using Microsoft.Extensions.Logging;
 
 namespace Adliance.AspNetCore.Buddy.Testing.Containers;
 

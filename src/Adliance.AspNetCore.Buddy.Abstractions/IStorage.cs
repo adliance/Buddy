@@ -31,7 +31,7 @@ namespace Adliance.AspNetCore.Buddy.Abstractions
         /// <param name="path">The path of the file to load.</param>
         /// <returns>The loaded blob file.</returns>
         Task<byte[]?> Load(params string[] path);
-        
+
         /// <summary>
         /// Loads a blob file by a specified <paramref name="path"/>.
         /// </summary>

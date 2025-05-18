@@ -12,12 +12,12 @@ public interface IAzureCommunicationConfiguration
     /// This is unique for every tenant / app service instance.
     /// </remarks>
     string Endpoint { get; }
-    
+
     /// <summary>
     /// The access key for authentication.
     /// </summary>
     string AccessKey { get; }
-    
+
     /// <summary>
     /// Disable open/click tracking for end user mails.
     /// </summary>
@@ -35,10 +35,10 @@ public class DefaultAzureCommunicationConfiguration : IAzureCommunicationConfigu
 {
     /// <inheritdoc cref="IAzureCommunicationConfiguration.Endpoint"/>
     public string Endpoint { get; init; } = string.Empty;
-    
+
     /// <inheritdoc cref="IAzureCommunicationConfiguration.AccessKey"/>
     public string AccessKey { get; init; } = string.Empty;
-    
+
     /// <inheritdoc cref="IAzureCommunicationConfiguration.UserEngagementTrackingDisabled"/>
     public bool UserEngagementTrackingDisabled { get; init; } = true;
 }

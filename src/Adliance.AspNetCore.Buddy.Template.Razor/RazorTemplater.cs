@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -10,66 +10,65 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 
-namespace Adliance.AspNetCore.Buddy.Template.Razor
+namespace Adliance.AspNetCore.Buddy.Template.Razor;
+
+/// <summary>
+/// Renders a razor template.
+/// </summary>
+public class RazorTemplater : ITemplater
 {
-    /// <summary>
-    /// Renders a razor template.
-    /// </summary>
-    public class RazorTemplater : ITemplater
+    #region Constructor
+
+    private readonly IRazorViewEngine _razorViewEngine;
+    private readonly ITempDataProvider _tempDataProvider;
+    private readonly IServiceProvider _serviceProvider;
+
+    public RazorTemplater(
+        IRazorViewEngine razorViewEngine,
+        ITempDataProvider tempDataProvider,
+        IServiceProvider serviceProvider)
     {
-        #region Constructor
+        _razorViewEngine = razorViewEngine;
+        _tempDataProvider = tempDataProvider;
+        _serviceProvider = serviceProvider;
+    }
 
-        private readonly IRazorViewEngine _razorViewEngine;
-        private readonly ITempDataProvider _tempDataProvider;
-        private readonly IServiceProvider _serviceProvider;
+    #endregion Constructor
 
-        public RazorTemplater(
-            IRazorViewEngine razorViewEngine,
-            ITempDataProvider tempDataProvider,
-            IServiceProvider serviceProvider)
+    /// <inheritdoc />
+    /// <exception cref="Exception">The <paramref name="templateName"/> does not match any available view.</exception>
+    public async Task<string> Render(string directoryName, string templateName, object model)
+    {
+        var httpContext = new DefaultHttpContext { RequestServices = _serviceProvider };
+        var routeData = new RouteData();
+        routeData.Values["Controller"] = directoryName;
+        var actionContext = new ActionContext(httpContext, routeData, new ActionDescriptor());
+
+        using (var sw = new StringWriter())
         {
-            _razorViewEngine = razorViewEngine;
-            _tempDataProvider = tempDataProvider;
-            _serviceProvider = serviceProvider;
-        }
-        
-        #endregion Constructor
+            var viewResult = _razorViewEngine.FindView(actionContext, templateName, false);
 
-        /// <inheritdoc />
-        /// <exception cref="Exception">The <paramref name="templateName"/> does not match any available view.</exception>
-        public async Task<string> Render(string directoryName, string templateName, object model)
-        {
-            var httpContext = new DefaultHttpContext { RequestServices = _serviceProvider };
-            var routeData = new RouteData();
-            routeData.Values["Controller"] = directoryName;
-            var actionContext = new ActionContext(httpContext, routeData, new ActionDescriptor());
-
-            using (var sw = new StringWriter())
+            if (viewResult.View == null)
             {
-                var viewResult = _razorViewEngine.FindView(actionContext, templateName, false);
-
-                if (viewResult.View == null)
-                {
-                    throw new Exception($"{templateName} does not match any available view.");
-                }
-
-                var viewDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
-                {
-                    Model = model
-                };
-
-                var viewContext = new ViewContext(
-                    actionContext,
-                    viewResult.View,
-                    viewDictionary,
-                    new TempDataDictionary(actionContext.HttpContext, _tempDataProvider),
-                    sw,
-                    new HtmlHelperOptions()
-                );
-
-                await viewResult.View.RenderAsync(viewContext);
-                return sw.ToString();
+                throw new Exception($"{templateName} does not match any available view.");
             }
+
+            var viewDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
+            {
+                Model = model
+            };
+
+            var viewContext = new ViewContext(
+                actionContext,
+                viewResult.View,
+                viewDictionary,
+                new TempDataDictionary(actionContext.HttpContext, _tempDataProvider),
+                sw,
+                new HtmlHelperOptions()
+            );
+
+            await viewResult.View.RenderAsync(viewContext);
+            return sw.ToString();
         }
     }
 }

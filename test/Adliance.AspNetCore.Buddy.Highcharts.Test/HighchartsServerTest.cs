@@ -38,13 +38,13 @@ namespace Adliance.AspNetCore.Buddy.Highcharts.Test
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                foreach (var filename in new[] {"Chart01"})
+                foreach (var filename in new[] { "Chart01" })
                 {
-                    foreach (var format in new[] {"png", "svg", "jpg", "pdf"})
+                    foreach (var format in new[] { "png", "svg", "jpg", "pdf" })
                     {
-                        yield return new object[] {filename, format, null!, null!};
-                        yield return new object[] {filename, format, 100, null!};
-                        yield return new object[] {filename, format, null!, 5.5};
+                        yield return new object[] { filename, format, null!, null! };
+                        yield return new object[] { filename, format, 100, null! };
+                        yield return new object[] { filename, format, null!, 5.5 };
                     }
                 }
             }

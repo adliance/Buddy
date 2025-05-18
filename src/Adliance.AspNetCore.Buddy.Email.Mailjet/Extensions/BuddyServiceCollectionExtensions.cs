@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Adliance.AspNetCore.Buddy.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,39 +7,38 @@ using Microsoft.Extensions.DependencyInjection;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 
-namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Extensions
+namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Extensions;
+
+public static class BuddyServiceCollectionExtensions
 {
-    public static class BuddyServiceCollectionExtensions
+    public static IBuddyServiceCollection AddMailjet(
+        this IBuddyServiceCollection buddyServices,
+        IEmailConfiguration emailConfiguration,
+        IMailjetConfiguration mailjetConfiguration)
     {
-        public static IBuddyServiceCollection AddMailjet(
-            this IBuddyServiceCollection buddyServices,
-            IEmailConfiguration emailConfiguration,
-            IMailjetConfiguration mailjetConfiguration)
-        {
-            buddyServices.Services.AddSingleton(emailConfiguration);
-            buddyServices.Services.AddSingleton(mailjetConfiguration);
-            return AddMailjet(buddyServices);
-        }
+        buddyServices.Services.AddSingleton(emailConfiguration);
+        buddyServices.Services.AddSingleton(mailjetConfiguration);
+        return AddMailjet(buddyServices);
+    }
 
-        public static IBuddyServiceCollection AddMailjet(
-            this IBuddyServiceCollection buddyServices,
-            IConfigurationSection emailConfigurationSection,
-            IConfigurationSection mailjetConfigurationSection)
-        {
-            var emailOptions = emailConfigurationSection.Get<DefaultEmailConfiguration>() ?? throw new Exception($"Unable to load email configuration from {emailConfigurationSection.Path}.");
-            buddyServices.Services.Configure<IEmailConfiguration>(emailConfigurationSection);
+    public static IBuddyServiceCollection AddMailjet(
+        this IBuddyServiceCollection buddyServices,
+        IConfigurationSection emailConfigurationSection,
+        IConfigurationSection mailjetConfigurationSection)
+    {
+        var emailOptions = emailConfigurationSection.Get<DefaultEmailConfiguration>() ?? throw new Exception($"Unable to load email configuration from {emailConfigurationSection.Path}.");
+        buddyServices.Services.Configure<IEmailConfiguration>(emailConfigurationSection);
 
-            var mailjetOptions = mailjetConfigurationSection.Get<DefaultMailjetConfiguration>() ?? throw new Exception($"Unable to load mailjet configuration from {mailjetConfigurationSection.Path}.");
-            buddyServices.Services.Configure<IMailjetConfiguration>(mailjetConfigurationSection);
+        var mailjetOptions = mailjetConfigurationSection.Get<DefaultMailjetConfiguration>() ?? throw new Exception($"Unable to load mailjet configuration from {mailjetConfigurationSection.Path}.");
+        buddyServices.Services.Configure<IMailjetConfiguration>(mailjetConfigurationSection);
 
-            return AddMailjet(buddyServices, emailOptions, mailjetOptions);
-        }
+        return AddMailjet(buddyServices, emailOptions, mailjetOptions);
+    }
 
-        public static IBuddyServiceCollection AddMailjet(
-            this IBuddyServiceCollection buddyServices)
-        {
-            buddyServices.Services.AddTransient<IEmailer, MailjetEmailer>();
-            return buddyServices;
-        }
+    public static IBuddyServiceCollection AddMailjet(
+        this IBuddyServiceCollection buddyServices)
+    {
+        buddyServices.Services.AddTransient<IEmailer, MailjetEmailer>();
+        return buddyServices;
     }
 }
