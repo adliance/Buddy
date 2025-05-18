@@ -1,5 +1,4 @@
 variables:
-  - template: pipeline-variables.yml
   - group: shared_buddy_variable_group
 
 name: ${{ variables.version }}.$(Rev:r)
@@ -20,5 +19,5 @@ trigger:
 stages:
   - template: pipeline-template-build-and-push.yml
     parameters:
-      project: 'src/Adliance.AspNetCore.Buddy.Bulma/*.csproj'    
-      nugetApiKey: "${{ variables.NUGET_API_KEY }}"
+      project: "src/Adliance.AspNetCore.Buddy.Bulma/*.csproj"
+      nugetApiKey: "${{ variables.nuget_api_key }}"
