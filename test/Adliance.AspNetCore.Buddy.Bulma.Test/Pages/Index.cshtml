@@ -69,7 +69,8 @@
                 <field asp-for="DateValue" label="Date" help="Medium date with prepended text" size="Medium" prepend="prepend"/>
             </div>
             <div class="column">
-                <field asp-for="FileValue" label="File" help="Renders a large file upload" size="Large" file-upload-accept=".xls,.xlsx" placeholder="Select file" file-upload/>
+                <field asp-for="FileValues" label="Files" help="Renders a large multiple file upload with a custom files label" size="Large" 
+                       file-upload-accept=".xls,.xlsx" placeholder="Select file" multiple-file-upload multiple-file-upload-files-label="Dateien"/>
             </div>
         </div>
         <div class="columns">

@@ -10,6 +10,7 @@ public class IndexModel : PageModel
     [BindProperty] public string PasswordValue { get; set; } = "My initial password";
     [BindProperty] public string TextareaValue { get; set; } = $"My initial{Environment.NewLine}textarea value";
     [BindProperty] public IFormFile? FileValue { get; set; }
+    [BindProperty] public IFormFile[]? FileValues { get; set; }
     [BindProperty] public DateTime DateValue { get; set; } = DateTime.Now;
     [BindProperty] public bool CheckboxValue { get; set; }
 
