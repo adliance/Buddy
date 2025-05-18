@@ -34,8 +34,8 @@ stages:
               dotnet tool update --global PowerShell --version 7.4.6
             displayName: 'Install PowerShell tool'
           - script: |
-              pwsh test/${{ parameters.project }}/bin/Debug/net8.0/playwright.ps1 install-deps   
-              pwsh test/${{ parameters.project }}/bin/Debug/net8.0/playwright.ps1 install   
+              pwsh test/Adliance.AspNetCore.Buddy.Testing.Test/bin/Release/net8.0/playwright.ps1 install-deps   
+              pwsh test/Adliance.AspNetCore.Buddy.Testing.Test/bin/Release/net8.0/playwright.ps1 install   
             displayName: 'Download Playwright executable'
           - task: DotNetCoreCLI@2
             displayName: 'Test'
