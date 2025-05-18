@@ -1,5 +1,6 @@
 variables:
   - template: pipeline-variables.yml
+  - group: shared_buddy_variable_group
 
 name: ${{ variables.version }}.$(Rev:r)
 
@@ -20,3 +21,4 @@ stages:
   - template: pipeline-template-build-and-push.yml
     parameters:
       project: 'src/Adliance.AspNetCore.Buddy.Bulma/*.csproj'    
+      useVarGroups: true
