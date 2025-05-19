@@ -6,7 +6,6 @@
     <Authors>Hannes Sachsenhofer</Authors>
     <Company>Adliance GmbH</Company>
     <Product/>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>(c) Adliance GmbH</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/adliance/Buddy</RepositoryUrl>

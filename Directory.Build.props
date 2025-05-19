@@ -2,11 +2,13 @@
   <PropertyGroup>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild> <!--This is optional. If set to true the code style is also enforced during build.-->
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoWarn>$(NoWarn);1591;CS7022;</NoWarn>
+    <NoWarn>$(NoWarn);1591;CS7022;NU5104;</NoWarn>
     <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1901;NU1902;NU1903;NU1904;</WarningsNotAsErrors>
     <NuGetAuditMode>Direct</NuGetAuditMode>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
+    <IsPackable>true</IsPackable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 </Project>
