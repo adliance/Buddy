@@ -24,10 +24,10 @@
                 <field asp-for="PasswordValue" label="Password" help="Renders a password field" password icon="fa fa-trash" auto-complete="false"/>
             </div>
             <div class="column">
-                <field asp-for="DateValue" label="Date" help="Renders a date field"/>
+                <field asp-for="DateValue" label="Date" help="Renders a date field" min="2025-01-01" max="2025-12-31"/>
             </div>
             <div class="column">
-                <field asp-for="NumberValue" label="Date" help="Renders a number field" number/>
+                <field asp-for="NumberValue" label="Number" help="Renders a number field" number step="0.01" min="0" max="1"/>
             </div>
         </div>
         <div class="columns">
@@ -41,7 +41,7 @@
                 <field asp-for="DateValue" label="Date" size="Medium" help="Renders a medium date field"/>
             </div>
             <div class="column">
-                <field asp-for="NumberValue" label="Date" size="Large" help="Renders a large number field" number/>
+                <field asp-for="NumberValue" label="Number" size="Large" help="Renders a large number field" number/>
             </div>
         </div>
         <div class="columns">
