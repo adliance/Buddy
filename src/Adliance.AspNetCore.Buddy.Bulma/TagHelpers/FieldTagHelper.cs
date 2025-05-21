@@ -40,6 +40,9 @@ public class FieldTagHelper : TagHelper
     [HtmlAttributeName("rows")] public int Rows { get; set; } = 6;
     [HtmlAttributeName("password")] public bool Password { get; set; }
     [HtmlAttributeName("number")] public bool Number { get; set; }
+    [HtmlAttributeName("step")] public string? Step { get; set; }
+    [HtmlAttributeName("min")] public string? Min { get; set; }
+    [HtmlAttributeName("max")] public string? Max { get; set; }
     /// <summary>
     /// Defines the size of the field. Available for all types, except checkboxes.
     /// </summary>
@@ -236,11 +239,11 @@ public class FieldTagHelper : TagHelper
         }
         else if (IsDateTime)
         {
-            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateTime?)?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), null, new { type = "date", @class = $"input{SizeClass}", placeholder = Placeholder ?? "" });
+            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateTime?)?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), null, new { type = "date", @class = $"input{SizeClass}", placeholder = Placeholder ?? "", min = Min, max = Max });
         }
         else if (Number)
         {
-            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, new { type = "number", @class = $"input{SizeClass}", placeholder = Placeholder ?? "" });
+            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, new { type = "number", @class = $"input{SizeClass}", placeholder = Placeholder ?? "", step = Step, min = Min, max = Max });
         }
         else
         {
