@@ -16,6 +16,9 @@ public class FieldTagHelper : TagHelper
 {
     private readonly IHtmlGenerator _htmlGenerator;
 
+    // Cf. https://github.com/dotnet/aspnetcore/blob/main/src/Mvc/Mvc.Core/src/ModelBinding/FormValueHelper.cs#L6
+    private const string CultureInvariantFieldName = "__Invariant";
+
     public FieldTagHelper(IHtmlGenerator htmlGenerator)
     {
         _htmlGenerator = htmlGenerator;
@@ -190,6 +193,7 @@ public class FieldTagHelper : TagHelper
         if (IsSelectList || IsCheckBox || IsCheckBoxList || For?.ModelExplorer == null) return;
 
         TagBuilder? control = null;
+        TagBuilder? invariantControl = null;
 
         if (Password)
         {
@@ -240,10 +244,16 @@ public class FieldTagHelper : TagHelper
         else if (IsDateTime)
         {
             control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateTime?)?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), null, new { type = "date", @class = $"input{SizeClass}", placeholder = Placeholder ?? "", min = Min, max = Max });
+            // Generate an extra hidden field such that this field with be parsed with the invariant culture.
+            // Cf. https://github.com/dotnet/aspnetcore/pull/43182
+            invariantControl = GenerateInvariantCultureMetadata(For?.Name);
         }
         else if (Number)
         {
             control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, new { type = "number", @class = $"input{SizeClass}", placeholder = Placeholder ?? "", step = Step, min = Min, max = Max });
+            // Generate an extra hidden field such that this field with be parsed with the invariant culture.
+            // Cf. https://github.com/dotnet/aspnetcore/pull/43182
+            invariantControl = GenerateInvariantCultureMetadata(For?.Name);
         }
         else
         {
@@ -260,9 +270,21 @@ public class FieldTagHelper : TagHelper
             if (Disabled) control.Attributes.Add("disabled", "disabled");
             if (AutoComplete == false) control.Attributes.Add("autocomplete", "off");
             builder.AppendHtml(control);
+            if (invariantControl != null) builder.AppendHtml(invariantControl);
         }
 
         AppendIcon(builder);
+    }
+
+    private static TagBuilder? GenerateInvariantCultureMetadata(string? propertyName)
+    {
+        if (propertyName == null) return null;
+        var builder = new TagBuilder("input");
+        builder.Attributes.Add("type", "hidden");
+        builder.Attributes.Add("name", CultureInvariantFieldName);
+        builder.Attributes.Add("value", propertyName);
+        builder.TagRenderMode = TagRenderMode.SelfClosing;
+        return builder;
     }
 
     private void AppendValidationSection(IHtmlContentBuilder builder)
