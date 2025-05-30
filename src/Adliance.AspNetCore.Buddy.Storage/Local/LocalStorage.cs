@@ -15,6 +15,8 @@ public class LocalStorage(IStorageConfiguration configuration) : IStorage
         var mode = GetFileMode(overwrite);
         await using var fileStream = File.Open(filePath, mode, FileAccess.ReadWrite);
         await fileStream.WriteAsync(bytes);
+        await fileStream.FlushAsync();
+        fileStream.Close();
     }
 
     /// <inheritdoc cref="IStorage.Save(System.IO.Stream,bool,string[])"/>
@@ -24,6 +26,8 @@ public class LocalStorage(IStorageConfiguration configuration) : IStorage
         var mode = GetFileMode(overwrite);
         await using var fileStream = File.Open(filePath, mode, FileAccess.ReadWrite);
         await stream.CopyToAsync(fileStream);
+        await fileStream.FlushAsync();
+        fileStream.Close();
     }
 
     /// <inheritdoc cref="IStorage.Load(string[])"/>
