@@ -49,7 +49,7 @@ public static class BuddyServiceCollectionExtensions
         }
         else if (configuration.ConfigureDataProtection && configuration.UseLocalStorage && !string.IsNullOrWhiteSpace(configuration.DataProtectionContainer))
         {
-            var directory = new DirectoryInfo(Path.Combine(configuration.LocalStorageBasePath, configuration.DataProtectionContainer));
+            var directory = new DirectoryInfo(Path.Combine(configuration.LocalStorageBasePath ?? "", configuration.DataProtectionContainer));
             if (!directory.Exists) directory.Create();
             buddyServices.Services
                 .AddDataProtection()

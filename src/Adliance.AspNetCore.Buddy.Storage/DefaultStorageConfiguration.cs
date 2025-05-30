@@ -12,32 +12,35 @@ public class DefaultStorageConfiguration : IStorageConfiguration
     public StorageType Type { get; set; }
 
     /// <inheritdoc />
-    public string LocalStorageBasePath { get; set; } = string.Empty;
+    public string? LocalStorageBasePath { get; set; }
 
     /// <inheritdoc />
-    public string AzureStorageConnectionString { get; set; } = string.Empty;
+    public string? AzureStorageConnectionString { get; set; }
+
+    /// <inheritdoc />
+    public string? AzureStorageUrl { get; set; }
+
+    public string? AzureStorageManagedIdentityClientId { get; set; }
 
     /// <inheritdoc />
     public bool AutomaticallyCreateDirectories { get; set; }
+
     public bool ConfigureDataProtection { get; set; }
-    public string DataProtectionContainer { get; set; } = "dataprotection";
+    public string? DataProtectionContainer { get; set; } = "dataprotection";
 
     /// <inheritdoc />
     public bool UseAzureStorage
     {
         get
         {
-            if (Type == StorageType.Azure)
-            {
-                if (string.IsNullOrWhiteSpace(AzureStorageConnectionString))
-                {
-                    throw new Exception("Azure Storage is configured, but connection string is missing.");
-                }
+            if (Type != StorageType.Azure) return false;
 
-                return true;
+            if (string.IsNullOrWhiteSpace(AzureStorageConnectionString) && string.IsNullOrWhiteSpace(AzureStorageUrl))
+            {
+                throw new Exception("Azure Storage is configured, but connection information is missing.");
             }
 
-            return false;
+            return true;
         }
     }
 
@@ -46,17 +49,13 @@ public class DefaultStorageConfiguration : IStorageConfiguration
     {
         get
         {
-            if (Type == StorageType.Local)
+            if (Type != StorageType.Local) return false;
+            if (string.IsNullOrWhiteSpace(LocalStorageBasePath))
             {
-                if (string.IsNullOrWhiteSpace(LocalStorageBasePath))
-                {
-                    throw new Exception("Local storage is configured, but base path is missing.");
-                }
-
-                return true;
+                throw new Exception("Local storage is configured, but base path is missing.");
             }
 
-            return false;
+            return true;
         }
     }
 }

@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Adliance.AspNetCore.Buddy.Abstractions;
+namespace Adliance.AspNetCore.Buddy.Storage;
 
 /// <summary>
 /// Specifies the contract for a storage provider.
@@ -51,7 +51,7 @@ public interface IStorage
     Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, params string[] path);
 
     /// <summary>
-    /// Determines whether the specified file exists. 
+    /// Determines whether the specified file exists.
     /// </summary>
     /// <param name="path">The path of the file.</param>
     /// <returns>The result is true if the file given by the specified path exists;

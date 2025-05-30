@@ -1,19 +1,12 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Adliance.AspNetCore.Buddy.Abstractions;
 
+// ReSharper disable once CheckNamespace
 namespace Adliance.AspNetCore.Buddy.Storage;
 
-public class LocalStorage : IStorage
+public class LocalStorage(IStorageConfiguration configuration) : IStorage
 {
-    private readonly IStorageConfiguration _configuration;
-
-    public LocalStorage(IStorageConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-
     /// <inheritdoc cref="IStorage.Save(byte[],bool,string[])"/>
     public async Task Save(byte[] bytes, bool overwrite, params string[] path)
     {
@@ -88,9 +81,9 @@ public class LocalStorage : IStorage
     private string GetFilePath(params string[] path)
     {
         var filePath = Path.Combine(path);
-        filePath = Path.Combine(_configuration.LocalStorageBasePath, filePath);
+        filePath = Path.Combine(configuration.LocalStorageBasePath ?? "", filePath);
 
-        if (_configuration.AutomaticallyCreateDirectories)
+        if (configuration.AutomaticallyCreateDirectories)
         {
             var directoryPath = Path.GetDirectoryName(filePath)!;
             if (!Directory.Exists(directoryPath))

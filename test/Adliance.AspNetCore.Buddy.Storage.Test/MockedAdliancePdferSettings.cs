@@ -11,6 +11,8 @@ public class MockedStorageConfiguration : IStorageConfiguration
     public string LocalStorageBasePath => Path.GetTempPath();
 
     public string AzureStorageConnectionString => GetEnvironmentVariable("Adliance_Buddy_Tests__AzureStorageConnectionString");
+    public string? AzureStorageUrl => null;
+    public string? AzureStorageManagedIdentityClientId => null;
 
     public bool AutomaticallyCreateDirectories => true;
     public bool ConfigureDataProtection => true;

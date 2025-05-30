@@ -4,22 +4,16 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Adliance.AspNetCore.Buddy.Abstractions;
+using Azure.Identity;
 using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Sas;
 
+// ReSharper disable once CheckNamespace
 namespace Adliance.AspNetCore.Buddy.Storage;
 
-public class AzureStorage : IStorage
+public class AzureStorage(IStorageConfiguration configuration) : IStorage
 {
-    private readonly IStorageConfiguration _configuration;
-
-    public AzureStorage(IStorageConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-
     /// <inheritdoc cref="IStorage.Save(byte[],bool,string[])"/>
     public async Task Save(byte[] bytes, bool overwrite = true, params string[] path)
     {
@@ -74,6 +68,11 @@ public class AzureStorage : IStorage
     /// <inheritdoc cref="IStorage.GetDownloadUrl" />
     public async Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, params string[] path)
     {
+        if (string.IsNullOrWhiteSpace(configuration.AzureStorageConnectionString))
+        {
+            throw new Exception("A configured Azure Storage Connection String is required to build an SAS download URL.");
+        }
+
         if (await Exists(path))
         {
             if (string.IsNullOrWhiteSpace(niceName))
@@ -93,8 +92,8 @@ public class AzureStorage : IStorage
             };
             sasBuilder.SetPermissions(BlobSasPermissions.Read);
 
-            var accountName = Regex.Match(_configuration.AzureStorageConnectionString, "AccountName=(.*?);", RegexOptions.IgnoreCase).Groups[1].Value;
-            var accountKey = Regex.Match(_configuration.AzureStorageConnectionString, "AccountKey=(.*?);", RegexOptions.IgnoreCase).Groups[1].Value;
+            var accountName = Regex.Match(configuration.AzureStorageConnectionString, "AccountName=(.*?);", RegexOptions.IgnoreCase).Groups[1].Value;
+            var accountKey = Regex.Match(configuration.AzureStorageConnectionString, "AccountKey=(.*?);", RegexOptions.IgnoreCase).Groups[1].Value;
             var sasToken = sasBuilder.ToSasQueryParameters(new StorageSharedKeyCredential(accountName, accountKey));
             return new Uri(blobClient.Uri + "?" + sasToken);
         }
@@ -104,31 +103,36 @@ public class AzureStorage : IStorage
 
     private BlobContainerClient GetContainerClient(params string[] path)
     {
-        if (path.Length < 2)
-        {
-            throw new Exception($"Path is not complete, it needs to consist of at least 2 parts, but only has {path.Length}.");
-        }
-
-        var blobServiceClient = new BlobServiceClient(_configuration.AzureStorageConnectionString);
-
+        if (path.Length < 2) throw new Exception($"Path is not complete, it needs to consist of at least 2 parts, but only has {path.Length}.");
         var container = path.First();
 
-        var client = blobServiceClient.GetBlobContainerClient(container);
-        if (_configuration.AutomaticallyCreateDirectories && !client.Exists())
+        BlobContainerClient? client;
+
+        if (!string.IsNullOrWhiteSpace(configuration.AzureStorageUrl))
         {
-            client.Create();
+            var url = configuration.AzureStorageUrl?.Trim('/');
+            if (string.IsNullOrWhiteSpace(url)) throw new Exception("Azure Storage URL is not configured.");
+            var credential = string.IsNullOrWhiteSpace(configuration.AzureStorageManagedIdentityClientId)
+                ? new ManagedIdentityCredential()
+                : new ManagedIdentityCredential(configuration.AzureStorageManagedIdentityClientId);
+            client = new BlobContainerClient(new Uri($"{url}/{container}"), credential);
+        }
+        else if (!string.IsNullOrWhiteSpace(configuration.AzureStorageConnectionString))
+        {
+            client = new BlobContainerClient(configuration.AzureStorageConnectionString, container);
+        }
+        else
+        {
+            throw new Exception("Azure Storage connection information is not configured.");
         }
 
+        if (configuration.AutomaticallyCreateDirectories && !client.Exists()) client.Create();
         return client;
     }
 
     private BlobClient GetBlobClient(params string[] path)
     {
-        if (path.Length < 2)
-        {
-            throw new Exception($"Path is not complete, it needs to consist of at least 2 parts, but only has {path.Length}.");
-        }
-
+        if (path.Length < 2) throw new Exception($"Path is not complete, it needs to consist of at least 2 parts, but only has {path.Length}.");
         var fileName = string.Join('/', path.Skip(1));
         return GetContainerClient(path).GetBlobClient(fileName);
     }
