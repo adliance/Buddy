@@ -10,13 +10,12 @@ parameters:
   type: string
   default: ''
 
-variables:
-  Adliance_Buddy_Tests__AzureStorageConnectionString: ${{ parameters.azureStorageConnectionString }}
-
 stages:
   - stage: publish
     jobs:
       - job: build_and_push_to_nuget
+        variables:
+          Adliance_Buddy_Tests__AzureStorageConnectionString: ${{ parameters.azureStorageConnectionString }}  
         pool:
           vmImage: 'ubuntu-latest'
           
