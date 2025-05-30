@@ -1,3 +1,6 @@
+variables:
+  - group: shared_buddy_variable_group
+
 name: 0.0.0.$(Rev:r)
 
 resources:
@@ -17,8 +20,11 @@ stages:
   - stage: test
     jobs:
       - job: run_tests
+        variables:
+          Adliance_Buddy_Tests__AzureStorageConnectionString: ${{ parameters.azureStorageConnectionString }}
         pool:
           vmImage: 'ubuntu-latest'
+          
         steps:
           - task: UseDotNet@2
             displayName: "Install .NET 8"

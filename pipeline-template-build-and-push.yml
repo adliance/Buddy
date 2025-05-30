@@ -31,7 +31,21 @@ stages:
               dotnet tool update -g dotnet-setversion
               setversion $(Build.BuildNumber) ${{ parameters.project }}
             displayName: 'Run Set-Version'
-                     
+
+          - task: DotNetCoreCLI@2
+            displayName: 'Build ${{ parameters.project }}'
+            inputs:
+              projects: '${{ parameters.project }}'
+              arguments: '--configuration Release'
+
+          - task: DotNetCoreCLI@2
+            displayName: 'Lint ${{ parameters.project }}'
+            inputs:
+              command: custom
+              projects: '${{ parameters.project }}'
+              custom: format
+              arguments: '-v diag --verify-no-changes'
+                                      
           - ${{ if ne(parameters.testProject, '') }}:
             - task: DotNetCoreCLI@2
               displayName: 'Test ${{ parameters.testProject }}'
@@ -39,13 +53,7 @@ stages:
                 command: test
                 projects: '${{ parameters.testProject }}'
                 arguments: '--configuration Release'
-                     
-          - task: DotNetCoreCLI@2
-            displayName: 'Build ${{ parameters.project }}'
-            inputs:
-              projects: '${{ parameters.project }}'
-              arguments: '--configuration Release'
-              
+                                   
           - task: DotNetCoreCLI@2
             displayName: 'Pack ${{ parameters.project }}'
             inputs:
