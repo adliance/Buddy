@@ -22,3 +22,4 @@ stages:
       project: "src/Adliance.AspNetCore.Buddy.Storage/*.csproj"
       testProject: "test/Adliance.AspNetCore.Buddy.Storage.Test/*.csproj"
       nugetApiKey: "$(nuget_api_key)"
+      azureStorageConnectionString: "$(azure_storage_connection_string)"

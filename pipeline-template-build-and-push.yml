@@ -6,6 +6,12 @@ parameters:
 - name: testProject
   type: string
   default: ''
+- name: azureStorageConnectionString
+  type: string
+  default: ''
+
+variables:
+  Adliance_Buddy_Tests__AzureStorageConnectionString: ${{ parameters.azureStorageConnectionString }}
 
 stages:
   - stage: publish
