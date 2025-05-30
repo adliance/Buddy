@@ -14,14 +14,14 @@ trigger:
     include:
       - /src
       - /test
-      - /pipeline-testsonly.yml
+      - pipeline-testsonly.yml
 
 stages:
   - stage: test
     jobs:
       - job: run_tests
         variables:
-          Adliance_Buddy_Tests__AzureStorageConnectionString: ${{ parameters.azureStorageConnectionString }}
+          Adliance_Buddy_Tests__AzureStorageConnectionString: "$(azure_storage_connection_string)"
         pool:
           vmImage: 'ubuntu-latest'
           
