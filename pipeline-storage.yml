@@ -20,4 +20,5 @@ stages:
   - template: pipeline-template-build-and-push.yml
     parameters:
       project: "src/Adliance.AspNetCore.Buddy.Storage/*.csproj"
+      testProject: "test/Adliance.AspNetCore.Buddy.Storage.Test/*.csproj"
       nugetApiKey: "$(nuget_api_key)"

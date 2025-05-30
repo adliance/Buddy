@@ -3,6 +3,9 @@ parameters:
   type: string
 - name: nugetApiKey
   type: string
+- name: testProject
+  type: string
+  default: ''
 
 stages:
   - stage: publish
@@ -17,12 +20,20 @@ stages:
             inputs:
               version: '8.0.x'
               packageType: sdk
-              
+                       
           - script: |
               dotnet tool install -g dotnet-setversion
               dotnet tool update -g dotnet-setversion
               setversion $(Build.BuildNumber) ${{ parameters.project }}
             displayName: 'Run Set-Version'
+                     
+          - ${{ if ne(parameters.testProject, '') }}:
+            - task: DotNetCoreCLI@2
+              displayName: 'Test'
+              inputs:
+                command: test
+                projects: '${{ parameters.testProject }}'
+                arguments: '--configuration Release'
                      
           - task: DotNetCoreCLI@2
             displayName: 'Build'
