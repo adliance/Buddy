@@ -139,7 +139,7 @@ public abstract class StorageTestBase
         await _storage.Save([1, 2, 3, 4], false, container, "file2.bin");
         await _storage.Save([1, 2, 3, 4, 5], false, container, "file3.bin");
         Assert.Equal(3, (await _storage.List(container)).Count);
-        Thread.Sleep(10_000);
+        Thread.Sleep(1_000);
         await _storage.Save([1, 2, 3, 4, 5, 6, 7], true, container, "file3.bin");
 
         var files = await _storage.List(container);

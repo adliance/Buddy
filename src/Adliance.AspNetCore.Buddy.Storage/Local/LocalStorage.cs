@@ -17,6 +17,7 @@ public class LocalStorage(IStorageConfiguration configuration) : IStorage
         await fileStream.WriteAsync(bytes);
         await fileStream.FlushAsync();
         fileStream.Close();
+        File.SetLastWriteTimeUtc(filePath, DateTime.UtcNow);
     }
 
     /// <inheritdoc cref="IStorage.Save(System.IO.Stream,bool,string[])"/>
@@ -28,6 +29,7 @@ public class LocalStorage(IStorageConfiguration configuration) : IStorage
         await stream.CopyToAsync(fileStream);
         await fileStream.FlushAsync();
         fileStream.Close();
+        File.SetLastWriteTimeUtc(filePath, DateTime.UtcNow);
     }
 
     /// <inheritdoc cref="IStorage.Load(string[])"/>
