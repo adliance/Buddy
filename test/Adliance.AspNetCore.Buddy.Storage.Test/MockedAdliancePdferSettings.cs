@@ -10,7 +10,10 @@ public class MockedStorageConfiguration : IStorageConfiguration
     public StorageType Type => StorageType.Local;
     public string LocalStorageBasePath => Path.GetTempPath();
 
-    public string AzureStorageConnectionString => GetEnvironmentVariable("Adliance_Buddy_Tests__AzureStorageConnectionString");
+    public string? AzureStorageConnectionString =>
+        "DefaultEndpointsProtocol=https;AccountName=adlianceunittestsstorage;AccountKey=PLw3YNbf3/77cGdwQ2JpWp57fnvoCbi6ILDDQkhwRgUtUarye/YWsARc94tMz/tfsoVISJGyDl2/V1ZU2WVGSQ==;EndpointSuffix=core.windows.net";
+    // public string AzureStorageConnectionString => GetEnvironmentVariable("Adliance_Buddy_Tests__AzureStorageConnectionString");
+
     public string? AzureStorageUrl => null;
     public string? AzureStorageManagedIdentityClientId => null;
 

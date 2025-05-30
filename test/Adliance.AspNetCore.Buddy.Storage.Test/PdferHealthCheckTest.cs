@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Adliance.AspNetCore.Buddy.Storage.Local;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Xunit;
 

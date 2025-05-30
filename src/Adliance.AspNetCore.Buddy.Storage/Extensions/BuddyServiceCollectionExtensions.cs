@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using Adliance.AspNetCore.Buddy.Abstractions;
+using Adliance.AspNetCore.Buddy.Storage.Azure;
+using Adliance.AspNetCore.Buddy.Storage.Local;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

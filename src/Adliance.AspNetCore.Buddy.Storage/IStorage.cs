@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -63,4 +64,11 @@ public interface IStorage
     /// </summary>
     /// <param name="path">The path of the file.</param>
     Task Delete(params string[] path);
+
+    /// <summary>
+    /// Lists all file in the specified container/directory.
+    /// </summary>
+    /// <param name="path">Either the name of a container, or the name of a directory located directly inside your root directory.</param>
+    /// <returns>A list of all files in the directory.</returns>
+    Task<IList<IStorageFile>> List(string path);
 }

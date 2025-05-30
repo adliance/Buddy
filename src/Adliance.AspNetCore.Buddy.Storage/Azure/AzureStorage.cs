@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -9,8 +10,7 @@ using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Sas;
 
-// ReSharper disable once CheckNamespace
-namespace Adliance.AspNetCore.Buddy.Storage;
+namespace Adliance.AspNetCore.Buddy.Storage.Azure;
 
 public class AzureStorage(IStorageConfiguration configuration) : IStorage
 {
@@ -34,6 +34,7 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
     {
         if (await Exists(path))
         {
+            // ReSharper disable once ConvertToUsingDeclaration
             await using (var ms = new MemoryStream())
             {
                 await Load(ms, path);
@@ -65,6 +66,27 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
         await GetBlobClient(path).DeleteIfExistsAsync();
     }
 
+    /// <inheritdoc cref="IStorage.List" />
+    public async Task<IList<IStorageFile>> List(string path)
+    {
+        var containerClient = GetContainerClient(path);
+
+        var result = new List<IStorageFile>();
+        await foreach (var b in containerClient.GetBlobsAsync())
+        {
+            var blobPath = path + "/" + b.Name;
+            result.Add(new AzureStorageFile
+            {
+                Path = blobPath.Split('/'),
+                UpdatedUtc = b.Properties.LastModified?.UtcDateTime ?? default,
+                CreatedUtc = b.Properties.CreatedOn?.UtcDateTime ?? default,
+                SizeBytes = b.Properties.ContentLength ?? 0
+            });
+        }
+
+        return result;
+    }
+
     /// <inheritdoc cref="IStorage.GetDownloadUrl" />
     public async Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, params string[] path)
     {
@@ -80,7 +102,7 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
                 niceName = "unknown";
             }
 
-            niceName = WebUtility.UrlEncode(niceName)!;
+            niceName = WebUtility.UrlEncode(niceName);
             var blobClient = GetBlobClient(path);
             var sasBuilder = new BlobSasBuilder
             {
@@ -103,7 +125,6 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
 
     private BlobContainerClient GetContainerClient(params string[] path)
     {
-        if (path.Length < 2) throw new Exception($"Path is not complete, it needs to consist of at least 2 parts, but only has {path.Length}.");
         var container = path.First();
 
         BlobContainerClient? client;

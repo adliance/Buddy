@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
-// ReSharper disable once CheckNamespace
-namespace Adliance.AspNetCore.Buddy.Storage;
+namespace Adliance.AspNetCore.Buddy.Storage.Local;
 
 public class LocalStorage(IStorageConfiguration configuration) : IStorage
 {
@@ -67,10 +68,33 @@ public class LocalStorage(IStorageConfiguration configuration) : IStorage
     /// <inheritdoc cref="IStorage.Delete" />
     public async Task Delete(params string[] path)
     {
-        if (await Exists(path))
+        if (await Exists(path)) File.Delete(GetFilePath(path));
+    }
+
+    /// <inheritdoc cref="IStorage.List" />
+    public Task<IList<IStorageFile>> List(string path)
+    {
+        var directoryPath = Path.GetDirectoryName(GetFilePath(path, "some_filename_that_is_not_used.txt"));
+        var directoryInfo = new DirectoryInfo(directoryPath!);
+        var baseDirectoryInfo = new DirectoryInfo(configuration.LocalStorageBasePath ?? "");
+
+        var result = new List<IStorageFile>();
+        foreach (var f in directoryInfo.GetFiles("*", SearchOption.AllDirectories))
         {
-            File.Delete(GetFilePath(path));
+            var filePath = f.FullName;
+            filePath = filePath.Substring(baseDirectoryInfo.FullName.Length).Trim(Path.PathSeparator);
+
+            result.Add(new LocalStorageFile
+            {
+                Path = filePath.Split('/', '\\'),
+                UpdatedUtc = f.LastWriteTimeUtc,
+                CreatedUtc = f.CreationTimeUtc,
+                SizeBytes = f.Length
+            });
         }
+
+        result = result.OrderBy(x => x.ToString()).ToList();
+        return Task.FromResult<IList<IStorageFile>>(result);
     }
 
     private static FileMode GetFileMode(bool overwrite)
