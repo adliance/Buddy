@@ -34,20 +34,20 @@ stages:
                      
           - ${{ if ne(parameters.testProject, '') }}:
             - task: DotNetCoreCLI@2
-              displayName: 'Test'
+              displayName: 'Test ${{ parameters.testProject }}'
               inputs:
                 command: test
                 projects: '${{ parameters.testProject }}'
                 arguments: '--configuration Release'
                      
           - task: DotNetCoreCLI@2
-            displayName: 'Build'
+            displayName: 'Build ${{ parameters.project }}'
             inputs:
               projects: '${{ parameters.project }}'
               arguments: '--configuration Release'
               
           - task: DotNetCoreCLI@2
-            displayName: 'Pack'
+            displayName: 'Pack ${{ parameters.project }}'
             inputs:
               command: pack
               packagesToPack: '${{ parameters.project }}'
@@ -57,7 +57,7 @@ stages:
               outputDir: '$(Build.ArtifactStagingDirectory)'
               
           - task: DotNetCoreCLI@2
-            displayName: 'Push'
+            displayName: 'Push ${{ parameters.project }}'
             inputs:
               command: 'custom'
               custom: 'nuget'

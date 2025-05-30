@@ -16,7 +16,7 @@ trigger:
     include:
       - /src/Adliance.AspNetCore.Buddy.Storage
       - /test/Adliance.AspNetCore.Buddy.Storage.Test
-      - piepline-storage.yml
+      - pipeline-storage.yml
 
 stages:
   - template: pipeline-template-build-and-push.yml
