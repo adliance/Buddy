@@ -32,30 +32,15 @@ public static class BuddyServiceCollectionExtensions
 
         if (configuration.UseAzureStorage)
         {
-            buddyServices.Services.AddTransient<IStorage, AzureStorage>();
+            AddAzureStorage(buddyServices, configuration);
         }
         else if (configuration.UseLocalStorage)
         {
-            buddyServices.Services.AddTransient<IStorage, LocalStorage>();
+
         }
         else
         {
             throw new Exception("No storage configured.");
-        }
-
-        if (configuration.ConfigureDataProtection && configuration.UseAzureStorage && !string.IsNullOrWhiteSpace(configuration.AzureStorageConnectionString) && !string.IsNullOrWhiteSpace(configuration.DataProtectionContainer))
-        {
-            buddyServices.Services
-                .AddDataProtection()
-                .PersistKeysToAzureBlobStorage(configuration.AzureStorageConnectionString, configuration.DataProtectionContainer, "aspnetcore-keys");
-        }
-        else if (configuration.ConfigureDataProtection && configuration.UseLocalStorage && !string.IsNullOrWhiteSpace(configuration.DataProtectionContainer))
-        {
-            var directory = new DirectoryInfo(Path.Combine(configuration.LocalStorageBasePath ?? "", configuration.DataProtectionContainer));
-            if (!directory.Exists) directory.Create();
-            buddyServices.Services
-                .AddDataProtection()
-                .PersistKeysToFileSystem(directory);
         }
 
         return buddyServices;
@@ -75,5 +60,69 @@ public static class BuddyServiceCollectionExtensions
         buddyServices.Services.Configure<DefaultStorageConfiguration>(configurationSection);
         ArgumentNullException.ThrowIfNull(configuration, "Storage Configuration");
         return AddStorage(buddyServices, configuration);
+    }
+
+    public static IBuddyServiceCollection AddAzureStorage(
+        this IBuddyServiceCollection buddyServices,
+        IConfigurationSection configurationSection)
+    {
+        var configuration = configurationSection.Get<DefaultStorageConfiguration>();
+        buddyServices.Services.Configure<DefaultStorageConfiguration>(configurationSection);
+        ArgumentNullException.ThrowIfNull(configuration, "Storage Configuration");
+
+        if (!configuration.UseAzureStorage) throw new Exception("Azure Storage configuration missing.");
+        return AddAzureStorage(buddyServices, configuration);
+    }
+
+    public static IBuddyServiceCollection AddAzureStorage(
+        this IBuddyServiceCollection buddyServices,
+        IStorageConfiguration configuration)
+    {
+        if (configuration.UseAzureStorage)
+        {
+            buddyServices.Services.AddTransient<IStorage, AzureStorage>();
+            buddyServices.Services.AddTransient<AzureStorage>();
+
+            if (configuration is { ConfigureDataProtection: true }
+                && !string.IsNullOrWhiteSpace(configuration.AzureStorageConnectionString)
+                && !string.IsNullOrWhiteSpace(configuration.DataProtectionContainer))
+            {
+                buddyServices.Services.AddDataProtection().PersistKeysToAzureBlobStorage(configuration.AzureStorageConnectionString, configuration.DataProtectionContainer, "aspnetcore-keys");
+            }
+        }
+
+        return buddyServices;
+    }
+
+    public static IBuddyServiceCollection AddLocalStorage(
+        this IBuddyServiceCollection buddyServices,
+        IConfigurationSection configurationSection)
+    {
+        var configuration = configurationSection.Get<DefaultStorageConfiguration>();
+        buddyServices.Services.Configure<DefaultStorageConfiguration>(configurationSection);
+        ArgumentNullException.ThrowIfNull(configuration, "Storage Configuration");
+
+        if (!configuration.UseLocalStorage) throw new Exception("Local storage configuration missing.");
+        return AddLocalStorage(buddyServices, configuration);
+    }
+
+    public static IBuddyServiceCollection AddLocalStorage(
+        this IBuddyServiceCollection buddyServices,
+        IStorageConfiguration configuration)
+    {
+        if (configuration.UseLocalStorage)
+        {
+            buddyServices.Services.AddTransient<IStorage, LocalStorage>();
+            buddyServices.Services.AddTransient<LocalStorage>();
+
+            if (configuration is { ConfigureDataProtection: true } && !string.IsNullOrWhiteSpace(configuration.DataProtectionContainer))
+            {
+                var directory = new DirectoryInfo(Path.Combine(configuration.LocalStorageBasePath ?? "", configuration.DataProtectionContainer));
+                if (!directory.Exists) directory.Create();
+                buddyServices.Services.AddDataProtection().PersistKeysToFileSystem(directory);
+            }
+        }
+
+        return buddyServices;
     }
 }
