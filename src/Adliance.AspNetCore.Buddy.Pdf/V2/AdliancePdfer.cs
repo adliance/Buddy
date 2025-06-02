@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Adliance.AspNetCore.Buddy.Pdf.V2;
@@ -10,13 +11,10 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
 {
     public async Task<byte[]> HtmlToPdf(string html, PdfOptions options)
     {
-        if (string.IsNullOrWhiteSpace(configuration.ServerUrl))
-        {
-            throw new Exception("No Server URL configured.");
-        }
+        if (string.IsNullOrWhiteSpace(configuration.ServerUrl)) throw new Exception("No Server URL configured.");
 
         using var client = new HttpClient();
-        client.Timeout = TimeSpan.FromMinutes(3);
+        client.Timeout = TimeSpan.FromMinutes(1);
 
         var paperSize = CalculatePaperSize(options.Size, options.PaperWidth, options.PaperHeight);
 
@@ -35,9 +33,29 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
         var content = new StringContent(JsonSerializer.Serialize(parameters), Encoding.UTF8, "application/json");
 
         var endpoint = configuration.ServerUrl.Trim('/');
-        var response = await client.PostAsync(endpoint, content);
-        response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsByteArrayAsync();
+
+        var backoffMs = 2000;
+        while (true)
+        {
+            try
+            {
+                var response = await client.PostAsync(endpoint, content);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsByteArrayAsync();
+            }
+            catch
+            {
+                if (backoffMs < 10000)
+                {
+                    Thread.Sleep(backoffMs);
+                    backoffMs *= 2;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
     }
 
     /// <summary>

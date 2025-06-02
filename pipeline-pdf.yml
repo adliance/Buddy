@@ -15,9 +15,12 @@ trigger:
   paths:
     include:
       - /src/Adliance.AspNetCore.Buddy.Pdf
+      - /test/Adliance.AspNetCore.Buddy.Pdf.Test
+      - pipeline-pdf.yml
 
 stages:
   - template: pipeline-template-build-and-push.yml
     parameters:
       project: "src/Adliance.AspNetCore.Buddy.Pdf/*.csproj"
+      testProject: "src/Adliance.AspNetCore.Buddy.Pdf.Test/*.csproj"
       nugetApiKey: "$(nuget_api_key)"
