@@ -15,6 +15,7 @@ trigger:
   paths:
     include:
       - /src/Adliance.AspNetCore.Buddy.Abstractions
+      - pipeline-abstractions.yml
 
 stages:
   - template: pipeline-template-build-and-push.yml
