@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.17" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.18" />
     <FrameworkReference Include="Microsoft.AspNetCore.App"/>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5"/>
     <PackageReference Include="System.Text.Json" Version="9.0.5"/>
