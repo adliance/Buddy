@@ -36,7 +36,7 @@ public static class BuddyServiceCollectionExtensions
         }
         else if (configuration.UseLocalStorage)
         {
-
+            AddLocalStorage(buddyServices, configuration);
         }
         else
         {
