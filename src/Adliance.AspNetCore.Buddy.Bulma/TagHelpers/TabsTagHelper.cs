@@ -17,6 +17,8 @@ public class TabsTagHelper : TagHelper
 
     public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
     {
+        (await output.GetChildContentAsync()).GetContent(); // do not remove because otherwise the child tag helpers are not executed
+
         var tabs = (List<TabTagHelper>)context.Items["tabs"];
 
         var builder = new HtmlContentBuilder();
@@ -70,7 +72,6 @@ public class TabsTagHelper : TagHelper
         }
 
         output.PostContent.SetHtmlContent(postBuilder);
-        await Task.CompletedTask;
     }
 }
 
