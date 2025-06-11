@@ -144,7 +144,7 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
         }
         else
         {
-            throw new Exception("Azure Storage connection information is not configured.");
+            throw new Exception("Azure Storage connection information (either AzureStorageUrl for access via Entra-ID, or AzureStorageConnectionString) is not configured.");
         }
 
         if (configuration.AutomaticallyCreateDirectories && !client.Exists()) client.Create();
