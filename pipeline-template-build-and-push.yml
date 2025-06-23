@@ -9,13 +9,33 @@ parameters:
 - name: azureStorageConnectionString
   type: string
   default: ''
+- name: azureCommunicationServicesConnectionString
+  type: string
+  default: ''
+- name: azureCommunicationServicesEndpoint
+  type: string
+  default: ''
+- name: azureCommunicationServicesRecipient
+  type: string
+  default: ''
+- name: mailjetPublicApiKey
+  type: string
+  default: ''
+- name: mailjetPrivateApiKey
+  type: string
+  default: ''
 
 stages:
   - stage: publish
     jobs:
       - job: build_and_push_to_nuget
         variables:
-          Adliance_Buddy_Tests__AzureStorageConnectionString: ${{ parameters.azureStorageConnectionString }}  
+          Adliance_Buddy_Tests__AzureStorageConnectionString: ${{ parameters.azureStorageConnectionString }}
+          Adliance_Buddy_Tests__AzureCommunication_Endpoint: ${{ parameters.azureCommunicationServicesEndpoint }}
+          Adliance_Buddy_Tests__AzureCommunication_AccessKey: ${{ parameters.azureCommunicationServicesConnectionString }}
+          Adliance_Buddy_Tests__AzureCommunication_RecipientAddress: ${{ parameters.azureCommunicationServicesRecipient }}
+          Adliance_Buddy_Tests__Mailjet_PublicApiKey: ${{ parameters.mailjetPublicApiKey }}
+          Adliance_Buddy_Tests__Mailjet_PrivateApiKey: ${{ parameters.mailjetPrivateApiKey }}
         pool:
           vmImage: 'ubuntu-latest'
           

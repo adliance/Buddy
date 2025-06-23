@@ -20,5 +20,8 @@ stages:
   - template: pipeline-template-build-and-push.yml
     parameters:
       project: "src/Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices/*.csproj"
+      testProject: "src/Adliance.AspNetCore.Buddy.Email.AzureCommunicationServices.Test/*.csproj"
       nugetApiKey: "$(nuget_api_key)"
-      
+      azureCommunicationServicesConnectionString: "$(azure_communication_services_connection_string)"
+      azureCommunicationServicesEndpoint: "$(azure_communication_services_connection_string)"
+      azureCommunicationServicesRecipient: "$(azure_communication_services_connection_string)"

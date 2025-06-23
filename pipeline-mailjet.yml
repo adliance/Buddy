@@ -20,4 +20,7 @@ stages:
   - template: pipeline-template-build-and-push.yml
     parameters:
       project: "src/Adliance.AspNetCore.Buddy.Email.Mailjet/*.csproj"
+      testProject: "src/Adliance.AspNetCore.Buddy.Email.Mailjet.Test/*.csproj"
       nugetApiKey: "$(nuget_api_key)"
+      mailjetPublicApiKey: "$(mailjet_public_api_key)"
+      mailjetPrivateApiKey: "$(mailjet_private_api_key)"
