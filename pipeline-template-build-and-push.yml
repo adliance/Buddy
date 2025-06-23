@@ -9,7 +9,7 @@ parameters:
 - name: azureStorageConnectionString
   type: string
   default: ''
-- name: azureCommunicationServicesConnectionString
+- name: azureCommunicationServicesAccessKey
   type: string
   default: ''
 - name: azureCommunicationServicesEndpoint
@@ -32,7 +32,7 @@ stages:
         variables:
           Adliance_Buddy_Tests__AzureStorageConnectionString: ${{ parameters.azureStorageConnectionString }}
           Adliance_Buddy_Tests__AzureCommunication_Endpoint: ${{ parameters.azureCommunicationServicesEndpoint }}
-          Adliance_Buddy_Tests__AzureCommunication_AccessKey: ${{ parameters.azureCommunicationServicesConnectionString }}
+          Adliance_Buddy_Tests__AzureCommunication_AccessKey: ${{ parameters.azureCommunicationServicesAccessKey }}
           Adliance_Buddy_Tests__AzureCommunication_RecipientAddress: ${{ parameters.azureCommunicationServicesRecipient }}
           Adliance_Buddy_Tests__Mailjet_PublicApiKey: ${{ parameters.mailjetPublicApiKey }}
           Adliance_Buddy_Tests__Mailjet_PrivateApiKey: ${{ parameters.mailjetPrivateApiKey }}
