@@ -34,7 +34,7 @@ public class MockedEmailConfiguration : IEmailConfiguration
     public string SenderAddress => "test@adliance.net";
     public string ReplyToAddress => "hannes.sachsenhofer@adliance.net";
     public string RedirectAllEmailsTo => "";
-    public string SubjectPrefix => "[Unit Test]";
+    public string SubjectPrefix => "[MailJet Unit Test] ";
     public string? SubjectPostfix => null;
 
     public bool Disable => false;

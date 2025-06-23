@@ -16,7 +16,7 @@ public class MockedEmailConfiguration : IEmailConfiguration
     public string SenderAddress => "office@akriva.com";
     public string ReplyToAddress => "hannes.sachsenhofer@adliance.net";
     public string RedirectAllEmailsTo => "";
-    public string? SubjectPrefix => "[SMTP Unit Test]";
+    public string? SubjectPrefix => "[SMTP Unit Test] ";
     public string? SubjectPostfix => null;
     public bool Disable => false;
 }
