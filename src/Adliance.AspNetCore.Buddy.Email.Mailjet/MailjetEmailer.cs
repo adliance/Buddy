@@ -8,30 +8,21 @@ using Microsoft.AspNetCore.StaticFiles;
 
 namespace Adliance.AspNetCore.Buddy.Email.Mailjet;
 
-public class MailjetEmailer : IEmailer
+public class MailjetEmailer(IMailjetConfiguration mailjetConfig, IEmailConfiguration emailConfig) : IEmailer
 {
-    private readonly IMailjetConfiguration _mailjetConfig;
-    private readonly IEmailConfiguration _emailConfig;
-
-    public MailjetEmailer(IMailjetConfiguration mailjetConfig, IEmailConfiguration emailConfig)
-    {
-        _mailjetConfig = mailjetConfig;
-        _emailConfig = emailConfig;
-    }
-
     public async Task Send(string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments)
     {
-        await Send(_emailConfig.SenderName, _emailConfig.SenderAddress, _emailConfig.ReplyToAddress, "", recipientAddress, subject, htmlBody, textBody, attachments);
+        await Send(emailConfig.SenderName, emailConfig.SenderAddress, emailConfig.ReplyToAddress, "", recipientAddress, subject, htmlBody, textBody, attachments);
     }
 
     public async Task Send(string senderName, string senderAddress, string replyTo, string recipientName, string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments)
     {
         if (string.IsNullOrWhiteSpace(recipientAddress)) throw new ArgumentOutOfRangeException(nameof(recipientAddress));
 
-        if (_emailConfig.Disable)
+        if (emailConfig.Disable)
             return;
 
-        var client = new MailjetClient(_mailjetConfig.PublicApiKey, _mailjetConfig.PrivateApiKey);
+        var client = new MailjetClient(mailjetConfig.PublicApiKey, mailjetConfig.PrivateApiKey);
 
         var to = GetRecipient(recipientName, recipientAddress);
 
@@ -40,7 +31,7 @@ public class MailjetEmailer : IEmailer
             From = new SendContact(senderAddress, senderName),
             Subject = subject,
             ReplyTo = new SendContact(replyTo, senderName),
-            CustomCampaign = _mailjetConfig.Campaign,
+            CustomCampaign = mailjetConfig.Campaign,
             To = new List<SendContact> { to },
             TextPart = textBody,
             HTMLPart = htmlBody,
@@ -65,8 +56,8 @@ public class MailjetEmailer : IEmailer
 
     private SendContact GetRecipient(string recipientName, string recipientAddress)
     {
-        if (!string.IsNullOrWhiteSpace(_emailConfig.RedirectAllEmailsTo))
-            return new SendContact(_emailConfig.RedirectAllEmailsTo);
+        if (!string.IsNullOrWhiteSpace(emailConfig.RedirectAllEmailsTo))
+            return new SendContact(emailConfig.RedirectAllEmailsTo);
 
         return string.IsNullOrWhiteSpace(recipientName)
             ? new SendContact(recipientAddress)
