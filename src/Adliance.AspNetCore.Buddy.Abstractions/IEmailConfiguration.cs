@@ -27,6 +27,16 @@ public interface IEmailConfiguration
     string RedirectAllEmailsTo { get; }
 
     /// <summary>
+    /// If set, this text will be prepended to all subjects that are being sent.
+    /// </summary>
+    string? SubjectPrefix { get; }
+
+    /// <summary>
+    /// If set, this text will be appended to all subjects that are being sent.
+    /// </summary>
+    string? SubjectPostfix { get; }
+
+    /// <summary>
     /// If true all emails are discarded.
     /// </summary>
     bool Disable { get; }
@@ -49,6 +59,12 @@ public class DefaultEmailConfiguration : IEmailConfiguration
 
     /// <inheritdoc cref="IEmailConfiguration.RedirectAllEmailsTo"/>
     public string RedirectAllEmailsTo { get; set; } = string.Empty;
+
+    /// <inheritdoc cref="IEmailConfiguration.SubjectPrefix"/>
+    public string? SubjectPrefix { get; set; } = string.Empty;
+
+    /// <inheritdoc cref="IEmailConfiguration.SubjectPostfix"/>
+    public string? SubjectPostfix { get; set; } = string.Empty;
 
     /// <inheritdoc cref="IEmailConfiguration.Disable"/>
     public bool Disable { get; set; }
