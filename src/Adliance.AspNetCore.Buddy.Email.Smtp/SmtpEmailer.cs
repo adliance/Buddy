@@ -8,27 +8,18 @@ using MimeKit;
 
 namespace Adliance.AspNetCore.Buddy.Email.Smtp;
 
-public class SmtpEmailer : IEmailer
+public class SmtpEmailer(ISmtpConfiguration smtpConfig, IEmailConfiguration emailConfig) : IEmailer
 {
-    private readonly ISmtpConfiguration _smtpConfig;
-    private readonly IEmailConfiguration _emailConfig;
-
-    public SmtpEmailer(ISmtpConfiguration smtpConfig, IEmailConfiguration emailConfig)
-    {
-        _smtpConfig = smtpConfig;
-        _emailConfig = emailConfig;
-    }
-
     public async Task Send(string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments)
     {
-        await Send(_emailConfig.SenderName, _emailConfig.SenderAddress, _emailConfig.ReplyToAddress, "", recipientAddress, subject, htmlBody, textBody, attachments);
+        await Send(emailConfig.SenderName, emailConfig.SenderAddress, emailConfig.ReplyToAddress, "", recipientAddress, subject, htmlBody, textBody, attachments);
     }
 
     public async Task Send(string senderName, string senderAddress, string replyTo, string recipientName, string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments)
     {
         if (string.IsNullOrWhiteSpace(recipientAddress)) throw new ArgumentOutOfRangeException(nameof(recipientAddress));
 
-        if (_emailConfig.Disable)
+        if (emailConfig.Disable)
             return;
 
         var message = new MimeMessage();
@@ -39,7 +30,7 @@ public class SmtpEmailer : IEmailer
         message.From.Add(from);
         message.To.Add(to);
         message.ReplyTo.Add(reply);
-        message.Subject = subject;
+        message.Subject = GetSubject(subject);
 
         var builder = new BodyBuilder
         {
@@ -65,11 +56,11 @@ public class SmtpEmailer : IEmailer
         {
             try
             {
-                await emailClient.ConnectAsync(_smtpConfig.Host, _smtpConfig.Port);
+                await emailClient.ConnectAsync(smtpConfig.Host, smtpConfig.Port);
 
-                if (!string.IsNullOrWhiteSpace(_smtpConfig.UserName))
+                if (!string.IsNullOrWhiteSpace(smtpConfig.UserName))
                 {
-                    await emailClient.AuthenticateAsync(_smtpConfig.UserName, _smtpConfig.Password);
+                    await emailClient.AuthenticateAsync(smtpConfig.UserName, smtpConfig.Password);
                 }
 
                 await emailClient.SendAsync(message);
@@ -84,9 +75,14 @@ public class SmtpEmailer : IEmailer
 
     private MailboxAddress GetRecipient(string recipientName, string recipientAddress)
     {
-        if (!string.IsNullOrWhiteSpace(_emailConfig.RedirectAllEmailsTo))
-            return new MailboxAddress(_emailConfig.RedirectAllEmailsTo, _emailConfig.RedirectAllEmailsTo);
+        if (!string.IsNullOrWhiteSpace(emailConfig.RedirectAllEmailsTo))
+            return new MailboxAddress(emailConfig.RedirectAllEmailsTo, emailConfig.RedirectAllEmailsTo);
 
         return new MailboxAddress(string.IsNullOrWhiteSpace(recipientName) ? recipientAddress : recipientName, recipientAddress);
+    }
+
+    private string GetSubject(string subject)
+    {
+        return (emailConfig.SubjectPrefix + subject + emailConfig.SubjectPostfix).Trim();
     }
 }

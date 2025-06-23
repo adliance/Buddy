@@ -10,34 +10,24 @@ using Microsoft.Extensions.Logging;
 
 namespace Adliance.AspNetCore.Buddy.Email.Mailjet;
 
-public class MailjetHealthCheck : IHealthCheck
+public class MailjetHealthCheck(IMailjetConfiguration mailjetConfiguration, IEmailConfiguration emailConfiguration, ILogger<MailjetHealthCheck> logger)
+    : IHealthCheck
 {
-    private readonly IMailjetConfiguration _mailjetConfiguration;
-    private readonly IEmailConfiguration _emailConfiguration;
-    private readonly ILogger<MailjetHealthCheck> _logger;
-
-    public MailjetHealthCheck(IMailjetConfiguration mailjetConfiguration, IEmailConfiguration emailConfiguration, ILogger<MailjetHealthCheck> logger)
-    {
-        _mailjetConfiguration = mailjetConfiguration;
-        _emailConfiguration = emailConfiguration;
-        _logger = logger;
-    }
-
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
         try
         {
-            var client = new MailjetClient(_mailjetConfiguration.PublicApiKey, _mailjetConfiguration.PrivateApiKey);
+            var client = new MailjetClient(mailjetConfiguration.PublicApiKey, mailjetConfiguration.PrivateApiKey);
 
             var email = new TransactionalEmail
             {
-                From = new SendContact(_emailConfiguration.SenderAddress, _emailConfiguration.SenderName),
+                From = new SendContact(emailConfiguration.SenderAddress, emailConfiguration.SenderName),
                 Subject = "Health Check",
-                ReplyTo = new SendContact(_emailConfiguration.ReplyToAddress, _emailConfiguration.SenderName),
-                CustomCampaign = _mailjetConfiguration.Campaign,
+                ReplyTo = new SendContact(emailConfiguration.ReplyToAddress, emailConfiguration.SenderName),
+                CustomCampaign = mailjetConfiguration.Campaign,
                 To = new List<SendContact>
                 {
-                    new SendContact("hannes@sachsenhofer.com")
+                    new("hannes@sachsenhofer.com")
                 },
                 TextPart = "This e-mail is sent from a health check and should never reach anybody."
             };
@@ -47,7 +37,7 @@ public class MailjetHealthCheck : IHealthCheck
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Mailjet Healthcheck failed: {ex.Message}");
+            logger.LogError(ex, $"Mailjet Healthcheck failed: {ex.Message}");
             return await Task.FromResult(HealthCheckResult.Unhealthy("Mailjet is not healthy."));
         }
     }

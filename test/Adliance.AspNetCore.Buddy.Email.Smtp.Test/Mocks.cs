@@ -6,7 +6,7 @@ public class MockedSmtpConfiguration : ISmtpConfiguration
 {
     public string Host => "in-v3.mailjet.com";
     public int Port => 587;
-    public string UserName { get; set; } = "";
+    public string UserName { get; init; } = "";
     public string Password => "";
 }
 
@@ -16,17 +16,13 @@ public class MockedEmailConfiguration : IEmailConfiguration
     public string SenderAddress => "office@akriva.com";
     public string ReplyToAddress => "hannes.sachsenhofer@adliance.net";
     public string RedirectAllEmailsTo => "";
+    public string? SubjectPrefix => "[SMTP Unit Test]";
+    public string? SubjectPostfix => null;
     public bool Disable => false;
 }
 
-public class MockedEmailAttachment : IEmailAttachment
+public class MockedEmailAttachment(string fileName, byte[] bytes) : IEmailAttachment
 {
-    public MockedEmailAttachment(string fileName, byte[] bytes)
-    {
-        Filename = fileName;
-        Bytes = bytes;
-    }
-
-    public string Filename { get; set; }
-    public byte[] Bytes { get; set; }
+    public string Filename { get; set; } = fileName;
+    public byte[] Bytes { get; set; } = bytes;
 }

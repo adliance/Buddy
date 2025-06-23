@@ -15,27 +15,24 @@ public class MailjetEmailer(IMailjetConfiguration mailjetConfig, IEmailConfigura
         await Send(emailConfig.SenderName, emailConfig.SenderAddress, emailConfig.ReplyToAddress, "", recipientAddress, subject, htmlBody, textBody, attachments);
     }
 
-    public async Task Send(string senderName, string senderAddress, string replyTo, string recipientName, string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments)
+    public async Task Send(string senderName, string senderAddress, string replyTo, string recipientName, string recipientAddress, string subject, string htmlBody, string textBody,
+        params IEmailAttachment[] attachments)
     {
         if (string.IsNullOrWhiteSpace(recipientAddress)) throw new ArgumentOutOfRangeException(nameof(recipientAddress));
 
-        if (emailConfig.Disable)
-            return;
+        if (emailConfig.Disable) return;
 
         var client = new MailjetClient(mailjetConfig.PublicApiKey, mailjetConfig.PrivateApiKey);
-
-        var to = GetRecipient(recipientName, recipientAddress);
-
         var email = new TransactionalEmail
         {
             From = new SendContact(senderAddress, senderName),
-            Subject = subject,
+            Subject = GetSubject(subject),
             ReplyTo = new SendContact(replyTo, senderName),
             CustomCampaign = mailjetConfig.Campaign,
-            To = new List<SendContact> { to },
+            To = [GetRecipient(recipientName, recipientAddress)],
             TextPart = textBody,
             HTMLPart = htmlBody,
-            Attachments = new List<Attachment>(),
+            Attachments = new List<Attachment>()
         };
 
         foreach (var attachment in attachments)
@@ -56,11 +53,15 @@ public class MailjetEmailer(IMailjetConfiguration mailjetConfig, IEmailConfigura
 
     private SendContact GetRecipient(string recipientName, string recipientAddress)
     {
-        if (!string.IsNullOrWhiteSpace(emailConfig.RedirectAllEmailsTo))
-            return new SendContact(emailConfig.RedirectAllEmailsTo);
+        if (!string.IsNullOrWhiteSpace(emailConfig.RedirectAllEmailsTo)) return new SendContact(emailConfig.RedirectAllEmailsTo);
 
         return string.IsNullOrWhiteSpace(recipientName)
             ? new SendContact(recipientAddress)
             : new SendContact(recipientAddress, recipientName);
+    }
+
+    private string GetSubject(string subject)
+    {
+        return (emailConfig.SubjectPrefix + subject + emailConfig.SubjectPostfix).Trim();
     }
 }

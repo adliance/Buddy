@@ -23,6 +23,8 @@ public class MockedEmailConfiguration : IEmailConfiguration
     public string SenderAddress => "DoNotReply@adliance.dev";
     public string ReplyToAddress => "hannes.sachsenhofer@adliance.net";
     public string RedirectAllEmailsTo => "";
+    public string? SubjectPrefix => "[ACS Unit Test]";
+    public string? SubjectPostfix => null;
     public bool Disable => false;
 }
 

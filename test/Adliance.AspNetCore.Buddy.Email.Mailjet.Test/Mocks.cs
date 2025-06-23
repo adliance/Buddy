@@ -34,17 +34,14 @@ public class MockedEmailConfiguration : IEmailConfiguration
     public string SenderAddress => "test@adliance.net";
     public string ReplyToAddress => "hannes.sachsenhofer@adliance.net";
     public string RedirectAllEmailsTo => "";
+    public string SubjectPrefix => "[Unit Test]";
+    public string? SubjectPostfix => null;
+
     public bool Disable => false;
 }
 
-public class MockedEmailAttachment : IEmailAttachment
+public class MockedEmailAttachment(string fileName, byte[] bytes) : IEmailAttachment
 {
-    public MockedEmailAttachment(string fileName, byte[] bytes)
-    {
-        Filename = fileName;
-        Bytes = bytes;
-    }
-
-    public string Filename { get; set; }
-    public byte[] Bytes { get; set; }
+    public string Filename { get; set; } = fileName;
+    public byte[] Bytes { get; set; } = bytes;
 }
