@@ -133,6 +133,12 @@ public class FieldTagHelper : TagHelper
     {
         if (!IsCheckBox || For?.ModelExplorer == null) return;
         var checkbox = _htmlGenerator.GenerateCheckBox(ViewContext, For?.ModelExplorer, For?.Name, For?.Model is true, new { });
+        if (Readonly)
+        {
+            checkbox.Attributes.Add("readonly", "readonly");
+            checkbox.Attributes.Add("onchange", "this.checked = this.readOnly ? !this.checked : this.checked");
+        }
+        if (Disabled) checkbox.Attributes.Add("disabled", "disabled");
         builder.AppendHtml("<label class=\"checkbox\">");
         builder.AppendHtml(checkbox);
         builder.AppendHtml("&nbsp;&nbsp;");
