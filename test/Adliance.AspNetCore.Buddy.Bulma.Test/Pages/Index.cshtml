@@ -102,6 +102,19 @@
                 <field asp-for="SelectValue" items="@SelectList.For<IndexModel.PossibleValues>()" label="Select" size="Small" help="Renders a small select" icon="fa fa-trash"/>
             </div>
         </div>
+        
+        <div class="columns">
+            <div class="column">
+                <field asp-for="DateOnlyValue" label="DateOnly" help="Date field with DateOnly-baking field" />
+            </div>
+            <div class="column">
+                <field asp-for="TimeOnlyValue" label="TimeOnly" help="Time field with TimeOnly-baking field" />
+            </div>
+            <div class="column">
+            </div>
+            <div class="column">
+            </div>
+        </div>
 
         <div class="mt-6">
             <button type="submit" class="button is-primary">Submit</button>
