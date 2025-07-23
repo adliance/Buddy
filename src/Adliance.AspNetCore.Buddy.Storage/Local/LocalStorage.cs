@@ -39,13 +39,13 @@ public class LocalStorage(IStorageConfiguration configuration) : IStorage
         return null;
     }
 
-    public async Task<DateTime?> GetModifiedDate(params string[] path)
+    public async Task<DateTime?> GetUpdatedUtc(params string[] path)
     {
         if (await Exists(path)) return File.GetLastWriteTimeUtc(GetFilePath(path));
         return null;
     }
 
-    public async Task<DateTime?> GetCreatedDate(params string[] path)
+    public async Task<DateTime?> GetCreatedUtc(params string[] path)
     {
         if (await Exists(path)) return File.GetCreationTimeUtc(GetFilePath(path));
         return null;

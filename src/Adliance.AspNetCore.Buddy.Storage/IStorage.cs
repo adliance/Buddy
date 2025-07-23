@@ -33,8 +33,8 @@ public interface IStorage
     /// <returns>The loaded blob file.</returns>
     Task<byte[]?> Load(params string[] path);
 
-    Task<DateTime?> GetModifiedDate(params string[] path);
-    Task<DateTime?> GetCreatedDate(params string[] path);
+    Task<DateTime?> GetUpdatedUtc(params string[] path);
+    Task<DateTime?> GetCreatedUtc(params string[] path);
 
     /// <summary>
     /// Loads a blob file by a specified <paramref name="path"/>.

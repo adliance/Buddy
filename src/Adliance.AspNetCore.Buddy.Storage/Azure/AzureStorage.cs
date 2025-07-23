@@ -45,13 +45,13 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
         return null;
     }
 
-    public async Task<DateTime?> GetModifiedDate(params string[] path)
+    public async Task<DateTime?> GetUpdatedUtc(params string[] path)
     {
         if (await Exists(path)) return (await GetBlobClient(path).GetPropertiesAsync()).Value.LastModified.UtcDateTime;
         return null;
     }
 
-    public async Task<DateTime?> GetCreatedDate(params string[] path)
+    public async Task<DateTime?> GetCreatedUtc(params string[] path)
     {
         if (await Exists(path)) return (await GetBlobClient(path).GetPropertiesAsync()).Value.CreatedOn.UtcDateTime;
         return null;
