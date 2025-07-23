@@ -84,7 +84,7 @@
                 <field asp-for="CheckboxValue" label="Checkbox label" placeholder="Checkbox" help="Renders a checkbox"/>
             </div>
             <div class="column">
-                <field asp-for="CheckboxValue" help="Renders a checkbox with icon" icon="fa fa-trash"/>
+                <field asp-for="CheckboxValue" help="Renders a disabled checkbox with icon" disabled label="Checkbox label" icon="fa fa-trash"/>
             </div>
         </div>
 
@@ -100,6 +100,19 @@
             </div>
             <div class="column">
                 <field asp-for="SelectValue" items="@SelectList.For<IndexModel.PossibleValues>()" label="Select" size="Small" help="Renders a small select" icon="fa fa-trash"/>
+            </div>
+        </div>
+        
+        <div class="columns">
+            <div class="column">
+                <field asp-for="DateOnlyValue" label="DateOnly" help="Date field with DateOnly-baking field" />
+            </div>
+            <div class="column">
+                <field asp-for="TimeOnlyValue" label="TimeOnly" help="Time field with TimeOnly-baking field" />
+            </div>
+            <div class="column">
+            </div>
+            <div class="column">
             </div>
         </div>
 

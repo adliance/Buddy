@@ -12,6 +12,8 @@ public class IndexModel : PageModel
     [BindProperty] public IFormFile? FileValue { get; set; }
     [BindProperty] public IFormFile[]? FileValues { get; set; }
     [BindProperty] public DateTime DateValue { get; set; } = DateTime.Now;
+    [BindProperty] public DateOnly DateOnlyValue { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    [BindProperty] public TimeOnly TimeOnlyValue { get; set; } = TimeOnly.FromDateTime(DateTime.Now);
     [BindProperty] public bool CheckboxValue { get; set; }
 
     [BindProperty]

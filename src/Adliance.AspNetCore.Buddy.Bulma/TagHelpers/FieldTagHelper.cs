@@ -61,6 +61,8 @@ public class FieldTagHelper : TagHelper
 
     private bool IsCheckBox => Items == null && (For?.ModelExplorer.ModelType == typeof(bool) || For?.ModelExplorer.ModelType == typeof(bool?));
     private bool IsDateTime => Items == null && (For?.ModelExplorer.ModelType == typeof(DateTime) || For?.ModelExplorer.ModelType == typeof(DateTime?));
+    private bool IsDateOnly => Items == null && (For?.ModelExplorer.ModelType == typeof(DateOnly) || For?.ModelExplorer.ModelType == typeof(DateOnly?));
+    private bool IsTimeOnly => Items == null && (For?.ModelExplorer.ModelType == typeof(TimeOnly) || For?.ModelExplorer.ModelType == typeof(TimeOnly?));
     private bool IsSelectList => !IsCheckBoxList && Items != null && For != null;
     private bool IsCheckBoxList => Items != null && For != null && Checkboxes;
     private bool HasIcon => !string.IsNullOrWhiteSpace(Icon);
@@ -133,6 +135,12 @@ public class FieldTagHelper : TagHelper
     {
         if (!IsCheckBox || For?.ModelExplorer == null) return;
         var checkbox = _htmlGenerator.GenerateCheckBox(ViewContext, For?.ModelExplorer, For?.Name, For?.Model is true, new { });
+        if (Readonly)
+        {
+            checkbox.Attributes.Add("readonly", "readonly");
+            checkbox.Attributes.Add("onchange", "this.checked = this.readOnly ? !this.checked : this.checked");
+        }
+        if (Disabled) checkbox.Attributes.Add("disabled", "disabled");
         builder.AppendHtml("<label class=\"checkbox\">");
         builder.AppendHtml(checkbox);
         builder.AppendHtml("&nbsp;&nbsp;");
@@ -244,6 +252,20 @@ public class FieldTagHelper : TagHelper
         else if (IsDateTime)
         {
             control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateTime?)?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), null, new { type = "date", @class = $"input{SizeClass}", placeholder = Placeholder ?? "", min = Min, max = Max });
+            // Generate an extra hidden field such that this field with be parsed with the invariant culture.
+            // Cf. https://github.com/dotnet/aspnetcore/pull/43182
+            invariantControl = GenerateInvariantCultureMetadata(For?.Name);
+        }
+        else if (IsDateOnly)
+        {
+            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateOnly?)?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), null, new { type = "date", @class = $"input{SizeClass}", placeholder = Placeholder ?? "", step = Step, min = Min, max = Max });
+            // Generate an extra hidden field such that this field with be parsed with the invariant culture.
+            // Cf. https://github.com/dotnet/aspnetcore/pull/43182
+            invariantControl = GenerateInvariantCultureMetadata(For?.Name);
+        }
+        else if (IsTimeOnly)
+        {
+            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as TimeOnly?)?.ToString("HH:mm", CultureInfo.InvariantCulture), null, new { type = "time", @class = $"input{SizeClass}", placeholder = Placeholder ?? "", step = Step, min = Min, max = Max });
             // Generate an extra hidden field such that this field with be parsed with the invariant culture.
             // Cf. https://github.com/dotnet/aspnetcore/pull/43182
             invariantControl = GenerateInvariantCultureMetadata(For?.Name);
