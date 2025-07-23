@@ -35,11 +35,19 @@ public class LocalStorage(IStorageConfiguration configuration) : IStorage
     /// <inheritdoc cref="IStorage.Load(string[])"/>
     public async Task<byte[]?> Load(params string[] path)
     {
-        if (await Exists(path))
-        {
-            return await File.ReadAllBytesAsync(GetFilePath(path));
-        }
+        if (await Exists(path)) return await File.ReadAllBytesAsync(GetFilePath(path));
+        return null;
+    }
 
+    public async Task<DateTime?> GetModifiedDate(params string[] path)
+    {
+        if (await Exists(path)) return File.GetLastWriteTimeUtc(GetFilePath(path));
+        return null;
+    }
+
+    public async Task<DateTime?> GetCreatedDate(params string[] path)
+    {
+        if (await Exists(path)) return File.GetCreationTimeUtc(GetFilePath(path));
         return null;
     }
 
