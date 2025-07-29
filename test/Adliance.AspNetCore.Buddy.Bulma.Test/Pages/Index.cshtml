@@ -21,7 +21,7 @@
                 <field asp-for="InputValue" label="Input" help="Renders a simple input field"/>
             </div>
             <div class="column">
-                <field asp-for="PasswordValue" label="Password" help="Renders a password field" password icon="fa fa-trash" auto-complete="false"/>
+                <field asp-for="PasswordValue" required label="Password" help="Renders a password field" password icon="fa fa-trash" auto-complete="false"/>
             </div>
             <div class="column">
                 <field asp-for="DateValue" label="Date" help="Renders a date field" min="2025-01-01" max="2025-12-31"/>
@@ -41,7 +41,7 @@
                 <field asp-for="DateValue" label="Date" size="Medium" help="Renders a medium date field"/>
             </div>
             <div class="column">
-                <field asp-for="NumberValue" label="Number" size="Large" help="Renders a large number field" number/>
+                <field asp-for="NumberValue" label="Number" size="Large" required help="Renders a large number field" number/>
             </div>
         </div>
         <div class="columns">
@@ -81,7 +81,7 @@
                 <field asp-for="TextareaValue" label="Textarea" help="Renders a small textarea" size="Small" multi-line rows="3"/>
             </div>
             <div class="column">
-                <field asp-for="CheckboxValue" label="Checkbox label" placeholder="Checkbox" help="Renders a checkbox"/>
+                <field asp-for="CheckboxValue" label="Checkbox label" required placeholder="Checkbox" help="Renders a checkbox"/>
             </div>
             <div class="column">
                 <field asp-for="CheckboxValue" help="Renders a disabled checkbox with icon" disabled label="Checkbox label" icon="fa fa-trash"/>

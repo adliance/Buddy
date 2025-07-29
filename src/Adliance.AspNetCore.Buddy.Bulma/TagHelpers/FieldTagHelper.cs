@@ -43,6 +43,7 @@ public class FieldTagHelper : TagHelper
     [HtmlAttributeName("rows")] public int Rows { get; set; } = 6;
     [HtmlAttributeName("password")] public bool Password { get; set; }
     [HtmlAttributeName("number")] public bool Number { get; set; }
+    [HtmlAttributeName("required")] public bool Required { get; set; }
     [HtmlAttributeName("step")] public string? Step { get; set; }
     [HtmlAttributeName("min")] public string? Min { get; set; }
     [HtmlAttributeName("max")] public string? Max { get; set; }
@@ -125,6 +126,7 @@ public class FieldTagHelper : TagHelper
         if (!IsSelectList || For?.ModelExplorer == null) return;
         var select = _htmlGenerator.GenerateSelect(ViewContext, For?.ModelExplorer, null, For?.Name, Items, false, new { });
         if (Disabled) select.Attributes.Add("disabled", "disabled");
+        if (Required) select.Attributes.Add("required", "required");
         builder.AppendHtml($"<div class=\"select is-fullwidth{SizeClass}\">");
         builder.AppendHtml(select);
         builder.AppendHtml("</div>");
@@ -141,6 +143,7 @@ public class FieldTagHelper : TagHelper
             checkbox.Attributes.Add("onchange", "this.checked = this.readOnly ? !this.checked : this.checked");
         }
         if (Disabled) checkbox.Attributes.Add("disabled", "disabled");
+        if (Required) checkbox.Attributes.Add("required", "required");
         builder.AppendHtml("<label class=\"checkbox\">");
         builder.AppendHtml(checkbox);
         builder.AppendHtml("&nbsp;&nbsp;");
@@ -211,6 +214,7 @@ public class FieldTagHelper : TagHelper
         if (Placeholder != null) attributes["placeholder"] = Placeholder;
         if (Min != null) attributes["min"] = Min;
         if (Max != null) attributes["max"] = Max;
+        if (Required) attributes["required"] = "required";
         if (Readonly) attributes["readonly"] = "readonly";
         if (Disabled) attributes["disabled"] = "disabled";
         if (AutoComplete == false) attributes["autocomplete"] = "off";
