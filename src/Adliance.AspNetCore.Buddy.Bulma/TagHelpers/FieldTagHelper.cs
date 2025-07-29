@@ -203,94 +203,88 @@ public class FieldTagHelper : TagHelper
         TagBuilder? control = null;
         TagBuilder? invariantControl = null;
 
+        var attributes = new Dictionary<string, object?>
+        {
+            { "class", $"input{SizeClass}" },
+        };
+        if (Step != null) attributes["step"] = Step;
+        if (Placeholder != null) attributes["placeholder"] = Placeholder;
+        if (Min != null) attributes["min"] = Min;
+        if (Max != null) attributes["max"] = Max;
+        if (Readonly) attributes["readonly"] = "readonly";
+        if (Disabled) attributes["disabled"] = "disabled";
+        if (AutoComplete == false) attributes["autocomplete"] = "off";
+
         if (Password)
         {
-            control = _htmlGenerator.GeneratePassword(ViewContext, For?.ModelExplorer, For?.Name, null, new
-            {
-                @class = $"input{SizeClass}",
-                placeholder = Placeholder ?? ""
-            });
+            control = _htmlGenerator.GeneratePassword(ViewContext, For?.ModelExplorer, For?.Name, null, attributes);
         }
         else if (MultiLine)
         {
-            control = _htmlGenerator.GenerateTextArea(ViewContext, For?.ModelExplorer, For?.Name, Rows, 0, new
-            {
-                @class = $"textarea{SizeClass}",
-                placeholder = Placeholder ?? ""
-            });
+            control = _htmlGenerator.GenerateTextArea(ViewContext, For?.ModelExplorer, For?.Name, Rows, 0, attributes);
         }
         else if (FileUpload || MultipleFileUpload)
         {
             builder.AppendHtml($"<div class=\"file has-name is-fullwidth{SizeClass}\"><label class=\"file-label\">");
 
-            if (FileUpload)
+            var fileUploadAttributes = new Dictionary<string, object?>
             {
-                builder.AppendHtml(_htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name,
-                    For?.ModelExplorer.Model, null, new
-                    {
-                        type = "file",
-                        @class = "file-input",
-                        accept = FileUploadAcceptFilter,
-                        onchange = "if (this.files.length > 0) { this.closest(\"div.file\").querySelector(\"span.file-name\").innerText = this.files[0].name; }"
-                    }));
-            }
-            else
+                { "type", "file" },
+                { "class", "file-input" },
+                { "accept", FileUploadAcceptFilter },
+                { "onchange", "if (this.files.length > 0) { this.closest(\"div.file\").querySelector(\"span.file-name\").innerText = this.files[0].name; }"},
+            };
+            if (MultipleFileUpload)
             {
-                builder.AppendHtml(_htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, new
-                {
-                    type = "file",
-                    @class = "file-input",
-                    accept = FileUploadAcceptFilter,
-                    multiple = "multiple",
-                    onchange = $"if (this.files.length > 0) {{ this.closest(\"div.file\").querySelector(\"span.file-name\").innerText = this.files.length > 1 ? `${{this.files.length}} {MultipleFileUploadFilesLabel}` : this.files[0].name; }}"
-                }));
+                fileUploadAttributes["multiple"] = "multiple";
+                fileUploadAttributes["onchange"] = $"if (this.files.length > 0) {{ this.closest(\"div.file\").querySelector(\"span.file-name\").innerText = this.files.length > 1 ? `${{this.files.length}} {MultipleFileUploadFilesLabel}` : this.files[0].name; }}";
             }
+
+            builder.AppendHtml(_htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name,
+                For?.ModelExplorer.Model, null, fileUploadAttributes));
 
             builder.AppendHtml($"<span class=\"file-cta\"><span class=\"file-label\">{Placeholder}</span></span>");
             builder.AppendHtml("<span class=\"file-name\"></span></label></div>");
         }
         else if (IsDateTime)
         {
-            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateTime?)?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), null, new { type = "date", @class = $"input{SizeClass}", placeholder = Placeholder ?? "", min = Min, max = Max });
+            attributes["type"] = "date";
+            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateTime?)?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), null, attributes);
             // Generate an extra hidden field such that this field with be parsed with the invariant culture.
             // Cf. https://github.com/dotnet/aspnetcore/pull/43182
             invariantControl = GenerateInvariantCultureMetadata(For?.Name);
         }
         else if (IsDateOnly)
         {
-            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateOnly?)?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), null, new { type = "date", @class = $"input{SizeClass}", placeholder = Placeholder ?? "", step = Step, min = Min, max = Max });
+            attributes["type"] = "date";
+            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateOnly?)?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), null, attributes);
             // Generate an extra hidden field such that this field with be parsed with the invariant culture.
             // Cf. https://github.com/dotnet/aspnetcore/pull/43182
             invariantControl = GenerateInvariantCultureMetadata(For?.Name);
         }
         else if (IsTimeOnly)
         {
-            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as TimeOnly?)?.ToString("HH:mm", CultureInfo.InvariantCulture), null, new { type = "time", @class = $"input{SizeClass}", placeholder = Placeholder ?? "", step = Step, min = Min, max = Max });
+            attributes["type"] = "time";
+            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as TimeOnly?)?.ToString("HH:mm", CultureInfo.InvariantCulture), null, attributes);
             // Generate an extra hidden field such that this field with be parsed with the invariant culture.
             // Cf. https://github.com/dotnet/aspnetcore/pull/43182
             invariantControl = GenerateInvariantCultureMetadata(For?.Name);
         }
         else if (Number)
         {
-            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, new { type = "number", @class = $"input{SizeClass}", placeholder = Placeholder ?? "", step = Step, min = Min, max = Max });
+            attributes["type"] = "number";
+            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, attributes);
             // Generate an extra hidden field such that this field with be parsed with the invariant culture.
             // Cf. https://github.com/dotnet/aspnetcore/pull/43182
             invariantControl = GenerateInvariantCultureMetadata(For?.Name);
         }
         else
         {
-            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, new
-            {
-                @class = $"input{SizeClass}",
-                placeholder = Placeholder ?? ""
-            });
+            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, attributes);
         }
 
         if (control != null)
         {
-            if (Readonly) control.Attributes.Add("readonly", "readonly");
-            if (Disabled) control.Attributes.Add("disabled", "disabled");
-            if (AutoComplete == false) control.Attributes.Add("autocomplete", "off");
             builder.AppendHtml(control);
             if (invariantControl != null) builder.AppendHtml(invariantControl);
         }
