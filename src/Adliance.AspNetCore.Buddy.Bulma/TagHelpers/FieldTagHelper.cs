@@ -225,6 +225,7 @@ public class FieldTagHelper : TagHelper
         }
         else if (MultiLine)
         {
+            attributes["class"] = $"textarea{SizeClass}";
             control = _htmlGenerator.GenerateTextArea(ViewContext, For?.ModelExplorer, For?.Name, Rows, 0, attributes);
         }
         else if (FileUpload || MultipleFileUpload)
