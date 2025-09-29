@@ -138,7 +138,17 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
     private BlobContainerClient GetContainerClient(params string[] path)
     {
         var container = path.First();
+        var client = GetContainerClient(configuration, container);
+        return client;
+    }
 
+    private BlobClient GetBlobClient(params string[] path)
+    {
+        return GetBlobClient(configuration, path);
+    }
+
+    public static BlobContainerClient GetContainerClient(IStorageConfiguration configuration, string container)
+    {
         BlobContainerClient? client;
 
         if (!string.IsNullOrWhiteSpace(configuration.AzureStorageUrl))
@@ -160,13 +170,14 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
         }
 
         if (configuration.AutomaticallyCreateDirectories && !client.Exists()) client.Create();
+
         return client;
     }
 
-    private BlobClient GetBlobClient(params string[] path)
+    public static BlobClient GetBlobClient(IStorageConfiguration configuration, params string[] path)
     {
         if (path.Length < 2) throw new Exception($"Path is not complete, it needs to consist of at least 2 parts, but only has {path.Length}.");
         var fileName = string.Join('/', path.Skip(1));
-        return GetContainerClient(path).GetBlobClient(fileName);
+        return GetContainerClient(configuration, path.First()).GetBlobClient(fileName);
     }
 }

@@ -10,13 +10,16 @@ namespace Adliance.AspNetCore.Buddy.Pdf.Test.V1;
 public class AdliancePdferTest
 {
     private readonly IPdfer _pdfer = new AdliancePdfer(new MockedPdferConfiguration());
+    private const string LocalDebugDirectory = "/Users/hannes/Downloads";
 
     [Fact]
     public async Task Can_Create_Simple_Pdf()
     {
         var bytes = await _pdfer.HtmlToPdf("This is <b>my</b> <u>HTML</u> test.", new PdfOptions());
-        //File.WriteAllBytes(@"C:\Users\Hannes\Downloads\" + Guid.NewGuid() + ".pdf", bytes);
-        Assert.True(bytes.Length > 7_000 && bytes.Length < 14_000, $"Bytes were not in expected range ({bytes.Length})");
+        var localDebugDirectory = new DirectoryInfo(LocalDebugDirectory);
+        if (localDebugDirectory.Exists) await File.WriteAllBytesAsync(Path.Combine(localDebugDirectory.FullName, Guid.NewGuid() + ".pdf"), bytes);
+
+        Assert.InRange(bytes.Length, 7_000, 14_000);
     }
 
     [Fact]
@@ -31,8 +34,10 @@ public class AdliancePdferTest
             HeaderHtml = "<!DOCTYPE html>The <i>Header</i>",
             FooterHtml = "<!DOCTYPE html>The <s>Footer</s>"
         });
-        //File.WriteAllBytes(@"C:\Users\Hannes\Downloads\" + Guid.NewGuid() + ".pdf", bytes);
-        Assert.True(bytes.Length > 11_000 && bytes.Length < 20_000, $"Bytes were not in expected range ({bytes.Length})"); // seems like the resulting PDF is about 18KB for this
+
+        var localDebugDirectory = new DirectoryInfo(LocalDebugDirectory);
+        if (localDebugDirectory.Exists) await File.WriteAllBytesAsync(Path.Combine(localDebugDirectory.FullName, Guid.NewGuid() + ".pdf"), bytes);
+        Assert.InRange(bytes.Length, 11_000, 20_000);
     }
 
     [Theory]
@@ -80,7 +85,9 @@ public class AdliancePdferTest
             Orientation = orientation,
             Size = size
         });
-        //File.WriteAllBytes($@"C:\Users\Hannes\Downloads\complex_{size}_{orientation}.pdf", bytes);
-        Assert.True(bytes.Length > lowerExpectedSize && bytes.Length < higherExpectedSize, $"Bytes were not in expected range ({bytes.Length})"); // seems like the resulting PDF is about 4MB for this
+
+        var localDebugDirectory = new DirectoryInfo(LocalDebugDirectory);
+        if (localDebugDirectory.Exists) await File.WriteAllBytesAsync(Path.Combine(localDebugDirectory.FullName, Guid.NewGuid() + ".pdf"), bytes);
+        Assert.InRange(bytes.Length, lowerExpectedSize, higherExpectedSize);
     }
 }

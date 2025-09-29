@@ -17,11 +17,11 @@
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App"/>
     <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.0.0.21" />
-    <PackageReference Include="Azure.Storage.Blobs" Version="12.25.0" />
-    <PackageReference Include="Azure.Identity" Version="1.14.2" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.25.1" />
+    <PackageReference Include="Azure.Identity" Version="1.16.0" />
     <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.5.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.7" />
-    <PackageReference Include="System.Text.Json" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.9" />
+    <PackageReference Include="System.Text.Json" Version="9.0.9" />
     <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

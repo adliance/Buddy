@@ -83,11 +83,9 @@ public static class BuddyServiceCollectionExtensions
             buddyServices.Services.AddTransient<IStorage, AzureStorage>();
             buddyServices.Services.AddTransient<AzureStorage>();
 
-            if (configuration is { ConfigureDataProtection: true }
-                && !string.IsNullOrWhiteSpace(configuration.AzureStorageConnectionString)
-                && !string.IsNullOrWhiteSpace(configuration.DataProtectionContainer))
+            if (configuration is { ConfigureDataProtection: true } && !string.IsNullOrWhiteSpace(configuration.DataProtectionContainer))
             {
-                buddyServices.Services.AddDataProtection().PersistKeysToAzureBlobStorage(configuration.AzureStorageConnectionString, configuration.DataProtectionContainer, "aspnetcore-keys");
+                buddyServices.Services.AddDataProtection().PersistKeysToAzureBlobStorage(_ => AzureStorage.GetBlobClient(configuration, configuration.DataProtectionContainer, "aspnetcore-keys"));
             }
         }
 
