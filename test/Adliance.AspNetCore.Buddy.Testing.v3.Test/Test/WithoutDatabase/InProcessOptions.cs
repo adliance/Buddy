@@ -2,7 +2,7 @@ using Adliance.AspNetCore.Buddy.Testing.Shared;
 using Adliance.AspNetCore.Buddy.Testing.Shared.InProcess;
 using DotNet.Testcontainers.Builders;
 
-namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithoutDatabase;
+namespace Adliance.AspNetCore.Buddy.Testing.v3.Test.Test.WithoutDatabase;
 
 public class InProcessOptions : BuddyFixtureOptions<Program>
 {

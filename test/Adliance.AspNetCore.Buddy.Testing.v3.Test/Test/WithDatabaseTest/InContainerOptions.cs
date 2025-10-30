@@ -1,9 +1,13 @@
 using Adliance.AspNetCore.Buddy.Testing.Shared;
 using Adliance.AspNetCore.Buddy.Testing.Shared.Containers;
+using Adliance.AspNetCore.Buddy.Testing.Shared.Database;
 using Adliance.AspNetCore.Buddy.Testing.Shared.Playwright;
 using DotNet.Testcontainers.Builders;
+using Xunit;
 
-namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithoutDatabase;
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
+
+namespace Adliance.AspNetCore.Buddy.Testing.v3.Test.Test.WithDatabaseTest;
 
 public class InContainerOptions : BuddyFixtureOptions<Program>
 {
@@ -12,9 +16,15 @@ public class InContainerOptions : BuddyFixtureOptions<Program>
         InContainer.Add(new ContainerOptions
         {
             DockerFileDirectory = CommonDirectoryPath.GetSolutionDirectory().DirectoryPath,
-            DockerFileName = "Adliance.AspNetCore.Buddy.Testing.Test.dockerfile"
+            DockerFileName = "Adliance.AspNetCore.Buddy.Testing.v3.Test.dockerfile",
+            DbConnectionStringConfigurationKey = "DatabaseConnectionString"
         });
 
         Playwright = new PlaywrightOptions();
+
+        Database = new DatabaseOptions
+        {
+            Type = DatabaseType.UseSqlServerContainer
+        };
     }
 }

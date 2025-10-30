@@ -1,6 +1,7 @@
-using Adliance.AspNetCore.Buddy.Testing.Containers;
-using Adliance.AspNetCore.Buddy.Testing.Database;
-using Adliance.AspNetCore.Buddy.Testing.Playwright;
+using Adliance.AspNetCore.Buddy.Testing.Shared;
+using Adliance.AspNetCore.Buddy.Testing.Shared.Containers;
+using Adliance.AspNetCore.Buddy.Testing.Shared.Database;
+using Adliance.AspNetCore.Buddy.Testing.Shared.Playwright;
 using DotNet.Testcontainers.Builders;
 using Xunit;
 

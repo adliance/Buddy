@@ -1,8 +1,8 @@
 using Adliance.AspNetCore.Buddy.Testing.Shared;
-using Adliance.AspNetCore.Buddy.Testing.Test.Models;
+using Adliance.AspNetCore.Buddy.Testing.v3.Test.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithDatabaseTest;
+namespace Adliance.AspNetCore.Buddy.Testing.v3.Test.Test.WithDatabaseTest;
 
 public class WithDatabaseFixture<TOptions> : BuddyFixture<TOptions, Program>, IDisposable where TOptions : BuddyFixtureOptions<Program>, new()
 {

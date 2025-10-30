@@ -2,7 +2,7 @@ using Adliance.AspNetCore.Buddy.Testing.Shared;
 using Adliance.AspNetCore.Buddy.Testing.Shared.Extensions;
 using Xunit;
 
-namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithoutDatabase;
+namespace Adliance.AspNetCore.Buddy.Testing.v3.Test.Test.WithoutDatabase;
 
 public class InProcessTest(WithoutDatabaseFixture<InProcessOptions> fixture) : BaseTest<InProcessOptions>(fixture);
 
@@ -14,8 +14,8 @@ public abstract class BaseTest<TOptions>(WithoutDatabaseFixture<TOptions> fixtur
     [Fact]
     public async Task Can_Get_Home()
     {
-        var response = await fixture.Client.GetAsync("/");
-        var responseString = await response.Content.ReadAsStringAsync();
+        var response = await fixture.Client.GetAsync("/", TestContext.Current.CancellationToken);
+        var responseString = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         response.EnsureSuccessStatusCode();
         Assert.Contains("This is our view.", responseString);
     }
@@ -26,8 +26,8 @@ public abstract class BaseTest<TOptions>(WithoutDatabaseFixture<TOptions> fixtur
         var response = await fixture.Client.PostAsync("/", new FormUrlEncodedContent(new Dictionary<string, string>
         {
             ["postContent"] = "My post content."
-        }));
-        var responseString = await response.Content.ReadAsStringAsync();
+        }), TestContext.Current.CancellationToken);
+        var responseString = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         response.EnsureSuccessStatusCode();
         Assert.Contains("My post content.", responseString);
     }
