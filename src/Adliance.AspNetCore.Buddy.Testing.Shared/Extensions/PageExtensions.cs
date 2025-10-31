@@ -11,7 +11,7 @@ public static class PageExtensions
         await page.GotoAsync(url);
     }
 
-    public static async Task Screenshot(this IPage page, string fileName)
+    public static async Task<byte[]> Screenshot(this IPage page, string fileName)
     {
         if (!Path.GetExtension(fileName).Equals(".png", StringComparison.OrdinalIgnoreCase)) fileName += ".png";
 
@@ -29,7 +29,7 @@ public static class PageExtensions
         if (!Directory.Exists(targetDirectory)) Directory.CreateDirectory(targetDirectory);
         var targetPath = Path.Combine(targetDirectory, fileName);
 
-        await page.ScreenshotAsync(new PageScreenshotOptions
+        return await page.ScreenshotAsync(new PageScreenshotOptions
         {
             Path = targetPath,
             FullPage = true

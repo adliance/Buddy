@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using Adliance.AspNetCore.Buddy.Testing.Shared;
 using Adliance.AspNetCore.Buddy.Testing.Shared.Extensions;
 using Adliance.AspNetCore.Buddy.Testing.v3.Test.Models;
@@ -61,7 +62,8 @@ public abstract class BaseTest<TOptions>(WithDatabaseFixture<TOptions> fixture) 
 
         await fixture.Page.Navigate(fixture.Client, "/Home/Database");
         var pageContent = await fixture.Page.ContentAsync();
-        await fixture.Page.Screenshot("database");
+        var screenshot = await fixture.Page.Screenshot("database");
+        TestContext.Current.AddAttachment("database.png", screenshot, MediaTypeNames.Image.Png);
         Assert.Contains("There are 1 rows in the database.", pageContent);
     }
 
