@@ -30,4 +30,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Adliance.AspNetCore.Buddy.Testing.Shared\Adliance.AspNetCore.Buddy.Testing.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

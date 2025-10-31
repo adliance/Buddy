@@ -1,3 +1,4 @@
+using Adliance.AspNetCore.Buddy.Testing.Shared;
 using Adliance.AspNetCore.Buddy.Testing.Test.Models;
 using Microsoft.EntityFrameworkCore;
 

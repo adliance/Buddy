@@ -32,6 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		pipeline-template-build-and-push.yml = pipeline-template-build-and-push.yml
 		pipeline-qrcode.yml = pipeline-qrcode.yml
 		Directory.Build.props = Directory.Build.props
+		Adliance.AspNetCore.Buddy.Testing.v3.Test.dockerfile = Adliance.AspNetCore.Buddy.Testing.v3.Test.dockerfile
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Email.SendGrid", "src\Adliance.AspNetCore.Buddy.Email.SendGrid\Adliance.AspNetCore.Buddy.Email.SendGrid.csproj", "{A9402D86-139E-48A6-8444-28C14B7CB310}"
@@ -93,6 +94,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Testing", "src\Adliance.AspNetCore.Buddy.Testing\Adliance.AspNetCore.Buddy.Testing.csproj", "{3439A935-0519-41F6-8455-C3E28CB6CCA7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Testing.Test", "test\Adliance.AspNetCore.Buddy.Testing.Test\Adliance.AspNetCore.Buddy.Testing.Test.csproj", "{313C8BA7-D84E-4B18-8047-F9F3A2D81B6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Testing.Shared", "src\Adliance.AspNetCore.Buddy.Testing.Shared\Adliance.AspNetCore.Buddy.Testing.Shared.csproj", "{B428B08C-E668-4A29-B36E-658071F67D68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Testing.v3", "src\Adliance.AspNetCore.Buddy.Testing.v3\Adliance.AspNetCore.Buddy.Testing.v3.csproj", "{8894B7CE-C58C-40DB-8AC6-81ED5364019D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Testing.v3.Test", "test\Adliance.AspNetCore.Buddy.Testing.v3.Test\Adliance.AspNetCore.Buddy.Testing.v3.Test.csproj", "{8A86CA09-A266-4352-B475-9EB03F76CCF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adliance.AspNetCore.Buddy.Testing.DemoProject", "test\Adliance.AspNetCore.Buddy.Testing.DemoProject\Adliance.AspNetCore.Buddy.Testing.DemoProject.csproj", "{F751D16A-93AE-46A6-A05D-2A00447C7213}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -224,6 +233,22 @@ Global
 		{313C8BA7-D84E-4B18-8047-F9F3A2D81B6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{313C8BA7-D84E-4B18-8047-F9F3A2D81B6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{313C8BA7-D84E-4B18-8047-F9F3A2D81B6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B428B08C-E668-4A29-B36E-658071F67D68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B428B08C-E668-4A29-B36E-658071F67D68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B428B08C-E668-4A29-B36E-658071F67D68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B428B08C-E668-4A29-B36E-658071F67D68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8894B7CE-C58C-40DB-8AC6-81ED5364019D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8894B7CE-C58C-40DB-8AC6-81ED5364019D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8894B7CE-C58C-40DB-8AC6-81ED5364019D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8894B7CE-C58C-40DB-8AC6-81ED5364019D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A86CA09-A266-4352-B475-9EB03F76CCF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A86CA09-A266-4352-B475-9EB03F76CCF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A86CA09-A266-4352-B475-9EB03F76CCF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A86CA09-A266-4352-B475-9EB03F76CCF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F751D16A-93AE-46A6-A05D-2A00447C7213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F751D16A-93AE-46A6-A05D-2A00447C7213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F751D16A-93AE-46A6-A05D-2A00447C7213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F751D16A-93AE-46A6-A05D-2A00447C7213}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -242,6 +267,8 @@ Global
 		{6D63DDB3-0380-46D4-B420-1C3D8AEE7D33} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
 		{8FE79C4F-5532-4C5A-BA00-E2E01E90A166} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
 		{313C8BA7-D84E-4B18-8047-F9F3A2D81B6C} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
+		{8A86CA09-A266-4352-B475-9EB03F76CCF2} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
+		{F751D16A-93AE-46A6-A05D-2A00447C7213} = {4962C7B7-9835-4FE5-BEEB-DD3F375537B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB86B6DA-4E94-41EF-8CAA-064DE0176535}

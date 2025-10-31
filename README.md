@@ -89,3 +89,14 @@ Buddy is a set of libraries and utilities with common functionality that is shar
 ### [QR Code](src/Adliance.Buddy.QrCode/README.md)
 [![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20QrCode?branchName=master)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=193&branchName=master)
 [![NuGet](https://img.shields.io/nuget/v/Adliance.Buddy.QrCode.svg)](https://www.nuget.org/packages/Adliance.Buddy.QrCode/)
+
+### Testing
+[![Build Status](https://dev.azure.com/adliance/Open%20Source%20Projects/_apis/build/status%2FBuddy%20Testing?branchName=master)](https://dev.azure.com/adliance/Open%20Source%20Projects/_build/latest?definitionId=193&branchName=master)
+
+#### xUnit v2
+
+[![NuGet](https://img.shields.io/nuget/v/Adliance.AspNetCore.Buddy.Testing.svg)](https://www.nuget.org/packages/Adliance.AspNetCore.Buddy.Testing/)
+
+#### xUnit v3
+
+[![NuGet](https://img.shields.io/nuget/v/Adliance.AspNetCore.Buddy.Testing.v3.svg)](https://www.nuget.org/packages/Adliance.AspNetCore.Buddy.Testing.v3/)

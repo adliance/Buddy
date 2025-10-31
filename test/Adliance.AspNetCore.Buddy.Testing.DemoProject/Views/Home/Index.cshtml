@@ -1,0 +1,9 @@
+﻿@model string?
+
+<h1>Welcome</h1>
+<p>This is our view.</p>
+
+@if (!string.IsNullOrWhiteSpace(Model))
+{
+    <p>@Model</p>
+}

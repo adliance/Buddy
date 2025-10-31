@@ -1,5 +1,6 @@
-using Adliance.AspNetCore.Buddy.Testing.Containers;
-using Adliance.AspNetCore.Buddy.Testing.Playwright;
+using Adliance.AspNetCore.Buddy.Testing.Shared;
+using Adliance.AspNetCore.Buddy.Testing.Shared.Containers;
+using Adliance.AspNetCore.Buddy.Testing.Shared.Playwright;
 using DotNet.Testcontainers.Builders;
 
 namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithoutDatabase;
