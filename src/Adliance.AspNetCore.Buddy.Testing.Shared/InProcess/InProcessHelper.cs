@@ -12,6 +12,7 @@ public static class InProcessHelper
         var factory = new WebApplicationFactory<TEntryPoint>();
         factory = factory.WithWebHostBuilder(config =>
         {
+            config.UseEnvironment(options.Environment);
             config.UseContentRoot(options.ContentRoot);
 
             config.ConfigureAppConfiguration((_, configBuilder) =>
