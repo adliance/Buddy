@@ -1,6 +1,9 @@
 parameters:
 - name: project 
   type: string
+- name: stageName
+  type: string
+  default: 'publish'
 - name: nugetApiKey
   type: string
 - name: testProject
@@ -26,7 +29,7 @@ parameters:
   default: ''
 
 stages:
-  - stage: publish
+  - stage: ${{ parameters.stageName }}
     jobs:
       - job: build_and_push_to_nuget
         variables:

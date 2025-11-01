@@ -21,9 +21,11 @@ trigger:
 stages:
   - template: pipeline-template-build-and-push.yml
     parameters:
+      stageName: 'Publish Testing'
       project: "src/Adliance.AspNetCore.Buddy.Testing/*.csproj"
       nugetApiKey: "$(nuget_api_key)"
   - template: pipeline-template-build-and-push.yml
     parameters:
+      stageName: 'Publish Testing v3'
       project: "src/Adliance.AspNetCore.Buddy.Testing.v3/*.csproj"
       nugetApiKey: "$(nuget_api_key)"
