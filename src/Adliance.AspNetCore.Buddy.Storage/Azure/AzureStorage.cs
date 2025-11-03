@@ -99,6 +99,14 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
         return result;
     }
 
+    public async Task<IList<string>> ListContainers()
+    {
+        var serviceClient = GetServiceClient(configuration);
+        IList<string> result = [];
+        await foreach (var container in serviceClient.GetBlobContainersAsync()) result.Add(container.Name);
+        return result;
+    }
+
     /// <inheritdoc cref="IStorage.GetDownloadUrl" />
     public async Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, params string[] path)
     {
@@ -149,7 +157,15 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
 
     public static BlobContainerClient GetContainerClient(IStorageConfiguration configuration, string container)
     {
-        BlobContainerClient? client;
+        var serviceClient = GetServiceClient(configuration);
+        var containerClient = serviceClient.GetBlobContainerClient(container);
+        if (configuration.AutomaticallyCreateDirectories && !containerClient.Exists()) containerClient.Create();
+        return containerClient;
+    }
+
+    public static BlobServiceClient GetServiceClient(IStorageConfiguration configuration)
+    {
+        BlobServiceClient? client;
 
         if (!string.IsNullOrWhiteSpace(configuration.AzureStorageUrl))
         {
@@ -158,18 +174,16 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
             var credential = string.IsNullOrWhiteSpace(configuration.AzureStorageManagedIdentityClientId)
                 ? new ManagedIdentityCredential()
                 : new ManagedIdentityCredential(configuration.AzureStorageManagedIdentityClientId);
-            client = new BlobContainerClient(new Uri($"{url}/{container}"), credential);
+            client = new BlobServiceClient(new Uri($"{url}"), credential);
         }
         else if (!string.IsNullOrWhiteSpace(configuration.AzureStorageConnectionString))
         {
-            client = new BlobContainerClient(configuration.AzureStorageConnectionString, container);
+            client = new BlobServiceClient(configuration.AzureStorageConnectionString);
         }
         else
         {
             throw new Exception("Azure Storage connection information (either AzureStorageUrl for access via Entra-ID, or AzureStorageConnectionString) is not configured.");
         }
-
-        if (configuration.AutomaticallyCreateDirectories && !client.Exists()) client.Create();
 
         return client;
     }

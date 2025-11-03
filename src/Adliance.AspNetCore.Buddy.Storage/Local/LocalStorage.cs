@@ -111,6 +111,14 @@ public class LocalStorage(IStorageConfiguration configuration) : IStorage
         return Task.FromResult<IList<IStorageFile>>(result);
     }
 
+    public async Task<IList<string>> ListContainers()
+    {
+        var directoryInfo = new DirectoryInfo(GetFilePath());
+        IList<string> result = [];
+        foreach (var d in directoryInfo.GetDirectories()) result.Add(d.Name);
+        return await Task.FromResult(result);
+    }
+
     private static FileMode GetFileMode(bool overwrite)
     {
         return overwrite ? FileMode.Create : FileMode.CreateNew;

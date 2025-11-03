@@ -24,6 +24,13 @@ public abstract class StorageTestBase
     }
 
     [Fact]
+    public async Task Can_Read_Containers()
+    {
+        var containers = await _storage.ListContainers();
+        Assert.NotEmpty(containers);
+    }
+
+    [Fact]
     public async Task Can_Read_Write_Delete_Bytes()
     {
         var filePath = new[]
