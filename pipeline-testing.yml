@@ -16,6 +16,7 @@ trigger:
     include:
       - /src/Adliance.AspNetCore.Buddy.Testing
       - /src/Adliance.AspNetCore.Buddy.Testing.v3
+      - /src/Adliance.AspNetCore.Buddy.Testing.Shared
       - /pipeline-testing.yml
 
 stages:
