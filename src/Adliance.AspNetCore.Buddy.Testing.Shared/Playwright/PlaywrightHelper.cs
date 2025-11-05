@@ -6,8 +6,10 @@ public static class PlaywrightHelper
 {
     public static async Task<PlaywrightResult> Setup(PlaywrightOptions options)
     {
-        var result = new PlaywrightResult();
-        result.Playwright = await Microsoft.Playwright.Playwright.CreateAsync().ConfigureAwait(false);
+        var result = new PlaywrightResult(options)
+        {
+            Playwright = await Microsoft.Playwright.Playwright.CreateAsync().ConfigureAwait(false)
+        };
         return await SetupBrowser(result, options).ConfigureAwait(false);
     }
 
@@ -30,7 +32,7 @@ public static class PlaywrightHelper
         return result;
     }
 
-    public static async Task<PlaywrightResult> SetupPage(PlaywrightResult result)
+    public static async Task<PlaywrightResult> SetupPage(PlaywrightResult result, PlaywrightOptions options)
     {
         if (result.Browser == null) throw new Exception("Browser is not initialized.");
 
@@ -46,6 +48,9 @@ public static class PlaywrightHelper
                 Width = 1800
             }
         });
+
+        result.Page.SetDefaultTimeout(options.Timeout);
+        result.Page.SetDefaultNavigationTimeout(options.Timeout);
 
         return result;
     }

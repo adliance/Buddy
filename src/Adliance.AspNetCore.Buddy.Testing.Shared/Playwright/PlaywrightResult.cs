@@ -2,7 +2,7 @@ using Microsoft.Playwright;
 
 namespace Adliance.AspNetCore.Buddy.Testing.Shared.Playwright;
 
-public class PlaywrightResult : IAsyncDisposable
+public class PlaywrightResult(PlaywrightOptions options) : IAsyncDisposable
 {
     // ReSharper disable once InconsistentNaming
     internal IPage? _page;
@@ -12,7 +12,7 @@ public class PlaywrightResult : IAsyncDisposable
         get
         {
             // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-            if (Playwright != null && Browser != null && _page == null) PlaywrightHelper.SetupPage(this).GetAwaiter().GetResult();
+            if (Playwright != null && Browser != null && _page == null) PlaywrightHelper.SetupPage(this, options).GetAwaiter().GetResult();
             // ReSharper restore ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
             return _page ?? throw new Exception("Unable to create Playwright page.");
