@@ -32,25 +32,24 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
         return await GeneratePdfWithRetries(endpoint, content);
     }
 
-    public async Task<byte[]> TemplateToPdf(string template, object model, string? js, string? headerTemplate, object? headerModel, string? headerJs, string? footerTemplate, object? footerModel, string? footerJs,
-        PdfOptions options)
+    public async Task<byte[]> TemplateToPdf(TemplateOptions body, HeaderTemplateOptions? header, FooterTemplateOptions? footer, PdfOptions options)
     {
         ThrowIfServerConfigurationIsInvalid();
 
         var paperSize = CalculatePaperSize(options.Size, options.PaperWidth, options.PaperHeight);
         var parameters = new
         {
-            template,
-            model,
-            js,
-            header_template = headerTemplate,
-            header_model = headerModel,
-            header_js = headerJs,
-            footer_template = footerTemplate,
-            footer_model = footerModel,
-            footer_js = footerJs,
-            footer_height = options.FooterHeight,
-            header_height = options.HeaderHeight,
+            template = body.Template,
+            model = body.Model,
+            js = body.Javascript,
+            header_template = header?.Template,
+            header_model = header?.Model,
+            header_js = header?.Javascript,
+            header_height = header?.Height,
+            footer_template = footer?.Template,
+            footer_model = footer?.Model,
+            footer_js = footer?.Javascript,
+            footer_height = footer?.Height,
             paper_width = paperSize[0],
             paper_height = paperSize[1],
             print_background = options.PrintBackground,

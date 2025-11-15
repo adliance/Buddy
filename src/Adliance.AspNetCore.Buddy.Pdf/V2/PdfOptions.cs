@@ -3,22 +3,28 @@ namespace Adliance.AspNetCore.Buddy.Pdf.V2;
 public class PdfOptions
 {
     /// <summary>
-    /// The HTML for the PDF header as string.
+    /// The HTML for the PDF header as string. This property is ignored if used when creating a PDF from a template,
+    /// as the header information is provided in <see cref="TemplateOptions.Template"/>.
     /// </summary>
     public string? HeaderHtml { get; set; }
 
     /// <summary>
     /// The height of the header in pixel (px). If a HeaderHtml is provided, the height must be set.
+    /// This property is ignored if used when creating a PDF from a template,
+    /// as the header information is provided in <see cref="HeaderTemplateOptions.Height"/>.
     /// </summary>
     public int? HeaderHeight { get; set; }
 
     /// <summary>
-    /// The HTML for the PDF header as string.
+    /// The HTML for the PDF header as string. This property is ignored if used when creating a PDF from a template,
+    /// as the footer information is provided in <see cref="TemplateOptions.Template"/>.
     /// </summary>
     public string? FooterHtml { get; set; }
 
     /// <summary>
     /// The height of the footer in pixel (px). If a FooterHtml is provided, the height must be set.
+    /// This property is ignored if used when creating a PDF from a template,
+    /// as the footer information is provided in <see cref="FooterTemplateOptions.Height"/>.
     /// </summary>
     public int? FooterHeight { get; set; }
 
