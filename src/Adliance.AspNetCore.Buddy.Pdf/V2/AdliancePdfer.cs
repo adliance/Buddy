@@ -11,13 +11,9 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
 {
     public async Task<byte[]> HtmlToPdf(string html, PdfOptions options)
     {
-        if (string.IsNullOrWhiteSpace(configuration.ServerUrl)) throw new Exception("No Server URL configured.");
-
-        using var client = new HttpClient();
-        client.Timeout = TimeSpan.FromMinutes(1);
+        ThrowIfServerConfigurationIsInvalid();
 
         var paperSize = CalculatePaperSize(options.Size, options.PaperWidth, options.PaperHeight);
-
         var parameters = new
         {
             html,
@@ -31,43 +27,17 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
             scale = options.Scale
         };
         var content = new StringContent(JsonSerializer.Serialize(parameters), Encoding.UTF8, "application/json");
-
         var endpoint = configuration.ServerUrl.Trim('/');
 
-        var backoffMs = 2000;
-        while (true)
-        {
-            try
-            {
-                var response = await client.PostAsync(endpoint, content);
-                response.EnsureSuccessStatusCode();
-                return await response.Content.ReadAsByteArrayAsync();
-            }
-            catch
-            {
-                if (backoffMs < 10000)
-                {
-                    Thread.Sleep(backoffMs);
-                    backoffMs *= 2;
-                }
-                else
-                {
-                    throw;
-                }
-            }
-        }
+        return await GeneratePdfWithRetries(endpoint, content);
     }
 
     public async Task<byte[]> TemplateToPdf(string template, object model, string? js, string? headerTemplate, object? headerModel, string? headerJs, string? footerTemplate, object? footerModel, string? footerJs,
         PdfOptions options)
     {
-        if (string.IsNullOrWhiteSpace(configuration.ServerUrl)) throw new Exception("No Server URL configured.");
-
-        using var client = new HttpClient();
-        client.Timeout = TimeSpan.FromMinutes(1);
+        ThrowIfServerConfigurationIsInvalid();
 
         var paperSize = CalculatePaperSize(options.Size, options.PaperWidth, options.PaperHeight);
-
         var parameters = new
         {
             template,
@@ -88,8 +58,23 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
         };
         //TODO: serializer options for naming?
         var content = new StringContent(JsonSerializer.Serialize(parameters), Encoding.UTF8, "application/json");
-
         var endpoint = $"{configuration.ServerUrl.Trim('/')}/template";
+
+        return await GeneratePdfWithRetries(endpoint, content);
+    }
+
+    private void ThrowIfServerConfigurationIsInvalid()
+    {
+        if (string.IsNullOrWhiteSpace(configuration.ServerUrl))
+        {
+            throw new Exception("No Server URL configured.");
+        }
+    }
+
+    private static async Task<byte[]> GeneratePdfWithRetries(string endpoint, StringContent content)
+    {
+        using var client = new HttpClient();
+        client.Timeout = TimeSpan.FromMinutes(1);
 
         var backoffMs = 2000;
         while (true)
