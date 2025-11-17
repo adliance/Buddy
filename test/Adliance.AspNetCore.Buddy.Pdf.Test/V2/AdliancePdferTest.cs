@@ -100,9 +100,23 @@ public class AdliancePdferTest
         const string header = "<i>Custom {{HeaderText}}.</i>";
         const string footer = "This is a custom footer for {{FooterText}}.";
         var bytes = await _pdfer.TemplateToPdf(
-            body: new TemplateOptions { Template = template, Model = new { Text = "template" } },
-            header: new HeaderTemplateOptions { Template = header, Model = new { HeaderText = "Header" } },
-            footer: new FooterTemplateOptions { Template = footer, Model = new { FooterText = "Footer" } },
+            body: new TemplateOptions
+            {
+                Template = template, 
+                Model = new { Text = "template" }
+            },
+            header: new HeaderTemplateOptions
+            {
+                Template = header, 
+                Model = new { HeaderText = "Header" }, 
+                Height = 80
+            },
+            footer: new FooterTemplateOptions
+            {
+                Template = footer, 
+                Model = new { FooterText = "Footer" }, 
+                Height = 40
+            },
             options: new PdfOptions());
         await StoreForInspection(bytes);
         Assert.InRange(bytes.Length, 5_000, 28_000);
@@ -116,9 +130,26 @@ public class AdliancePdferTest
         const string footer = "This is a custom footer for {{FooterText}}.";
         const string javascript = "model.CustomText = model.Text; return model;";
         var bytes = await _pdfer.TemplateToPdf(
-            body: new TemplateOptions { Template = template, Model = new { Text = "template" }, Javascript = javascript },
-            header: new HeaderTemplateOptions { Template = header, Model = new { HeaderText = "Header" }, Javascript = javascript },
-            footer: new FooterTemplateOptions { Template = footer, Model = new { FooterText = "Footer" }, Javascript = javascript },
+            body: new TemplateOptions
+            {
+                Template = template, 
+                Model = new { Text = "transformed model" }, 
+                Javascript = javascript
+            },
+            header: new HeaderTemplateOptions
+            {
+                Template = header, 
+                Model = new { HeaderText = "Header" }, 
+                Height = 80, 
+                Javascript = javascript
+            },
+            footer: new FooterTemplateOptions
+            {
+                Template = footer, 
+                Model = new { FooterText = "Footer" }, 
+                Height = 40, 
+                Javascript = javascript
+            },
             options: new PdfOptions());
         await StoreForInspection(bytes);
         Assert.InRange(bytes.Length, 5_000, 28_000);
