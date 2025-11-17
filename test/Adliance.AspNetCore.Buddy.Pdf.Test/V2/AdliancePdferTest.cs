@@ -80,6 +80,50 @@ public class AdliancePdferTest
         Assert.InRange(bytes.Length, 14_000, 40_000);
     }
 
+    [Fact]
+    public async Task Can_Create_Simple_Pdf_From_Template()
+    {
+        const string template = "This is <b>my</b> <u>{{Text}}</u> test.";
+        var bytes = await _pdfer.TemplateToPdf(
+            body: new TemplateOptions { Template = template, Model = new { Text = "template" } },
+            header: null,
+            footer: null,
+            options: new PdfOptions());
+        await StoreForInspection(bytes);
+        Assert.InRange(bytes.Length, 5_000, 29_000);
+    }
+
+    [Fact]
+    public async Task Can_Create_Pdf_With_Header_And_Footer_From_Template()
+    {
+        const string template = "This is <b>my</b> <u>{{Text}}</u> test.";
+        const string header = "<i>Custom {{HeaderText}}.</i>";
+        const string footer = "This is a custom footer for {{FooterText}}.";
+        var bytes = await _pdfer.TemplateToPdf(
+            body: new TemplateOptions { Template = template, Model = new { Text = "template" } },
+            header: new HeaderTemplateOptions { Template = header, Model = new { HeaderText = "Header" } },
+            footer: new FooterTemplateOptions { Template = footer, Model = new { FooterText = "Footer" } },
+            options: new PdfOptions());
+        await StoreForInspection(bytes);
+        Assert.InRange(bytes.Length, 5_000, 28_000);
+    }
+
+    [Fact]
+    public async Task Can_Create_Pdf_With_Model_Transformation_From_Template()
+    {
+        const string template = "This is <b>my</b> <u>{{CustomText}}</u> test.";
+        const string header = "<i>Custom {{HeaderText}}.</i>";
+        const string footer = "This is a custom footer for {{FooterText}}.";
+        const string javascript = "model.CustomText = model.Text; return model;";
+        var bytes = await _pdfer.TemplateToPdf(
+            body: new TemplateOptions { Template = template, Model = new { Text = "template" }, Javascript = javascript },
+            header: new HeaderTemplateOptions { Template = header, Model = new { HeaderText = "Header" }, Javascript = javascript },
+            footer: new FooterTemplateOptions { Template = footer, Model = new { FooterText = "Footer" }, Javascript = javascript },
+            options: new PdfOptions());
+        await StoreForInspection(bytes);
+        Assert.InRange(bytes.Length, 5_000, 28_000);
+    }
+
     private static async Task StoreForInspection(byte[] bytes)
     {
         var directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
