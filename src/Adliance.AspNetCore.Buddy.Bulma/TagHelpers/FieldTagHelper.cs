@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -31,6 +32,8 @@ public class FieldTagHelper : TagHelper
     [HtmlAttributeName("prepend")] public string? Prepend { get; set; }
     [HtmlAttributeName("icon")] public string? Icon { get; set; }
     [HtmlAttributeName("help")] public string? Help { get; set; }
+    [HtmlAttributeName("warning")] public string? Warning { get; set; }
+    [HtmlAttributeName("is-warning")] public bool IsWarning { get; set; }
     [HtmlAttributeName("placeholder")] public string? Placeholder { get; set; }
     [HtmlAttributeName("items")] public IEnumerable<SelectListItem>? Items { get; set; }
     [HtmlAttributeName("multi-line")] public bool MultiLine { get; set; }
@@ -43,6 +46,7 @@ public class FieldTagHelper : TagHelper
     [HtmlAttributeName("rows")] public int Rows { get; set; } = 6;
     [HtmlAttributeName("password")] public bool Password { get; set; }
     [HtmlAttributeName("number")] public bool Number { get; set; }
+    [HtmlAttributeName("format")] public string? Format { get; set; }
     [HtmlAttributeName("required")] public bool Required { get; set; }
     [HtmlAttributeName("step")] public string? Step { get; set; }
     [HtmlAttributeName("min")] public string? Min { get; set; }
@@ -67,6 +71,8 @@ public class FieldTagHelper : TagHelper
     private bool IsSelectList => !IsCheckBoxList && Items != null && For != null;
     private bool IsCheckBoxList => Items != null && For != null && Checkboxes;
     private bool HasIcon => !string.IsNullOrWhiteSpace(Icon);
+    private bool HasError => For != null && ViewContext.ModelState.GetValidationState(For.Name) == ModelValidationState.Invalid;
+    private bool HasWarning => !string.IsNullOrWhiteSpace(Warning);
     private string SizeClass => FieldSize switch
     {
         Size.Small => " is-small",
@@ -74,6 +80,7 @@ public class FieldTagHelper : TagHelper
         Size.Large => " is-large",
         _ => ""
     };
+    private string StateClass => HasError ? " is-danger" : HasWarning || IsWarning ? " is-warning" : "";
 
     public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
     {
@@ -100,6 +107,7 @@ public class FieldTagHelper : TagHelper
         builder.AppendHtml("</div>");
         AppendValidationSection(builder);
         AppendHelpSection(builder);
+        AppendWarningSection(builder);
         // ReSharper restore MustUseReturnValue
 
         output.Content.SetHtmlContent(builder);
@@ -127,7 +135,7 @@ public class FieldTagHelper : TagHelper
         var select = _htmlGenerator.GenerateSelect(ViewContext, For?.ModelExplorer, null, For?.Name, Items, false, new { });
         if (Disabled) select.Attributes.Add("disabled", "disabled");
         if (Required) select.Attributes.Add("required", "required");
-        builder.AppendHtml($"<div class=\"select is-fullwidth{SizeClass}\">");
+        builder.AppendHtml($"<div class=\"select is-fullwidth{SizeClass}{StateClass}\">");
         builder.AppendHtml(select);
         builder.AppendHtml("</div>");
         AppendIcon(builder);
@@ -166,7 +174,7 @@ public class FieldTagHelper : TagHelper
         {
             var icon = Icon ?? "";
             if (!icon.StartsWith("fa", StringComparison.OrdinalIgnoreCase)) icon = $"fad fa-{icon}";
-            builder.AppendHtml($"<span class=\"icon is-left{SizeClass}\"><i class=\"{icon}\"></i></span>");
+            builder.AppendHtml($"<span class=\"icon is-left{SizeClass}{StateClass}\"><i class=\"{icon}\"></i></span>");
         }
     }
 
@@ -208,7 +216,7 @@ public class FieldTagHelper : TagHelper
 
         var attributes = new Dictionary<string, object?>
         {
-            { "class", $"input{SizeClass}" },
+            { "class", $"input{SizeClass}{StateClass}" },
         };
         if (Step != null) attributes["step"] = Step;
         if (Placeholder != null) attributes["placeholder"] = Placeholder;
@@ -257,7 +265,7 @@ public class FieldTagHelper : TagHelper
             control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateTime?)?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), null, attributes);
             // Generate an extra hidden field such that this field with be parsed with the invariant culture.
             // Cf. https://github.com/dotnet/aspnetcore/pull/43182
-            invariantControl = GenerateInvariantCultureMetadata(For?.Name);
+            invariantControl = GenerateInvariantCultureMetadata(ViewContext, For?.Name);
         }
         else if (IsDateOnly)
         {
@@ -265,7 +273,7 @@ public class FieldTagHelper : TagHelper
             control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as DateOnly?)?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture), null, attributes);
             // Generate an extra hidden field such that this field with be parsed with the invariant culture.
             // Cf. https://github.com/dotnet/aspnetcore/pull/43182
-            invariantControl = GenerateInvariantCultureMetadata(For?.Name);
+            invariantControl = GenerateInvariantCultureMetadata(ViewContext, For?.Name);
         }
         else if (IsTimeOnly)
         {
@@ -273,19 +281,19 @@ public class FieldTagHelper : TagHelper
             control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, (For?.ModelExplorer.Model as TimeOnly?)?.ToString("HH:mm", CultureInfo.InvariantCulture), null, attributes);
             // Generate an extra hidden field such that this field with be parsed with the invariant culture.
             // Cf. https://github.com/dotnet/aspnetcore/pull/43182
-            invariantControl = GenerateInvariantCultureMetadata(For?.Name);
+            invariantControl = GenerateInvariantCultureMetadata(ViewContext, For?.Name);
         }
         else if (Number)
         {
             attributes["type"] = "number";
-            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, attributes);
+            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, Format, attributes);
             // Generate an extra hidden field such that this field with be parsed with the invariant culture.
             // Cf. https://github.com/dotnet/aspnetcore/pull/43182
-            invariantControl = GenerateInvariantCultureMetadata(For?.Name);
+            invariantControl = GenerateInvariantCultureMetadata(ViewContext, For?.Name);
         }
         else
         {
-            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, null, attributes);
+            control = _htmlGenerator.GenerateTextBox(ViewContext, For?.ModelExplorer, For?.Name, For?.ModelExplorer.Model, Format, attributes);
         }
 
         if (control != null)
@@ -297,13 +305,15 @@ public class FieldTagHelper : TagHelper
         AppendIcon(builder);
     }
 
-    private static TagBuilder? GenerateInvariantCultureMetadata(string? propertyName)
+    private static TagBuilder? GenerateInvariantCultureMetadata(ViewContext context, string? propertyName)
     {
         if (propertyName == null) return null;
         var builder = new TagBuilder("input");
         builder.Attributes.Add("type", "hidden");
         builder.Attributes.Add("name", CultureInvariantFieldName);
-        builder.Attributes.Add("value", propertyName);
+        var prefix = context.ViewData.TemplateInfo.HtmlFieldPrefix;
+        var value = !string.IsNullOrWhiteSpace(prefix) ? $"{prefix}.{propertyName}" : propertyName;
+        builder.Attributes.Add("value", value);
         builder.TagRenderMode = TagRenderMode.SelfClosing;
         return builder;
     }
@@ -320,6 +330,14 @@ public class FieldTagHelper : TagHelper
         if (string.IsNullOrWhiteSpace(Help)) return;
         builder.AppendHtml("<div class=\"help\">");
         builder.AppendHtml(Help);
+        builder.AppendHtml("</div>");
+    }
+
+    private void AppendWarningSection(IHtmlContentBuilder builder)
+    {
+        if (string.IsNullOrWhiteSpace(Warning)) return;
+        builder.AppendHtml("<div class=\"help is-warning\">");
+        builder.AppendHtml(Warning);
         builder.AppendHtml("</div>");
     }
 
