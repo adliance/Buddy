@@ -32,7 +32,7 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
         return await GeneratePdfWithRetries(endpoint, content);
     }
 
-    public async Task<byte[]> TemplateToPdf(TemplateOptions body, HeaderTemplateOptions? header, FooterTemplateOptions? footer, PdfOptions options)
+    public async Task<byte[]> TemplateToPdf(TemplateOptions body, HeaderTemplateOptions? header, FooterTemplateOptions? footer, TemplatePdfOptions options)
     {
         ThrowIfServerConfigurationIsInvalid();
 

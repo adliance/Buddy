@@ -1,27 +1,7 @@
 namespace Adliance.AspNetCore.Buddy.Pdf.V2;
 
-public class PdfOptions
+public class TemplatePdfOptions
 {
-    /// <summary>
-    /// The HTML for the PDF header as string.
-    /// </summary>
-    public string? HeaderHtml { get; set; }
-
-    /// <summary>
-    /// The height of the header in pixel (px). If a HeaderHtml is provided, the height must be set.
-    /// </summary>
-    public int? HeaderHeight { get; set; }
-
-    /// <summary>
-    /// The HTML for the PDF header as string.
-    /// </summary>
-    public string? FooterHtml { get; set; }
-
-    /// <summary>
-    /// The height of the footer in pixel (px). If a FooterHtml is provided, the height must be set.
-    /// </summary>
-    public int? FooterHeight { get; set; }
-
     /// <summary>
     /// Specifies the paper size: e.g. A4, Letter, etc. (default A4)
     /// </summary>

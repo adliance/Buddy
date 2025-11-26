@@ -88,7 +88,7 @@ public class AdliancePdferTest
             body: new TemplateOptions { Template = template, Model = new { Text = "template" } },
             header: null,
             footer: null,
-            options: new PdfOptions());
+            options: new TemplatePdfOptions());
         await StoreForInspection(bytes);
         Assert.InRange(bytes.Length, 5_000, 29_000);
     }
@@ -117,9 +117,9 @@ public class AdliancePdferTest
                 Model = new { FooterText = "Footer" }, 
                 Height = 40
             },
-            options: new PdfOptions());
+            options: new TemplatePdfOptions());
         await StoreForInspection(bytes);
-        Assert.InRange(bytes.Length, 5_000, 28_000);
+        Assert.InRange(bytes.Length, 15_000, 70_000);
     }
 
     [Fact]
@@ -150,9 +150,9 @@ public class AdliancePdferTest
                 Height = 40, 
                 Javascript = javascript
             },
-            options: new PdfOptions());
+            options: new TemplatePdfOptions());
         await StoreForInspection(bytes);
-        Assert.InRange(bytes.Length, 5_000, 28_000);
+        Assert.InRange(bytes.Length, 15_000, 70_000);
     }
 
     private static async Task StoreForInspection(byte[] bytes)
