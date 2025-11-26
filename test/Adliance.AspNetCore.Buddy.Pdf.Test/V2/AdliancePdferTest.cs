@@ -102,19 +102,19 @@ public class AdliancePdferTest
         var bytes = await _pdfer.TemplateToPdf(
             body: new TemplateOptions
             {
-                Template = template, 
+                Template = template,
                 Model = new { Text = "template" }
             },
             header: new HeaderTemplateOptions
             {
-                Template = header, 
-                Model = new { HeaderText = "Header" }, 
+                Template = header,
+                Model = new { HeaderText = "Header" },
                 Height = 80
             },
             footer: new FooterTemplateOptions
             {
-                Template = footer, 
-                Model = new { FooterText = "Footer" }, 
+                Template = footer,
+                Model = new { FooterText = "Footer" },
                 Height = 40
             },
             options: new TemplatePdfOptions());
@@ -132,22 +132,22 @@ public class AdliancePdferTest
         var bytes = await _pdfer.TemplateToPdf(
             body: new TemplateOptions
             {
-                Template = template, 
-                Model = new { Text = "transformed model" }, 
+                Template = template,
+                Model = new { Text = "transformed model" },
                 Javascript = javascript
             },
             header: new HeaderTemplateOptions
             {
-                Template = header, 
-                Model = new { HeaderText = "Header" }, 
-                Height = 80, 
+                Template = header,
+                Model = new { HeaderText = "Header" },
+                Height = 80,
                 Javascript = javascript
             },
             footer: new FooterTemplateOptions
             {
-                Template = footer, 
-                Model = new { FooterText = "Footer" }, 
-                Height = 40, 
+                Template = footer,
+                Model = new { FooterText = "Footer" },
+                Height = 40,
                 Javascript = javascript
             },
             options: new TemplatePdfOptions());
