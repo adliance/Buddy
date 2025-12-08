@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Version>0.0.0</Version>
+        <Authors>Hannes Sachsenhofer</Authors>
+        <Company>Adliance GmbH</Company>
+        <Product/>
+        <Copyright>(c) Adliance GmbH</Copyright>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/adliance/Buddy</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
+        <Description>Library for easy integration tests for ASP.NET core applications, including database dependencies und Docker support.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Adliance.AspNetCore.Buddy.Testing.Shared\Adliance.AspNetCore.Buddy.Testing.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="xunit.v3.extensibility.core" Version="3.1.0" />
+    </ItemGroup>
+
+</Project>

@@ -1,7 +1,7 @@
 variables:
   - group: shared_buddy_variable_group
 
-name: $(version).$(Rev:r)
+name: 8.1.0.$(Rev:r)
 
 resources:
   - repo: self
@@ -15,10 +15,23 @@ trigger:
   paths:
     include:
       - /src/Adliance.AspNetCore.Buddy.Testing
+      - /src/Adliance.AspNetCore.Buddy.Testing.v3
+      - /src/Adliance.AspNetCore.Buddy.Testing.Shared
       - /pipeline-testing.yml
 
 stages:
   - template: pipeline-template-build-and-push.yml
     parameters:
+      stageName: 'publish_testing_shared'
+      project: "src/Adliance.AspNetCore.Buddy.Testing.Shared/*.csproj"
+      nugetApiKey: "$(nuget_api_key)"
+  - template: pipeline-template-build-and-push.yml
+    parameters:
+      stageName: 'publish_testing'
       project: "src/Adliance.AspNetCore.Buddy.Testing/*.csproj"
+      nugetApiKey: "$(nuget_api_key)"
+  - template: pipeline-template-build-and-push.yml
+    parameters:
+      stageName: 'publish_testing_v3'
+      project: "src/Adliance.AspNetCore.Buddy.Testing.v3/*.csproj"
       nugetApiKey: "$(nuget_api_key)"

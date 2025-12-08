@@ -74,4 +74,10 @@ public interface IStorage
     /// <param name="path">Either the name of a container, or the name of a directory located directly inside your root directory.</param>
     /// <returns>A list of all files in the directory.</returns>
     Task<IList<IStorageFile>> List(string path);
+
+    /// <summary>
+    /// Lists all containers/directories on the root level of the storage.
+    /// </summary>
+    /// <returns>The name sof all containers/directories on the root level of the storage.</returns>
+    Task<IList<string>> ListContainers();
 }

@@ -1,5 +1,6 @@
-using Adliance.AspNetCore.Buddy.Testing.Database;
-using Adliance.AspNetCore.Buddy.Testing.InProcess;
+using Adliance.AspNetCore.Buddy.Testing.Shared;
+using Adliance.AspNetCore.Buddy.Testing.Shared.Database;
+using Adliance.AspNetCore.Buddy.Testing.Shared.InProcess;
 using DotNet.Testcontainers.Builders;
 
 namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithDatabaseTest;

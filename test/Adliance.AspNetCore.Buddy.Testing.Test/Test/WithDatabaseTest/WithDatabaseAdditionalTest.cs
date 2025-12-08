@@ -1,4 +1,4 @@
-using Adliance.AspNetCore.Buddy.Testing.Extensions;
+using Adliance.AspNetCore.Buddy.Testing.Shared.Extensions;
 using Adliance.AspNetCore.Buddy.Testing.Test.Models;
 using Microsoft.EntityFrameworkCore;
 using Xunit;

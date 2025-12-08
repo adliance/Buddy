@@ -1,4 +1,5 @@
-using Adliance.AspNetCore.Buddy.Testing.Extensions;
+using Adliance.AspNetCore.Buddy.Testing.Shared;
+using Adliance.AspNetCore.Buddy.Testing.Shared.Extensions;
 using Xunit;
 
 namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithoutDatabase;

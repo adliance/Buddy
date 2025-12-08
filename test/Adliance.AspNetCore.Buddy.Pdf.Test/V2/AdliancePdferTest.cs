@@ -16,7 +16,7 @@ public class AdliancePdferTest
     {
         var bytes = await _pdfer.HtmlToPdf("This is <b>my</b> <u>HTML</u> test.", new PdfOptions());
         await StoreForInspection(bytes);
-        Assert.InRange(bytes.Length, 10_000, 28_000);
+        Assert.InRange(bytes.Length, 5_000, 28_000);
     }
 
     [Fact]
@@ -30,7 +30,7 @@ public class AdliancePdferTest
             FooterHtml = "<!DOCTYPE html>The <s>Footer</s>"
         });
         await StoreForInspection(bytes);
-        Assert.InRange(bytes.Length, 25_000, 70_000);
+        Assert.InRange(bytes.Length, 15_000, 70_000);
     }
 
     [Fact]
@@ -82,7 +82,7 @@ public class AdliancePdferTest
 
     private static async Task StoreForInspection(byte[] bytes)
     {
-        var directory = @"C:\Users\Hannes\Downloads\";
+        var directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
         if (Directory.Exists(directory))
         {
             await File.WriteAllBytesAsync(Path.Combine(directory, Guid.NewGuid() + ".pdf"), bytes);

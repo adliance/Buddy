@@ -2,6 +2,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 WORKDIR /app
 COPY ./src/Adliance.AspNetCore.Buddy.Testing ./src/Adliance.AspNetCore.Buddy.Testing
+COPY ./src/Adliance.AspNetCore.Buddy.Testing.Shared ./src/Adliance.AspNetCore.Buddy.Testing.Shared
 COPY ./test/Adliance.AspNetCore.Buddy.Testing.Test ./test/Adliance.AspNetCore.Buddy.Testing.Test
 RUN dotnet publish ./test/Adliance.AspNetCore.Buddy.Testing.Test/Adliance.AspNetCore.Buddy.Testing.Test.csproj --configuration Release --output out
 
