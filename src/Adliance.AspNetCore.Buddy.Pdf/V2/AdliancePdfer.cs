@@ -11,85 +11,66 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
 {
     public async Task<byte[]> HtmlToPdf(string html, PdfOptions options)
     {
-        if (string.IsNullOrWhiteSpace(configuration.ServerUrl)) throw new Exception("No Server URL configured.");
-
-        using var client = new HttpClient();
-        client.Timeout = TimeSpan.FromMinutes(1);
-
         var paperSize = CalculatePaperSize(options.Size, options.PaperWidth, options.PaperHeight);
 
         var parameters = new
         {
-            html,
+            // ReSharper disable RedundantAnonymousTypePropertyName
+            html = html,
+            // ReSharper restore RedundantAnonymousTypePropertyName
             footer = options.FooterHtml,
-            footer_height = options.FooterHeight,
             header = options.HeaderHtml,
+
             header_height = options.HeaderHeight,
+            footer_height = options.FooterHeight,
             paper_width = paperSize[0],
             paper_height = paperSize[1],
             print_background = options.PrintBackground,
             scale = options.Scale
         };
-        var content = new StringContent(JsonSerializer.Serialize(parameters), Encoding.UTF8, "application/json");
 
-        var endpoint = configuration.ServerUrl.Trim('/');
-
-        var backoffMs = 2000;
-        while (true)
-        {
-            try
-            {
-                var response = await client.PostAsync(endpoint, content);
-                response.EnsureSuccessStatusCode();
-                return await response.Content.ReadAsByteArrayAsync();
-            }
-            catch
-            {
-                if (backoffMs < 10000)
-                {
-                    Thread.Sleep(backoffMs);
-                    backoffMs *= 2;
-                }
-                else
-                {
-                    throw;
-                }
-            }
-        }
+        return await Send("/", configuration.ApiKeyPdf, parameters);
     }
 
-    public async Task<byte[]> TemplateToPdf(string template, object model, string? js, string? headerTemplate, object? headerModel, string? headerJs, string? footerTemplate, object? footerModel, string? footerJs,
-        PdfOptions options)
+    public async Task<byte[]> TemplateToPdf(string template, object model, TemplateOptions options)
+    {
+        var paperSize = CalculatePaperSize(options.Size, options.PaperWidth, options.PaperHeight);
+
+        var parameters = new
+        {
+            // ReSharper disable RedundantAnonymousTypePropertyName
+            template = template,
+            model = model,
+            // ReSharper restore RedundantAnonymousTypePropertyName
+            js = options.JavaScript,
+            header_template = options.HeaderHtml,
+            header_model = options.HeaderModel,
+            header_js = options.HeaderJavaScript,
+            footer_template = options.FooterHtml,
+            footer_model = options.FooterModel,
+            footer_js = options.FooterJavaScript,
+
+            header_height = options.HeaderHeight,
+            footer_height = options.FooterHeight,
+            paper_width = paperSize[0],
+            paper_height = paperSize[1],
+            print_background = options.PrintBackground,
+            scale = options.Scale
+        };
+
+        return await Send("/template", configuration.ApiKeyTemplate, parameters);
+    }
+
+    private async Task<byte[]> Send(string endpoint, string? apiKey, object parameters)
     {
         if (string.IsNullOrWhiteSpace(configuration.ServerUrl)) throw new Exception("No Server URL configured.");
 
         using var client = new HttpClient();
         client.Timeout = TimeSpan.FromMinutes(1);
+        if (!string.IsNullOrWhiteSpace(apiKey)) client.DefaultRequestHeaders.Add("x-api-key", apiKey);
 
-        var paperSize = CalculatePaperSize(options.Size, options.PaperWidth, options.PaperHeight);
-
-        var parameters = new
-        {
-            template,
-            model,
-            js,
-            header_template = headerTemplate,
-            header_model = headerModel,
-            header_js = headerJs,
-            footer_template = footerTemplate,
-            footer_model = footerModel,
-            footer_js = footerJs,
-            footer_height = options.FooterHeight,
-            header_height = options.HeaderHeight,
-            paper_width = paperSize[0],
-            paper_height = paperSize[1],
-            print_background = options.PrintBackground,
-            scale = options.Scale
-        };
-        //TODO: serializer options for naming?
         var content = new StringContent(JsonSerializer.Serialize(parameters), Encoding.UTF8, "application/json");
-
-        var endpoint = $"{configuration.ServerUrl.Trim('/')}/template";
+        endpoint = $"{configuration.ServerUrl.TrimEnd('/')}/{endpoint.TrimStart('/')}";
 
         var backoffMs = 2000;
         while (true)

@@ -1,7 +1,7 @@
 variables:
   - group: shared_buddy_variable_group
 
-name: 8.1.0.$(Rev:r)
+name: $(version).$(Rev:r)
 
 resources:
   - repo: self
