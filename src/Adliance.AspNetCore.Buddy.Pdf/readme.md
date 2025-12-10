@@ -57,6 +57,13 @@ IPdfer _pdfer = new AdliancePdfer(new DefaultPdferConfiguration());
 byte[] bytes = await _pdfer.HtmlToPdf("This is <b>my</b> <u>HTML</u> code.", new PdfOptions());
 ```
 
+### Generate a PDF from a template
+Generating a PDF from a Handlebars template works similar. Just call the `TemplateToPdf` method and provide the template, the model and `TemplateOptions` for advanced functionality.
+```c#
+IPdfer _pdfer = new AdliancePdfer(new DefaultPdferConfiguration());
+byte[] bytes = await _pdfer.TemplateToPdf("<b>Hello</b> from {{Name}}", new { Name = "Model" }, new TemplateOptions());
+```
+
 ### PDF Options
 
 #### Version 2
@@ -67,6 +74,22 @@ byte[] bytes = await _pdfer.HtmlToPdf("This is <b>my</b> <u>HTML</u> code.", new
 | HeaderHeight | `int`    | The height of the header in pixel (px). If a HeaderHtml is provided, the height must be set. |
 | FooterHtml   | `string` | The HTML for the PDF footer as string. |
 | FooterHeight | `int`    | The height of the footer in pixel (px). If a FooterHtml is provided, the height must be set. |
+
+### Template Options
+
+The `TemplateOptions` class extends `PdfOptions` and provides some configuration for the resulting PDF.
+
+| Name         | Type     | Description                            |
+|--------------|----------|----------------------------------------|
+| JavaScript   | `string` | The optional JavaScript code to modify the provided model. |
+| HeaderHtml   | `string` | The Handlebars template for the PDF header as string. |
+| HeaderModel  | `string` | The model for the `HeaderHtml`. |
+| HeaderJavaScript | `string` | The optional Javascript used to modify the `HeaderModel`. |
+| HeaderHeight | `int`    | The height of the header in pixel (px). If a `HeaderHtml` is provided, the height must be set. |
+| FooterHtml   | `string` | The Handlebars template for the PDF footer as string. |
+| FooterModel  | `string` | The model for the `FooterHtml`. |
+| FooterJavaScript | `string` | The optional Javascript used to modify the `FooterModel`. |
+| FooterHeight | `int`    | The height of the footer in pixel (px). If a `FooterHtml` is provided, the height must be set. |
 
 ## Useful information
 ### Page numbers
