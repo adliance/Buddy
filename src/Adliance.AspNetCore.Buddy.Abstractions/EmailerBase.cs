@@ -54,7 +54,29 @@ public abstract class EmailerBase(IEmailConfiguration emailConfig) : IEmailer
         await Send(sender, to, [], [], subject, htmlBody, textBody, attachments);
     }
 
-    public abstract Task Send(
+    public async Task Send(
+        IEmailSender sender,
+        IEmailRecipient[] to,
+        IEmailRecipient[] cc,
+        IEmailRecipient[] bcc,
+        string subject,
+        string htmlBody,
+        string? textBody,
+        params IEmailAttachment[] attachments)
+    {
+        if (emailConfig.Disable) return;
+
+        if (!string.IsNullOrEmpty(emailConfig.RedirectAllEmailsTo))
+        {
+            foreach (var x in to) x.EmailAddress = emailConfig.RedirectAllEmailsTo;
+            foreach (var x in cc) x.EmailAddress = emailConfig.RedirectAllEmailsTo;
+            foreach (var x in bcc) x.EmailAddress = emailConfig.RedirectAllEmailsTo;
+        }
+
+        await SendInternal(sender, to, cc, bcc, subject, htmlBody, textBody, attachments);
+    }
+
+    protected abstract Task SendInternal(
         IEmailSender sender,
         IEmailRecipient[] to,
         IEmailRecipient[] cc,
@@ -67,7 +89,7 @@ public abstract class EmailerBase(IEmailConfiguration emailConfig) : IEmailer
     private sealed class EmailSenderRecipient : IEmailSender, IEmailRecipient
     {
         public required string Name { get; init; }
-        public required string EmailAddress { get; init; }
+        public required string EmailAddress { get; set; }
         public string? ReplyToEmailAddress { get; init; }
         public string? ReplyToName { get; init; }
     }
