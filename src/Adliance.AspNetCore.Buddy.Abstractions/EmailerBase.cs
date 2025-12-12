@@ -73,6 +73,9 @@ public abstract class EmailerBase(IEmailConfiguration emailConfig) : IEmailer
             foreach (var x in bcc) x.EmailAddress = emailConfig.RedirectAllEmailsTo;
         }
 
+        if (!string.IsNullOrEmpty(emailConfig.SubjectPrefix)) subject = emailConfig.SubjectPrefix + subject;
+        if (!string.IsNullOrEmpty(emailConfig.SubjectPostfix)) subject += emailConfig.SubjectPostfix;
+
         await SendInternal(sender, to, cc, bcc, subject, htmlBody, textBody, attachments);
     }
 
