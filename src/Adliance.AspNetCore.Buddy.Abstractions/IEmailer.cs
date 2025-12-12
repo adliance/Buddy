@@ -18,5 +18,9 @@ public interface IEmailer
     /// <returns>A task.</returns>
     Task Send(string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments);
 
-    Task Send(string senderName, string senderAddress, string replyTo, string recipientName, string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments);
+    Task Send(string senderName, string senderAddress, string replyTo, string recipientName, string recipientAddress, string subject, string htmlBody, string textBody,
+        params IEmailAttachment[] attachments);
+
+    Task Send(IEmailSender sender, IEmailRecipient[] to, IEmailRecipient[] cc, IEmailRecipient[] bcc, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments);
+    Task Send(IEmailSender sender, IEmailRecipient[] to, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments);
 }
