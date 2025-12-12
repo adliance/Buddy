@@ -10,37 +10,38 @@ using SendGrid.Helpers.Mail;
 
 namespace Adliance.AspNetCore.Buddy.Email.SendGrid;
 
-public class SendgridEmailer(ISendgridConfiguration sendgridConfig, IEmailConfiguration emailConfig) : IEmailer
+public class SendgridEmailer(ISendgridConfiguration sendgridConfig, IEmailConfiguration emailConfig) : EmailerBase(emailConfig)
 {
-    public async Task Send(string recipientAddress, string subject, string htmlBody, string? textBody, params IEmailAttachment[] attachments)
+    protected override async Task SendInternal(
+        IEmailSender sender,
+        IEmailRecipient[] to,
+        IEmailRecipient[] cc,
+        IEmailRecipient[] bcc,
+        string subject,
+        string htmlBody,
+        string? textBody,
+        params IEmailAttachment[]? attachments)
     {
-        await Send(emailConfig.SenderName, emailConfig.SenderAddress, emailConfig.ReplyToAddress, "", recipientAddress, subject, htmlBody, textBody, attachments);
-    }
-
-    public async Task Send(string senderName, string senderAddress, string replyTo, string recipientName, string recipientAddress, string subject, string htmlBody, string? textBody, params IEmailAttachment[]? attachments)
-    {
-        if (string.IsNullOrWhiteSpace(recipientAddress)) throw new ArgumentOutOfRangeException(nameof(recipientAddress));
-
-        if (emailConfig.Disable)
-            return;
-
         var client = new SendGridClient(sendgridConfig.SendgridSecret);
 
-        var from = new EmailAddress(senderAddress, senderName);
-        var to = GetRecipient(recipientName, recipientAddress);
-        var mail = MailHelper.CreateSingleEmail(from, to, GetSubject(subject), textBody, htmlBody);
+        var from = new EmailAddress(sender.EmailAddress, sender.Name);
+        var recipient = GetRecipient(to.First().Name ?? to.First().EmailAddress, to.First().EmailAddress);
+        var mail = MailHelper.CreateSingleEmail(from, recipient, subject, textBody, htmlBody);
 
-        if (!string.IsNullOrWhiteSpace(replyTo)) mail.SetReplyTo(new EmailAddress(replyTo));
+        if (!string.IsNullOrWhiteSpace(sender.ReplyToEmailAddress)) mail.SetReplyTo(new EmailAddress(sender.ReplyToEmailAddress));
+        foreach (var x in to.Skip(1)) mail.AddTo(GetRecipient(x.Name, x.EmailAddress));
+        foreach (var x in cc) mail.AddCc(GetRecipient(x.Name, x.EmailAddress));
+        foreach (var x in bcc) mail.AddBcc(GetRecipient(x.Name, x.EmailAddress));
 
         mail.Categories = [sendgridConfig.SendgridLabel];
 
-        if (attachments != null && attachments.Any())
+        if (attachments != null && attachments.Length != 0)
         {
             var mailAttachments = new List<Attachment>();
             foreach (var attachment in attachments)
             {
                 new FileExtensionContentTypeProvider().TryGetContentType(attachment.Filename, out var contentType);
-                contentType = contentType ?? "application/octet-stream";
+                contentType ??= "application/octet-stream";
 
                 mailAttachments.Add(new Attachment
                 {
@@ -61,18 +62,10 @@ public class SendgridEmailer(ISendgridConfiguration sendgridConfig, IEmailConfig
         }
     }
 
-    private EmailAddress GetRecipient(string recipientName, string recipientAddress)
+    private static EmailAddress GetRecipient(string? recipientName, string recipientAddress)
     {
-        if (!string.IsNullOrWhiteSpace(emailConfig.RedirectAllEmailsTo))
-            return new EmailAddress(emailConfig.RedirectAllEmailsTo);
-
         return string.IsNullOrWhiteSpace(recipientName)
             ? new EmailAddress(recipientAddress)
             : new EmailAddress(recipientAddress, recipientName);
-    }
-
-    private string GetSubject(string subject)
-    {
-        return (emailConfig.SubjectPrefix + subject + emailConfig.SubjectPostfix).Trim();
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Abstractions;
 using MailKit.Net.Smtp;
@@ -8,29 +7,27 @@ using MimeKit;
 
 namespace Adliance.AspNetCore.Buddy.Email.Smtp;
 
-public class SmtpEmailer(ISmtpConfiguration smtpConfig, IEmailConfiguration emailConfig) : IEmailer
+public class SmtpEmailer(ISmtpConfiguration smtpConfig, IEmailConfiguration emailConfig) : EmailerBase(emailConfig)
 {
-    public async Task Send(string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments)
+    protected override async Task SendInternal(
+        IEmailSender sender,
+        IEmailRecipient[] to,
+        IEmailRecipient[] cc,
+        IEmailRecipient[] bcc,
+        string subject,
+        string htmlBody,
+        string? textBody,
+        params IEmailAttachment[] attachments)
     {
-        await Send(emailConfig.SenderName, emailConfig.SenderAddress, emailConfig.ReplyToAddress, "", recipientAddress, subject, htmlBody, textBody, attachments);
-    }
-
-    public async Task Send(string senderName, string senderAddress, string replyTo, string recipientName, string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments)
-    {
-        if (string.IsNullOrWhiteSpace(recipientAddress)) throw new ArgumentOutOfRangeException(nameof(recipientAddress));
-
-        if (emailConfig.Disable)
-            return;
-
         var message = new MimeMessage();
-        var from = new MailboxAddress(senderName, senderAddress);
-        var to = GetRecipient(recipientName, recipientAddress);
-        var reply = new MailboxAddress(senderName, replyTo);
 
-        message.From.Add(from);
-        message.To.Add(to);
-        message.ReplyTo.Add(reply);
-        message.Subject = GetSubject(subject);
+        foreach (var x in to) message.To.Add(GetAddress(x.Name, x.EmailAddress));
+        foreach (var x in cc) message.Cc.Add(GetAddress(x.Name, x.EmailAddress));
+        foreach (var x in bcc) message.Bcc.Add(GetAddress(x.Name, x.EmailAddress));
+
+        message.From.Add(GetAddress(sender.Name, sender.EmailAddress));
+        if (!string.IsNullOrWhiteSpace(sender.ReplyToEmailAddress)) message.ReplyTo.Add(GetAddress(sender.ReplyToName, sender.ReplyToEmailAddress));
+        message.Subject = subject;
 
         var builder = new BodyBuilder
         {
@@ -38,7 +35,7 @@ public class SmtpEmailer(ISmtpConfiguration smtpConfig, IEmailConfiguration emai
             HtmlBody = htmlBody
         };
 
-        if (attachments.Any())
+        if (attachments.Length != 0)
         {
             var fileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
             foreach (var attachment in attachments)
@@ -73,16 +70,8 @@ public class SmtpEmailer(ISmtpConfiguration smtpConfig, IEmailConfiguration emai
         }
     }
 
-    private MailboxAddress GetRecipient(string recipientName, string recipientAddress)
+    private static MailboxAddress GetAddress(string? recipientName, string recipientAddress)
     {
-        if (!string.IsNullOrWhiteSpace(emailConfig.RedirectAllEmailsTo))
-            return new MailboxAddress(emailConfig.RedirectAllEmailsTo, emailConfig.RedirectAllEmailsTo);
-
         return new MailboxAddress(string.IsNullOrWhiteSpace(recipientName) ? recipientAddress : recipientName, recipientAddress);
-    }
-
-    private string GetSubject(string subject)
-    {
-        return (emailConfig.SubjectPrefix + subject + emailConfig.SubjectPostfix).Trim();
     }
 }
