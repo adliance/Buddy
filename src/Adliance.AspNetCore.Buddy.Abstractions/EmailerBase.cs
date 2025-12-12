@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 namespace Adliance.AspNetCore.Buddy.Abstractions;
@@ -65,6 +66,8 @@ public abstract class EmailerBase(IEmailConfiguration emailConfig) : IEmailer
         params IEmailAttachment[] attachments)
     {
         if (emailConfig.Disable) return;
+
+        if (to.Length == 0) throw new Exception("Not a single recipient specified.");
 
         if (!string.IsNullOrEmpty(emailConfig.RedirectAllEmailsTo))
         {
