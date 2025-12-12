@@ -31,7 +31,7 @@ public class ContainerOptions
     public string DockerFileDirectory { get; set; } = "./";
     public string NetworkAlias { get; set; } = "webapp";
     public Dictionary<string, string?> Configuration { get; set; } = new();
-    public IWaitForContainerOS? WaitStrategy { get; set; } = Wait.ForUnixContainer().UntilPortIsAvailable(80);
+    public IWaitForContainerOS? WaitStrategy { get; set; } = Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(80);
     public int Port { get; set; } = 80;
     public ILogger Logger { get; set; } = new InMemoryLogger();
     public string DbConnectionStringConfigurationKey { get; set; } = "";

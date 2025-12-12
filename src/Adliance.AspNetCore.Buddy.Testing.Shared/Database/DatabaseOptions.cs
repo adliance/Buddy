@@ -9,7 +9,7 @@ public class DatabaseOptions
 {
     public INetwork? Network { get; set; }
     public DatabaseType Type { get; set; }
-    public IWaitForContainerOS? DbWaitStrategy { get; set; } = Wait.ForUnixContainer().UntilPortIsAvailable(1433);
+    public IWaitForContainerOS? DbWaitStrategy { get; set; } = Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(1433);
     public string? LocalDbConnectionString { get; set; }
     public ILogger Logger { get; set; } = new InMemoryLogger();
 }
