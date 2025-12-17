@@ -45,6 +45,11 @@ public abstract class EmailerBase(IEmailConfiguration emailConfig) : IEmailer
 
     public async Task Send(IEmailRecipient[] to, string subject, string htmlBody, string? textBody, params IEmailAttachment[] attachments)
     {
+        await Send(to, [], [], subject, htmlBody, textBody, attachments);
+    }
+
+    public async Task Send(IEmailRecipient[] to, IEmailRecipient[] cc, IEmailRecipient[] bcc, string subject, string htmlBody, string? textBody, params IEmailAttachment[] attachments)
+    {
         var sender = new EmailSenderRecipient
         {
             Name = emailConfig.SenderName,
@@ -52,7 +57,7 @@ public abstract class EmailerBase(IEmailConfiguration emailConfig) : IEmailer
             ReplyToEmailAddress = emailConfig.ReplyToAddress,
             ReplyToName = emailConfig.SenderName
         };
-        await Send(sender, to, [], [], subject, htmlBody, textBody, attachments);
+        await Send(sender, to, cc, bcc, subject, htmlBody, textBody, attachments);
     }
 
     public async Task Send(
