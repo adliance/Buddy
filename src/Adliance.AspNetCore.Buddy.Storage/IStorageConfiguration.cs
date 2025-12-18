@@ -27,6 +27,7 @@ public interface IStorageConfiguration
 
     bool AutomaticallyCreateDirectories { get; }
     bool ConfigureDataProtection { get; }
+    bool IgnoreCertificateErrors { get; }
     string? DataProtectionContainer { get; }
 
     bool UseAzureStorage { get; }

@@ -10,13 +10,19 @@ public class MockedStorageConfiguration : IStorageConfiguration
     public StorageType Type => StorageType.Local;
     public string LocalStorageBasePath => Path.GetTempPath();
 
-    public string AzureStorageConnectionString => GetEnvironmentVariable("Adliance_Buddy_Tests__AzureStorageConnectionString");
+    private string? _azureStorageConnectionString;
+    public string AzureStorageConnectionString
+    {
+        get => string.IsNullOrWhiteSpace(_azureStorageConnectionString) ? GetEnvironmentVariable("Adliance_Buddy_Tests__AzureStorageConnectionString") : _azureStorageConnectionString;
+        set => _azureStorageConnectionString = value;
+    }
 
     public string? AzureStorageUrl => null;
     public string? AzureStorageManagedIdentityClientId => null;
 
     public bool AutomaticallyCreateDirectories => true;
     public bool ConfigureDataProtection => true;
+    public bool IgnoreCertificateErrors { get; set; }
     public string DataProtectionContainer => "dataprotection";
     public bool UseAzureStorage => false;
     public bool UseLocalStorage => false;

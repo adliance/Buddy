@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Azure.Core.Pipeline;
 using Azure.Identity;
 using Azure.Storage;
 using Azure.Storage.Blobs;
@@ -167,6 +169,23 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
     {
         BlobServiceClient? client;
 
+        var blobClientOptions = new BlobClientOptions();
+
+        if (configuration.IgnoreCertificateErrors)
+        {
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            };
+
+            var transport = new HttpClientTransport(new HttpClient(handler));
+
+            blobClientOptions = new BlobClientOptions
+            {
+                Transport = transport
+            };
+        }
+
         if (!string.IsNullOrWhiteSpace(configuration.AzureStorageUrl))
         {
             var url = configuration.AzureStorageUrl?.Trim('/');
@@ -174,11 +193,11 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
             var credential = string.IsNullOrWhiteSpace(configuration.AzureStorageManagedIdentityClientId)
                 ? new ManagedIdentityCredential()
                 : new ManagedIdentityCredential(configuration.AzureStorageManagedIdentityClientId);
-            client = new BlobServiceClient(new Uri($"{url}"), credential);
+            client = new BlobServiceClient(new Uri($"{url}"), credential, blobClientOptions);
         }
         else if (!string.IsNullOrWhiteSpace(configuration.AzureStorageConnectionString))
         {
-            client = new BlobServiceClient(configuration.AzureStorageConnectionString);
+            client = new BlobServiceClient(configuration.AzureStorageConnectionString, blobClientOptions);
         }
         else
         {

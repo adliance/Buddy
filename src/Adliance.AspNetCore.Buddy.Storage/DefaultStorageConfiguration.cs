@@ -26,6 +26,7 @@ public class DefaultStorageConfiguration : IStorageConfiguration
     public bool AutomaticallyCreateDirectories { get; set; }
 
     public bool ConfigureDataProtection { get; set; }
+    public bool IgnoreCertificateErrors { get; set; }
     public string? DataProtectionContainer { get; set; } = "dataprotection";
 
     /// <inheritdoc />
