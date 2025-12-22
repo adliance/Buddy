@@ -12,6 +12,7 @@ public class DatabaseOptions
     public IWaitForContainerOS? DbWaitStrategy { get; set; } = Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(1433);
     public string? LocalDbConnectionString { get; set; }
     public ILogger Logger { get; set; } = new InMemoryLogger();
+    public string DockerImage { get; set; } = "mcr.microsoft.com/mssql/server:2022-CU14-ubuntu-22.04";
 }
 
 public enum DatabaseType
