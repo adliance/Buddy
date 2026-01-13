@@ -4,11 +4,15 @@ namespace Adliance.AspNetCore.Buddy.Testing.Shared.Extensions;
 
 public static class PageExtensions
 {
-    public static async Task Navigate(this IPage page, HttpClient client, string relativeUrl = "")
+    public static async Task<IResponse?> Navigate(this IPage page, HttpClient client, string relativeUrl = "", WaitUntilState waitUntil = WaitUntilState.Load)
     {
         var baseUrl = client.BaseAddress?.ToString() ?? "";
         var url = baseUrl.TrimEnd('/') + "/" + relativeUrl.TrimStart('/');
-        await page.GotoAsync(url);
+        var options = new PageGotoOptions
+        {
+            WaitUntil = waitUntil
+        };
+        return await page.GotoAsync(url, options);
     }
 
     public static async Task<byte[]> Screenshot(this IPage page, string fileName)
