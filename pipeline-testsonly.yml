@@ -29,7 +29,7 @@ stages:
           - task: UseDotNet@2
             displayName: "Install .NET 8"
             inputs:
-              version: '8.0.x'
+              version: '10.0.x'
               packageType: sdk
               
           - task: DotNetCoreCLI@2
@@ -52,11 +52,11 @@ stages:
             displayName: 'Install PowerShell tool'
             
           - script: |
-              pwsh test/Adliance.AspNetCore.Buddy.Testing.Test/bin/Release/net8.0/playwright.ps1 install-deps   
+              pwsh test/Adliance.AspNetCore.Buddy.Testing.Test/bin/Release/net10.0/playwright.ps1 install-deps   
             displayName: 'Install Playwright dependencies'
             
           - script: |
-              pwsh test/Adliance.AspNetCore.Buddy.Testing.Test/bin/Release/net8.0/playwright.ps1 install   
+              pwsh test/Adliance.AspNetCore.Buddy.Testing.Test/bin/Release/net10.0/playwright.ps1 install   
             displayName: 'Install Playwright executables'
             
           - task: DotNetCoreCLI@2
