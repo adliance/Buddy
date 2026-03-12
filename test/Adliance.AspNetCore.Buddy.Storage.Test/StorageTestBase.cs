@@ -155,6 +155,7 @@ public abstract class StorageTestBase
         Assert.InRange(file1.CreatedUtc, file1.UpdatedUtc.AddMilliseconds(-100), file1.UpdatedUtc);
         Assert.Equal(3, file1.SizeBytes);
         var file3 = files.Single(x => x.Path[1] == "file3.bin");
+        Thread.Sleep(1_000);
         Assert.True(file3.UpdatedUtc > file3.CreatedUtc, $"{file3.UpdatedUtc} is not greater than {file3.CreatedUtc}, but should be.");
         Assert.Equal(container, file3.Path[0]);
         Assert.Equal("file3.bin", file3.Path[1]);
