@@ -68,13 +68,11 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
         }
     }
 
-    /// <inheritdoc cref="IStorage.Exists" />
     public async Task<bool> Exists(params string[] path)
     {
         return await GetBlobClient(path).ExistsAsync();
     }
 
-    /// <inheritdoc cref="IStorage.Delete" />
     public async Task Delete(params string[] path)
     {
         await GetBlobClient(path).DeleteIfExistsAsync();
@@ -109,7 +107,6 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
         return result;
     }
 
-    /// <inheritdoc cref="IStorage.GetDownloadUrl" />
     public async Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, params string[] path)
     {
         if (string.IsNullOrWhiteSpace(configuration.AzureStorageConnectionString))
@@ -191,8 +188,8 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
             var url = configuration.AzureStorageUrl?.Trim('/');
             if (string.IsNullOrWhiteSpace(url)) throw new Exception("Azure Storage URL is not configured.");
             var credential = string.IsNullOrWhiteSpace(configuration.AzureStorageManagedIdentityClientId)
-                ? new ManagedIdentityCredential()
-                : new ManagedIdentityCredential(configuration.AzureStorageManagedIdentityClientId);
+                ? new ManagedIdentityCredential(ManagedIdentityId.SystemAssigned)
+                : new ManagedIdentityCredential(ManagedIdentityId.FromUserAssignedClientId(configuration.AzureStorageManagedIdentityClientId));
             client = new BlobServiceClient(new Uri($"{url}"), credential, blobClientOptions);
         }
         else if (!string.IsNullOrWhiteSpace(configuration.AzureStorageConnectionString))

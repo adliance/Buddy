@@ -85,7 +85,7 @@ public interface IStorage
     /// <returns>The URL of the file to download</returns>
     Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, params string[] path);
 
-    public async Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, IStorageFile file file)
+    public async Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, IStorageFile file)
     {
         return await GetDownloadUrl(niceName, expiresOn, file.Path);
     }

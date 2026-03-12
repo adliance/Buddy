@@ -73,13 +73,11 @@ public class LocalStorage(IStorageConfiguration configuration) : IStorage
         return null;
     }
 
-    /// <inheritdoc cref="IStorage.Exists"/>>
     public Task<bool> Exists(params string[] path)
     {
         return Task.FromResult(File.Exists(GetFilePath(path)));
     }
 
-    /// <inheritdoc cref="IStorage.Delete" />
     public async Task Delete(params string[] path)
     {
         if (await Exists(path)) File.Delete(GetFilePath(path));
