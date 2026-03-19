@@ -8,8 +8,7 @@ public static class DatabaseHelper
     {
         if (options.Type == DatabaseType.UseSqlServerContainer)
         {
-            var containerBuilder = new MsSqlBuilder()
-                .WithImage(options.DockerImage)
+            var containerBuilder = new MsSqlBuilder(options.DockerImage)
                 .WithNetwork(options.Network)
                 .WithNetworkAliases("db")
                 .WithLogger(options.Logger)
