@@ -25,6 +25,11 @@ public static class InProcessHelper
             if (options.ConfigureWebAppTestServices != null) config.ConfigureTestServices(options.ConfigureWebAppTestServices);
         });
 
+        if (options.UseKestrel)
+        {
+            factory.UseKestrel();
+        }
+
         await Task.CompletedTask.ConfigureAwait(false);
 
         var result = new InProcessResult<TEntryPoint>

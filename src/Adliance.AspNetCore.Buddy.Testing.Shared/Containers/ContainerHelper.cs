@@ -32,8 +32,7 @@ public static class ContainerHelper
             .CreateAsync()
             .ConfigureAwait(false);
 
-        var webContainerBuilder = new ContainerBuilder()
-            .WithImage(result.Image)
+        var webContainerBuilder = new ContainerBuilder(result.Image)
             .WithNetwork(options.Network)
             .WithNetworkAliases(options.NetworkAlias)
             .WithPortBinding(options.Port, true)
