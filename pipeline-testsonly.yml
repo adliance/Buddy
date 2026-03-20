@@ -27,7 +27,7 @@ stages:
           
         steps:
           - task: UseDotNet@2
-            displayName: "Install .NET 8"
+            displayName: "Install .NET 10"
             inputs:
               version: '10.0.x'
               packageType: sdk
@@ -48,7 +48,7 @@ stages:
               arguments: '-v diag --verify-no-changes'
               
           - script: |
-              dotnet tool update --global PowerShell --version 7.4.6
+              dotnet tool update --global PowerShell --version 7.6.0 --allow-downgrade
             displayName: 'Install PowerShell tool'
             
           - script: |
