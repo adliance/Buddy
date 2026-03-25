@@ -76,6 +76,11 @@ public class ContainerOptions
     public Func<ContainerBuilder, ContainerBuilder>? ConfigureContainer { get; set; }
 
     /// <summary>
+    /// The timeout for HTTP requests to the container.
+    /// </summary>
+    public TimeSpan ClientTimeout { get; set; } = TimeSpan.FromSeconds(10);
+
+    /// <summary>
     /// Set this to a local URL (eg. of an already running web app); if this value is set, then no container will be started.
     /// This is useful for local debugging scenarios.
     /// </summary>

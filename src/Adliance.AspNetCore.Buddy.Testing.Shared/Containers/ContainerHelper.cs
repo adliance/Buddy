@@ -14,7 +14,8 @@ public static class ContainerHelper
                 Url = options.UseLocalAppInstead,
                 Client = new HttpClient
                 {
-                    BaseAddress = options.UseLocalAppInstead
+                    BaseAddress = options.UseLocalAppInstead,
+                    Timeout = options.ClientTimeout
                 }
             };
         }
@@ -56,7 +57,8 @@ public static class ContainerHelper
         result.Url = new UriBuilder("http", result.Container.Hostname, result.Container.GetMappedPublicPort(options.Port)).Uri;
         result.Client = new HttpClient
         {
-            BaseAddress = result.Url
+            BaseAddress = result.Url,
+            Timeout = options.ClientTimeout
         };
         return result;
     }
