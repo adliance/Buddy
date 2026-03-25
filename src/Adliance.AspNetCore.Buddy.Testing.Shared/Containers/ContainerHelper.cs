@@ -21,16 +21,19 @@ public static class ContainerHelper
 
         var result = new ContainerResult
         {
-            Image = new DockerImage(options.Repository, "localhost", "latest")
+            Image = options.Image ?? new DockerImage(options.Repository, "localhost", "latest")
         };
 
-        await new ImageFromDockerfileBuilder()
-            .WithName(result.Image)
-            .WithDockerfileDirectory(options.DockerFileDirectory)
-            .WithDockerfile(options.DockerFileName)
-            .Build()
-            .CreateAsync()
-            .ConfigureAwait(false);
+        if (options.Image == null)
+        {
+            await new ImageFromDockerfileBuilder()
+                .WithName(result.Image)
+                .WithDockerfileDirectory(options.DockerFileDirectory)
+                .WithDockerfile(options.DockerFileName)
+                .Build()
+                .CreateAsync()
+                .ConfigureAwait(false);
+        }
 
         var webContainerBuilder = new ContainerBuilder(result.Image)
             .WithNetwork(options.Network)
@@ -45,6 +48,8 @@ public static class ContainerHelper
         {
             webContainerBuilder = webContainerBuilder.WithEnvironment(key, value);
         }
+
+        if (options.ConfigureContainer != null) webContainerBuilder = options.ConfigureContainer.Invoke(webContainerBuilder);
 
         result.Container = webContainerBuilder.Build();
         await result.Container.StartAsync().ConfigureAwait(false);
