@@ -41,7 +41,12 @@ public class SmtpEmailer(ISmtpConfiguration smtpConfig, IEmailConfiguration emai
             foreach (var attachment in attachments)
             {
                 fileExtensionContentTypeProvider.TryGetContentType(attachment.Filename, out var strContentType);
-                ContentType.TryParse(strContentType ?? "application/octet-stream", out var contentType);
+
+                if (!ContentType.TryParse(strContentType ?? "application/octet-stream", out var contentType))
+                {
+                    contentType = new ContentType("application", "octet-stream");
+                }
+
                 builder.Attachments.Add(attachment.Filename, attachment.Bytes, contentType);
             }
         }
