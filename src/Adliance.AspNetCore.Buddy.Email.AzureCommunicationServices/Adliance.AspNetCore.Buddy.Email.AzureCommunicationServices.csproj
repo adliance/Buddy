@@ -5,7 +5,7 @@
     <Version>0.0.0</Version>
     <Authors>Hannes Sachsenhofer</Authors>
     <Company>Adliance GmbH</Company>
-    <Product/>
+    <Product />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -19,11 +19,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App"/>
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.2.0.10" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.2.0.11" />
     <PackageReference Include="Azure.Communication.Email" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.1" />
-    <PackageReference Include="System.Text.Json" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.5" />
+    <PackageReference Include="System.Text.Json" Version="10.0.5" />
     <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -31,6 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="readme.md" Pack="true" PackagePath="\"/>
+    <None Include="readme.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>

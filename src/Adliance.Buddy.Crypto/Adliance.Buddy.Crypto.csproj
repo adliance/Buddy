@@ -5,7 +5,7 @@
     <Version>0.0.0</Version>
     <Authors>Hannes Sachsenhofer</Authors>
     <Company>Adliance GmbH</Company>
-    <Product/>
+    <Product />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>(c) Adliance GmbH</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="8.0.22" />
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="8.0.25" />
     <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
