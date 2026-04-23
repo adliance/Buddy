@@ -60,7 +60,7 @@ public class SmtpEmailer(ISmtpConfiguration smtpConfig, IEmailConfiguration emai
             {
                 await emailClient.ConnectAsync(smtpConfig.Host, smtpConfig.Port);
 
-                if (!string.IsNullOrWhiteSpace(smtpConfig.UserName))
+                if (!string.IsNullOrWhiteSpace(smtpConfig.UserName) && !string.IsNullOrWhiteSpace(smtpConfig.Password))
                 {
                     await emailClient.AuthenticateAsync(smtpConfig.UserName, smtpConfig.Password);
                 }
