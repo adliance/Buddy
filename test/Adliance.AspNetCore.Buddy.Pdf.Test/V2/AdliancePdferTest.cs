@@ -80,6 +80,19 @@ public class AdliancePdferTest
         Assert.InRange(bytes.Length, 14_000, 40_000);
     }
 
+    [Fact(Skip = "Not working yet against live PDF service.")]
+    public async Task Can_Load_Pdf_Metadata()
+    {
+        var stream = GetType().Assembly.GetManifestResourceStream("Adliance.AspNetCore.Buddy.Pdf.Test.metadata_test.pdf");
+        using var ms = new MemoryStream();
+        await stream!.CopyToAsync(ms);
+        var metadata = await _pdfer.GetPdfMetadata(ms.ToArray());
+        Assert.Equal(8, metadata.TotalPages);
+        Assert.NotEmpty(metadata.Outline);
+        Assert.Equal("3.2.1 Überblick", metadata.Outline[2].Children[1].Children[0].Title);
+        Assert.Equal(4, metadata.Outline[2].Children[1].Children[0].Page);
+    }
+
     private static async Task StoreForInspection(byte[] bytes)
     {
         var directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");

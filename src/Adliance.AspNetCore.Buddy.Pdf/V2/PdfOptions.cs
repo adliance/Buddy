@@ -43,6 +43,11 @@ public class PdfOptions
     public bool? PrintBackground { get; set; }
 
     /// <summary>
+    /// Whether or not the PDF should include the chapter outline (metadata).
+    /// </summary>
+    public bool? Outline { get; set; }
+
+    /// <summary>
     /// The scaling (zoom) that the browser engine should use
     /// </summary>
     public double? Scale { get; set; }

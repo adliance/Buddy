@@ -6,5 +6,7 @@ public interface IPdfer
 {
     Task<byte[]> HtmlToPdf(string html, PdfOptions options);
 
+    Task<PdfMetadata> GetPdfMetadata(byte[] pdfBytes);
+
     Task<byte[]> TemplateToPdf(string template, object model, TemplateOptions options);
 }

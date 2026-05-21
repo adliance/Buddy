@@ -26,10 +26,29 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
             paper_width = paperSize[0],
             paper_height = paperSize[1],
             print_background = options.PrintBackground,
+            outline = options.Outline,
             scale = options.Scale
         };
 
         return await Send("/", configuration.ApiKeyPdf, parameters);
+    }
+
+    public async Task<PdfMetadata> GetPdfMetadata(byte[] pdfBytes)
+    {
+        var requestContent = new ByteArrayContent(pdfBytes);
+        var requestUrl = $"{configuration.ServerUrl.TrimEnd('/')}/pdf-metadata";
+        var response = await PostAndBackoff(configuration.ApiKeyPdf, requestUrl, requestContent);
+        var responseString = await response.Content.ReadAsStringAsync();
+        if (string.IsNullOrWhiteSpace(responseString)) return new PdfMetadata();
+
+        try
+        {
+            return JsonSerializer.Deserialize<PdfMetadata>(responseString) ?? throw new Exception("Unable to deserialize.");
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Could not deserialize JSON: {responseString}", ex);
+        }
     }
 
     public async Task<byte[]> TemplateToPdf(string template, object model, TemplateOptions options)
@@ -63,23 +82,25 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
 
     private async Task<byte[]> Send(string endpoint, string? apiKey, object parameters)
     {
-        if (string.IsNullOrWhiteSpace(configuration.ServerUrl)) throw new Exception("No Server URL configured.");
-
-        using var client = new HttpClient();
-        client.Timeout = TimeSpan.FromMinutes(1);
-        if (!string.IsNullOrWhiteSpace(apiKey)) client.DefaultRequestHeaders.Add("x-api-key", apiKey);
-
         var content = new StringContent(JsonSerializer.Serialize(parameters), Encoding.UTF8, "application/json");
         endpoint = $"{configuration.ServerUrl.TrimEnd('/')}/{endpoint.TrimStart('/')}";
+
+        var response = await PostAndBackoff(apiKey, endpoint, content);
+        return await response.Content.ReadAsByteArrayAsync();
+    }
+
+    private async Task<HttpResponseMessage> PostAndBackoff(string? apiKey, string url, HttpContent content)
+    {
+        using var client = GetClient(apiKey);
 
         var backoffMs = 2000;
         while (true)
         {
             try
             {
-                var response = await client.PostAsync(endpoint, content);
+                var response = await client.PostAsync(url, content);
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadAsByteArrayAsync();
+                return response;
             }
             catch
             {
@@ -94,6 +115,16 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
                 }
             }
         }
+    }
+
+    private HttpClient GetClient(string? apiKey)
+    {
+        if (string.IsNullOrWhiteSpace(configuration.ServerUrl)) throw new Exception("No Server URL configured.");
+
+        var client = new HttpClient();
+        client.Timeout = TimeSpan.FromMinutes(1);
+        if (!string.IsNullOrWhiteSpace(apiKey)) client.DefaultRequestHeaders.Add("x-api-key", apiKey);
+        return client;
     }
 
     /// <summary>

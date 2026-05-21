@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="*.html" />
+    <EmbeddedResource Include="*.pdf" />
   </ItemGroup>
 
   <ItemGroup>
