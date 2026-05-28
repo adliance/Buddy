@@ -37,7 +37,7 @@
     <None Include="fontawesome/**" Pack="true" PackagePath="build/lib/fontawesome/"/>
   </ItemGroup>
 
-  <Target Name="IncludeBuildLibFiles" BeforeTargets="_GetPackageFiles" DependsOnTargets="Build">
+  <Target Name="IncludeBuildLibFiles" BeforeTargets="_GetPackageFiles">
     <ItemGroup>
       <None Include="css/min.css" Pack="true" PackagePath="build/lib/"/>
       <None Include="js/min.js" Pack="true" PackagePath="build/lib/"/>
