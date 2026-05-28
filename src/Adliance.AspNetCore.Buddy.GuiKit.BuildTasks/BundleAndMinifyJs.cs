@@ -35,7 +35,10 @@ public class BundleAndMinifyJs : Microsoft.Build.Utilities.Task
         foreach (var file in inputFiles)
         {
             var content = File.ReadAllText(file.GetMetadata("FullPath"));
-            var minified = Uglify.Js(content, new CodeSettings());
+            var minified = Uglify.Js(content, new CodeSettings
+            {
+                TermSemicolons = true
+            });
             if (minified.HasErrors)
             {
                 foreach (var error in minified.Errors)
