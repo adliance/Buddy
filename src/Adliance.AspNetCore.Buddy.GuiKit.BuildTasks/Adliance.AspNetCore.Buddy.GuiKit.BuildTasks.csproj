@@ -27,7 +27,7 @@
     <None Include="build/**" Pack="true" PackagePath="build/" />
   </ItemGroup>
 
-  <Target Name="IncludeTaskDllsInPackage" BeforeTargets="_GetPackageFiles" DependsOnTargets="Build">
+  <Target Name="IncludeTaskDllsInPackage" BeforeTargets="_GetPackageFiles">
     <ItemGroup>
       <None Include="$(OutputPath)*.dll" Pack="true" PackagePath="build/" />
     </ItemGroup>
