@@ -15,7 +15,7 @@
   font-style: normal;
   font-weight: 100;
   font-display: block;
-  src: url("../webfonts/fa-graphite-thin-100.woff2");
+  src: url("/lib/adliance.guikit/fontawesome/webfonts/some/fa-graphite-thin-100.woff2");
 }
 .fagt {
   --fa-family: var(--fa-family-graphite);

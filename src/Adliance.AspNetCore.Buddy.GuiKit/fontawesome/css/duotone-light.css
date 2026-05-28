@@ -15,7 +15,7 @@
   font-style: normal;
   font-weight: 300;
   font-display: block;
-  src: url("../webfonts/fa-duotone-light-300.woff2");
+  src: url("/lib/adliance.guikit/fontawesome/webfonts/some/fa-duotone-light-300.woff2");
 }
 .fadl {
   --fa-family: var(--fa-family-duotone);

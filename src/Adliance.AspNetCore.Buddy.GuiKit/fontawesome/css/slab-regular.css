@@ -15,7 +15,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("../webfonts/fa-slab-regular-400.woff2");
+  src: url("/lib/adliance.guikit/fontawesome/webfonts/some/fa-slab-regular-400.woff2");
 }
 .faslr {
   --fa-family: var(--fa-family-slab);
