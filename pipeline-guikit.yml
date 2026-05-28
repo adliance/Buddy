@@ -1,0 +1,24 @@
+variables:
+  - group: shared_buddy_variable_group
+
+name:  0.0.0.$(Rev:r)
+
+resources:
+  - repo: self
+
+pr: none
+
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - /src/Adliance.AspNetCore.Buddy.GuiKit
+      - /src/Adliance.AspNetCore.Buddy.GuiKit.BuildTasks
+
+stages:
+  - template: pipeline-template-build-and-push.yml
+    parameters:
+      project: "src/Adliance.AspNetCore.Buddy.GuiKit.BuildTasks/*.csproj"
+      nugetApiKey: "$(nuget_api_key)"
