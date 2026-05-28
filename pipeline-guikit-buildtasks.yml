@@ -14,10 +14,10 @@ trigger:
       - master
   paths:
     include:
-      - /src/Adliance.AspNetCore.Buddy.GuiKit
+      - /src/Adliance.AspNetCore.Buddy.GuiKit.BuildTasks
 
 stages:
   - template: pipeline-template-build-and-push.yml
     parameters:
-      project: "src/Adliance.AspNetCore.Buddy.GuiKit/*.csproj"
+      project: "src/Adliance.AspNetCore.Buddy.GuiKit.BuildTasks/*.csproj"
       nugetApiKey: "$(nuget_api_key)"
