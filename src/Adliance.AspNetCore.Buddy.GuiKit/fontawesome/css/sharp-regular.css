@@ -15,7 +15,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("/lib/adliance.guikit/fontawesome/webfonts/some/fa-sharp-regular-400.woff2");
+  src: url("/lib/adliance.guikit/fontawesome/webfonts/fa-sharp-regular-400.woff2");
 }
 .fasr {
   --fa-family: var(--fa-family-sharp);

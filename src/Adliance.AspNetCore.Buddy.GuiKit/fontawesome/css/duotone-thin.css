@@ -15,7 +15,7 @@
   font-style: normal;
   font-weight: 100;
   font-display: block;
-  src: url("/lib/adliance.guikit/fontawesome/webfonts/some/fa-duotone-thin-100.woff2");
+  src: url("/lib/adliance.guikit/fontawesome/webfonts/fa-duotone-thin-100.woff2");
 }
 .fadt {
   --fa-family: var(--fa-family-duotone);

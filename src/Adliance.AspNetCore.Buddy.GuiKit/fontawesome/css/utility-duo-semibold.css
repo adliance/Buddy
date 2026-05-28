@@ -15,7 +15,7 @@
   font-style: normal;
   font-weight: 600;
   font-display: block;
-  src: url("/lib/adliance.guikit/fontawesome/webfonts/some/fa-utility-duo-semibold-600.woff2");
+  src: url("/lib/adliance.guikit/fontawesome/webfonts/fa-utility-duo-semibold-600.woff2");
 }
 .faudsb {
   --fa-family: var(--fa-family-utility-duo);
