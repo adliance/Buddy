@@ -16,3 +16,5 @@ src/Adliance.AspNetCore.Buddy.Highcharts/.editorconfig
 
 src/**/.editorconfig
 test/**/.editorconfig
+src/Adliance.AspNetCore.Buddy.GuiKit/css/min.css
+src/Adliance.AspNetCore.Buddy.GuiKit/js/min.js

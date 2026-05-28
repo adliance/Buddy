@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <Version>0.0.0</Version>
+    <Authors>Hannes Sachsenhofer</Authors>
+    <Company>Adliance GmbH</Company>
+    <Product/>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Copyright>(c) Adliance GmbH</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/adliance/Buddy</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
+    <Description>Library of utility methods and common functionality that are useful for most Adliance projects.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Adliance.AspNetCore.Buddy.GuiKit.BuildTasks" Version="0.0.0.3"/>
+    <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.10"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <CssBundle OutputFile="css/min.css" Include="css/modern-normalize.css"/>
+    <CssBundle OutputFile="css/min.css" Include="css/variables.css"/>
+    <CssBundle OutputFile="css/min.css" Include="css/site.css"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <JsBundle OutputFile="js/min.js" Include="js/htmx.min.js"/>
+    <JsBundle OutputFile="js/min.js" Include="js/site.js"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="build/**" Pack="true" PackagePath="build/"/>
+    <None Include="fontawesome/**" Pack="true" PackagePath="build/lib/fontawesome/"/>
+  </ItemGroup>
+
+  <Target Name="IncludeBuildLibFiles" BeforeTargets="_GetPackageFiles" DependsOnTargets="Build">
+    <ItemGroup>
+      <None Include="css/min.css" Pack="true" PackagePath="build/lib/"/>
+      <None Include="js/min.js" Pack="true" PackagePath="build/lib/"/>
+    </ItemGroup>
+  </Target>
+</Project>
