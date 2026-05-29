@@ -4,13 +4,13 @@
   <UsingTask TaskName="Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyJs"
              AssemblyFile="$(MSBuildThisFileDirectory)Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.dll"/>
 
-  <Target Name="BundleAndMinifyCss" BeforeTargets="Build" Condition="'@(CssBundle)' != ''">
-    <Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyCss
-      Files="@(CssBundle)"/>
-  </Target>
-
-  <Target Name="BundleAndMinifyJs" BeforeTargets="Build" Condition="'@(JsBundle)' != ''">
+  <Target Name="BundleAndMinifyJs" AfterTargets="Build" Condition="'@(JsBundle)' != ''">
     <Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyJs
       Files="@(JsBundle)"/>
+  </Target>
+
+  <Target Name="BundleAndMinifyCss" AfterTargets="BundleAndMinifyJs" Condition="'@(CssBundle)' != ''">
+    <Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyCss
+      Files="@(CssBundle)"/>
   </Target>
 </Project>
