@@ -1,5 +1,5 @@
 <Project>
-  <Target Name="CopyGuiKitStaticFiles" AfterTargets="BundleAndMinifyCss">
+  <Target Name="CopyGuiKitStaticFiles" BeforeTargets="Build">
     <MakeDir Directories="$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit"/>
     <Copy SourceFiles="$(MSBuildThisFileDirectory)lib/min.css"
           DestinationFolder="$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit/"
