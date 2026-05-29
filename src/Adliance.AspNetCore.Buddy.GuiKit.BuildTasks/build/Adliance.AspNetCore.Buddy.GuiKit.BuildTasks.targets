@@ -1,16 +1,20 @@
 <Project>
-  <UsingTask TaskName="Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyCss"
-             AssemblyFile="$(MSBuildThisFileDirectory)Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.dll"/>
-  <UsingTask TaskName="Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyJs"
-             AssemblyFile="$(MSBuildThisFileDirectory)Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.dll"/>
+  <UsingTask TaskName="Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyCss" AssemblyFile="$(MSBuildThisFileDirectory)Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.dll"/>
+  <UsingTask TaskName="Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyJs" AssemblyFile="$(MSBuildThisFileDirectory)Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.dll"/>
 
   <Target Name="BundleAndMinifyJs" AfterTargets="Build" Condition="'@(JsBundle)' != ''">
-    <Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyJs
-      Files="@(JsBundle)"/>
+    <Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyJs Files="@(JsBundle)"/>
   </Target>
 
-  <Target Name="BundleAndMinifyCss" AfterTargets="BundleAndMinifyJs" Condition="'@(CssBundle)' != ''">
-    <Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyCss
-      Files="@(CssBundle)"/>
+  <Target Name="BundleAndMinifyCss" AfterTargets="Build" Condition="'@(CssBundle)' != ''">
+    <Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyCss Files="@(CssBundle)"/>
+  </Target>
+
+  <Target Name="BundleAndMinifyJsFirstPass" BeforeTargets="Build" Condition="'@(JsBundle)' != ''">
+    <Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyJs Files="@(JsBundle)"/>
+  </Target>
+
+  <Target Name="BundleAndMinifyCssFirstPass" BeforeTargets="Build" Condition="'@(CssBundle)' != ''">
+    <Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyCss Files="@(CssBundle)"/>
   </Target>
 </Project>
