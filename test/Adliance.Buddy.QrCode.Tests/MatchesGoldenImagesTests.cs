@@ -29,14 +29,14 @@ public class MatchesGoldenImagesTests
     {
         var expected = Image.Load<Rgba32>("GoldenImages/complex-adliance.png");
 
-        var finderBrush = Brushes.Solid(new Color(new Rgb24(134, 184, 31)));
+        var finderBrush = Brushes.Solid(Color.FromPixel(new Rgb24(134, 184, 31)));
 
         var topCenter = new PointF(100, 0);
         var bottomCenter = new PointF(100, 200);
         var repetitionMode = GradientRepetitionMode.None;
-        var topColor = new ColorStop(0.1f, new Color(new Rgb24(134, 184, 31)));
-        var centerColor = new ColorStop(0.5f, new Color(new Rgb24(11, 176, 219)));
-        var bottomColor = new ColorStop(0.9f, new Color(new Rgb24(18, 66, 146)));
+        var topColor = new ColorStop(0.1f, Color.FromPixel(new Rgb24(134, 184, 31)));
+        var centerColor = new ColorStop(0.5f, Color.FromPixel(new Rgb24(11, 176, 219)));
+        var bottomColor = new ColorStop(0.9f, Color.FromPixel(new Rgb24(18, 66, 146)));
 
         var contentBrush = new LinearGradientBrush(topCenter, bottomCenter,
             repetitionMode, topColor, centerColor, bottomColor);
@@ -65,27 +65,31 @@ public class MatchesGoldenImagesTests
     {
         var expected = Image.Load<Rgba32>("GoldenImages/complex-madx.png");
 
-        var madxFinderBrush = Brushes.Solid(new Color(new Rgba32(70, 69, 38)));
-        var madxContentTopColor = new Color(new Rgba32(139, 137, 62));
-        var madxContentBottomColor = new Color(new Rgba32(69, 68, 37));
+        var madxFinderBrush = Brushes.Solid(Color.FromPixel(new Rgba32(70, 69, 38)));
+        var madxContentTopColor = Color.FromPixel(new Rgba32(139, 137, 62));
+        var madxContentBottomColor = Color.FromPixel(new Rgba32(69, 68, 37));
         var madxContentBrush = new LinearGradientBrush(new PointF(250, 0), new PointF(250, 500),
             GradientRepetitionMode.None, new ColorStop(0.1f, madxContentTopColor),
             new ColorStop(0.9f, madxContentBottomColor));
-        var madxOverlayBrush = new RecolorBrush(Color.Black, new Color(new Rgba32(188, 187, 74)), 1);
+        var madxOverlayBrush = new RecolorBrush(Color.Black, Color.FromPixel(new Rgba32(188, 187, 74)), 1);
 
         var madxLogo = Image.Load("madx.png");
-        madxLogo.Mutate(x =>
+        madxLogo.Mutate(img =>
         {
             var binarizer = new BinaryThresholdProcessor(0.1f, Color.Black, Color.Transparent);
-            x.ApplyProcessor(binarizer);
-            x.Fill(new DrawingOptions
+            img.ApplyProcessor(binarizer);
+            img.Paint(canvas =>
             {
-                GraphicsOptions = new GraphicsOptions
+                canvas.Save(new DrawingOptions
                 {
-                    ColorBlendingMode = PixelColorBlendingMode.Screen,
-                    AlphaCompositionMode = PixelAlphaCompositionMode.SrcAtop
-                }
-            }, madxOverlayBrush);
+                    GraphicsOptions = new GraphicsOptions
+                    {
+                        ColorBlendingMode = PixelColorBlendingMode.Screen,
+                        AlphaCompositionMode = PixelAlphaCompositionMode.SrcAtop
+                    }
+                });
+                canvas.Fill(madxOverlayBrush);
+            });
         });
 
         var actual = new QrCodeBuilder<Rgba32>("https://www.macroarraydx.com/products/systems")

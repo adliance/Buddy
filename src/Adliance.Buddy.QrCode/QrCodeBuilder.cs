@@ -244,7 +244,7 @@ public class QrCodeBuilder<TPixel>(string content)
 
         var image = new Image<TPixel>(_width, _height);
 
-        image.Mutate(x => x.Fill(_backgroundBrush));
+        image.Mutate(x => x.Paint(canvas => { canvas.Fill(_backgroundBrush); }));
 
         RenderContent(renderConfig, image);
         RenderFinderPattern(renderConfig, image);
@@ -256,12 +256,12 @@ public class QrCodeBuilder<TPixel>(string content)
     private void RenderContent(RenderConfiguration configuration, Image<TPixel> image)
     {
         float outputY = configuration.TopPadding;
-        for (int inputY = 0;
+        for (var inputY = 0;
              inputY < configuration.Matrix.Height;
              inputY++, outputY += configuration.PixelRatio)
         {
             float outputX = configuration.LeftPadding;
-            for (int inputX = 0;
+            for (var inputX = 0;
                  inputX < configuration.Matrix.Width;
                  inputX++, outputX += configuration.PixelRatio)
             {
@@ -270,22 +270,21 @@ public class QrCodeBuilder<TPixel>(string content)
 
                 if (_roundedContentDots)
                 {
-                    var circle = new EllipsePolygon(outputX + configuration.DotSize, outputY + configuration.DotSize,
-                        configuration.DotSize);
-                    image.Mutate(x => x.Fill(_contentBrush, circle));
+                    var circle = new EllipsePolygon(outputX + configuration.DotSize, outputY + configuration.DotSize, configuration.DotSize);
+                    image.Mutate(x => x.Paint(canvas => { canvas.Fill(_contentBrush, circle); }));
                 }
                 else if (_squircleContentDots)
                 {
                     var squircle = new Squircle(outputX, outputY,
                         configuration.PixelSize * _squircleContentDotsSizeFactor,
                         configuration.PixelSize * _squircleContentDotsSizeFactor);
-                    image.Mutate(x => x.Fill(_contentBrush, squircle));
+                    image.Mutate(x => x.Paint(canvas => { canvas.Fill(_contentBrush, squircle); }));
                 }
                 else
                 {
-                    var rect = new RectangularPolygon(outputX, outputY, configuration.PixelSize,
+                    var rect = new RectanglePolygon(outputX, outputY, configuration.PixelSize,
                         configuration.PixelSize);
-                    image.Mutate(x => x.Fill(_contentBrush, rect));
+                    image.Mutate(x => x.Paint(canvas => { canvas.Fill(_contentBrush, rect); }));
                 }
             }
         }
@@ -329,15 +328,15 @@ public class QrCodeBuilder<TPixel>(string content)
         var whiteCircleDiameter = 5 * circleDiameter / 7;
         var middleDotDiameter = 3 * circleDiameter / 7;
 
-        image.Mutate(img =>
+        image.Mutate(img => img.Paint(canvas =>
         {
             var circle = new EllipsePolygon(x + circleDiameter, y + circleDiameter, circleDiameter);
-            img.Fill(_finderPatternBrush, circle);
+            canvas.Fill(_finderPatternBrush, circle);
             circle = new EllipsePolygon(x + circleDiameter, y + circleDiameter, whiteCircleDiameter);
-            img.Fill(Color.White, circle);
+            canvas.Fill(Brushes.Solid(Color.White), circle);
             circle = new EllipsePolygon(x + circleDiameter, y + circleDiameter, middleDotDiameter);
-            img.Fill(_finderPatternBrush, circle);
-        });
+            canvas.Fill(_finderPatternBrush, circle);
+        }));
     }
 
     private void DrawFinderPatternSquircleStyle(Image<TPixel> image, int x, int y, float size, float offset)
@@ -345,15 +344,15 @@ public class QrCodeBuilder<TPixel>(string content)
         var whiteRectangleSize = 5 * size / 7;
         var centerRectangleSize = 3 * size / 7;
 
-        image.Mutate(img =>
+        image.Mutate(img => img.Paint(canvas =>
         {
             var squircle = new Squircle(x, y, size, size);
-            img.Fill(_finderPatternBrush, squircle);
+            canvas.Fill(_finderPatternBrush, squircle);
             squircle = new Squircle(x + offset, y + offset, whiteRectangleSize, whiteRectangleSize);
-            img.Fill(Color.White, squircle);
+            canvas.Fill(Brushes.Solid(Color.White), squircle);
             squircle = new Squircle(x + 2 * offset, y + 2 * offset, centerRectangleSize, centerRectangleSize);
-            img.Fill(_finderPatternBrush, squircle);
-        });
+            canvas.Fill(_finderPatternBrush, squircle);
+        }));
     }
 
     private void DrawFinderPatternRectangleStyle(Image<TPixel> image, int x, int y, float size, float offset)
@@ -361,15 +360,15 @@ public class QrCodeBuilder<TPixel>(string content)
         var whiteRectangleSize = 5 * size / 7;
         var centerRectangleSize = 3 * size / 7;
 
-        image.Mutate(img =>
+        image.Mutate(img => img.Paint(canvas =>
         {
-            var circle = new RectangularPolygon(x, y, size, size);
-            img.Fill(_finderPatternBrush, circle);
-            circle = new RectangularPolygon(x + offset, y + offset, whiteRectangleSize, whiteRectangleSize);
-            img.Fill(Color.White, circle);
-            circle = new RectangularPolygon(x + 2 * offset, y + 2 * offset, centerRectangleSize, centerRectangleSize);
-            img.Fill(_finderPatternBrush, circle);
-        });
+            var circle = new RectanglePolygon(x, y, size, size);
+            canvas.Fill(_finderPatternBrush, circle);
+            circle = new RectanglePolygon(x + offset, y + offset, whiteRectangleSize, whiteRectangleSize);
+            canvas.Fill(Brushes.Solid(Color.White), circle);
+            circle = new RectanglePolygon(x + 2 * offset, y + 2 * offset, centerRectangleSize, centerRectangleSize);
+            canvas.Fill(_finderPatternBrush, circle);
+        }));
     }
 
     private void RenderOverlayImage(RenderConfiguration configuration, Image<TPixel> image)
@@ -380,13 +379,12 @@ public class QrCodeBuilder<TPixel>(string content)
         var overlayImageSize = configuration.GetOverlayImageSize();
         _overlayImage.Mutate(x => x.Resize(overlayImageSize));
         var cutoutLocation = new Point((_width - cutoutSize.Width) / 2, (_height - cutoutSize.Height) / 2);
-        var overlayImageLocation =
-            new Point((_width - overlayImageSize.Width) / 2, (_height - overlayImageSize.Height) / 2);
+        var overlayImageLocation = new Point((_width - overlayImageSize.Width) / 2, (_height - overlayImageSize.Height) / 2);
         var cutout = new Rectangle(cutoutLocation, cutoutSize);
-        image.Mutate(x =>
+        image.Mutate(img =>
         {
-            x.Clear(_backgroundBrush, cutout);
-            x.DrawImage(_overlayImage, overlayImageLocation, 1f);
+            img.Paint(canvas => { canvas.Clear(_backgroundBrush, cutout); });
+            img.DrawImage(_overlayImage, overlayImageLocation, 1f);
         });
     }
 }
