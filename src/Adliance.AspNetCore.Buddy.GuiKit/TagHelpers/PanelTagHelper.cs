@@ -46,7 +46,7 @@ public class PanelTagHelper : TagHelper
         var iconHtml = "";
         if (!string.IsNullOrWhiteSpace(Icon))
         {
-            iconHtml =  $"<i class=\"fa {Icon}\"></i>";
+            iconHtml = $"<i class=\"fa {Icon}\"></i>";
         }
 
         var titleHtml = "";
