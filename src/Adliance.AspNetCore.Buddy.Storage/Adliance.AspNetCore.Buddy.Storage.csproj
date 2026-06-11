@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.2.0.14" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.2.0.15" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.29.0" />
     <PackageReference Include="Azure.Identity" Version="1.21.0" />
     <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.5.3" />
