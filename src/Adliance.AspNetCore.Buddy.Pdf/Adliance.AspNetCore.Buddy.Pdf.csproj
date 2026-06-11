@@ -23,8 +23,8 @@
   <ItemGroup>
     <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.2.0.14" />
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.8" />
-    <PackageReference Include="System.Text.Json" Version="10.0.8" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
+    <PackageReference Include="System.Text.Json" Version="10.0.9" />
     <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

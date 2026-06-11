@@ -17,19 +17,32 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Adliance.AspNetCore.Buddy.GuiKit.BuildTasks" Version="0.0.0.4" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.GuiKit.BuildTasks" Version="0.0.0.7" />
     <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.10"/>
   </ItemGroup>
 
   <ItemGroup>
     <CssBundle OutputFile="css/min.css" Include="css/modern-normalize.css"/>
-    <CssBundle OutputFile="css/min.css" Include="css/variables.css"/>
-    <CssBundle OutputFile="css/min.css" Include="css/site.css"/>
+    <CssBundle OutputFile="css/min.css" Include="css/body.css"/>
+    <CssBundle OutputFile="css/min.css" Include="css/fontAwesome.css"/>
+    <CssBundle OutputFile="css/min.css" Include="css/nav.css"/>
+    <CssBundle OutputFile="css/min.css" Include="css/main.css"/>
+    <CssBundle OutputFile="css/min.css" Include="css/buttons.css"/>
+    <CssBundle OutputFile="css/min.css" Include="css/headings.css"/>
+    <CssBundle OutputFile="css/min.css" Include="css/table.css"/>
+    <CssBundle OutputFile="css/min.css" Include="css/media.css"/>
+
+    <CssBundle OutputFile="css/min.css" Include="css/components/loading.css"/>
+    <CssBundle OutputFile="css/min.css" Include="css/components/notification.css"/>
+    <CssBundle OutputFile="css/min.css" Include="css/components/panel.css"/>
+    <CssBundle OutputFile="css/min.css" Include="css/components/title.css"/>
   </ItemGroup>
 
   <ItemGroup>
     <JsBundle OutputFile="js/min.js" Include="js/htmx.min.js"/>
-    <JsBundle OutputFile="js/min.js" Include="js/site.js"/>
+    <JsBundle OutputFile="js/min.js" Include="js/collapsible.js"/>
+    <JsBundle OutputFile="js/min.js" Include="js/hamburger.js"/>
   </ItemGroup>
 
   <ItemGroup>
