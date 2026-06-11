@@ -1,0 +1,87 @@
+/*
+Fucking hell, CSS variables don't work in media queries :(
+This makes it super shitty to easily define media queries, because we need to hardcode the value.
+This is why I decided to put all media query (responsive) stuff in a single file here, instead of putting it into the different components where it would fit better.
+*/
+
+@media (max-width: 700px) {
+    body {
+        --distance: 10px; /* decrease overall distance everywhere */
+        --nav-width: 100vw;
+        --nav-header-height: 41px;
+
+        > nav {
+            height: var(--nav-header-height);
+
+            > header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: var(--nav-header-height);
+                font-size: calc(var(--fontSize) * 1.25);
+
+                .hamburger {
+                    display: block;
+                    font-size: calc(var(--fontSize) * 1.25);
+                }
+            }
+
+            > main {
+                display: none;
+                margin-top: calc(var(--nav-header-height) + var(--distance));
+            }
+
+            > footer {
+                display: none;
+            }
+
+            &.open {
+                height: 100vh;
+
+                > main, > footer {
+                    display: block;
+                    animation: nav-fade-in 500ms ease;
+                }
+
+                .hamburger i::before {
+                    content: "\f00d"; /* fa-xmark */
+                }
+            }
+        }
+
+        > main {
+            padding-left: var(--distance);
+            padding-top: calc(var(--nav-header-height) + var(--distance));
+
+            section > * {
+                min-width: 100%; /* grids should have one column max */
+            }
+        }
+    }
+
+    table {
+        --padding: 10px;
+    }
+}
+
+@media (max-width: 1200px) and (min-width: 700px) {
+    body > main section > * {
+        min-width: calc(50% - var(--distance) / 2);
+    }
+
+    body > main section > *:only-child {
+        min-width: 100%;
+    }
+}
+
+@keyframes nav-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

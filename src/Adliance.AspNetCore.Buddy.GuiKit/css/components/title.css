@@ -1,0 +1,24 @@
+main {
+    > h1 { /* Page Title */
+        --fontSize: 32px;
+        --padding: 16px 8px;
+
+        font-size: var(--fontSize);
+        margin-bottom: var(--distance);
+        text-transform: uppercase;
+        padding: var(--padding);
+    }
+
+    > hgroup { /* Page Title that has an additional text */
+
+        h1 {
+            margin-bottom: 0;
+        }
+
+        p {
+            margin: 0;
+            color: var(--color-muted);
+        }
+    }
+}
+

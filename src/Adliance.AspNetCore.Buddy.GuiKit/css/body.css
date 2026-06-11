@@ -1,0 +1,89 @@
+body {
+    --distance: 20px;
+    --padding: 10px;
+    --background: black;
+    --background-alternate: white;
+
+    --nav-width: 300px; /* needs to be set here (instead of in nav) becase we need it in main as well */
+    --nav-header-height: 60px;
+
+    --color: white;
+    --color-alternate: black;
+    --color-error: red;
+    --color-warning: yellow;
+    --color-success: green;
+    --color-info: blue;
+    --color-muted: gray;
+    --color-primary: orange;
+
+    --fontSize: 14px;
+    --fontSize-small: 12px;
+    --fontSize-code: 12px;
+    --fontSize-fa: 12px;
+    --fontFamily: sans-serif;
+    --fontFamily-code: monospace;
+    --fontFamily-fa: "Font Awesome 7 Duotone";
+    --fontWeight-fa: 900;
+    --lineHeight: 100%;
+
+    --link-color: var(--color);
+    --link-hover-color: var(--color-primary);
+    --link-hover-duration: 350ms;
+    --link-hover-background: transparent;
+    --radius: 15px;
+    --scrollbar-color: var(--color-primary);
+
+    background: var(--background-alternate);
+    min-height: 100vh; /* to ensure background image stretches over the entire screen height even on smaller content */
+    color: var(--color);
+    font-family: var(--fontFamily), sans-serif;
+    font-size: var(--fontSize);
+    line-height: var(--lineHeight);
+
+    code, pre {
+        font-size: var(--fontSize-code);
+        font-family: var(--fontFamily-code), monospace;
+        overflow-x: auto;
+        white-space: pre;
+    }
+
+    a {
+        color: var(--link-color);
+        text-decoration: none;
+        display: inline-block; /* makes it look nicer because no empty underline at the end */
+        transition: color var(--link-hover-duration);
+
+        &:hover {
+            background-color: var(--link-hover-background);
+            color: var(--link-hover-color);
+        }
+    }
+
+    aside {
+        font-size: var(--fontSize-small);
+        color: var(--color-muted);
+    }
+
+    /* Modern (Firefox, Chrome 121+) */
+    scrollbar-color: var(--scrollbar-color) transparent;
+    scrollbar-width: thin;
+
+    /* Webkit (Chrome, Safari, Edge) */
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--scrollbar-color);
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: var(--scrollbar-color);
+    }
+}
+

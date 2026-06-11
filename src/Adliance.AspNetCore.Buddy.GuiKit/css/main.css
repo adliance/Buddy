@@ -1,0 +1,34 @@
+body > main {
+    --maxWidth: 1525px;
+
+    width: var(--maxWidth);
+    max-width: 100%;
+    padding: var(--distance);
+    padding-left: calc(var(--distance) + var(--nav-width));
+
+    > * + * { /* all direct children of the main tag should automatically have a proper spacing between them */
+        margin: var(--distance) 0 0 0;
+    }
+
+    section {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        gap: var(--distance);
+        align-items: flex-start;
+
+        > * {
+            flex: 1;
+            max-width: calc(25% - var(--distance) / 2);
+        }
+
+        > *:only-child {
+            max-width: 100%;
+        }
+
+        > *:first-child:nth-last-child(2),
+        > *:first-child:nth-last-child(2) ~ * {
+            max-width: calc(50% - var(--distance) / 2);
+        }
+    }
+}

@@ -1,0 +1,21 @@
+button, a.button {
+    --background: var(--color-primary);
+    --border: 1px solid var(--color-primary);
+    --radius: 3px;
+    --link-color: black;
+    --link-hover-color: black;
+    --padding: 6px 12px;
+
+    background: var(--background);
+    border: var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: color var(--link-hover-duration);
+    padding: var(--padding);
+    text-decoration: none;
+    color: var(--link-color);
+
+    &:hover {
+        color: var(--link-hover-color);
+    }
+}
