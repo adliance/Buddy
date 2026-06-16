@@ -2,7 +2,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Text.RegularExpressions;
 using Microsoft.Build.Framework;
 
 [assembly: InternalsVisibleTo("Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.Test")]
@@ -57,11 +56,15 @@ public class BundleAndMinifyCss : Microsoft.Build.Utilities.Task
         return Path.GetFullPath(path, BaseDirectory);
     }
 
-    // Alternation is ordered: comments and quoted strings are consumed before whitespace,
-    // so their content is never touched by the \s+ branch.
-    private static readonly Regex MinifyPattern = new(
-        @"/\*.*?\*/|([""'])(?:\\.|(?!\1).)*\1|\s+",
-        RegexOptions.Compiled | RegexOptions.Singleline);
-
-    internal static string MinifyCss(string css) => MinifyPattern.Replace(css, m => m.Value[0] is '"' or '\'' ? m.Value : "");
+    internal static string MinifyCss(string css) => css
+        .Replace("\t", "")
+        .Replace("\n", "")
+        .Replace("\r", "")
+        .Replace("   ", " ")
+        .Replace("  ", " ")
+        .Replace(": ", ":")
+        .Replace(" {", "{")
+        .Replace("{ ", "{")
+        .Replace(" }", "}")
+        .Replace("} ", "}");
 }
