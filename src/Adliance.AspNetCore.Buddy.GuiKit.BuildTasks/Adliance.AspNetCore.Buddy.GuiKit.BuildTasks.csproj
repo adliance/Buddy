@@ -15,6 +15,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://www.adliance.net</PackageProjectUrl>
     <Description>Library of utility methods and common functionality that are useful for most Adliance projects.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
     <None Include="build/**" Pack="true" PackagePath="build/" />
   </ItemGroup>
 
