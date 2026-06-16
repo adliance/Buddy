@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Adliance.AspNetCore.Buddy.GuiKit.BuildTasks" Version="10.0.0.2" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.GuiKit.BuildTasks" Version="10.0.0.3" />
     <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.10"/>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="3.1.2" />
   </ItemGroup>
@@ -52,6 +52,7 @@
     <None Include="build/**" Pack="true" PackagePath="build/"/>
     <None Include="fontawesome/**" Pack="true" PackagePath="build/lib/fontawesome/"/>
     <None Include="fonts/**" Pack="true" PackagePath="build/lib/fonts/"/>
+    <None Include="css/themes/**" Pack="true" PackagePath="build/lib/themes/"/>
   </ItemGroup>
 
   <Target Name="IncludeBuildLibFiles" BeforeTargets="_GetPackageFiles">

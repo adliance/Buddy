@@ -12,7 +12,7 @@ public class AppInsightsJavaScript(IServiceProvider services)
         get
         {
             var snippet = services.GetService<JavaScriptSnippet>();
-            if (snippet == null) return new HtmlString("");
+            if (snippet == null) return new HtmlString("<!-- AppInsights not configured -->");
             return new HtmlString(snippet.FullScript);
         }
     }

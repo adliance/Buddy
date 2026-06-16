@@ -3,6 +3,7 @@
     <ItemGroup>
       <_FontAwesomeFiles Include="$(MSBuildThisFileDirectory)lib/fontawesome/**/*"/>
       <_FontFiles Include="$(MSBuildThisFileDirectory)lib/fonts/**/*"/>
+      <_ThemeFiles Include="$(MSBuildThisFileDirectory)lib/themes/**/*"/>
     </ItemGroup>
 
     <MakeDir Directories="$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit"/>
@@ -21,6 +22,11 @@
     <MakeDir Directories="@(_FontFiles->'$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit/fonts/%(RecursiveDir)')"/>
     <Copy SourceFiles="@(_FontFiles)"
           DestinationFiles="@(_FontFiles->'$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit/fonts/%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true"/>
+
+    <MakeDir Directories="@(_ThemeFiles->'$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit/themes/%(RecursiveDir)')"/>
+    <Copy SourceFiles="@(_ThemeFiles)"
+          DestinationFiles="@(_ThemeFiles->'$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit/themes/%(RecursiveDir)%(Filename)%(Extension)')"
           SkipUnchangedFiles="true"/>
   </Target>
 </Project>
