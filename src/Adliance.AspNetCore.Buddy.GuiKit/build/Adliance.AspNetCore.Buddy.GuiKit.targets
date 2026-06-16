@@ -1,5 +1,10 @@
 <Project>
   <Target Name="CopyGuiKitStaticFiles" BeforeTargets="Build">
+    <ItemGroup>
+      <_FontAwesomeFiles Include="$(MSBuildThisFileDirectory)lib/fontawesome/**/*"/>
+      <_FontFiles Include="$(MSBuildThisFileDirectory)fonts/**/*"/>
+    </ItemGroup>
+
     <MakeDir Directories="$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit"/>
     <Copy SourceFiles="$(MSBuildThisFileDirectory)lib/min.css"
           DestinationFolder="$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit/"
@@ -7,12 +12,15 @@
     <Copy SourceFiles="$(MSBuildThisFileDirectory)lib/min.js"
           DestinationFolder="$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit/"
           SkipUnchangedFiles="true"/>
-    <ItemGroup>
-      <_FontAwesomeFiles Include="$(MSBuildThisFileDirectory)lib/fontawesome/**/*"/>
-    </ItemGroup>
+
     <MakeDir Directories="@(_FontAwesomeFiles->'$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit/fontawesome/%(RecursiveDir)')"/>
     <Copy SourceFiles="@(_FontAwesomeFiles)"
           DestinationFiles="@(_FontAwesomeFiles->'$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit/fontawesome/%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true"/>
+
+    <MakeDir Directories="@(_FontFiles->'$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit/fonts/%(RecursiveDir)')"/>
+    <Copy SourceFiles="@(_FontFiles)"
+          DestinationFiles="@(_FontFiles->'$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit/fonts/%(RecursiveDir)%(Filename)%(Extension)')"
           SkipUnchangedFiles="true"/>
   </Target>
 </Project>
