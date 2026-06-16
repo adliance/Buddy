@@ -2,7 +2,7 @@
   <Target Name="CopyGuiKitStaticFiles" BeforeTargets="Build">
     <ItemGroup>
       <_FontAwesomeFiles Include="$(MSBuildThisFileDirectory)lib/fontawesome/**/*"/>
-      <_FontFiles Include="$(MSBuildThisFileDirectory)fonts/**/*"/>
+      <_FontFiles Include="$(MSBuildThisFileDirectory)lib/fonts/**/*"/>
     </ItemGroup>
 
     <MakeDir Directories="$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit"/>

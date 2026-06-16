@@ -1,5 +1,4 @@
 # Adliance.AspNetCore.Buddy.GuiKit
-
 The GuiKit Buddy provides a set of UI components, tag helpers, and static assets (CSS, JS, fonts) for building consistent ASP.NET Core web applications.
 
 ## Features
@@ -36,7 +35,6 @@ Add the tag helpers to your `_ViewImports.cshtml`:
 | `<agk-title>`        | Renders a styled page title            |
 
 ## Application Insights JavaScript
-
 To inject the Application Insights JavaScript snippet into your layout, inject `AppInsightsJavaScript` and render the script tag:
 
 ```cshtml
