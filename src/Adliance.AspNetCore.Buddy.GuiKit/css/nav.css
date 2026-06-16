@@ -30,7 +30,7 @@ body > nav {
         padding: var(--padding);
 
         + ul {
-            border-top: 1px solid var(--color-muted);
+            border-top: 1px solid var(--separator-color);
         }
     }
 
@@ -87,9 +87,8 @@ body > nav {
         padding: var(--distance) 0;
 
         ul:first-child {
-            border-top: 1px solid var(--color-muted);
+            border-top: 1px solid var(--separator-color);
         }
-
 
         /* if the last element in the footer is a div, we assume it's the version indicator */
 

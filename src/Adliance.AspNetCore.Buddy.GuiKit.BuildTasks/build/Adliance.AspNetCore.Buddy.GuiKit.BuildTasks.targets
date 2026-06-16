@@ -2,6 +2,12 @@
   <UsingTask TaskName="Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyCss" AssemblyFile="$(MSBuildThisFileDirectory)Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.dll"/>
   <UsingTask TaskName="Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyJs" AssemblyFile="$(MSBuildThisFileDirectory)Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.dll"/>
 
+  <!-- Register input files with dotnet watch so changes trigger a rebuild. -->
+  <ItemGroup>
+    <Watch Include="@(CssBundle)" Condition="'@(CssBundle)' != ''"/>
+    <Watch Include="@(JsBundle)" Condition="'@(JsBundle)' != ''"/>
+  </ItemGroup>
+
   <Target Name="BundleAndMinifyJs" AfterTargets="Build" Condition="'@(JsBundle)' != ''">
     <Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.BundleAndMinifyJs Files="@(JsBundle)"/>
   </Target>

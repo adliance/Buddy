@@ -32,6 +32,7 @@ body {
     --link-hover-background: transparent;
     --radius: 15px;
     --scrollbar-color: var(--color-primary);
+    --separator-color: var(--color-muted);
 
     background: var(--background-alternate);
     min-height: 100vh; /* to ensure background image stretches over the entire screen height even on smaller content */

@@ -1,0 +1,58 @@
+@font-face {
+    font-family: Ubuntu;
+    src: local("Ubuntu"), local("Ubuntu Regular"), local("Ubuntu-Regular"), url("../lib/adliance.guikit/fonts/Ubuntu-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Ubuntu;
+    src: local("Ubuntu Medium"), local("Ubuntu-Medium"), url("../lib/adliance.guikit/fonts/Ubuntu-Medium.ttf") format("truetype");
+    font-weight: bold;
+    font-display: swap;
+}
+
+body {
+    --color-madx-night: rgba(17, 28, 36, 1);
+    --color-madx-sun: rgba(248, 232, 0, 1);
+    --color-madx-shadow: rgba(49, 59, 62, 1);
+    --color-madx-stone: rgba(137, 141, 141, 1);
+    --color-madx-grass: rgba(205, 196, 0, 1);
+
+    --color-alternate: var(--color-madx-night);
+    --color-error: rgba(220, 53, 69, 1);
+    --color-warning: rgba(255, 193, 7, 1);
+    --color-success: rgba(40, 167, 69, 1);
+    --color-info: var(--color-madx-stone);
+    --color-muted: var(--color-madx-stone);
+    --color-primary: var(--color-madx-sun);
+
+    --fontFamily: Ubuntu, sans-serif;
+    --background: var(--color-madx-night);
+    --background-alternate: radial-gradient(100% 50% at 0% 0%, #516166 0%, #313B3E 100%);
+    --link-hover-color: var(--color-madx-stone);
+    --link-hover-background: transparent;
+    --separator-color: var(--color-madx-stone);
+
+    button, a.button {
+        --background: var(--color-madx-sun);
+        --border: 1px solid rgb(185, 178, 77);
+        --link-hover-color: var(--color-madx-stone);
+    }
+
+    nav {
+        --link-hover-background: var(--color-madx-shadow);
+    }
+
+    table {
+        --heading-background: var(--color-madx-shadow);
+        --background-alternate: rgba(255, 255, 255, 0.05);
+        --padding: 20px;
+        --radius: 15px;
+        --fontSize: 12px;
+    }
+
+    .notification {
+        --radius: 15px;
+    }
+}

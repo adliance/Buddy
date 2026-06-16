@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Adliance.AspNetCore.Buddy.GuiKit.BuildTasks" Version="0.0.0.8" />
+    <PackageReference Include="Adliance.AspNetCore.Buddy.GuiKit.BuildTasks" Version="10.0.0.1" />
     <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.10"/>
   </ItemGroup>
 
@@ -38,7 +38,7 @@
     <CssBundle OutputFile="css/min.css" Include="css/components/panel.css"/>
     <CssBundle OutputFile="css/min.css" Include="css/components/title.css"/>
   </ItemGroup>
-
+  
   <ItemGroup>
     <JsBundle OutputFile="js/min.js" Include="js/htmx.min.js"/>
     <JsBundle OutputFile="js/min.js" Include="js/collapsible.js"/>
@@ -48,6 +48,7 @@
   <ItemGroup>
     <None Include="build/**" Pack="true" PackagePath="build/"/>
     <None Include="fontawesome/**" Pack="true" PackagePath="build/lib/fontawesome/"/>
+    <None Include="fonts/**" Pack="true" PackagePath="build/lib/fonts/"/>
   </ItemGroup>
 
   <Target Name="IncludeBuildLibFiles" BeforeTargets="_GetPackageFiles">
