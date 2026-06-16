@@ -1,9 +1,11 @@
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.Build.Framework;
-using NUglify;
-using NUglify.Css;
+
+[assembly: InternalsVisibleTo("Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.Test")]
 
 namespace Adliance.AspNetCore.Buddy.GuiKit.BuildTasks;
 
@@ -37,21 +39,7 @@ public class BundleAndMinifyCss : Microsoft.Build.Utilities.Task
         foreach (var file in inputFiles)
         {
             var content = File.ReadAllText(file.GetMetadata("FullPath"));
-            var minified = Uglify.Css(content, new CssSettings
-            {
-                CommentMode = CssComment.None
-            });
-
-            if (minified.HasErrors)
-            {
-                foreach (var error in minified.Errors)
-                    Log.LogWarning($"CSS error in {Path.GetFileName(file.GetMetadata("FullPath"))} ({error.StartLine}:{error.StartColumn}) - using unminified content: {error.Message}");
-                sb.Append(content);
-            }
-            else
-            {
-                sb.Append(minified.Code);
-            }
+            sb.Append(MinifyCss(content));
         }
 
         var dir = Path.GetDirectoryName(outputFile);
@@ -68,4 +56,12 @@ public class BundleAndMinifyCss : Microsoft.Build.Utilities.Task
         if (Path.IsPathRooted(path) || string.IsNullOrEmpty(BaseDirectory)) return path;
         return Path.GetFullPath(path, BaseDirectory);
     }
+
+    // Alternation is ordered: comments and quoted strings are consumed before whitespace,
+    // so their content is never touched by the \s+ branch.
+    private static readonly Regex MinifyPattern = new(
+        @"/\*.*?\*/|([""'])(?:\\.|(?!\1).)*\1|\s+",
+        RegexOptions.Compiled | RegexOptions.Singleline);
+
+    internal static string MinifyCss(string css) => MinifyPattern.Replace(css, m => m.Value[0] is '"' or '\'' ? m.Value : "");
 }
