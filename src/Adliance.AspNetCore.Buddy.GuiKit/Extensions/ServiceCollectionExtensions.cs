@@ -19,12 +19,12 @@ public static class ServiceCollectionExtensions
                 ConnectionString = connectionString,
                 ApplicationVersion = version
             });
-
-            services.AddTransient<AppInsightsJavaScript>();
         }
         else
         {
             Console.WriteLine("No Application Insights connection string configured.");
         }
+
+        services.AddTransient<AppInsightsJavaScript>();
     }
 }
