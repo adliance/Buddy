@@ -21,7 +21,7 @@ public static class ServiceCollectionExtensions
                 ApplicationVersion = version
             });
 
-            services.AddSingleton<AppInsightsJavaScript>();
+            services.AddTransient<AppInsightsJavaScript>();
         }
         else
         {
