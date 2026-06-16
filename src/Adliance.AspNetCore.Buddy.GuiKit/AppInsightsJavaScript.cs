@@ -3,7 +3,7 @@ using Microsoft.ApplicationInsights.AspNetCore;
 using Microsoft.AspNetCore.Html;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Adliance.AspNetCore.Buddy.GuiKit.Services;
+namespace Adliance.AspNetCore.Buddy.GuiKit;
 
 public class AppInsightsJavaScript(IServiceProvider services)
 {

@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using Adliance.AspNetCore.Buddy.GuiKit.Services;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
