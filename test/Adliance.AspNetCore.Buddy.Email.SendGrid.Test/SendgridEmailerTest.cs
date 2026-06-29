@@ -2,62 +2,62 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Adliance.AspNetCore.Buddy.Email.Mailjet.Test;
+namespace Adliance.AspNetCore.Buddy.Email.SendGrid.Test;
 
-public class MailjetEmailerTest
+public class SendgridEmailerTest
 {
-    [Fact]
+    [Fact(Skip = "No API key configured.")]
     public async Task CanSendEmailWithoutAttachments()
     {
-        var mailer = new MailjetEmailer(new MockedMailjetConfiguration(), new MockedEmailConfiguration());
+        var mailer = new SendgridEmailer(new MockedSendgridConfiguration(), new MockedEmailConfiguration());
 
         await mailer.Send(
             "hannes@sachsenhofer.com",
-            "Unit Test for MailJet (no attachments)",
+            "Unit Test for SendGrid (no attachments)",
             "This is the <b>HTML</b> body.",
             "This is the **Text** body.");
     }
 
-    [Fact]
+    [Fact(Skip = "No API key configured.")]
     public async Task CanSendEmailWithAttachments()
     {
-        var mailer = new MailjetEmailer(new MockedMailjetConfiguration(), new MockedEmailConfiguration());
+        var mailer = new SendgridEmailer(new MockedSendgridConfiguration(), new MockedEmailConfiguration());
 
         await mailer.Send(
             "hannes@sachsenhofer.com",
-            "Unit Test for MailJet (with attachments)",
+            "Unit Test for SendGrid (with attachments)",
             "This is the <b>HTML</b> body.<br /><br />And <a href='https://www.igevia.com'>this</a> is a link.",
             "This is the **Text** body.",
             new MockedEmailAttachment("textfile.txt", new byte[] { 1 }),
             new MockedEmailAttachment("musicfile.mp3", new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }));
     }
 
-    [Fact]
+    [Fact(Skip = "No API key configured.")]
     public async Task CanSendEmailNonBlocking()
     {
-        var mailer = new MailjetEmailer(new MockedMailjetConfiguration(), new MockedEmailConfiguration());
+        var mailer = new SendgridEmailer(new MockedSendgridConfiguration(), new MockedEmailConfiguration());
         var tcs = new TaskCompletionSource<Exception?>();
 
         mailer.SendNonBlocking(
             tcs.SetResult,
             "hannes@sachsenhofer.com",
-            "Unit Test for MailJet NonBlocking (no attachments)",
+            "Unit Test for SendGrid NonBlocking (no attachments)",
             "This is the <b>HTML</b> body.",
             "This is the **Text** body.");
 
         Assert.Null(await tcs.Task);
     }
 
-    [Fact]
+    [Fact(Skip = "No API key configured.")]
     public async Task CanSendEmailNonBlockingWithAttachments()
     {
-        var mailer = new MailjetEmailer(new MockedMailjetConfiguration(), new MockedEmailConfiguration());
+        var mailer = new SendgridEmailer(new MockedSendgridConfiguration(), new MockedEmailConfiguration());
         var tcs = new TaskCompletionSource<Exception?>();
 
         mailer.SendNonBlocking(
             tcs.SetResult,
             "hannes@sachsenhofer.com",
-            "Unit Test for MailJet NonBlocking (with attachments)",
+            "Unit Test for SendGrid NonBlocking (with attachments)",
             "This is the <b>HTML</b> body.<br /><br />And <a href='https://www.igevia.com'>this</a> is a link.",
             "This is the **Text** body.",
             new MockedEmailAttachment("textfile.txt", new byte[] { 1 }),

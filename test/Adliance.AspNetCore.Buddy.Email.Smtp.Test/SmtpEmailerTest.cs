@@ -47,4 +47,37 @@ public class MailjetEmailerTest
                 "This is the **Text** body.");
         });
     }
+
+    [Fact(Skip = "No SMTP user configured.")]
+    public async Task CanSendEmailNonBlocking()
+    {
+        var mailer = new SmtpEmailer(new MockedSmtpConfiguration(), new MockedEmailConfiguration());
+        var tcs = new TaskCompletionSource<Exception?>();
+
+        mailer.SendNonBlocking(
+            tcs.SetResult,
+            "hannes@sachsenhofer.com",
+            "Unit Test for SmtpEmailer NonBlocking (no attachments)",
+            "This is the <b>HTML</b> body.",
+            "This is the **Text** body.");
+
+        Assert.Null(await tcs.Task);
+    }
+
+    [Fact]
+    public async Task CannotSendEmailNonBlockingWithoutAuthentication()
+    {
+        var smtpConfig = new MockedSmtpConfiguration { UserName = "" };
+        var mailer = new SmtpEmailer(smtpConfig, new MockedEmailConfiguration());
+        var tcs = new TaskCompletionSource<Exception?>();
+
+        mailer.SendNonBlocking(
+            tcs.SetResult,
+            "hannes@sachsenhofer.com",
+            "Unit Test for SmtpEmailer NonBlocking (no attachments)",
+            "This is the <b>HTML</b> body.",
+            "This is the **Text** body.");
+
+        Assert.NotNull(await tcs.Task);
+    }
 }
