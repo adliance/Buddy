@@ -87,6 +87,95 @@ public abstract class EmailerBase(IEmailConfiguration emailConfig) : IEmailer
         await SendInternal(sender, to, cc, bcc, subject, htmlBody, textBody, attachments);
     }
 
+    public void SendNonBlocking(
+        Action<Exception?> onCompleted,
+        string recipientAddress,
+        string subject,
+        string htmlBody,
+        string textBody,
+        params IEmailAttachment[] attachments)
+    {
+        _ = RunNonBlocking(() => Send(recipientAddress, subject, htmlBody, textBody, attachments), onCompleted);
+    }
+
+    public void SendNonBlocking(
+        Action<Exception?> onCompleted,
+        string senderName,
+        string senderAddress,
+        string replyTo,
+        string recipientName,
+        string recipientAddress,
+        string subject,
+        string htmlBody,
+        string textBody,
+        params IEmailAttachment[] attachments)
+    {
+        _ = RunNonBlocking(() => Send(senderName, senderAddress, replyTo, recipientName, recipientAddress, subject, htmlBody, textBody, attachments), onCompleted);
+    }
+
+    public void SendNonBlocking(
+        Action<Exception?> onCompleted,
+        IEmailSender sender,
+        IEmailRecipient[] to,
+        string subject,
+        string htmlBody,
+        string? textBody,
+        params IEmailAttachment[] attachments)
+    {
+        _ = RunNonBlocking(() => Send(sender, to, subject, htmlBody, textBody, attachments), onCompleted);
+    }
+
+    public void SendNonBlocking(
+        Action<Exception?> onCompleted,
+        IEmailRecipient[] to,
+        string subject,
+        string htmlBody,
+        string? textBody,
+        params IEmailAttachment[] attachments)
+    {
+        _ = RunNonBlocking(() => Send(to, subject, htmlBody, textBody, attachments), onCompleted);
+    }
+
+    public void SendNonBlocking(
+        Action<Exception?> onCompleted,
+        IEmailSender sender,
+        IEmailRecipient[] to,
+        IEmailRecipient[] cc,
+        IEmailRecipient[] bcc,
+        string subject,
+        string htmlBody,
+        string? textBody,
+        params IEmailAttachment[] attachments)
+    {
+        _ = RunNonBlocking(() => Send(sender, to, cc, bcc, subject, htmlBody, textBody, attachments), onCompleted);
+    }
+
+    public void SendNonBlocking(
+        Action<Exception?> onCompleted,
+        IEmailRecipient[] to,
+        IEmailRecipient[] cc,
+        IEmailRecipient[] bcc,
+        string subject,
+        string htmlBody,
+        string? textBody,
+        params IEmailAttachment[] attachments)
+    {
+        _ = RunNonBlocking(() => Send(to, cc, bcc, subject, htmlBody, textBody, attachments), onCompleted);
+    }
+
+    private static async Task RunNonBlocking(Func<Task> send, Action<Exception?> onCompleted)
+    {
+        try
+        {
+            await Task.Run(send).ConfigureAwait(false);
+            onCompleted(null);
+        }
+        catch (Exception ex)
+        {
+            onCompleted(ex);
+        }
+    }
+
     protected abstract Task SendInternal(
         IEmailSender sender,
         IEmailRecipient[] to,
