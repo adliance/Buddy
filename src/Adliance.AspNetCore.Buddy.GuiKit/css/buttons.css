@@ -17,5 +17,6 @@ button, a.button {
 
     &:hover {
         color: var(--link-hover-color);
+        background: var(--background);
     }
 }
