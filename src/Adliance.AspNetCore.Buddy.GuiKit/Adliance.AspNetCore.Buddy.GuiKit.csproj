@@ -33,6 +33,7 @@
     <CssBundle OutputFile="css/min.css" Include="css/buttons.css"/>
     <CssBundle OutputFile="css/min.css" Include="css/headings.css"/>
     <CssBundle OutputFile="css/min.css" Include="css/table.css"/>
+    <CssBundle OutputFile="css/min.css" Include="css/iframe.css"/>
     <CssBundle OutputFile="css/min.css" Include="css/media.css"/>
 
     <CssBundle OutputFile="css/min.css" Include="css/components/loading.css"/>
