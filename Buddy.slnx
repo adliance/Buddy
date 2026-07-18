@@ -12,7 +12,6 @@
     <File Path="pipeline-crypto.yml" />
     <File Path="pipeline-datetime.yml" />
     <File Path="pipeline-guikit-buildtasks.yml" />
-    <File Path="pipeline-guikit.yml" />
     <File Path="pipeline-highcharts.yml" />
     <File Path="pipeline-mailjet.yml" />
     <File Path="pipeline-opentelemetry.yml" />
@@ -34,7 +33,6 @@
     <Project Path="test/Adliance.AspNetCore.Buddy.Email.SendGrid.Test/Adliance.AspNetCore.Buddy.Email.SendGrid.Test.csproj" />
     <Project Path="test/Adliance.AspNetCore.Buddy.Email.Smtp.Test/Adliance.AspNetCore.Buddy.Email.Smtp.Test.csproj" />
     <Project Path="test/Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.Test/Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.Test.csproj" />
-    <Project Path="test/Adliance.AspNetCore.Buddy.GuiKit.Test/Adliance.AspNetCore.Buddy.GuiKit.Test.csproj" />
     <Project Path="test/Adliance.AspNetCore.Buddy.Highcharts.Test/Adliance.AspNetCore.Buddy.Highcharts.Test.csproj" />
     <Project Path="test/Adliance.AspNetCore.Buddy.Pdf.Test/Adliance.AspNetCore.Buddy.Pdf.Test.csproj" />
     <Project Path="test/Adliance.AspNetCore.Buddy.Storage.Test/Adliance.AspNetCore.Buddy.Storage.Test.csproj" />
@@ -53,7 +51,6 @@
   <Project Path="src/Adliance.AspNetCore.Buddy.Email.SendGrid/Adliance.AspNetCore.Buddy.Email.SendGrid.csproj" />
   <Project Path="src/Adliance.AspNetCore.Buddy.Email.Smtp/Adliance.AspNetCore.Buddy.Email.Smtp.csproj" />
   <Project Path="src/Adliance.AspNetCore.Buddy.GuiKit.BuildTasks/Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.csproj" />
-  <Project Path="src/Adliance.AspNetCore.Buddy.GuiKit/Adliance.AspNetCore.Buddy.GuiKit.csproj" />
   <Project Path="src/Adliance.AspNetCore.Buddy.Highcharts/Adliance.AspNetCore.Buddy.Highcharts.csproj" />
   <Project Path="src/Adliance.AspNetCore.Buddy.OpenTelemetry/Adliance.AspNetCore.Buddy.OpenTelemetry.csproj" />
   <Project Path="src/Adliance.AspNetCore.Buddy.Pdf/Adliance.AspNetCore.Buddy.Pdf.csproj" />
