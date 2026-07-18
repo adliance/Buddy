@@ -27,15 +27,19 @@ article {
     }
 
     button.collapsible-toggle {
-        --link-color: var(--heading-color);
-        --link-color-hover: var(--heading-color);
+        --button-color: var(--heading-color);
+        --button-background: transparent;
+        --button-color-hover: var(--heading-color);
+        --button-background-hover: transparent;
+
         float: right;
         background: none;
         border: none;
         padding: 0;
+        margin-left: var(--distance);
 
         i {
-            transition: transform .350ms ease;
+            transition: transform var(--duration) ease;
             margin-right: 0;
         }
     }
