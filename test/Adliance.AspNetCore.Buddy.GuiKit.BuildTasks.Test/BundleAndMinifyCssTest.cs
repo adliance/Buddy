@@ -49,4 +49,25 @@ public class BundleAndMinifyCssTest
         var input = ".foo { width: calc(100% - 20px); }";
         Assert.Equal(".foo{width:calc(100% - 20px);}", BundleAndMinifyCss.MinifyCss(input));
     }
+
+    [Fact]
+    public void Single_Line_Comment_Is_Removed()
+    {
+        var input = "/* comment */body { color: red; }";
+        Assert.Equal("body{color:red;}", BundleAndMinifyCss.MinifyCss(input));
+    }
+
+    [Fact]
+    public void Multiline_Comment_Is_Removed()
+    {
+        var input = "/*\n * multiline\n * comment\n */\nbody {\n    color: red;\n}";
+        Assert.Equal("body{color:red;}", BundleAndMinifyCss.MinifyCss(input));
+    }
+
+    [Fact]
+    public void Comment_Between_Rules_Is_Removed()
+    {
+        var input = "body { color: red; } /* separator */ h1 { font-size: 2em; }";
+        Assert.Equal("body{color:red;}h1{font-size:2em;}", BundleAndMinifyCss.MinifyCss(input));
+    }
 }

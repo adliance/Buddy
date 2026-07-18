@@ -2,6 +2,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.Build.Framework;
 
 [assembly: InternalsVisibleTo("Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.Test")]
@@ -56,15 +57,16 @@ public class BundleAndMinifyCss : Microsoft.Build.Utilities.Task
         return Path.GetFullPath(path, BaseDirectory);
     }
 
-    internal static string MinifyCss(string css) => css
-        .Replace("\t", "")
-        .Replace("\n", "")
-        .Replace("\r", "")
-        .Replace("   ", " ")
-        .Replace("  ", " ")
-        .Replace(": ", ":")
-        .Replace(" {", "{")
-        .Replace("{ ", "{")
-        .Replace(" }", "}")
-        .Replace("} ", "}");
+    internal static string MinifyCss(string css) =>
+        Regex.Replace(css, @"/\*.*?\*/", "", RegexOptions.Singleline)
+            .Replace("\t", "")
+            .Replace("\n", "")
+            .Replace("\r", "")
+            .Replace("   ", " ")
+            .Replace("  ", " ")
+            .Replace(": ", ":")
+            .Replace(" {", "{")
+            .Replace("{ ", "{")
+            .Replace(" }", "}")
+            .Replace("} ", "}");
 }
