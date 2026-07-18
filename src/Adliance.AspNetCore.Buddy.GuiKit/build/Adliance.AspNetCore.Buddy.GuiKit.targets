@@ -1,16 +1,30 @@
 <Project>
+  <!--
+  These properties default to the packed NuGet layout (build/lib/...) next to this file. A project that
+  references the GuiKit source directly (via ProjectReference instead of PackageReference) can import this
+  file and override the properties beforehand to point at the source folders instead, reusing this same
+  copy logic without duplicating it.
+  -->
+  <PropertyGroup>
+    <GuiKitCssFile Condition="'$(GuiKitCssFile)' == ''">$(MSBuildThisFileDirectory)lib/min.css</GuiKitCssFile>
+    <GuiKitJsFile Condition="'$(GuiKitJsFile)' == ''">$(MSBuildThisFileDirectory)lib/min.js</GuiKitJsFile>
+    <GuiKitFontAwesomeDir Condition="'$(GuiKitFontAwesomeDir)' == ''">$(MSBuildThisFileDirectory)lib/fontawesome/</GuiKitFontAwesomeDir>
+    <GuiKitFontsDir Condition="'$(GuiKitFontsDir)' == ''">$(MSBuildThisFileDirectory)lib/fonts/</GuiKitFontsDir>
+    <GuiKitThemesDir Condition="'$(GuiKitThemesDir)' == ''">$(MSBuildThisFileDirectory)lib/themes/</GuiKitThemesDir>
+  </PropertyGroup>
+
   <Target Name="CopyGuiKitStaticFiles" BeforeTargets="Build">
     <ItemGroup>
-      <_FontAwesomeFiles Include="$(MSBuildThisFileDirectory)lib/fontawesome/**/*"/>
-      <_FontFiles Include="$(MSBuildThisFileDirectory)lib/fonts/**/*"/>
-      <_ThemeFiles Include="$(MSBuildThisFileDirectory)lib/themes/**/*"/>
+      <_FontAwesomeFiles Include="$(GuiKitFontAwesomeDir)**/*"/>
+      <_FontFiles Include="$(GuiKitFontsDir)**/*"/>
+      <_ThemeFiles Include="$(GuiKitThemesDir)**/*"/>
     </ItemGroup>
 
     <MakeDir Directories="$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit"/>
-    <Copy SourceFiles="$(MSBuildThisFileDirectory)lib/min.css"
+    <Copy SourceFiles="$(GuiKitCssFile)"
           DestinationFolder="$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit/"
           SkipUnchangedFiles="true"/>
-    <Copy SourceFiles="$(MSBuildThisFileDirectory)lib/min.js"
+    <Copy SourceFiles="$(GuiKitJsFile)"
           DestinationFolder="$(MSBuildProjectDirectory)/wwwroot/lib/adliance.guikit/"
           SkipUnchangedFiles="true"/>
 

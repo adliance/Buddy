@@ -19,3 +19,6 @@ test/**/.editorconfig
 src/Adliance.AspNetCore.Buddy.GuiKit/css/min.css
 src/Adliance.AspNetCore.Buddy.GuiKit/js/min.js
 src/Adliance.Buddy.QrCode/sixlabors.lic
+test/Adliance.AspNetCore.Buddy.GuiKit.Test/wwwroot/lib/adliance.guikit
+test/Adliance.AspNetCore.Buddy.GuiKit.Test/wwwroot/css/b.css
+test/Adliance.AspNetCore.Buddy.GuiKit.Test/wwwroot/js/b.js

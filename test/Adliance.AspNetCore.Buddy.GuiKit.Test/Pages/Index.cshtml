@@ -1,0 +1,21 @@
+@page
+@{
+    ViewData["Title"] = "Home";
+}
+
+<agk-title text="GuiKit Demo">
+    This site shows the CSS, JS and TagHelpers bundled in <code>Adliance.AspNetCore.Buddy.GuiKit</code>.
+    Pick a page from the menu to see each feature on its own.
+</agk-title>
+
+<agk-panel title="About this demo" icon="fa-circle-info">
+    <p>Each navigation entry demonstrates a single GuiKit tag helper or static asset:</p>
+    <ul>
+        <li><a asp-page="/Panels"><code>agk-panel</code></a> &mdash; panels/cards, including collapsible and htmx-loaded variants</li>
+        <li><a asp-page="/Notifications"><code>agk-notification</code></a> &mdash; notification/alert boxes</li>
+        <li><a asp-page="/Loading"><code>agk-loading</code></a> &mdash; the loading placeholder</li>
+        <li><a asp-page="/Buttons">Buttons</a> &mdash; the bundled button styles</li>
+        <li><a asp-page="/Table">Table</a> &mdash; the bundled table styles</li>
+        <li><a asp-page="/Iframe">Iframe</a> &mdash; the bundled iframe styles</li>
+    </ul>
+</agk-panel>

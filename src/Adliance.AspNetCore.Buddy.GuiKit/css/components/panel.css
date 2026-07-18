@@ -20,22 +20,23 @@ article {
         --fontSize-fa: var(--heading-fontSize);
         font-size: var(--heading-fontSize);
         margin-bottom: calc(var(--distance) * 1.0);
+
+        > i.fa { /* The panel icon should always be on the left, even when the collapsible-button is first in DOM */
+            margin-left:0;
+        }
     }
 
     button.collapsible-toggle {
+        --link-color: var(--heading-color);
+        --link-color-hover: var(--heading-color);
         float: right;
         background: none;
         border: none;
-        color: var(--color-primary);
         padding: 0;
 
         i {
             transition: transform .350ms ease;
             margin-right: 0;
-        }
-
-        &:hover {
-            color: var(--color-primary);
         }
     }
 

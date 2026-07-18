@@ -34,6 +34,7 @@
     <Project Path="test/Adliance.AspNetCore.Buddy.Email.SendGrid.Test/Adliance.AspNetCore.Buddy.Email.SendGrid.Test.csproj" />
     <Project Path="test/Adliance.AspNetCore.Buddy.Email.Smtp.Test/Adliance.AspNetCore.Buddy.Email.Smtp.Test.csproj" />
     <Project Path="test/Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.Test/Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.Test.csproj" />
+    <Project Path="test/Adliance.AspNetCore.Buddy.GuiKit.Test/Adliance.AspNetCore.Buddy.GuiKit.Test.csproj" />
     <Project Path="test/Adliance.AspNetCore.Buddy.Highcharts.Test/Adliance.AspNetCore.Buddy.Highcharts.Test.csproj" />
     <Project Path="test/Adliance.AspNetCore.Buddy.Pdf.Test/Adliance.AspNetCore.Buddy.Pdf.Test.csproj" />
     <Project Path="test/Adliance.AspNetCore.Buddy.Storage.Test/Adliance.AspNetCore.Buddy.Storage.Test.csproj" />

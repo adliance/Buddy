@@ -1,20 +1,23 @@
 body {
     --distance: 20px;
     --padding: 10px;
-    --background: black;
+    --background: #021e45;
     --background-alternate: white;
 
     --nav-width: 300px; /* needs to be set here (instead of in nav) becase we need it in main as well */
-    --nav-header-height: 60px;
 
     --color: white;
     --color-alternate: black;
-    --color-error: red;
-    --color-warning: yellow;
-    --color-success: green;
-    --color-info: blue;
+    --color-error: var(--color);
+    --color-warning: var(--color-alternate);
+    --color-success: var(--color);
+    --color-info: var(--color);
+    --color-error-background: #ed4622;
+    --color-warning-background: #f47d09;
+    --color-success-background: green;
+    --color-info-background: #e5007d;
     --color-muted: gray;
-    --color-primary: orange;
+    --color-primary: #021e45;
 
     --fontSize: 14px;
     --fontSize-small: 12px;
@@ -26,14 +29,26 @@ body {
     --fontWeight-fa: 900;
     --lineHeight: 100%;
 
-    --link-color: var(--color);
-    --link-hover-color: var(--color-primary);
-    --link-hover-duration: 350ms;
-    --link-hover-background: transparent;
+    --heading-color: #f47d09;
+
+    --link-color: #52bf61;
+    --link-color-hover: #118fd1;
+    --link-background-hover: transparent;
+
+    --duration: 350ms;
     --radius: 15px;
     --scrollbar-color: var(--color-primary);
     --separator-color: var(--color-muted);
 
+    --button-color: var(--color-alternate);
+    --button-background: var(--link-color);
+    --button-color-hover: var(--color-alternate);
+    --button-background-hover: var(--link-color-hover);
+    --button-border: 1px solid var(--button-color);
+    --button-radius: 3px;
+}
+
+body {
     background: var(--background-alternate);
     min-height: 100vh; /* to ensure background image stretches over the entire screen height even on smaller content */
     color: var(--color);
@@ -52,11 +67,11 @@ body {
         color: var(--link-color);
         text-decoration: none;
         display: inline-block; /* makes it look nicer because no empty underline at the end */
-        transition: color var(--link-hover-duration);
+        transition: color, background-color var(--duration);
 
         &:hover {
-            background-color: var(--link-hover-background);
-            color: var(--link-hover-color);
+            background-color: var(--link-background-hover);
+            color: var(--link-color-hover);
         }
     }
 
@@ -70,6 +85,7 @@ body {
     scrollbar-width: thin;
 
     /* Webkit (Chrome, Safari, Edge) */
+
     &::-webkit-scrollbar {
         width: 8px;
     }

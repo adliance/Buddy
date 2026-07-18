@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <IsTestProject>false</IsTestProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\Adliance.AspNetCore.Buddy.GuiKit\Adliance.AspNetCore.Buddy.GuiKit.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Adliance.AspNetCore.Buddy.GuiKit.BuildTasks" Version="10.0.0.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <CssBundle OutputFile="wwwroot/css/b.css" Include="wwwroot/lib/adliance.guikit/fontawesome/css/fontawesome.css"/>
+        <CssBundle OutputFile="wwwroot/css/b.css" Include="wwwroot/lib/adliance.guikit/fontawesome/css/duotone-regular.css"/>
+        <CssBundle OutputFile="wwwroot/css/b.css" Include="wwwroot/lib/adliance.guikit/min.css"/>
+
+        <JsBundle OutputFile="wwwroot/js/b.js" Include="wwwroot/lib/adliance.guikit/min.js"/>
+    </ItemGroup>
+    
+    <!--
+    GuiKit ships its static assets (CSS, JS, FontAwesome, fonts) to consumers via a NuGet build target that copies
+    them into wwwroot/lib/adliance.guikit/. That target (build/Adliance.AspNetCore.Buddy.GuiKit.targets) defaults
+    to the packed NuGet layout, but is parameterized so it can be reused here: point it at the sibling source
+    folders instead (since this project references GuiKit's source directly, not the packed package), then
+    import the same target rather than duplicating its copy logic.
+    -->
+    <PropertyGroup>
+        <_GuiKitSourceDir>..\..\src\Adliance.AspNetCore.Buddy.GuiKit\</_GuiKitSourceDir>
+        <GuiKitCssFile>$(_GuiKitSourceDir)css\min.css</GuiKitCssFile>
+        <GuiKitJsFile>$(_GuiKitSourceDir)js\min.js</GuiKitJsFile>
+        <GuiKitFontAwesomeDir>$(_GuiKitSourceDir)fontawesome\</GuiKitFontAwesomeDir>
+        <GuiKitFontsDir>$(_GuiKitSourceDir)fonts\</GuiKitFontsDir>
+        <GuiKitThemesDir>$(_GuiKitSourceDir)css\themes\</GuiKitThemesDir>
+    </PropertyGroup>
+    <Import Project="..\..\src\Adliance.AspNetCore.Buddy.GuiKit\build\Adliance.AspNetCore.Buddy.GuiKit.targets"/>
+
+</Project>
