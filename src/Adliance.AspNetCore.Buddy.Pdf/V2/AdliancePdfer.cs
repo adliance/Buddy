@@ -121,8 +121,10 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
     {
         if (string.IsNullOrWhiteSpace(configuration.ServerUrl)) throw new Exception("No Server URL configured.");
 
-        var client = new HttpClient();
-        client.Timeout = TimeSpan.FromMinutes(1);
+        var client = new HttpClient
+        {
+            Timeout = TimeSpan.FromSeconds(configuration.TimeoutSeconds)
+        };
         if (!string.IsNullOrWhiteSpace(apiKey)) client.DefaultRequestHeaders.Add("x-api-key", apiKey);
         return client;
     }

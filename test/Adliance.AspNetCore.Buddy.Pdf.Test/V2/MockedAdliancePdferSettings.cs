@@ -7,4 +7,5 @@ public class MockedPdferConfiguration : IPdferConfiguration
     public string ServerUrl => "https://pdf2.adliance.dev";
     public string? ApiKeyPdf => null;
     public string? ApiKeyTemplate => null;
+    public int TimeoutSeconds => 30;
 }
