@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Azure.Core;
 using Azure.Core.Pipeline;
 using Azure.Identity;
 using Azure.Storage;
@@ -187,9 +188,21 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
         {
             var url = configuration.AzureStorageUrl?.Trim('/');
             if (string.IsNullOrWhiteSpace(url)) throw new Exception("Azure Storage URL is not configured.");
-            var credential = string.IsNullOrWhiteSpace(configuration.AzureStorageManagedIdentityClientId)
-                ? new ManagedIdentityCredential(ManagedIdentityId.SystemAssigned)
-                : new ManagedIdentityCredential(ManagedIdentityId.FromUserAssignedClientId(configuration.AzureStorageManagedIdentityClientId));
+            TokenCredential credential;
+
+            if (configuration.UseDefaultAzureCredential == true)
+            {
+                credential = new DefaultAzureCredential();
+            }
+            else if (!string.IsNullOrWhiteSpace(configuration.UseManagedIdentityClientId))
+            {
+                credential = new ManagedIdentityCredential(ManagedIdentityId.FromUserAssignedClientId(configuration.UseManagedIdentityClientId));
+            }
+            else
+            {
+                credential = new ManagedIdentityCredential(ManagedIdentityId.SystemAssigned);
+            }
+
             client = new BlobServiceClient(new Uri($"{url}"), credential, blobClientOptions);
         }
         else if (!string.IsNullOrWhiteSpace(configuration.AzureStorageConnectionString))

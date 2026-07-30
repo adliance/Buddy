@@ -23,7 +23,9 @@ public interface IStorageConfiguration
     /// Specify the client id of the managed identity to use.
     /// Leave empty if you want to use system-managed identities.
     /// </summary>
-    string? AzureStorageManagedIdentityClientId { get; }
+    string? UseManagedIdentityClientId { get; }
+
+    bool? UseDefaultAzureCredential { get; }
 
     bool AutomaticallyCreateDirectories { get; }
     bool ConfigureDataProtection { get; }

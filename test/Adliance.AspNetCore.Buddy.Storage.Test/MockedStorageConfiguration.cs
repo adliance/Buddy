@@ -18,7 +18,7 @@ public class MockedStorageConfiguration : IStorageConfiguration
     }
 
     public string? AzureStorageUrl => null;
-    public string? AzureStorageManagedIdentityClientId => null;
+    public string? UseManagedIdentityClientId => null;
 
     public bool AutomaticallyCreateDirectories => true;
     public bool ConfigureDataProtection => true;

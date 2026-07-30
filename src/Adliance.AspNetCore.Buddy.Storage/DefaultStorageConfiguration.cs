@@ -20,7 +20,8 @@ public class DefaultStorageConfiguration : IStorageConfiguration
     /// <inheritdoc />
     public string? AzureStorageUrl { get; set; }
 
-    public string? AzureStorageManagedIdentityClientId { get; set; }
+    public string? UseManagedIdentityClientId { get; set; }
+    public bool? UseDefaultAzureCredential { get; set; }
 
     /// <inheritdoc />
     public bool AutomaticallyCreateDirectories { get; set; }
