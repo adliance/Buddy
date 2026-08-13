@@ -52,6 +52,7 @@ public static class BuddyServiceCollectionExtensions
     {
         services.Services.AddTransient<ITemplater, RazorTemplater>();
         services.Services.AddTransient<IEmailRenderer, EmailRenderer>();
+        services.Services.AddTransient<IEmailRendererNonBlocking, EmailRendererNonBlocking>();
         return services;
     }
 
