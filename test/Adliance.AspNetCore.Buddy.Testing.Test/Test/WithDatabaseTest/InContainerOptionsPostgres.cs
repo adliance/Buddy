@@ -3,15 +3,12 @@ using Adliance.AspNetCore.Buddy.Testing.Shared.Containers;
 using Adliance.AspNetCore.Buddy.Testing.Shared.Database;
 using Adliance.AspNetCore.Buddy.Testing.Shared.Playwright;
 using DotNet.Testcontainers.Builders;
-using Xunit;
-
-[assembly: CollectionBehavior(DisableTestParallelization = true)]
 
 namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithDatabaseTest;
 
-public class InContainerOptions : BuddyFixtureOptions<Program>
+public class InContainerOptionsPostgres : BuddyFixtureOptions<Program>
 {
-    public InContainerOptions()
+    public InContainerOptionsPostgres()
     {
         InContainer.Add(new ContainerOptions
         {
@@ -24,7 +21,7 @@ public class InContainerOptions : BuddyFixtureOptions<Program>
 
         Database = new DatabaseOptions
         {
-            Type = DatabaseType.UseSqlServerContainer
+            Type = DatabaseType.UsePostgresContainer
         };
     }
 }

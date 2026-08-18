@@ -5,9 +5,9 @@ using DotNet.Testcontainers.Builders;
 
 namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithDatabaseTest;
 
-public class InProcessOptions : BuddyFixtureOptions<Program>
+public class InProcessOptionsPostgres : BuddyFixtureOptions<Program>
 {
-    public InProcessOptions()
+    public InProcessOptionsPostgres()
     {
         InProcess = new InProcessOptions<Program>
         {
@@ -17,7 +17,7 @@ public class InProcessOptions : BuddyFixtureOptions<Program>
 
         Database = new DatabaseOptions
         {
-            Type = DatabaseType.UseSqlServerContainer
+            Type = DatabaseType.UsePostgresContainer
         };
     }
 }

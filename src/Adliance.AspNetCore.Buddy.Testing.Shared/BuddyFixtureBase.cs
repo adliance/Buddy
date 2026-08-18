@@ -51,6 +51,7 @@ public class BuddyFixtureBase<TOptions, TEntryPoint>
                     foreach (var o in Options.InContainer)
                     {
                         if (!string.IsNullOrWhiteSpace(o.DbConnectionStringConfigurationKey)) o.Configuration.TryAdd(o.DbConnectionStringConfigurationKey, Database.DbConnectionStringInternal);
+                        o.Configuration.TryAdd("DatabaseType", Options.Database!.Type.ToString());
                     }
                 }
 
@@ -62,9 +63,14 @@ public class BuddyFixtureBase<TOptions, TEntryPoint>
 
             if (Options.InProcess != null)
             {
-                if (Database != null && !string.IsNullOrWhiteSpace(Options.InProcess.DbConnectionStringConfigurationKey))
+                if (Database != null)
                 {
-                    Options.InProcess.Configuration.TryAdd(Options.InProcess.DbConnectionStringConfigurationKey, Database.DbConnectionStringExternal);
+                    if (!string.IsNullOrWhiteSpace(Options.InProcess.DbConnectionStringConfigurationKey))
+                    {
+                        Options.InProcess.Configuration.TryAdd(Options.InProcess.DbConnectionStringConfigurationKey, Database.DbConnectionStringExternal);
+                    }
+
+                    Options.InProcess.Configuration.TryAdd("DatabaseType", Options.Database!.Type.ToString());
                 }
 
                 InProcess = await InProcessHelper.Setup(Options.InProcess).ConfigureAwait(false);
@@ -129,7 +135,7 @@ public class BuddyFixtureBase<TOptions, TEntryPoint>
     private async Task InitNetworkIfNecessary()
     {
         var networkIsRequired = false;
-        networkIsRequired = networkIsRequired || Options.Database?.Type == DatabaseType.UseSqlServerContainer;
+        networkIsRequired = networkIsRequired || Options.Database?.Type is DatabaseType.UseSqlServerContainer or DatabaseType.UsePostgresContainer;
         networkIsRequired = networkIsRequired || Options.InContainer.Any(x => x.UseLocalAppInstead == null);
         if (!networkIsRequired) return;
         if (Network != null) return;

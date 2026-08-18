@@ -19,7 +19,7 @@ public class HomeController : Controller
         return View(nameof(Index), postContent);
     }
 
-    public async Task<IActionResult> Database([FromServices] Db db)
+    public async Task<IActionResult> Database([FromServices] DbBase db)
     {
         return View(await db.Table.CountAsync());
     }

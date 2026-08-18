@@ -1,15 +1,19 @@
 using System.Net.Mime;
+using Adliance.AspNetCore.Buddy.Testing.DemoProject.Models;
 using Adliance.AspNetCore.Buddy.Testing.Shared;
 using Adliance.AspNetCore.Buddy.Testing.Shared.Extensions;
-using Adliance.AspNetCore.Buddy.Testing.v3.Test.Models;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace Adliance.AspNetCore.Buddy.Testing.v3.Test.Test.WithDatabaseTest;
 
-public class InProcessTest(WithDatabaseFixture<InProcessOptions> fixture) : BaseTest<InProcessOptions>(fixture);
+public class InProcessTestSqlServer(WithDatabaseFixture<InProcessOptionsSqlServer> fixture) : BaseTest<InProcessOptionsSqlServer>(fixture);
 
-public class InContainerTest(WithDatabaseFixture<InContainerOptions> fixture) : BaseTest<InContainerOptions>(fixture);
+public class InProcessTestPostgres(WithDatabaseFixture<InProcessOptionsPostgres> fixture) : BaseTest<InProcessOptionsPostgres>(fixture);
+
+public class InContainerTestSqlServer(WithDatabaseFixture<InContainerOptionsSqlServer> fixture) : BaseTest<InContainerOptionsSqlServer>(fixture);
+
+public class InContainerTestPostgres(WithDatabaseFixture<InContainerOptionsPostgres> fixture) : BaseTest<InContainerOptionsPostgres>(fixture);
 
 public abstract class BaseTest<TOptions>(WithDatabaseFixture<TOptions> fixture) : IClassFixture<WithDatabaseFixture<TOptions>>
     where TOptions : BuddyFixtureOptions<Program>, new()

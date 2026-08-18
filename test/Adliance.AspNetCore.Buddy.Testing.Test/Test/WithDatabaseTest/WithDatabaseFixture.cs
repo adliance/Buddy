@@ -1,16 +1,22 @@
 using Adliance.AspNetCore.Buddy.Testing.Shared;
+using Adliance.AspNetCore.Buddy.Testing.Shared.Database;
 using Adliance.AspNetCore.Buddy.Testing.Test.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithDatabaseTest;
 
-public class WithDatabaseFixture<TOptions> : BuddyFixture<TOptions, Program>, IDisposable where TOptions : BuddyFixtureOptions<Program>, new()
+public class WithDatabaseFixture<TOptions>
+    : BuddyFixture<TOptions, Program>, IDisposable
+    where TOptions : BuddyFixtureOptions<Program>, new()
 {
-    public Db Db = null!;
+    public DbBase Db = null!;
 
     protected override async Task AfterInit()
     {
-        Db = new Db(new DbContextOptionsBuilder<Db>().UseSqlServer(Database!.DbConnectionStringExternal).Options);
+        Db = Options.Database!.Type is DatabaseType.UsePostgresContainer or DatabaseType.UsePostgresLocal
+            ? new PostgresDb(new DbContextOptionsBuilder<PostgresDb>().UseNpgsql(Database!.DbConnectionStringExternal).Options)
+            : new SqlServerDb(new DbContextOptionsBuilder<SqlServerDb>().UseSqlServer(Database!.DbConnectionStringExternal).Options);
+
         await Db.Table.ExecuteDeleteAsync();
     }
 

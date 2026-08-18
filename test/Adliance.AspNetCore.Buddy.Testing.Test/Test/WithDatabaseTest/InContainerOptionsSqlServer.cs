@@ -7,16 +7,16 @@ using Xunit;
 
 [assembly: CollectionBehavior(DisableTestParallelization = true)]
 
-namespace Adliance.AspNetCore.Buddy.Testing.v3.Test.Test.WithDatabaseTest;
+namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithDatabaseTest;
 
-public class InContainerOptions : BuddyFixtureOptions<Program>
+public class InContainerOptionsSqlServer : BuddyFixtureOptions<Program>
 {
-    public InContainerOptions()
+    public InContainerOptionsSqlServer()
     {
         InContainer.Add(new ContainerOptions
         {
             DockerFileDirectory = CommonDirectoryPath.GetSolutionDirectory().DirectoryPath,
-            DockerFileName = "Adliance.AspNetCore.Buddy.Testing.v3.Test.dockerfile",
+            DockerFileName = "Adliance.AspNetCore.Buddy.Testing.Test.dockerfile",
             DbConnectionStringConfigurationKey = "DatabaseConnectionString"
         });
 

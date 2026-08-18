@@ -6,9 +6,9 @@ using DotNet.Testcontainers.Builders;
 
 namespace Adliance.AspNetCore.Buddy.Testing.v3.Test.Test.WithDatabaseTest;
 
-public class InProcessOptions : BuddyFixtureOptions<Program>
+public class InProcessOptionsSqlServer : BuddyFixtureOptions<Program>
 {
-    public InProcessOptions()
+    public InProcessOptionsSqlServer()
     {
         InProcess = new InProcessOptions<Program>
         {

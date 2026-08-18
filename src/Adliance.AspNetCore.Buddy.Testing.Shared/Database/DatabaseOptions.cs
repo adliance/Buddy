@@ -1,4 +1,3 @@
-using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Networks;
 using Microsoft.Extensions.Logging;
@@ -9,14 +8,16 @@ public class DatabaseOptions
 {
     public INetwork? Network { get; set; }
     public DatabaseType Type { get; set; }
-    public IWaitForContainerOS? DbWaitStrategy { get; set; } = Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(1433);
+    public IWaitForContainerOS? DbWaitStrategy { get; set; }
     public string? LocalDbConnectionString { get; set; }
     public ILogger Logger { get; set; } = new InMemoryLogger();
-    public string DockerImage { get; set; } = "mcr.microsoft.com/mssql/server:2022-CU24-ubuntu-22.04";
+    public string? DockerImage { get; set; }
 }
 
 public enum DatabaseType
 {
     UseSqlServerContainer,
-    UseSqlServerLocal
+    UseSqlServerLocal,
+    UsePostgresContainer,
+    UsePostgresLocal
 }

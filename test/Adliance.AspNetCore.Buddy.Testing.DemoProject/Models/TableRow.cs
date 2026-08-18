@@ -1,4 +1,4 @@
-namespace Adliance.AspNetCore.Buddy.Testing.v3.Test.Models;
+namespace Adliance.AspNetCore.Buddy.Testing.DemoProject.Models;
 
 public class TableRow
 {
