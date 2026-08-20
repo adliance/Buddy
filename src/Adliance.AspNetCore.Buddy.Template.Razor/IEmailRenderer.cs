@@ -6,7 +6,7 @@ namespace Adliance.AspNetCore.Buddy.Template.Razor;
 /// <summary>
 /// The contract for an email renderer.
 /// </summary>
-public interface IEmailRenderer
+public partial interface IEmailRenderer
 {
     /// <summary>
     /// Renders several razor templates provided in the templateDirectoryName directory.

@@ -6,7 +6,7 @@ namespace Adliance.AspNetCore.Buddy.Abstractions;
 /// <summary>
 /// Specifies the contract for an email provider.
 /// </summary>
-public interface IEmailer
+public partial interface IEmailer
 {
     /// <summary>
     /// Asynchronously send the specified message.

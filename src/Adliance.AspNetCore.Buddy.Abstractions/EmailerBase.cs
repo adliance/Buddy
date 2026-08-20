@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Adliance.AspNetCore.Buddy.Abstractions;
 
-public abstract class EmailerBase(IEmailConfiguration emailConfig) : IEmailer
+public abstract partial class EmailerBase(IEmailConfiguration emailConfig) : IEmailer
 {
     public async Task Send(SendableEmail email)
     {

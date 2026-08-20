@@ -7,7 +7,7 @@ namespace Adliance.AspNetCore.Buddy.Template.Razor;
 /// <summary>
 /// Renders a razor template and sends the result as an email.
 /// </summary>
-public class EmailRenderer(ITemplater templater, IEmailer mailer, ILogger<EmailRenderer> logger) : IEmailRenderer
+public partial class EmailRenderer(ITemplater templater, IEmailer mailer, ILogger<EmailRenderer> logger) : IEmailRenderer
 {
     /// <summary>
     /// Renders an e-mail, based on three templates.
