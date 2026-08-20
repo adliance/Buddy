@@ -16,8 +16,8 @@ public partial class EmailRenderer(ITemplater templater, IEmailer mailer, ILogge
     /// </summary>
     public virtual async Task<SendableEmail> Render(RenderableEmail email)
     {
-        var subject = (await templater.Render(email.TemplateDirectoryName, $"{email.SubjectTemplateName}", email.ViewModel)).Trim();
-        var html = (await templater.Render(email.TemplateDirectoryName, $"{email.HtmlTemplateName}", email.ViewModel)).Trim();
+        var subject = (await templater.Render(email.TemplateDirectoryName, email.SubjectTemplateName, email.ViewModel)).Trim();
+        var html = (await templater.Render(email.TemplateDirectoryName, email.HtmlTemplateName, email.ViewModel)).Trim();
 
         string text;
         try
