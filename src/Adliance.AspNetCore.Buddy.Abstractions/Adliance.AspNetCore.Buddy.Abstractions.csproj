@@ -22,4 +22,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="obj\SendableEmail.cs" />
+  </ItemGroup>
 </Project>
