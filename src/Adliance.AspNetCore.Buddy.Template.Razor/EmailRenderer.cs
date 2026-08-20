@@ -11,7 +11,7 @@ public class EmailRenderer(ITemplater templater, IEmailer mailer, ILogger<EmailR
 {
     /// <summary>
     /// Renders an e-mail, based on three templates.
-    /// The specific template names will be generated from the specified <paramref name="templateBaseName"/>:
+    /// The specific template names will be generated from the specified templateBaseName:
     /// "EmailTemplates/{templateBaseName}.Subject", "EmailTemplates/{templateBaseName}.Html", "EmailTemplates/{templateBaseName}.Text"
     /// </summary>
     public virtual async Task<SendableEmail> Render(RenderableEmail email)
