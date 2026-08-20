@@ -11,7 +11,7 @@ public abstract class EmailerBase(IEmailConfiguration emailConfig) : IEmailer
         if (emailConfig.Disable)
             return;
 
-        var sender = email.Sender ?? new SendableEmail.EmailSenderRecipient
+        var sender = email.Sender ?? new EmailSenderRecipient
         {
             Name = emailConfig.SenderName,
             EmailAddress = emailConfig.SenderAddress,
