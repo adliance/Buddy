@@ -3,9 +3,10 @@ using Adliance.AspNetCore.Buddy.Testing.Shared.Containers;
 using Adliance.AspNetCore.Buddy.Testing.Shared.Database;
 using Adliance.AspNetCore.Buddy.Testing.Shared.Playwright;
 using DotNet.Testcontainers.Builders;
-using Xunit;
+using Xunit.Sdk;
+using Xunit.v3;
 
-[assembly: CollectionBehavior(DisableTestParallelization = true)]
+[assembly: Parallelization(Mode = ParallelMode.None)]
 
 namespace Adliance.AspNetCore.Buddy.Testing.v3.Test.Test.WithDatabaseTest;
 

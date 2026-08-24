@@ -38,7 +38,7 @@ public class MailjetEmailerTest
         var mailer = new MailjetEmailer(new MockedMailjetConfiguration(), new MockedEmailConfiguration());
         var tcs = new TaskCompletionSource<Exception?>();
 
-        mailer.SendNonBlocking(
+        mailer.Send(
             tcs.SetResult,
             "hannes@sachsenhofer.com",
             "Unit Test for MailJet NonBlocking (no attachments)",
@@ -54,7 +54,7 @@ public class MailjetEmailerTest
         var mailer = new MailjetEmailer(new MockedMailjetConfiguration(), new MockedEmailConfiguration());
         var tcs = new TaskCompletionSource<Exception?>();
 
-        mailer.SendNonBlocking(
+        mailer.Send(
             tcs.SetResult,
             "hannes@sachsenhofer.com",
             "Unit Test for MailJet NonBlocking (with attachments)",
