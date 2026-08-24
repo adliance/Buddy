@@ -25,7 +25,7 @@
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="18.9.6" ExcludeAssets="runtime" PrivateAssets="all">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NUglify" Version="1.21.17" PrivateAssets="all" />
+    <PackageReference Include="NUglify" Version="1.22.4" PrivateAssets="all" />
     <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.10" />
   </ItemGroup>
 
