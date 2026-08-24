@@ -6,7 +6,7 @@ namespace Adliance.AspNetCore.Buddy.Template.Razor;
 /// <summary>
 /// The contract for an email renderer.
 /// </summary>
-public partial interface IEmailRenderer
+public interface IEmailRenderer
 {
     /// <summary>
     /// Renders several razor templates provided in the templateDirectoryName directory.
@@ -26,4 +26,12 @@ public partial interface IEmailRenderer
     /// </summary>
     /// <param name="email">The email to be rendered and sent.</param>
     Task RenderAndSendNonBlocking(RenderableEmail email);
+
+    Task RenderAndSend(string recipientAddress, string templateBaseName, object viewModel, params IEmailAttachment[] attachments);
+    Task RenderAndSend(IEmailRecipient[] to, IEmailRecipient[] cc, IEmailRecipient[] bcc, string templateBaseName, object viewModel, params IEmailAttachment[] attachments);
+    Task RenderAndSend(IEmailRecipient[] to, string templateBaseName, object viewModel, params IEmailAttachment[] attachments);
+    Task RenderAndSend(string recipientAddress, string templateDirectoryName, string subjectTemplateName, string htmlTemplateName, string textTemplateName, object viewModel, params IEmailAttachment[] attachments);
+    Task RenderAndSend(IEmailRecipient[] to, IEmailRecipient[] cc, IEmailRecipient[] bcc, string templateDirectoryName, string subjectTemplateName, string htmlTemplateName, string textTemplateName, object viewModel, params IEmailAttachment[] attachments);
+    Task RenderAndSend(IEmailRecipient[] to, string templateDirectoryName, string subjectTemplateName, string htmlTemplateName, string textTemplateName, object viewModel, params IEmailAttachment[] attachments);
+
 }

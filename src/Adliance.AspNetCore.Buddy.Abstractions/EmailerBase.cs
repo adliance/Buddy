@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Adliance.AspNetCore.Buddy.Abstractions;
 
-public abstract partial class EmailerBase(IEmailConfiguration emailConfig) : IEmailer
+public abstract class EmailerBase(IEmailConfiguration emailConfig) : IEmailer
 {
     public async Task Send(SendableEmail email)
     {
@@ -71,4 +71,29 @@ public abstract partial class EmailerBase(IEmailConfiguration emailConfig) : IEm
         string htmlBody,
         string? textBody,
         params IEmailAttachment[] attachments);
+
+    public async Task Send(string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments)
+        => await Send(new SendableEmail("", recipientAddress, subject, htmlBody, textBody, attachments));
+    public async Task Send(string senderName, string senderAddress, string replyTo, string recipientName, string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments)
+        => await Send(new SendableEmail(senderName, senderAddress, replyTo, recipientName, recipientAddress, subject, htmlBody, textBody, attachments));
+    public async Task Send(IEmailSender sender, IEmailRecipient[] to, string subject, string htmlBody, string? textBody, params IEmailAttachment[] attachments)
+        => await Send(new SendableEmail(sender, to, [], [], subject, htmlBody, textBody, attachments));
+    public async Task Send(IEmailRecipient[] to, string subject, string htmlBody, string? textBody, params IEmailAttachment[] attachments)
+        => await Send(new SendableEmail(to, [], [], subject, htmlBody, textBody, attachments));
+    public async Task Send(IEmailRecipient[] to, IEmailRecipient[] cc, IEmailRecipient[] bcc, string subject, string htmlBody, string? textBody, params IEmailAttachment[] attachments)
+        => await Send(new SendableEmail(to, cc, bcc, subject, htmlBody, textBody, attachments));
+    public async Task Send(IEmailSender sender, IEmailRecipient[] to, IEmailRecipient[] cc, IEmailRecipient[] bcc, string subject, string htmlBody, string? textBody, params IEmailAttachment[] attachments)
+        => await Send(new SendableEmail(sender, to, cc, bcc, subject, htmlBody, textBody, attachments));
+    public void SendNonBlocking(Action<Exception?> onCompleted, string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments)
+        => SendNonBlocking(onCompleted, new SendableEmail(recipientAddress, subject, htmlBody, textBody, attachments));
+    public void SendNonBlocking(Action<Exception?> onCompleted, string senderName, string senderAddress, string replyTo, string recipientName, string recipientAddress, string subject, string htmlBody, string textBody, params IEmailAttachment[] attachments)
+        => SendNonBlocking(onCompleted, new SendableEmail(senderName, senderAddress, replyTo, recipientName, recipientAddress, subject, htmlBody, textBody, attachments));
+    public void SendNonBlocking(Action<Exception?> onCompleted, IEmailSender sender, IEmailRecipient[] to, string subject, string htmlBody, string? textBody, params IEmailAttachment[] attachments)
+        => SendNonBlocking(onCompleted, new SendableEmail(sender, to, subject, htmlBody, textBody, attachments));
+    public void SendNonBlocking(Action<Exception?> onCompleted, IEmailRecipient[] to, string subject, string htmlBody, string? textBody, params IEmailAttachment[] attachments)
+        => SendNonBlocking(onCompleted, new SendableEmail(to, subject, htmlBody, textBody, attachments));
+    public void SendNonBlocking(Action<Exception?> onCompleted, IEmailSender sender, IEmailRecipient[] to, IEmailRecipient[] cc, IEmailRecipient[] bcc, string subject, string htmlBody, string? textBody, params IEmailAttachment[] attachments)
+        => SendNonBlocking(onCompleted, new SendableEmail(sender, to, cc, bcc, subject, htmlBody, textBody, attachments));
+    public void SendNonBlocking(Action<Exception?> onCompleted, IEmailRecipient[] to, IEmailRecipient[] cc, IEmailRecipient[] bcc, string subject, string htmlBody, string? textBody, params IEmailAttachment[] attachments)
+        => SendNonBlocking(onCompleted, new SendableEmail(to, cc, bcc, subject, htmlBody, textBody, attachments));
 }
