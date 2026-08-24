@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Abstractions;
 
@@ -18,15 +19,15 @@ public interface IEmailRenderer
     /// <summary>
     /// Renders several razor templates provided in the templateDirectoryName directory and sends the result as an email.
     /// </summary>
+    /// <param name="onCompleted">Callback that fires when e-mail sending has been completed. A null exception indicates success.</param>
     /// <param name="email">The email to be rendered and sent.</param>
-    Task RenderAndSend(RenderableEmail email);
+    Task RenderAndSend(Action<Exception?> onCompleted, RenderableEmail email);
 
     /// <summary>
-    /// Renders several razor templates provided in the templateDirectoryName directory and sends the result as an email in a separate thread to avoid blocking.
+    /// Renders several razor templates provided in the templateDirectoryName directory and sends the result as an email.
     /// </summary>
     /// <param name="email">The email to be rendered and sent.</param>
-    Task RenderAndSendNonBlocking(RenderableEmail email);
-
+    Task RenderAndSend(RenderableEmail email);
     Task RenderAndSend(string recipientAddress, string templateBaseName, object viewModel, params IEmailAttachment[] attachments);
     Task RenderAndSend(IEmailRecipient[] to, IEmailRecipient[] cc, IEmailRecipient[] bcc, string templateBaseName, object viewModel, params IEmailAttachment[] attachments);
     Task RenderAndSend(IEmailRecipient[] to, string templateBaseName, object viewModel, params IEmailAttachment[] attachments);

@@ -1,12 +1,11 @@
 using Adliance.AspNetCore.Buddy.Abstractions;
-using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace Adliance.AspNetCore.Buddy.Template.Razor.Test;
 
 public class EmailRendererTest
 {
-    private static IEmailRecipient Recipient(string address) => new EmailSenderRecipient
+    private static IEmailRecipient Recipient(string address) => new EmailRecipient
     {
         Name = address,
         EmailAddress = address
@@ -21,7 +20,7 @@ public class EmailRendererTest
     public async Task RendersCorrectly()
     {
         var templater = new MockTemplater();
-        var renderer = new EmailRenderer(templater, new MockEmailer(), new MockLogger<EmailRenderer>());
+        var renderer = new EmailRenderer(templater, new MockEmailer());
 
         var email = SomeEmail();
         var result = await renderer.Render(email);
@@ -35,7 +34,7 @@ public class EmailRendererTest
     public async Task PassesTemplateDirectoryAndViewModelToTemplater()
     {
         var templater = new MockTemplater();
-        var renderer = new EmailRenderer(templater, new MockEmailer(), new MockLogger<EmailRenderer>());
+        var renderer = new EmailRenderer(templater, new MockEmailer());
 
         var viewModel = new { Name = "Jane" };
         var email = new RenderableEmail("someone@example.com", "SomeDirectory", "MySubject", "MyHtml", "MyText", viewModel);
@@ -56,7 +55,7 @@ public class EmailRendererTest
         {
             RenderOverride = (_, _, _) => "  some content \n"
         };
-        var renderer = new EmailRenderer(templater, new MockEmailer(), new MockLogger<EmailRenderer>());
+        var renderer = new EmailRenderer(templater, new MockEmailer());
 
         var result = await renderer.Render(SomeEmail());
 
@@ -70,7 +69,7 @@ public class EmailRendererTest
     {
         var templater = new MockTemplater();
         templater.TemplateNamesToThrowFor.Add("SomeTemplate.Text");
-        var renderer = new EmailRenderer(templater, new MockEmailer(), new MockLogger<EmailRenderer>());
+        var renderer = new EmailRenderer(templater, new MockEmailer());
 
         var result = await renderer.Render(SomeEmail());
 
@@ -84,7 +83,7 @@ public class EmailRendererTest
     {
         var templater = new MockTemplater();
         templater.TemplateNamesToThrowFor.Add("SomeTemplate.Subject");
-        var renderer = new EmailRenderer(templater, new MockEmailer(), new MockLogger<EmailRenderer>());
+        var renderer = new EmailRenderer(templater, new MockEmailer());
 
         await Assert.ThrowsAsync<InvalidOperationException>(() => renderer.Render(SomeEmail()));
     }
@@ -94,7 +93,7 @@ public class EmailRendererTest
     {
         var templater = new MockTemplater();
         templater.TemplateNamesToThrowFor.Add("SomeTemplate.Html");
-        var renderer = new EmailRenderer(templater, new MockEmailer(), new MockLogger<EmailRenderer>());
+        var renderer = new EmailRenderer(templater, new MockEmailer());
 
         await Assert.ThrowsAsync<InvalidOperationException>(() => renderer.Render(SomeEmail()));
     }
@@ -103,7 +102,7 @@ public class EmailRendererTest
     public async Task RenderResultCarriesRecipientsAndAttachments()
     {
         var templater = new MockTemplater();
-        var renderer = new EmailRenderer(templater, new MockEmailer(), new MockLogger<EmailRenderer>());
+        var renderer = new EmailRenderer(templater, new MockEmailer());
 
         var to = new[] { Recipient("to@example.com") };
         var cc = new[] { Recipient("cc@example.com") };
@@ -126,7 +125,7 @@ public class EmailRendererTest
     {
         var templater = new MockTemplater();
         var mailer = new MockEmailer();
-        var renderer = new EmailRenderer(templater, mailer, new MockLogger<EmailRenderer>());
+        var renderer = new EmailRenderer(templater, mailer);
 
         await renderer.RenderAndSend(SomeEmail());
 
@@ -140,51 +139,69 @@ public class EmailRendererTest
     {
         var templater = new MockTemplater();
         var mailer = new MockEmailer { ExceptionToThrow = new InvalidOperationException("mailer failed") };
-        var renderer = new EmailRenderer(templater, mailer, new MockLogger<EmailRenderer>());
+        var renderer = new EmailRenderer(templater, mailer);
 
         await Assert.ThrowsAsync<InvalidOperationException>(() => renderer.RenderAndSend(SomeEmail()));
     }
 
     [Fact]
-    public async Task RenderAndSendNonBlockingSendsTheRenderedEmail()
+    public async Task RenderAndSendWithCallbackSendsTheRenderedEmail()
     {
         var templater = new MockTemplater();
         var mailer = new MockEmailer();
-        var logger = new MockLogger<EmailRenderer>();
-        var renderer = new EmailRenderer(templater, mailer, logger);
+        var renderer = new EmailRenderer(templater, mailer);
 
-        await renderer.RenderAndSendNonBlocking(SomeEmail());
+        var callbackCount = 0;
+        Exception? reportedException = null;
 
-        Assert.Single(mailer.SentEmails);
-        Assert.Empty(logger.Entries);
+        await renderer.RenderAndSend(ex =>
+        {
+            callbackCount++;
+            reportedException = ex;
+        }, SomeEmail());
+
+        var sent = Assert.Single(mailer.SentEmails);
+        Assert.Equal("EmailTemplates/SomeTemplate.Subject: { Name = World }", sent.Subject);
+        Assert.Equal("EmailTemplates/SomeTemplate.Html: { Name = World }", sent.HtmlBody);
+        Assert.Equal(1, callbackCount);
+        Assert.Null(reportedException);
     }
 
     [Fact]
-    public async Task RenderAndSendNonBlockingLogsErrorWhenSendingFails()
+    public async Task RenderAndSendWithCallbackReportsExceptionWhenSendingFails()
     {
         var templater = new MockTemplater();
         var exception = new InvalidOperationException("mailer failed");
         var mailer = new MockEmailer { ExceptionToThrow = exception };
-        var logger = new MockLogger<EmailRenderer>();
-        var renderer = new EmailRenderer(templater, mailer, logger);
+        var renderer = new EmailRenderer(templater, mailer);
 
-        await renderer.RenderAndSendNonBlocking(SomeEmail());
+        var callbackCount = 0;
+        Exception? reportedException = null;
+
+        await renderer.RenderAndSend(ex =>
+        {
+            callbackCount++;
+            reportedException = ex;
+        }, SomeEmail());
 
         Assert.Empty(mailer.SentEmails);
-        var entry = Assert.Single(logger.Entries);
-        Assert.Equal(LogLevel.Error, entry.LogLevel);
-        Assert.Same(exception, entry.Exception);
+        Assert.Equal(1, callbackCount);
+        Assert.Same(exception, reportedException);
     }
 
     [Fact]
-    public async Task RenderAndSendNonBlockingThrowsIfRenderingFails()
+    public async Task RenderAndSendWithCallbackThrowsIfRenderingFails()
     {
         var templater = new MockTemplater();
         templater.TemplateNamesToThrowFor.Add("SomeTemplate.Subject");
         var mailer = new MockEmailer();
-        var renderer = new EmailRenderer(templater, mailer, new MockLogger<EmailRenderer>());
+        var renderer = new EmailRenderer(templater, mailer);
 
-        await Assert.ThrowsAsync<InvalidOperationException>(() => renderer.RenderAndSendNonBlocking(SomeEmail()));
+        var callbackCount = 0;
+
+        await Assert.ThrowsAsync<InvalidOperationException>(() => renderer.RenderAndSend(_ => callbackCount++, SomeEmail()));
+
         Assert.Empty(mailer.SentEmails);
+        Assert.Equal(0, callbackCount);
     }
 }

@@ -22,5 +22,5 @@ stages:
   - template: pipeline-template-build-and-push.yml
     parameters:
       project: "src/Adliance.AspNetCore.Buddy.Pdf/*.csproj"
-      testProject: "src/Adliance.AspNetCore.Buddy.Pdf.Test/*.csproj"
+      testProject: "test/Adliance.AspNetCore.Buddy.Pdf.Test/*.csproj"
       nugetApiKey: "$(nuget_api_key)"
