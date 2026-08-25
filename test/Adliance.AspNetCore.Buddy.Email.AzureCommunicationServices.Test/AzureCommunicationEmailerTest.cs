@@ -59,7 +59,7 @@ public class AzureCommunicationEmailerTest
         var mailer = new AzureCommunicationEmailer(new MockedAzureCommunicationConfiguration(), new MockedEmailConfiguration());
         var tcs = new TaskCompletionSource<Exception?>();
 
-        mailer.SendNonBlocking(
+        mailer.Send(
             tcs.SetResult,
             _testRecipientAddress,
             "Unit Test for AzureCommunicationEmailer NonBlocking (no attachments)",
@@ -80,7 +80,7 @@ public class AzureCommunicationEmailerTest
         var mailer = new AzureCommunicationEmailer(invalidConfig, new MockedEmailConfiguration());
         var tcs = new TaskCompletionSource<Exception?>();
 
-        mailer.SendNonBlocking(
+        mailer.Send(
             tcs.SetResult,
             _testRecipientAddress,
             "Unit Test for AzureCommunicationEmailer NonBlocking (no attachments)",
@@ -99,7 +99,7 @@ public class AzureCommunicationEmailerTest
         var mailer = new AzureCommunicationEmailer(new MockedAzureCommunicationConfiguration(), new MockedEmailConfiguration());
         var tcs = new TaskCompletionSource<Exception?>();
 
-        mailer.SendNonBlocking(
+        mailer.Send(
             tcs.SetResult,
             _testRecipientAddress,
             "Unit Test for AzureCommunicationEmailer NonBlocking (with attachments)",

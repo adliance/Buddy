@@ -38,7 +38,7 @@ public class SendgridEmailerTest
         var mailer = new SendgridEmailer(new MockedSendgridConfiguration(), new MockedEmailConfiguration());
         var tcs = new TaskCompletionSource<Exception?>();
 
-        mailer.SendNonBlocking(
+        mailer.Send(
             tcs.SetResult,
             "hannes@sachsenhofer.com",
             "Unit Test for SendGrid NonBlocking (no attachments)",
@@ -54,7 +54,7 @@ public class SendgridEmailerTest
         var mailer = new SendgridEmailer(new MockedSendgridConfiguration(), new MockedEmailConfiguration());
         var tcs = new TaskCompletionSource<Exception?>();
 
-        mailer.SendNonBlocking(
+        mailer.Send(
             tcs.SetResult,
             "hannes@sachsenhofer.com",
             "Unit Test for SendGrid NonBlocking (with attachments)",

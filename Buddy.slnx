@@ -36,6 +36,7 @@
     <Project Path="test/Adliance.AspNetCore.Buddy.Highcharts.Test/Adliance.AspNetCore.Buddy.Highcharts.Test.csproj" />
     <Project Path="test/Adliance.AspNetCore.Buddy.Pdf.Test/Adliance.AspNetCore.Buddy.Pdf.Test.csproj" />
     <Project Path="test/Adliance.AspNetCore.Buddy.Storage.Test/Adliance.AspNetCore.Buddy.Storage.Test.csproj" />
+    <Project Path="test/Adliance.AspNetCore.Buddy.Template.Razor.Test/Adliance.AspNetCore.Buddy.Template.Razor.Test.csproj" />
     <Project Path="test/Adliance.AspNetCore.Buddy.Test/Adliance.AspNetCore.Buddy.Test.csproj" />
     <Project Path="test/Adliance.AspNetCore.Buddy.Testing.DemoProject/Adliance.AspNetCore.Buddy.Testing.DemoProject.csproj" />
     <Project Path="test/Adliance.AspNetCore.Buddy.Testing.Test/Adliance.AspNetCore.Buddy.Testing.Test.csproj" />
