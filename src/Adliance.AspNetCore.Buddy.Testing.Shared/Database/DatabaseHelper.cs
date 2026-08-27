@@ -10,7 +10,7 @@ public static class DatabaseHelper
     {
         if (options.Type == DatabaseType.UseSqlServerContainer)
         {
-            var containerBuilder = new MsSqlBuilder(options.DockerImage ?? "mcr.microsoft.com/mssql/server:2022-CU24-ubuntu-22.04")
+            var containerBuilder = new MsSqlBuilder(options.DefaultSqlServerDockerImage)
                 .WithNetwork(options.Network)
                 .WithNetworkAliases("db")
                 .WithLogger(options.Logger)
@@ -42,7 +42,7 @@ public static class DatabaseHelper
 
         if (options.Type == DatabaseType.UsePostgresContainer)
         {
-            var containerBuilder = new PostgreSqlBuilder(options.DockerImage ?? "postgres:16-alpine")
+            var containerBuilder = new PostgreSqlBuilder(options.DefaultPostgresDockerImage)
                 .WithNetwork(options.Network)
                 .WithNetworkAliases("db")
                 .WithLogger(options.Logger)
