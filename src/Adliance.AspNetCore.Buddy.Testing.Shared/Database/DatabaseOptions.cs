@@ -11,10 +11,11 @@ public class DatabaseOptions
     public IWaitForContainerOS? DbWaitStrategy { get; set; }
     public string? LocalDbConnectionString { get; set; }
     public ILogger Logger { get; set; } = new InMemoryLogger();
+
     /// <summary>
     /// The default Docker image used for SQL Server.
     /// </summary>
-    /// /// <seealso href="https://mcr.microsoft.com/en-us/artifact/mar/mssql/server/tags">
+    /// <seealso href="https://mcr.microsoft.com/en-us/artifact/mar/mssql/server/tags">
     /// SQL Server Container Versioning
     /// </seealso>
     public string DefaultSqlServerDockerImage { get; set; } = "mcr.microsoft.com/mssql/server:2022-latest";
