@@ -1,8 +1,8 @@
-using Adliance.AspNetCore.Buddy.Testing.v3.Test.Models;
+using Adliance.AspNetCore.Buddy.Testing.DemoProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Adliance.AspNetCore.Buddy.Testing.v3.Test.Controllers;
+namespace Adliance.AspNetCore.Buddy.Testing.DemoProject.Controllers;
 
 public class HomeController : Controller
 {
@@ -19,7 +19,7 @@ public class HomeController : Controller
         return View(nameof(Index), postContent);
     }
 
-    public async Task<IActionResult> Database([FromServices] Db db)
+    public async Task<IActionResult> Database([FromServices] DbBase db)
     {
         return View(await db.Table.CountAsync());
     }

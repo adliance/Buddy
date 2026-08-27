@@ -9,9 +9,9 @@ using Xunit;
 
 namespace Adliance.AspNetCore.Buddy.Testing.Test.Test.WithDatabaseTest;
 
-public class InContainerOptions : BuddyFixtureOptions<Program>
+public class InContainerOptionsSqlServer : BuddyFixtureOptions<Program>
 {
-    public InContainerOptions()
+    public InContainerOptionsSqlServer()
     {
         InContainer.Add(new ContainerOptions
         {
