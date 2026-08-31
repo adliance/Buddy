@@ -85,7 +85,7 @@ byte[] bytes = await _pdfer.HtmlToPdf("This is <b>my</b> HTML.", new PdfOptions
 });
 ```
 
-There is no separate opacity option — transparency is controlled entirely by the watermark's own HTML/CSS, exactly like header/footer/body HTML already work. Two ways to do it, which are **not** interchangeable:
+There is no separate opacity option — transparency is controlled entirely by the watermark's own HTML/CSS, exactly like header/footer/body HTML already work. Two common ways to do it, with different visual effects:
 
 ```html
 <!-- alpha channel on the background color: only the fill is translucent, any text/foreground
