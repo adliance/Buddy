@@ -29,6 +29,9 @@ public class WatermarkTest
             + "<div style='font-size:45px;color:white;transform:rotate(-20deg);'>CONFIDENTIAL</div></div>";
     }
 
+    private static readonly string TwoPageBodyHtml = $"<h1>Page 1</h1>{SampleBodyHtml}"
+                                                       + $"<div style='page-break-after: always;'></div><h1>Page 2</h1>{SampleBodyHtml}";
+
     // A full HTML document, not just a fragment. Background is on a nested <div>, not <body> —
     // a <body> background is propagated by CSS to the page canvas and prints as an always-opaque
     // base layer regardless of alpha. height:100% is set on <html> so the nested div's own
@@ -93,6 +96,41 @@ public class WatermarkTest
         Assert.InRange(bytes.Length, 5_000, 40_000);
     }
 
+    // The byte-range assertions above only prove each variant renders successfully — not that
+    // opacity/alpha actually had an effect. If the service silently ignored it, both PDFs would
+    // still land in the same range and those tests would keep passing regardless.
+    [Fact]
+    public async Task Opaque_And_Transparent_Watermark_Background_Alpha_Should_Produce_Different_Pdfs()
+    {
+        var opaqueTask = _pdfer.HtmlToPdf(SampleBodyHtml, new PdfOptions
+        {
+            Watermark = new WatermarkOptions { Html = SampleWatermarkHtml(backgroundAlpha: 1), X = 0, Y = 80, Width = 794, Height = 250 }
+        });
+        var transparentTask = _pdfer.HtmlToPdf(SampleBodyHtml, new PdfOptions
+        {
+            Watermark = new WatermarkOptions { Html = SampleWatermarkHtml(backgroundAlpha: 0.3), X = 0, Y = 80, Width = 794, Height = 250 }
+        });
+        await Task.WhenAll(opaqueTask, transparentTask);
+
+        Assert.NotEqual(await opaqueTask, await transparentTask);
+    }
+
+    [Fact]
+    public async Task Opaque_And_Transparent_Watermark_Css_Opacity_Property_Should_Produce_Different_Pdfs()
+    {
+        var opaqueTask = _pdfer.HtmlToPdf(SampleBodyHtml, new PdfOptions
+        {
+            Watermark = new WatermarkOptions { Html = SampleWatermarkHtml(opacityProperty: 1), X = 0, Y = 80, Width = 794, Height = 250 }
+        });
+        var transparentTask = _pdfer.HtmlToPdf(SampleBodyHtml, new PdfOptions
+        {
+            Watermark = new WatermarkOptions { Html = SampleWatermarkHtml(opacityProperty: 0.3), X = 0, Y = 80, Width = 794, Height = 250 }
+        });
+        await Task.WhenAll(opaqueTask, transparentTask);
+
+        Assert.NotEqual(await opaqueTask, await transparentTask);
+    }
+
     [Fact]
     public async Task Can_Add_Fully_Opaque_Watermark_Background_Alpha_1_To_Existing_Pdf_Obscuring_Content_Behind_It()
     {
@@ -129,10 +167,7 @@ public class WatermarkTest
     [Fact]
     public async Task Substitutes_Current_Page_And_Total_Pages_And_Honors_Page_Conditional_Classes_In_The_Watermark_When_Rendering()
     {
-        var twoPageBodyHtml = $"<h1>Page 1</h1>{SampleBodyHtml}"
-                              + $"<div style='page-break-after: always;'></div><h1>Page 2</h1>{SampleBodyHtml}";
-
-        var bytes = await _pdfer.HtmlToPdf(twoPageBodyHtml, new PdfOptions
+        var bytes = await _pdfer.HtmlToPdf(TwoPageBodyHtml, new PdfOptions
         {
             Watermark = new WatermarkOptions { Html = SampleCurrentPageWatermarkHtml, X = 0, Y = 80, Width = 794, Height = 250 }
         });
@@ -145,9 +180,7 @@ public class WatermarkTest
     [Fact]
     public async Task Substitutes_Current_Page_And_Total_Pages_And_Honors_Page_Conditional_Classes_In_The_Watermark_When_Adding_To_An_Existing_Pdf()
     {
-        var twoPageBodyHtml = $"<h1>Page 1</h1>{SampleBodyHtml}"
-                              + $"<div style='page-break-after: always;'></div><h1>Page 2</h1>{SampleBodyHtml}";
-        var original = await _pdfer.HtmlToPdf(twoPageBodyHtml, new PdfOptions());
+        var original = await _pdfer.HtmlToPdf(TwoPageBodyHtml, new PdfOptions());
 
         var watermarked = await _pdfer.AddWatermark(original, new WatermarkOptions
         {
@@ -162,10 +195,7 @@ public class WatermarkTest
     [Fact]
     public async Task Stamps_The_Watermark_Onto_Every_Page_When_Rendering_A_Multi_Page_Pdf()
     {
-        var twoPageBodyHtml = $"<h1>Page 1</h1>{SampleBodyHtml}"
-                              + $"<div style='page-break-after: always;'></div><h1>Page 2</h1>{SampleBodyHtml}";
-
-        var bytes = await _pdfer.HtmlToPdf(twoPageBodyHtml, new PdfOptions
+        var bytes = await _pdfer.HtmlToPdf(TwoPageBodyHtml, new PdfOptions
         {
             Watermark = new WatermarkOptions { Html = SampleWatermarkHtml(backgroundAlpha: 0.3), X = 0, Y = 80, Width = 794, Height = 250 }
         });
@@ -178,9 +208,7 @@ public class WatermarkTest
     [Fact]
     public async Task Stamps_The_Watermark_Onto_Every_Page_Of_A_Multi_Page_Existing_Pdf()
     {
-        var twoPageBodyHtml = $"<h1>Page 1</h1>{SampleBodyHtml}"
-                              + $"<div style='page-break-after: always;'></div><h1>Page 2</h1>{SampleBodyHtml}";
-        var original = await _pdfer.HtmlToPdf(twoPageBodyHtml, new PdfOptions());
+        var original = await _pdfer.HtmlToPdf(TwoPageBodyHtml, new PdfOptions());
 
         var watermarked = await _pdfer.AddWatermark(original, new WatermarkOptions
         {
@@ -195,16 +223,19 @@ public class WatermarkTest
     [Fact]
     public async Task Renders_Correctly_When_Watermark_Html_Is_A_Full_Document()
     {
-        var opaque = await _pdfer.HtmlToPdf(SampleBodyHtml, new PdfOptions
+        var opaqueTask = _pdfer.HtmlToPdf(SampleBodyHtml, new PdfOptions
         {
             Watermark = new WatermarkOptions { Html = SampleFullDocumentWatermarkHtml(1), X = 0, Y = 80, Width = 794, Height = 250 }
         });
-        await StoreForInspection(opaque, "watermark-fulldocument-opaque");
-
-        var transparent = await _pdfer.HtmlToPdf(SampleBodyHtml, new PdfOptions
+        var transparentTask = _pdfer.HtmlToPdf(SampleBodyHtml, new PdfOptions
         {
             Watermark = new WatermarkOptions { Html = SampleFullDocumentWatermarkHtml(0.3), X = 0, Y = 80, Width = 794, Height = 250 }
         });
+        await Task.WhenAll(opaqueTask, transparentTask);
+
+        var opaque = await opaqueTask;
+        var transparent = await transparentTask;
+        await StoreForInspection(opaque, "watermark-fulldocument-opaque");
         await StoreForInspection(transparent, "watermark-fulldocument-transparent");
 
         // the only difference between the two requests is the alpha baked into the watermark's
