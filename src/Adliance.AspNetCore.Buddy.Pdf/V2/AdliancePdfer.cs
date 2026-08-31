@@ -2,7 +2,6 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Adliance.AspNetCore.Buddy.Pdf.V2;
@@ -132,7 +131,7 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
             {
                 if (backoffMs < 10000)
                 {
-                    Thread.Sleep(backoffMs);
+                    await Task.Delay(backoffMs);
                     backoffMs *= 2;
                 }
                 else
