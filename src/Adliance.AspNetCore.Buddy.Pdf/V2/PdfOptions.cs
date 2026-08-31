@@ -51,6 +51,11 @@ public class PdfOptions
     /// The scaling (zoom) that the browser engine should use
     /// </summary>
     public double? Scale { get; set; }
+
+    /// <summary>
+    /// The watermark to stamp onto the PDF, once per page. Optional — omit to skip watermarking.
+    /// </summary>
+    public WatermarkOptions? Watermark { get; set; }
 }
 
 public enum PdfSize

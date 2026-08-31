@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Pdf.V2;
 using Xunit;
+using static Adliance.AspNetCore.Buddy.Pdf.Test.V2.TestHelpers;
 
 namespace Adliance.AspNetCore.Buddy.Pdf.Test.V2;
 
@@ -91,14 +92,5 @@ public class AdliancePdferTest
         Assert.NotEmpty(metadata.Outline);
         Assert.Equal("3.2.1 Überblick", metadata.Outline[2].Children[1].Children[0].Title);
         Assert.Equal(4, metadata.Outline[2].Children[1].Children[0].Page);
-    }
-
-    private static async Task StoreForInspection(byte[] bytes)
-    {
-        var directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
-        if (Directory.Exists(directory))
-        {
-            await File.WriteAllBytesAsync(Path.Combine(directory, Guid.NewGuid() + ".pdf"), bytes);
-        }
     }
 }

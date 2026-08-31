@@ -27,7 +27,8 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
             paper_height = paperSize[1],
             print_background = options.PrintBackground,
             outline = options.Outline,
-            scale = options.Scale
+            scale = options.Scale,
+            watermark = ToWatermarkParameters(options.Watermark)
         };
 
         return await Send("/", configuration.ApiKeyPdf, parameters);
@@ -74,10 +75,35 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
             paper_width = paperSize[0],
             paper_height = paperSize[1],
             print_background = options.PrintBackground,
-            scale = options.Scale
+            scale = options.Scale,
+            watermark = ToWatermarkParameters(options.Watermark)
         };
 
         return await Send("/template", configuration.ApiKeyTemplate, parameters);
+    }
+
+    public async Task<byte[]> AddWatermark(byte[] pdf, WatermarkOptions watermark)
+    {
+        var parameters = new
+        {
+            pdf = pdf,
+            watermark = ToWatermarkParameters(watermark)
+        };
+
+        return await Send("/add-watermark", configuration.ApiKeyPdf, parameters);
+    }
+
+    private static object? ToWatermarkParameters(WatermarkOptions? watermark)
+    {
+        if (watermark == null) return null;
+        return new
+        {
+            html = watermark.Html,
+            x = watermark.X,
+            y = watermark.Y,
+            width = watermark.Width,
+            height = watermark.Height
+        };
     }
 
     private async Task<byte[]> Send(string endpoint, string? apiKey, object parameters)

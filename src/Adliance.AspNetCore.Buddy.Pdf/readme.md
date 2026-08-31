@@ -64,6 +64,43 @@ IPdfer _pdfer = new AdliancePdfer(new DefaultPdferConfiguration());
 byte[] bytes = await _pdfer.TemplateToPdf("<b>Hello</b> from {{Name}}", new { Name = "Model" }, new TemplateOptions());
 ```
 
+### Add a watermark to an existing PDF
+Stamps a watermark onto every page of an existing PDF (e.g. one previously produced by `HtmlToPdf`). Like header/footer, the watermark HTML is rendered once per page, so it supports the same `.current-page`/`.total-pages` substitution and page-conditional classes (`.only-on-first-page`, `.not-on-first-page`).
+
+```c#
+IPdfer _pdfer = new AdliancePdfer(new DefaultPdferConfiguration());
+byte[] pdf = await _pdfer.HtmlToPdf("This is <b>my</b> HTML.", new PdfOptions());
+byte[] watermarked = await _pdfer.AddWatermark(pdf, new WatermarkOptions
+{
+    Html = "<div style='width:100%;height:100%;background-color:rgba(255,0,0,0.3);'>CONFIDENTIAL</div>"
+});
+```
+
+A watermark can also be added directly while generating a PDF, by setting `PdfOptions.Watermark` (or `TemplateOptions.Watermark`, since it inherits from `PdfOptions`):
+
+```c#
+byte[] bytes = await _pdfer.HtmlToPdf("This is <b>my</b> HTML.", new PdfOptions
+{
+    Watermark = new WatermarkOptions { Html = "<div style='width:100%;height:100%;background-color:rgba(255,0,0,0.3);'>DRAFT</div>" }
+});
+```
+
+There is no separate opacity option — transparency is controlled entirely by the watermark's own HTML/CSS, exactly like header/footer/body HTML already work. Two ways to do it, which are **not** interchangeable:
+
+```html
+<!-- alpha channel on the background color: only the fill is translucent, any text/foreground
+     content drawn on top (if given a solid opaque color) stays fully opaque -->
+<div style='width:100%;height:100%;background-color:rgba(255,0,0,0.3);'>CONFIDENTIAL</div>
+
+<!-- the CSS opacity property: applies to the whole element as one composited group, so
+     background AND text both become translucent together -->
+<div style='width:100%;height:100%;opacity:0.3;background-color:red;'>CONFIDENTIAL</div>
+```
+
+Pick whichever matches the effect you want. This was a deliberate choice: applying opacity server-side (by injecting it into the caller's HTML before rendering) proved unreliable in practice — it broke for full `<!DOCTYPE html>` documents, and separately for a background set directly on `<body>` (a very common pattern), since CSS propagates that to the page canvas in a way that bypasses element-level opacity. Rather than depend on watermark HTML never using these realistic patterns, the caller is left in full control instead. That `<body>` caveat applies regardless of which of the two forms above you use, if you put the background there instead of on a nested element.
+
+**Note on tamper-resistance:** a watermark added this way is stamped directly into each page's content stream (the same mechanism used for header/footer), so it is visually persistent and not a toggleable annotation layer — but it is not cryptographic protection. Anyone with PDF-editing tools can still remove or obscure it. Use this for visible marking/branding purposes (e.g. "DRAFT", "CONFIDENTIAL"), not as an access-control or anti-tamper mechanism.
+
 ### PDF Options
 
 #### Version 2
@@ -74,6 +111,17 @@ byte[] bytes = await _pdfer.TemplateToPdf("<b>Hello</b> from {{Name}}", new { Na
 | HeaderHeight | `int`    | The height of the header in pixel (px). If a HeaderHtml is provided, the height must be set. |
 | FooterHtml   | `string` | The HTML for the PDF footer as string. |
 | FooterHeight | `int`    | The height of the footer in pixel (px). If a FooterHtml is provided, the height must be set. |
+| Watermark    | `WatermarkOptions` | The watermark to stamp onto the PDF, once per page. Optional — omit to skip watermarking. |
+
+### Watermark Options
+
+| Name    | Type     | Description                            |
+|---------|----------|----------------------------------------|
+| Html    | `string` | The HTML for the watermark as string. Required. Transparency is controlled directly in this HTML/CSS (e.g. `opacity: 0.3`, `rgba()`/`hsla()` colors) — there is no separate opacity option. |
+| X       | `int`    | The horizontal position (px) of the watermark, from the page's top-left corner. Defaults to 0. |
+| Y       | `int`    | The vertical position (px) of the watermark, from the page's top-left corner. Defaults to 0. |
+| Width   | `int`    | The width (px) of the box the watermark HTML is rendered into. Defaults to the full page width. |
+| Height  | `int`    | The height (px) of the box the watermark HTML is rendered into. Defaults to the full page height. |
 
 ### Template Options
 

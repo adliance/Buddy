@@ -9,4 +9,6 @@ public interface IPdfer
     Task<PdfMetadata> GetPdfMetadata(byte[] pdfBytes);
 
     Task<byte[]> TemplateToPdf(string template, object model, TemplateOptions options);
+
+    Task<byte[]> AddWatermark(byte[] pdf, WatermarkOptions watermark);
 }
