@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -27,7 +29,7 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
             print_background = options.PrintBackground,
             outline = options.Outline,
             scale = options.Scale,
-            watermark = ToWatermarkParameters(options.Watermark)
+            watermarks = ToWatermarksParameters(options.Watermarks)
         };
 
         return await Send("/", configuration.ApiKeyPdf, parameters);
@@ -75,34 +77,34 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
             paper_height = paperSize[1],
             print_background = options.PrintBackground,
             scale = options.Scale,
-            watermark = ToWatermarkParameters(options.Watermark)
+            watermarks = ToWatermarksParameters(options.Watermarks)
         };
 
         return await Send("/template", configuration.ApiKeyTemplate, parameters);
     }
 
-    public async Task<byte[]> AddWatermark(byte[] pdf, WatermarkOptions watermark)
+    public async Task<byte[]> AddWatermark(byte[] pdf, IEnumerable<WatermarkOptions> watermarks)
     {
         var parameters = new
         {
             pdf = pdf,
-            watermark = ToWatermarkParameters(watermark)
+            watermarks = ToWatermarksParameters(watermarks)
         };
 
         return await Send("/add-watermark", configuration.ApiKeyPdf, parameters);
     }
 
-    private static object? ToWatermarkParameters(WatermarkOptions? watermark)
+    private static object? ToWatermarksParameters(IEnumerable<WatermarkOptions>? watermarks)
     {
-        if (watermark == null) return null;
-        return new
+        if (watermarks == null) return null;
+        return watermarks.Select(watermark => new
         {
             html = watermark.Html,
             x = watermark.X,
             y = watermark.Y,
             width = watermark.Width,
             height = watermark.Height
-        };
+        }).ToArray();
     }
 
     private async Task<byte[]> Send(string endpoint, string? apiKey, object parameters)

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Adliance.AspNetCore.Buddy.Pdf.V2;
 
 public class PdfOptions
@@ -53,9 +55,9 @@ public class PdfOptions
     public double? Scale { get; set; }
 
     /// <summary>
-    /// The watermark to stamp onto the PDF, once per page. Optional — omit to skip watermarking.
+    /// The watermarks to stamp onto the PDF, each once per page. Stamped in list order. Optional — omit or leave empty to skip watermarking.
     /// </summary>
-    public WatermarkOptions? Watermark { get; set; }
+    public IList<WatermarkOptions>? Watermarks { get; set; }
 }
 
 public enum PdfSize

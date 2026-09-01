@@ -64,24 +64,24 @@ IPdfer _pdfer = new AdliancePdfer(new DefaultPdferConfiguration());
 byte[] bytes = await _pdfer.TemplateToPdf("<b>Hello</b> from {{Name}}", new { Name = "Model" }, new TemplateOptions());
 ```
 
-### Add a watermark to an existing PDF
-Stamps a watermark onto every page of an existing PDF (e.g. one previously produced by `HtmlToPdf`). Like header/footer, the watermark HTML is rendered once per page, so it supports the same `.current-page`/`.total-pages` substitution and page-conditional classes (`.only-on-first-page`, `.not-on-first-page`).
+### Add one or more watermarks to an existing PDF
+Stamps one or more watermarks onto every page of an existing PDF (e.g. one previously produced by `HtmlToPdf`), each rendered independently and applied in list order. Like header/footer, each watermark's HTML is rendered once per page, so it supports the same `.current-page`/`.total-pages` substitution and page-conditional classes (`.only-on-first-page`, `.not-on-first-page`).
 
 ```c#
 IPdfer _pdfer = new AdliancePdfer(new DefaultPdferConfiguration());
 byte[] pdf = await _pdfer.HtmlToPdf("This is <b>my</b> HTML.", new PdfOptions());
-byte[] watermarked = await _pdfer.AddWatermark(pdf, new WatermarkOptions
-{
-    Html = "<div style='width:100%;height:100%;background-color:rgba(255,0,0,0.3);'>CONFIDENTIAL</div>"
-});
+byte[] watermarked = await _pdfer.AddWatermark(pdf,
+[
+    new WatermarkOptions { Html = "<div style='width:100%;height:100%;background-color:rgba(255,0,0,0.3);'>CONFIDENTIAL</div>" }
+]);
 ```
 
-A watermark can also be added directly while generating a PDF, by setting `PdfOptions.Watermark` (or `TemplateOptions.Watermark`, since it inherits from `PdfOptions`):
+Watermarks can also be added directly while generating a PDF, by setting `PdfOptions.Watermarks` (or `TemplateOptions.Watermarks`, since it inherits from `PdfOptions`):
 
 ```c#
 byte[] bytes = await _pdfer.HtmlToPdf("This is <b>my</b> HTML.", new PdfOptions
 {
-    Watermark = new WatermarkOptions { Html = "<div style='width:100%;height:100%;background-color:rgba(255,0,0,0.3);'>DRAFT</div>" }
+    Watermarks = [new WatermarkOptions { Html = "<div style='width:100%;height:100%;background-color:rgba(255,0,0,0.3);'>DRAFT</div>" }]
 });
 ```
 
@@ -111,7 +111,7 @@ Pick whichever matches the effect you want. This was a deliberate choice: applyi
 | HeaderHeight | `int`    | The height of the header in pixel (px). If a HeaderHtml is provided, the height must be set. |
 | FooterHtml   | `string` | The HTML for the PDF footer as string. |
 | FooterHeight | `int`    | The height of the footer in pixel (px). If a FooterHtml is provided, the height must be set. |
-| Watermark    | `WatermarkOptions` | The watermark to stamp onto the PDF, once per page. Optional — omit to skip watermarking. |
+| Watermarks   | `IList<WatermarkOptions>` | The watermarks to stamp onto the PDF, each once per page, applied in list order. Optional — omit or leave empty to skip watermarking. |
 
 ### Watermark Options
 
