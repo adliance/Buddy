@@ -139,6 +139,26 @@ The `TemplateOptions` class extends `PdfOptions` and provides some configuration
 | FooterJavaScript | `string` | The optional Javascript used to modify the `FooterModel`. |
 | FooterHeight | `int`    | The height of the footer in pixel (px). If a `FooterHtml` is provided, the height must be set. |
 
+When using `TemplateToPdf`, individual watermarks can also be templated — since `Watermarks` is a list, template/model/js live per-entry rather than as flat `Watermark*` properties. Use `TemplateWatermarkOptions` (a subclass of `WatermarkOptions`) instead of plain `WatermarkOptions` for any entry that needs one:
+
+```c#
+byte[] bytes = await _pdfer.TemplateToPdf("<h1>Report</h1>", new { }, new TemplateOptions
+{
+    Watermarks = [new TemplateWatermarkOptions { Html = "<div>{{status}}</div>", Model = new { status = "DRAFT" } }]
+});
+```
+
+`TemplateWatermarkOptions.Html` holds the Handlebars template (same reuse of `Html` as `HeaderHtml`/`FooterHtml` do above), and `Model`/`JavaScript` work exactly like `HeaderModel`/`HeaderJavaScript`. A plain `WatermarkOptions` entry in the same list still works too — it's used as literal HTML, no templating. `TemplateWatermarkOptions` only works via `TemplateToPdf`; using it with `HtmlToPdf` or `AddWatermark` throws `InvalidOperationException`, since those endpoints have no templating support.
+
+### Template Watermark Options
+
+`TemplateWatermarkOptions` extends `WatermarkOptions` (see above for `Html`/`X`/`Y`/`Width`/`Height`) with:
+
+| Name         | Type     | Description                            |
+|--------------|----------|----------------------------------------|
+| Model        | `object` | The model passed to the watermark's Handlebars template. |
+| JavaScript   | `string` | Optional JavaScript to transform `Model` before rendering. If omitted, the model is used as-is. |
+
 ## Useful information
 ### Page numbers
 To have page numbers, e.g in the footer of the PDF, there are two CSS classes. If placed on a span element, the content of the element is substituted with the appropriate value.

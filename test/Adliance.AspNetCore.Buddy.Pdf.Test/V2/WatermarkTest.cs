@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Pdf.V2;
@@ -120,5 +122,48 @@ public class WatermarkTest
         await StoreForInspection(watermarked, "add-watermark-multiple");
 
         Assert.True(watermarked.Length > original.Length);
+    }
+
+    [Fact]
+    public async Task Renders_A_Pdf_With_A_Templated_Watermark_Via_TemplateToPdf()
+    {
+        var bytes = await _pdfer.TemplateToPdf(SampleBodyHtml, new { },
+            new TemplateOptions
+            {
+                Watermarks = new List<WatermarkOptions>
+                {
+                    new TemplateWatermarkOptions
+                    {
+                        Html = "{{shout label}}",
+                        Model = new { label = "confidential" },
+                        JavaScript = "registerHelper('shout', function(v) { return v.toUpperCase(); }); return model;",
+                        X = 0, Y = 80, Width = 794, Height = 250
+                    }
+                }
+            });
+        await StoreForInspection(bytes, "watermark-templated");
+        Assert.InRange(bytes.Length, 5_000, 40_000);
+    }
+
+    [Fact]
+    public async Task Using_A_TemplateWatermarkOptions_With_HtmlToPdf_Throws()
+    {
+        await Assert.ThrowsAsync<InvalidOperationException>(() => _pdfer.HtmlToPdf(SampleBodyHtml, new PdfOptions
+        {
+            Watermarks = new List<WatermarkOptions>
+            {
+                new TemplateWatermarkOptions { Html = "{{label}}", Model = new { label = "DRAFT" } }
+            }
+        }));
+    }
+
+    [Fact]
+    public async Task Using_A_TemplateWatermarkOptions_With_AddWatermark_Throws()
+    {
+        var original = await _pdfer.HtmlToPdf(SampleBodyHtml, new PdfOptions());
+        await Assert.ThrowsAsync<InvalidOperationException>(() => _pdfer.AddWatermark(original,
+        [
+            new TemplateWatermarkOptions { Html = "{{label}}", Model = new { label = "DRAFT" } }
+        ]));
     }
 }

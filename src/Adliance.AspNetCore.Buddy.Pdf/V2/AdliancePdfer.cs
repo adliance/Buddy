@@ -29,7 +29,7 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
             print_background = options.PrintBackground,
             outline = options.Outline,
             scale = options.Scale,
-            watermarks = ToWatermarksParameters(options.Watermarks)
+            watermarks = ToWatermarksParameters(options.Watermarks, supportsTemplating: false)
         };
 
         return await Send("/", configuration.ApiKeyPdf, parameters);
@@ -77,7 +77,7 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
             paper_height = paperSize[1],
             print_background = options.PrintBackground,
             scale = options.Scale,
-            watermarks = ToWatermarksParameters(options.Watermarks)
+            watermarks = ToWatermarksParameters(options.Watermarks, supportsTemplating: true)
         };
 
         return await Send("/template", configuration.ApiKeyTemplate, parameters);
@@ -88,22 +88,45 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
         var parameters = new
         {
             pdf = pdf,
-            watermarks = ToWatermarksParameters(watermarks)
+            watermarks = ToWatermarksParameters(watermarks, supportsTemplating: false)
         };
 
         return await Send("/add-watermark", configuration.ApiKeyPdf, parameters);
     }
 
-    private static object? ToWatermarksParameters(IEnumerable<WatermarkOptions>? watermarks)
+    private static object? ToWatermarksParameters(IEnumerable<WatermarkOptions>? watermarks, bool supportsTemplating)
     {
         if (watermarks == null) return null;
-        return watermarks.Select(watermark => new
+        return watermarks.Select(watermark =>
         {
-            html = watermark.Html,
-            x = watermark.X,
-            y = watermark.Y,
-            width = watermark.Width,
-            height = watermark.Height
+            if (watermark is TemplateWatermarkOptions templated)
+            {
+                if (!supportsTemplating)
+                {
+                    throw new InvalidOperationException(
+                        $"{nameof(TemplateWatermarkOptions)} can only be used with {nameof(TemplateToPdf)}, via {nameof(TemplateOptions)}.{nameof(TemplateOptions.Watermarks)}.");
+                }
+
+                return (object)new
+                {
+                    template = templated.Html,
+                    model = templated.Model,
+                    js = templated.JavaScript,
+                    x = templated.X,
+                    y = templated.Y,
+                    width = templated.Width,
+                    height = templated.Height
+                };
+            }
+
+            return new
+            {
+                html = watermark.Html,
+                x = watermark.X,
+                y = watermark.Y,
+                width = watermark.Width,
+                height = watermark.Height
+            };
         }).ToArray();
     }
 
