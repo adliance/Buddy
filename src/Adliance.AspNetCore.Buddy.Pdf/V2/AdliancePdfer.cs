@@ -83,12 +83,15 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
         return await Send("/template", configuration.ApiKeyTemplate, parameters);
     }
 
-    public async Task<byte[]> AddWatermark(byte[] pdf, IEnumerable<WatermarkOptions> watermarks)
+    public async Task<byte[]> AddWatermark(byte[] pdf, IEnumerable<WatermarkOptions> watermarks, AddWatermarkOptions? options = null)
     {
         var parameters = new
         {
             pdf = pdf,
-            watermarks = ToWatermarksParameters(watermarks, supportsTemplating: false)
+            watermarks = ToWatermarksParameters(watermarks, supportsTemplating: false),
+            scale = options?.Scale,
+            print_background = options?.PrintBackground,
+            outline = options?.Outline
         };
 
         return await Send("/add-watermark", configuration.ApiKeyPdf, parameters);

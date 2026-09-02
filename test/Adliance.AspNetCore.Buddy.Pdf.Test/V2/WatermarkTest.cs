@@ -125,6 +125,21 @@ public class WatermarkTest
     }
 
     [Fact]
+    public async Task AddWatermarkOptions_Scale_Actually_Changes_The_Watermark_Render()
+    {
+        var original = await _pdfer.HtmlToPdf(SampleBodyHtml, new PdfOptions());
+        var watermark = new WatermarkOptions { Html = SampleWatermarkHtml, X = 0, Y = 80, Width = 794, Height = 250 };
+
+        var defaultScale = await _pdfer.AddWatermark(original, [watermark]);
+        var customScale = await _pdfer.AddWatermark(original, [watermark], new AddWatermarkOptions { Scale = 1.5 });
+        await StoreForInspection(customScale, "add-watermark-custom-scale");
+
+        // scale changes how large the watermark's own content renders within its box — the only
+        // difference between the two calls is Scale, so the outputs must not be identical.
+        Assert.NotEqual(defaultScale, customScale);
+    }
+
+    [Fact]
     public async Task Renders_A_Pdf_With_A_Templated_Watermark_Via_TemplateToPdf()
     {
         var bytes = await _pdfer.TemplateToPdf(SampleBodyHtml, new { },

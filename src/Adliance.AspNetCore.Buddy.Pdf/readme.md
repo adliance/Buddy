@@ -76,6 +76,15 @@ byte[] watermarked = await _pdfer.AddWatermark(pdf,
 ]);
 ```
 
+An optional `AddWatermarkOptions` third argument controls how each watermark itself is rendered — the same `Scale`/`PrintBackground` knobs `PdfOptions` exposes for `HtmlToPdf`. Useful to match a watermark's rendering to a document produced elsewhere with a non-default `Scale`:
+
+```c#
+byte[] watermarked = await _pdfer.AddWatermark(pdf,
+[
+    new WatermarkOptions { Html = "<div style='width:100%;height:100%;background-color:rgba(255,0,0,0.3);'>CONFIDENTIAL</div>" }
+], new AddWatermarkOptions { Scale = 1.0 });
+```
+
 Watermarks can also be added directly while generating a PDF, by setting `PdfOptions.Watermarks` (or `TemplateOptions.Watermarks`, since it inherits from `PdfOptions`):
 
 ```c#
@@ -158,6 +167,16 @@ byte[] bytes = await _pdfer.TemplateToPdf("<h1>Report</h1>", new { }, new Templa
 |--------------|----------|----------------------------------------|
 | Model        | `object` | The model passed to the watermark's Handlebars template. |
 | JavaScript   | `string` | Optional JavaScript to transform `Model` before rendering. If omitted, the model is used as-is. |
+
+### Add Watermark Options
+
+Optional third argument to `AddWatermark`, controlling how each watermark itself is rendered.
+
+| Name         | Type     | Description                            |
+|--------------|----------|----------------------------------------|
+| Scale        | `double` | The scaling (zoom) the browser engine should use when rendering each watermark. |
+| PrintBackground | `bool` | Whether or not background images/colors should be printed for each watermark. |
+| Outline      | `bool`   | Has no visible effect — a watermark's outline never survives being embedded onto the target page — accepted only for consistency with `PdfOptions.Outline`. |
 
 ## Useful information
 ### Page numbers
