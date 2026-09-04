@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Adliance.AspNetCore.Buddy.Pdf.V2;
 
 public class PdfOptions
@@ -51,6 +53,11 @@ public class PdfOptions
     /// The scaling (zoom) that the browser engine should use
     /// </summary>
     public double? Scale { get; set; }
+
+    /// <summary>
+    /// The watermarks to stamp onto the PDF, each once per page. Stamped in list order. Optional — omit or leave empty to skip watermarking.
+    /// </summary>
+    public IList<WatermarkOptions>? Watermarks { get; set; }
 }
 
 public enum PdfSize

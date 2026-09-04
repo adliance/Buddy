@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Adliance.AspNetCore.Buddy.Testing.v3.Test.Test.WithDatabaseTest;
 
-public class WithDatabaseFixture<TOptions> 
-    : BuddyFixture<TOptions, Program>, IDisposable 
+public class WithDatabaseFixture<TOptions>
+    : BuddyFixture<TOptions, Program>, IDisposable
     where TOptions : BuddyFixtureOptions<Program>, new()
 {
     public DbBase Db = null!;

@@ -64,6 +64,52 @@ IPdfer _pdfer = new AdliancePdfer(new DefaultPdferConfiguration());
 byte[] bytes = await _pdfer.TemplateToPdf("<b>Hello</b> from {{Name}}", new { Name = "Model" }, new TemplateOptions());
 ```
 
+### Add one or more watermarks to an existing PDF
+Stamps one or more watermarks onto every page of an existing PDF (e.g. one previously produced by `HtmlToPdf`), each rendered independently and applied in list order. Like header/footer, each watermark's HTML is rendered once per page, so it supports the same `.current-page`/`.total-pages` substitution and page-conditional classes (`.only-on-first-page`, `.not-on-first-page`).
+
+```c#
+IPdfer _pdfer = new AdliancePdfer(new DefaultPdferConfiguration());
+byte[] pdf = await _pdfer.HtmlToPdf("This is <b>my</b> HTML.", new PdfOptions());
+byte[] watermarked = await _pdfer.AddWatermark(pdf,
+[
+    new WatermarkOptions { Html = "<div style='width:100%;height:100%;background-color:rgba(255,0,0,0.3);'>CONFIDENTIAL</div>" }
+]);
+```
+
+An optional `AddWatermarkOptions` third argument controls how each watermark itself is rendered — the same `Scale`/`PrintBackground` knobs `PdfOptions` exposes for `HtmlToPdf`. Useful to match a watermark's rendering to a document produced elsewhere with a non-default `Scale`:
+
+```c#
+byte[] watermarked = await _pdfer.AddWatermark(pdf,
+[
+    new WatermarkOptions { Html = "<div style='width:100%;height:100%;background-color:rgba(255,0,0,0.3);'>CONFIDENTIAL</div>" }
+], new AddWatermarkOptions { Scale = 1.0 });
+```
+
+Watermarks can also be added directly while generating a PDF, by setting `PdfOptions.Watermarks` (or `TemplateOptions.Watermarks`, since it inherits from `PdfOptions`):
+
+```c#
+byte[] bytes = await _pdfer.HtmlToPdf("This is <b>my</b> HTML.", new PdfOptions
+{
+    Watermarks = [new WatermarkOptions { Html = "<div style='width:100%;height:100%;background-color:rgba(255,0,0,0.3);'>DRAFT</div>" }]
+});
+```
+
+There is no separate opacity option — transparency is controlled entirely by the watermark's own HTML/CSS, exactly like header/footer/body HTML already work. Two common ways to do it, with different visual effects:
+
+```html
+<!-- alpha channel on the background color: only the fill is translucent, any text/foreground
+     content drawn on top (if given a solid opaque color) stays fully opaque -->
+<div style='width:100%;height:100%;background-color:rgba(255,0,0,0.3);'>CONFIDENTIAL</div>
+
+<!-- the CSS opacity property: applies to the whole element as one composited group, so
+     background AND text both become translucent together -->
+<div style='width:100%;height:100%;opacity:0.3;background-color:red;'>CONFIDENTIAL</div>
+```
+
+Pick whichever matches the effect you want. This was a deliberate choice: applying opacity server-side (by injecting it into the caller's HTML before rendering) proved unreliable in practice — it broke for full `<!DOCTYPE html>` documents, and separately for a background set directly on `<body>` (a very common pattern), since CSS propagates that to the page canvas in a way that bypasses element-level opacity. Rather than depend on watermark HTML never using these realistic patterns, the caller is left in full control instead. That `<body>` caveat applies regardless of which of the two forms above you use, if you put the background there instead of on a nested element.
+
+**Note on tamper-resistance:** a watermark added this way is stamped directly into each page's content stream (the same mechanism used for header/footer), so it is visually persistent and not a toggleable annotation layer — but it is not cryptographic protection. Anyone with PDF-editing tools can still remove or obscure it. Use this for visible marking/branding purposes (e.g. "DRAFT", "CONFIDENTIAL"), not as an access-control or anti-tamper mechanism.
+
 ### PDF Options
 
 #### Version 2
@@ -74,6 +120,17 @@ byte[] bytes = await _pdfer.TemplateToPdf("<b>Hello</b> from {{Name}}", new { Na
 | HeaderHeight | `int`    | The height of the header in pixel (px). If a HeaderHtml is provided, the height must be set. |
 | FooterHtml   | `string` | The HTML for the PDF footer as string. |
 | FooterHeight | `int`    | The height of the footer in pixel (px). If a FooterHtml is provided, the height must be set. |
+| Watermarks   | `IList<WatermarkOptions>` | The watermarks to stamp onto the PDF, each once per page, applied in list order. Optional — omit or leave empty to skip watermarking. |
+
+### Watermark Options
+
+| Name    | Type     | Description                            |
+|---------|----------|----------------------------------------|
+| Html    | `string` | The HTML for the watermark as string. Required. Transparency is controlled directly in this HTML/CSS (e.g. `opacity: 0.3`, `rgba()`/`hsla()` colors) — there is no separate opacity option. |
+| X       | `int`    | The horizontal position (px) of the watermark, from the page's top-left corner. Defaults to 0. |
+| Y       | `int`    | The vertical position (px) of the watermark, from the page's top-left corner. Defaults to 0. |
+| Width   | `int`    | The width (px) of the box the watermark HTML is rendered into. Defaults to the full page width. |
+| Height  | `int`    | The height (px) of the box the watermark HTML is rendered into. Defaults to the full page height. |
 
 ### Template Options
 
@@ -90,6 +147,36 @@ The `TemplateOptions` class extends `PdfOptions` and provides some configuration
 | FooterModel  | `string` | The model for the `FooterHtml`. |
 | FooterJavaScript | `string` | The optional Javascript used to modify the `FooterModel`. |
 | FooterHeight | `int`    | The height of the footer in pixel (px). If a `FooterHtml` is provided, the height must be set. |
+
+When using `TemplateToPdf`, individual watermarks can also be templated — since `Watermarks` is a list, template/model/js live per-entry rather than as flat `Watermark*` properties. Use `TemplateWatermarkOptions` (a subclass of `WatermarkOptions`) instead of plain `WatermarkOptions` for any entry that needs one:
+
+```c#
+byte[] bytes = await _pdfer.TemplateToPdf("<h1>Report</h1>", new { }, new TemplateOptions
+{
+    Watermarks = [new TemplateWatermarkOptions { Html = "<div>{{status}}</div>", Model = new { status = "DRAFT" } }]
+});
+```
+
+`TemplateWatermarkOptions.Html` holds the Handlebars template (same reuse of `Html` as `HeaderHtml`/`FooterHtml` do above), and `Model`/`JavaScript` work exactly like `HeaderModel`/`HeaderJavaScript`. A plain `WatermarkOptions` entry in the same list still works too — it's used as literal HTML, no templating. `TemplateWatermarkOptions` only works via `TemplateToPdf`; using it with `HtmlToPdf` or `AddWatermark` throws `InvalidOperationException`, since those endpoints have no templating support.
+
+### Template Watermark Options
+
+`TemplateWatermarkOptions` extends `WatermarkOptions` (see above for `Html`/`X`/`Y`/`Width`/`Height`) with:
+
+| Name         | Type     | Description                            |
+|--------------|----------|----------------------------------------|
+| Model        | `object` | The model passed to the watermark's Handlebars template. |
+| JavaScript   | `string` | Optional JavaScript to transform `Model` before rendering. If omitted, the model is used as-is. |
+
+### Add Watermark Options
+
+Optional third argument to `AddWatermark`, controlling how each watermark itself is rendered.
+
+| Name         | Type     | Description                            |
+|--------------|----------|----------------------------------------|
+| Scale        | `double` | The scaling (zoom) the browser engine should use when rendering each watermark. |
+| PrintBackground | `bool` | Whether or not background images/colors should be printed for each watermark. |
+| Outline      | `bool`   | Has no visible effect — a watermark's outline never survives being embedded onto the target page — accepted only for consistency with `PdfOptions.Outline`. |
 
 ## Useful information
 ### Page numbers

@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Adliance.AspNetCore.Buddy.Pdf.V2;
@@ -27,7 +28,8 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
             paper_height = paperSize[1],
             print_background = options.PrintBackground,
             outline = options.Outline,
-            scale = options.Scale
+            scale = options.Scale,
+            watermarks = ToWatermarksParameters(options.Watermarks, supportsTemplating: false)
         };
 
         return await Send("/", configuration.ApiKeyPdf, parameters);
@@ -74,10 +76,61 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
             paper_width = paperSize[0],
             paper_height = paperSize[1],
             print_background = options.PrintBackground,
-            scale = options.Scale
+            scale = options.Scale,
+            watermarks = ToWatermarksParameters(options.Watermarks, supportsTemplating: true)
         };
 
         return await Send("/template", configuration.ApiKeyTemplate, parameters);
+    }
+
+    public async Task<byte[]> AddWatermark(byte[] pdf, IEnumerable<WatermarkOptions> watermarks, AddWatermarkOptions? options = null)
+    {
+        var parameters = new
+        {
+            pdf = pdf,
+            watermarks = ToWatermarksParameters(watermarks, supportsTemplating: false),
+            scale = options?.Scale,
+            print_background = options?.PrintBackground,
+            outline = options?.Outline
+        };
+
+        return await Send("/add-watermark", configuration.ApiKeyPdf, parameters);
+    }
+
+    private static object? ToWatermarksParameters(IEnumerable<WatermarkOptions>? watermarks, bool supportsTemplating)
+    {
+        if (watermarks == null) return null;
+        return watermarks.Select(watermark =>
+        {
+            if (watermark is TemplateWatermarkOptions templated)
+            {
+                if (!supportsTemplating)
+                {
+                    throw new InvalidOperationException(
+                        $"{nameof(TemplateWatermarkOptions)} can only be used with {nameof(TemplateToPdf)}, via {nameof(TemplateOptions)}.{nameof(TemplateOptions.Watermarks)}.");
+                }
+
+                return (object)new
+                {
+                    template = templated.Html,
+                    model = templated.Model,
+                    js = templated.JavaScript,
+                    x = templated.X,
+                    y = templated.Y,
+                    width = templated.Width,
+                    height = templated.Height
+                };
+            }
+
+            return new
+            {
+                html = watermark.Html,
+                x = watermark.X,
+                y = watermark.Y,
+                width = watermark.Width,
+                height = watermark.Height
+            };
+        }).ToArray();
     }
 
     private async Task<byte[]> Send(string endpoint, string? apiKey, object parameters)
@@ -106,7 +159,7 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
             {
                 if (backoffMs < 10000)
                 {
-                    Thread.Sleep(backoffMs);
+                    await Task.Delay(backoffMs);
                     backoffMs *= 2;
                 }
                 else
