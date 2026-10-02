@@ -139,7 +139,7 @@ public class WatermarkTest
         Assert.NotEqual(defaultScale, customScale);
     }
 
-    [Fact]
+    [Fact(Skip = "Requires an Template API key against our live API.")]
     public async Task Renders_A_Pdf_With_A_Templated_Watermark_Via_TemplateToPdf()
     {
         var bytes = await _pdfer.TemplateToPdf(SampleBodyHtml, new { },

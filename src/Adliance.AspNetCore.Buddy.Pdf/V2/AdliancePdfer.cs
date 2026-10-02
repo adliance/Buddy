@@ -152,6 +152,12 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
             try
             {
                 var response = await client.PostAsync(url, content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Request to PDF Service failed ({(int)response.StatusCode} {response.StatusCode}): {responseString}");
+                }
+
                 response.EnsureSuccessStatusCode();
                 return response;
             }
