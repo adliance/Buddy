@@ -36,6 +36,7 @@ public static class PostgresMigration
             {
                 logger?.LogInformation("Applying the following migrations:{NewLine}{Migrations}", Environment.NewLine, string.Join(Environment.NewLine, waitingMigrations));
                 await dbContext.Database.MigrateAsync(cancellationToken);
+                logger?.LogInformation("Applied {Count} migration(s).", waitingMigrations.Count);
             }
         }
         catch (Exception ex) when (ex is not OperationCanceledException)

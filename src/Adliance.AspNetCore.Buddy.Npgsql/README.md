@@ -100,7 +100,7 @@ passed, one is resolved from the service provider.
 
 ## Health check
 
-`AddDatabaseCheck<T>` adds a health check for a `DbContext`. It fails when
+`AddPostgresCheck<T>` adds a health check for a `DbContext`. It fails when
 
 - no connection string is configured,
 - the database cannot be reached (including failed Entra authentication), or
@@ -112,10 +112,10 @@ using Adliance.AspNetCore.Buddy.Npgsql.Extensions;
 
 // ...
 
-builder.Services.AddHealthChecks().AddDatabaseCheck<MyDbContext>();
+builder.Services.AddHealthChecks().AddPostgresCheck<MyDbContext>();
 
 // optionally with a name, a failure status, tags and a timeout
-builder.Services.AddHealthChecks().AddDatabaseCheck<MyDbContext>("database", HealthStatus.Degraded, ["ready"], TimeSpan.FromSeconds(5));
+builder.Services.AddHealthChecks().AddPostgresCheck<MyDbContext>("database", HealthStatus.Degraded, ["ready"], TimeSpan.FromSeconds(5));
 
 // ...
 

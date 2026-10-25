@@ -14,7 +14,7 @@ public static class HealthChecksBuilderExtensions
         /// Adds a health check that reports the database as failed when no connection string is configured,
         /// the database cannot be reached or, if <paramref name="checkPendingMigrations"/> is set, migrations are pending.
         /// </summary>
-        public IHealthChecksBuilder AddDatabaseCheck<T>(
+        public IHealthChecksBuilder AddPostgresCheck<T>(
             string? name = null,
             HealthStatus? failureStatus = null,
             IEnumerable<string>? tags = null,
