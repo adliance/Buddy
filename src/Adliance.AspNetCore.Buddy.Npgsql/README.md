@@ -9,6 +9,7 @@ Adds PostgreSQL support to ASP.NET Core projects that use Entity Framework Core 
 - [Registration of a `DbContext`](#setup-library-in-an-aspnet-project) with sensible defaults in a single line
 - [Applying pending migrations](#migrations) on startup
 - [A health check](#health-check) for connectivity and pending migrations
+- [Hangfire storage](#hangfire) in PostgreSQL, including Entra authentication
 
 ## Setup library in an ASP.NET project
 
@@ -124,3 +125,32 @@ app.MapHealthChecks("/health");
 
 The check is named after the `DbContext` type unless a name is given, and it reports `Unhealthy` unless a different
 failure status is given.
+
+## Hangfire
+
+`UsePostgresStorage` configures Hangfire to store its jobs in PostgreSQL via
+[Hangfire.PostgreSql](https://github.com/hangfire-postgres/Hangfire.PostgreSql). The connection is built from
+`PostgresDatabaseOptions`, so [Entra authentication](#entra-authentication) works the same way as for the `DbContext`.
+
+```c#
+using Adliance.AspNetCore.Buddy.Npgsql.Extensions;
+using Hangfire.PostgreSql;
+
+// ...
+
+builder.Services.Configure<PostgresDatabaseOptions>(builder.Configuration.GetSection("Database"));
+builder.Services.AddHangfire((serviceProvider, config) => config.UsePostgresStorage<PostgresDatabaseOptions>(serviceProvider));
+builder.Services.AddHangfireServer();
+
+// or with a PostgresDatabaseOptions instance
+builder.Services.AddHangfire(config => config.UsePostgresStorage(databaseOptions));
+
+// optionally with Hangfire.PostgreSql's own storage options
+builder.Services.AddHangfire((serviceProvider, config) => config.UsePostgresStorage<PostgresDatabaseOptions>(
+    serviceProvider,
+    new PostgreSqlStorageOptions { SchemaName = "jobs" }));
+```
+
+The overload taking an `IServiceProvider` reads the options from `IOptions<TOptions>`, so they must be registered as
+shown above. `AddHangfire` and `AddHangfireServer` come from the `Hangfire.AspNetCore` package, which the application
+references itself.
