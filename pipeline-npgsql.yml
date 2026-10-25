@@ -1,0 +1,25 @@
+variables:
+  - group: shared_buddy_variable_group
+
+name: 10.0.0.$(Rev:r)
+
+resources:
+  - repo: self
+
+pr: none
+
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - /src/Adliance.AspNetCore.Buddy.Npgsql
+      - pipeline-npgsql.yml
+
+stages:
+  - template: pipeline-template-build-and-push.yml
+    parameters:
+      project: "src/Adliance.AspNetCore.Buddy.Npgsql/*.csproj"
+      testProject: ""
+      nugetApiKey: "$(nuget_api_key)"

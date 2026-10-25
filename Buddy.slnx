@@ -14,6 +14,7 @@
     <File Path="pipeline-guikit-buildtasks.yml" />
     <File Path="pipeline-highcharts.yml" />
     <File Path="pipeline-mailjet.yml" />
+    <File Path="pipeline-npgsql.yml" />
     <File Path="pipeline-opentelemetry.yml" />
     <File Path="pipeline-pdf.yml" />
     <File Path="pipeline-qrcode.yml" />
@@ -53,6 +54,7 @@
   <Project Path="src/Adliance.AspNetCore.Buddy.Email.Smtp/Adliance.AspNetCore.Buddy.Email.Smtp.csproj" />
   <Project Path="src/Adliance.AspNetCore.Buddy.GuiKit.BuildTasks/Adliance.AspNetCore.Buddy.GuiKit.BuildTasks.csproj" />
   <Project Path="src/Adliance.AspNetCore.Buddy.Highcharts/Adliance.AspNetCore.Buddy.Highcharts.csproj" />
+  <Project Path="src/Adliance.AspNetCore.Buddy.Npgsql/Adliance.AspNetCore.Buddy.Npgsql.csproj" />
   <Project Path="src/Adliance.AspNetCore.Buddy.OpenTelemetry/Adliance.AspNetCore.Buddy.OpenTelemetry.csproj" />
   <Project Path="src/Adliance.AspNetCore.Buddy.Pdf/Adliance.AspNetCore.Buddy.Pdf.csproj" />
   <Project Path="src/Adliance.AspNetCore.Buddy.Sms.Twilio/Adliance.AspNetCore.Buddy.Sms.Twilio.csproj" />
