@@ -35,7 +35,10 @@ public class DefaultStorageConfiguration : IStorageConfiguration
     {
         get
         {
-            if (Type != StorageType.Azure) return false;
+            if (Type != StorageType.Azure)
+            {
+                return false;
+            }
 
             if (string.IsNullOrWhiteSpace(AzureStorageConnectionString) && string.IsNullOrWhiteSpace(AzureStorageUrl))
             {
@@ -51,7 +54,11 @@ public class DefaultStorageConfiguration : IStorageConfiguration
     {
         get
         {
-            if (Type != StorageType.Local) return false;
+            if (Type != StorageType.Local)
+            {
+                return false;
+            }
+
             if (string.IsNullOrWhiteSpace(LocalStorageBasePath))
             {
                 throw new Exception("Local storage is configured, but base path is missing.");

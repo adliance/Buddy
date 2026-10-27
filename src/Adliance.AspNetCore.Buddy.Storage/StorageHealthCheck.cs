@@ -18,9 +18,9 @@ public class StorageHealthCheck(IStorage storage) : IHealthCheck
         {
             var path = new[] { "healthcheck", "healthcheck_file.bin" };
 
-            await storage.Save(new byte[] { 1, 2, 3 }, true, path);
-            var bytes = await storage.Load(path);
-            await storage.Delete(path);
+            await storage.Save(new byte[] { 1, 2, 3 }, true, path, cancellationToken);
+            var bytes = await storage.Load(path, cancellationToken);
+            await storage.Delete(path, cancellationToken);
 
             if (bytes != null && bytes.Length != 3 && bytes[0] != 1 && bytes[1] != 2 && bytes[2] != 3)
             {

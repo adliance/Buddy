@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Azure.Core;
 using Azure.Core.Pipeline;
@@ -18,29 +19,47 @@ namespace Adliance.AspNetCore.Buddy.Storage.Azure;
 public class AzureStorage(IStorageConfiguration configuration) : IStorage
 {
     /// <inheritdoc cref="IStorage.Save(byte[],bool,string[])"/>
-    public async Task Save(byte[] bytes, bool overwrite = true, params string[] path)
+    public Task Save(byte[] bytes, bool overwrite = true, params string[] path)
+    {
+        return Save(bytes, overwrite, path, CancellationToken.None);
+    }
+
+    /// <inheritdoc cref="IStorage.Save(byte[],bool,string[],CancellationToken)"/>
+    public async Task Save(byte[] bytes, bool overwrite, string[] path, CancellationToken cancellationToken)
     {
         await using var ms = new MemoryStream();
         ms.Write(bytes);
         ms.Seek(0, SeekOrigin.Begin);
-        await Save(ms, overwrite, path);
+        await Save(ms, overwrite, path, cancellationToken);
     }
 
     /// <inheritdoc cref="IStorage.Save(System.IO.Stream,bool,string[])"/>
-    public async Task Save(Stream stream, bool overwrite = true, params string[] path)
+    public Task Save(Stream stream, bool overwrite = true, params string[] path)
     {
-        await GetBlobClient(path).UploadAsync(stream, overwrite);
+        return Save(stream, overwrite, path, CancellationToken.None);
+    }
+
+    /// <inheritdoc cref="IStorage.Save(System.IO.Stream,bool,string[],CancellationToken)"/>
+    public async Task Save(Stream stream, bool overwrite, string[] path, CancellationToken cancellationToken)
+    {
+        await GetBlobClient(path, cancellationToken).UploadAsync(stream, overwrite, cancellationToken);
     }
 
     /// <inheritdoc cref="IStorage.Load(string[])"/>
-    public async Task<byte[]?> Load(params string[] path)
+    public Task<byte[]?> Load(params string[] path)
     {
-        if (await Exists(path))
+        return Load(path, CancellationToken.None);
+    }
+
+    /// <inheritdoc cref="IStorage.Load(string[],CancellationToken)"/>
+    public async Task<byte[]?> Load(string[] path, CancellationToken cancellationToken)
+    {
+        if (await Exists(path, cancellationToken))
         {
             // ReSharper disable once ConvertToUsingDeclaration
             await using (var ms = new MemoryStream())
             {
-                await Load(ms, path);
+                await Load(ms, path, cancellationToken);
                 return ms.ToArray();
             }
         }
@@ -48,44 +67,84 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
         return null;
     }
 
-    public async Task<DateTime?> GetUpdatedUtc(params string[] path)
+    public Task<DateTime?> GetUpdatedUtc(params string[] path)
     {
-        if (await Exists(path)) return (await GetBlobClient(path).GetPropertiesAsync()).Value.LastModified.UtcDateTime;
+        return GetUpdatedUtc(path, CancellationToken.None);
+    }
+
+    public async Task<DateTime?> GetUpdatedUtc(string[] path, CancellationToken cancellationToken)
+    {
+        if (await Exists(path, cancellationToken))
+        {
+            return (await GetBlobClient(path, cancellationToken).GetPropertiesAsync(cancellationToken: cancellationToken)).Value.LastModified.UtcDateTime;
+        }
+
         return null;
     }
 
-    public async Task<DateTime?> GetCreatedUtc(params string[] path)
+    public Task<DateTime?> GetCreatedUtc(params string[] path)
     {
-        if (await Exists(path)) return (await GetBlobClient(path).GetPropertiesAsync()).Value.CreatedOn.UtcDateTime;
+        return GetCreatedUtc(path, CancellationToken.None);
+    }
+
+    public async Task<DateTime?> GetCreatedUtc(string[] path, CancellationToken cancellationToken)
+    {
+        if (await Exists(path, cancellationToken))
+        {
+            return (await GetBlobClient(path, cancellationToken).GetPropertiesAsync(cancellationToken: cancellationToken)).Value.CreatedOn.UtcDateTime;
+        }
+
         return null;
     }
 
     /// <inheritdoc cref="IStorage.Load(System.IO.Stream,string[])"/>
-    public async Task Load(Stream stream, params string[] path)
+    public Task Load(Stream stream, params string[] path)
     {
-        if (await Exists(path))
+        return Load(stream, path, CancellationToken.None);
+    }
+
+    /// <inheritdoc cref="IStorage.Load(System.IO.Stream,string[],CancellationToken)"/>
+    public async Task Load(Stream stream, string[] path, CancellationToken cancellationToken)
+    {
+        if (await Exists(path, cancellationToken))
         {
-            await GetBlobClient(path).DownloadToAsync(stream);
+            await GetBlobClient(path, cancellationToken).DownloadToAsync(stream, cancellationToken);
         }
     }
 
-    public async Task<bool> Exists(params string[] path)
+    public Task<bool> Exists(params string[] path)
     {
-        return await GetBlobClient(path).ExistsAsync();
+        return Exists(path, CancellationToken.None);
     }
 
-    public async Task Delete(params string[] path)
+    public async Task<bool> Exists(string[] path, CancellationToken cancellationToken)
     {
-        await GetBlobClient(path).DeleteIfExistsAsync();
+        return await GetBlobClient(path, cancellationToken).ExistsAsync(cancellationToken);
     }
 
-    /// <inheritdoc cref="IStorage.List" />
-    public async Task<IList<IStorageFile>> List(string path)
+    public Task Delete(params string[] path)
     {
-        var containerClient = GetContainerClient(path);
+        return Delete(path, CancellationToken.None);
+    }
+
+    public async Task Delete(string[] path, CancellationToken cancellationToken)
+    {
+        await GetBlobClient(path, cancellationToken).DeleteIfExistsAsync(cancellationToken: cancellationToken);
+    }
+
+    /// <inheritdoc cref="IStorage.List(string)" />
+    public Task<IList<IStorageFile>> List(string path)
+    {
+        return List(path, CancellationToken.None);
+    }
+
+    /// <inheritdoc cref="IStorage.List(string,CancellationToken)" />
+    public async Task<IList<IStorageFile>> List(string path, CancellationToken cancellationToken)
+    {
+        var containerClient = GetContainerClient(configuration, path, cancellationToken);
 
         var result = new List<IStorageFile>();
-        await foreach (var b in containerClient.GetBlobsAsync())
+        await foreach (var b in containerClient.GetBlobsAsync(cancellationToken: cancellationToken))
         {
             var blobPath = path + "/" + b.Name;
             result.Add(new AzureStorageFile
@@ -100,22 +159,36 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
         return result;
     }
 
-    public async Task<IList<string>> ListContainers()
+    public Task<IList<string>> ListContainers()
+    {
+        return ListContainers(CancellationToken.None);
+    }
+
+    public async Task<IList<string>> ListContainers(CancellationToken cancellationToken)
     {
         var serviceClient = GetServiceClient(configuration);
         IList<string> result = [];
-        await foreach (var container in serviceClient.GetBlobContainersAsync()) result.Add(container.Name);
+        await foreach (var container in serviceClient.GetBlobContainersAsync(cancellationToken: cancellationToken))
+        {
+            result.Add(container.Name);
+        }
+
         return result;
     }
 
-    public async Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, params string[] path)
+    public Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, params string[] path)
+    {
+        return GetDownloadUrl(niceName, expiresOn, path, CancellationToken.None);
+    }
+
+    public async Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, string[] path, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(configuration.AzureStorageConnectionString))
         {
             throw new Exception("A configured Azure Storage Connection String is required to build an SAS download URL.");
         }
 
-        if (await Exists(path))
+        if (await Exists(path, cancellationToken))
         {
             if (string.IsNullOrWhiteSpace(niceName))
             {
@@ -123,7 +196,7 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
             }
 
             niceName = WebUtility.UrlEncode(niceName);
-            var blobClient = GetBlobClient(path);
+            var blobClient = GetBlobClient(path, cancellationToken);
             var sasBuilder = new BlobSasBuilder
             {
                 StartsOn = DateTime.UtcNow.AddMinutes(-1),
@@ -143,23 +216,25 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
         return null;
     }
 
-    private BlobContainerClient GetContainerClient(params string[] path)
+    private BlobClient GetBlobClient(string[] path, CancellationToken cancellationToken)
     {
-        var container = path.First();
-        var client = GetContainerClient(configuration, container);
-        return client;
-    }
-
-    private BlobClient GetBlobClient(params string[] path)
-    {
-        return GetBlobClient(configuration, path);
+        return GetBlobClient(configuration, path, cancellationToken);
     }
 
     public static BlobContainerClient GetContainerClient(IStorageConfiguration configuration, string container)
     {
+        return GetContainerClient(configuration, container, CancellationToken.None);
+    }
+
+    public static BlobContainerClient GetContainerClient(IStorageConfiguration configuration, string container, CancellationToken cancellationToken)
+    {
         var serviceClient = GetServiceClient(configuration);
         var containerClient = serviceClient.GetBlobContainerClient(container);
-        if (configuration.AutomaticallyCreateDirectories && !containerClient.Exists()) containerClient.Create();
+        if (configuration.AutomaticallyCreateDirectories && !containerClient.Exists(cancellationToken))
+        {
+            containerClient.Create(cancellationToken: cancellationToken);
+        }
+
         return containerClient;
     }
 
@@ -187,7 +262,11 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
         if (!string.IsNullOrWhiteSpace(configuration.AzureStorageUrl))
         {
             var url = configuration.AzureStorageUrl?.Trim('/');
-            if (string.IsNullOrWhiteSpace(url)) throw new Exception("Azure Storage URL is not configured.");
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                throw new Exception("Azure Storage URL is not configured.");
+            }
+
             TokenCredential credential;
 
             if (configuration.UseDefaultAzureCredential == true)
@@ -219,8 +298,17 @@ public class AzureStorage(IStorageConfiguration configuration) : IStorage
 
     public static BlobClient GetBlobClient(IStorageConfiguration configuration, params string[] path)
     {
-        if (path.Length < 2) throw new Exception($"Path is not complete, it needs to consist of at least 2 parts, but only has {path.Length}.");
+        return GetBlobClient(configuration, path, CancellationToken.None);
+    }
+
+    public static BlobClient GetBlobClient(IStorageConfiguration configuration, string[] path, CancellationToken cancellationToken)
+    {
+        if (path.Length < 2)
+        {
+            throw new Exception($"Path is not complete, it needs to consist of at least 2 parts, but only has {path.Length}.");
+        }
+
         var fileName = string.Join('/', path.Skip(1));
-        return GetContainerClient(configuration, path.First()).GetBlobClient(fileName);
+        return GetContainerClient(configuration, path.First(), cancellationToken).GetBlobClient(fileName);
     }
 }

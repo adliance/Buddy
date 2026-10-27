@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Adliance.AspNetCore.Buddy.Storage.Local;
@@ -9,63 +10,113 @@ namespace Adliance.AspNetCore.Buddy.Storage.Local;
 public class LocalStorage(IStorageConfiguration configuration) : IStorage
 {
     /// <inheritdoc cref="IStorage.Save(byte[],bool,string[])"/>
-    public async Task Save(byte[] bytes, bool overwrite, params string[] path)
+    public Task Save(byte[] bytes, bool overwrite, params string[] path)
+    {
+        return Save(bytes, overwrite, path, CancellationToken.None);
+    }
+
+    /// <inheritdoc cref="IStorage.Save(byte[],bool,string[],CancellationToken)"/>
+    public async Task Save(byte[] bytes, bool overwrite, string[] path, CancellationToken cancellationToken)
     {
         var filePath = GetFilePath(path);
         var mode = GetFileMode(overwrite);
         await using var fileStream = File.Open(filePath, mode, FileAccess.ReadWrite);
-        await fileStream.WriteAsync(bytes);
-        await fileStream.FlushAsync();
+        await fileStream.WriteAsync(bytes, cancellationToken);
+        await fileStream.FlushAsync(cancellationToken);
         fileStream.Close();
         File.SetLastWriteTimeUtc(filePath, DateTime.UtcNow);
     }
 
     /// <inheritdoc cref="IStorage.Save(System.IO.Stream,bool,string[])"/>
-    public async Task Save(Stream stream, bool overwrite, params string[] path)
+    public Task Save(Stream stream, bool overwrite, params string[] path)
+    {
+        return Save(stream, overwrite, path, CancellationToken.None);
+    }
+
+    /// <inheritdoc cref="IStorage.Save(System.IO.Stream,bool,string[],CancellationToken)"/>
+    public async Task Save(Stream stream, bool overwrite, string[] path, CancellationToken cancellationToken)
     {
         var filePath = GetFilePath(path);
         var mode = GetFileMode(overwrite);
         await using var fileStream = File.Open(filePath, mode, FileAccess.ReadWrite);
-        await stream.CopyToAsync(fileStream);
-        await fileStream.FlushAsync();
+        await stream.CopyToAsync(fileStream, cancellationToken);
+        await fileStream.FlushAsync(cancellationToken);
         fileStream.Close();
         File.SetLastWriteTimeUtc(filePath, DateTime.UtcNow);
     }
 
     /// <inheritdoc cref="IStorage.Load(string[])"/>
-    public async Task<byte[]?> Load(params string[] path)
+    public Task<byte[]?> Load(params string[] path)
     {
-        if (await Exists(path)) return await File.ReadAllBytesAsync(GetFilePath(path));
+        return Load(path, CancellationToken.None);
+    }
+
+    /// <inheritdoc cref="IStorage.Load(string[],CancellationToken)"/>
+    public async Task<byte[]?> Load(string[] path, CancellationToken cancellationToken)
+    {
+        if (await Exists(path, cancellationToken))
+        {
+            return await File.ReadAllBytesAsync(GetFilePath(path), cancellationToken);
+        }
+
         return null;
     }
 
-    public async Task<DateTime?> GetUpdatedUtc(params string[] path)
+    public Task<DateTime?> GetUpdatedUtc(params string[] path)
     {
-        if (await Exists(path)) return File.GetLastWriteTimeUtc(GetFilePath(path));
+        return GetUpdatedUtc(path, CancellationToken.None);
+    }
+
+    public async Task<DateTime?> GetUpdatedUtc(string[] path, CancellationToken cancellationToken)
+    {
+        if (await Exists(path, cancellationToken))
+        {
+            return File.GetLastWriteTimeUtc(GetFilePath(path));
+        }
+
         return null;
     }
 
-    public async Task<DateTime?> GetCreatedUtc(params string[] path)
+    public Task<DateTime?> GetCreatedUtc(params string[] path)
     {
-        if (await Exists(path)) return File.GetCreationTimeUtc(GetFilePath(path));
+        return GetCreatedUtc(path, CancellationToken.None);
+    }
+
+    public async Task<DateTime?> GetCreatedUtc(string[] path, CancellationToken cancellationToken)
+    {
+        if (await Exists(path, cancellationToken))
+        {
+            return File.GetCreationTimeUtc(GetFilePath(path));
+        }
+
         return null;
     }
 
-    /// <inheritdoc cref="IStorage.Load(string[])"/>
-    public async Task Load(Stream stream, params string[] path)
+    /// <inheritdoc cref="IStorage.Load(System.IO.Stream,string[])"/>
+    public Task Load(Stream stream, params string[] path)
     {
-        if (await Exists(path))
+        return Load(stream, path, CancellationToken.None);
+    }
+
+    /// <inheritdoc cref="IStorage.Load(System.IO.Stream,string[],CancellationToken)"/>
+    public async Task Load(Stream stream, string[] path, CancellationToken cancellationToken)
+    {
+        if (await Exists(path, cancellationToken))
         {
             var fileStream = File.OpenRead(GetFilePath(path));
-            await fileStream.CopyToAsync(stream);
+            await fileStream.CopyToAsync(stream, cancellationToken);
             fileStream.Close();
         }
     }
 
-    /// <inheritdoc cref="IStorage.Load(System.IO.Stream,string[])"/>
-    public async Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, params string[] path)
+    public Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, params string[] path)
     {
-        if (await Exists(path))
+        return GetDownloadUrl(niceName, expiresOn, path, CancellationToken.None);
+    }
+
+    public async Task<Uri?> GetDownloadUrl(string niceName, DateTimeOffset expiresOn, string[] path, CancellationToken cancellationToken)
+    {
+        if (await Exists(path, cancellationToken))
         {
             return new Uri("file://" + GetFilePath(path));
         }
@@ -75,24 +126,45 @@ public class LocalStorage(IStorageConfiguration configuration) : IStorage
 
     public Task<bool> Exists(params string[] path)
     {
+        return Exists(path, CancellationToken.None);
+    }
+
+    public Task<bool> Exists(string[] path, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
         return Task.FromResult(File.Exists(GetFilePath(path)));
     }
 
-    public async Task Delete(params string[] path)
+    public Task Delete(params string[] path)
     {
-        if (await Exists(path)) File.Delete(GetFilePath(path));
+        return Delete(path, CancellationToken.None);
     }
 
-    /// <inheritdoc cref="IStorage.List" />
+    public async Task Delete(string[] path, CancellationToken cancellationToken)
+    {
+        if (await Exists(path, cancellationToken))
+        {
+            File.Delete(GetFilePath(path));
+        }
+    }
+
+    /// <inheritdoc cref="IStorage.List(string)" />
     public Task<IList<IStorageFile>> List(string path)
+    {
+        return List(path, CancellationToken.None);
+    }
+
+    /// <inheritdoc cref="IStorage.List(string,CancellationToken)" />
+    public Task<IList<IStorageFile>> List(string path, CancellationToken cancellationToken)
     {
         var directoryPath = Path.GetDirectoryName(GetFilePath(path, "some_filename_that_is_not_used.txt"));
         var directoryInfo = new DirectoryInfo(directoryPath!);
         var baseDirectoryInfo = new DirectoryInfo(configuration.LocalStorageBasePath ?? "");
 
         var result = new List<IStorageFile>();
-        foreach (var f in directoryInfo.GetFiles("*", SearchOption.AllDirectories))
+        foreach (var f in directoryInfo.EnumerateFiles("*", SearchOption.AllDirectories))
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var filePath = f.FullName;
             filePath = filePath.Substring(baseDirectoryInfo.FullName.Length).Trim(Path.PathSeparator);
 
@@ -109,11 +181,21 @@ public class LocalStorage(IStorageConfiguration configuration) : IStorage
         return Task.FromResult<IList<IStorageFile>>(result);
     }
 
-    public async Task<IList<string>> ListContainers()
+    public Task<IList<string>> ListContainers()
+    {
+        return ListContainers(CancellationToken.None);
+    }
+
+    public async Task<IList<string>> ListContainers(CancellationToken cancellationToken)
     {
         var directoryInfo = new DirectoryInfo(GetFilePath());
         IList<string> result = [];
-        foreach (var d in directoryInfo.GetDirectories()) result.Add(d.Name);
+        foreach (var d in directoryInfo.EnumerateDirectories())
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            result.Add(d.Name);
+        }
+
         return await Task.FromResult(result);
     }
 

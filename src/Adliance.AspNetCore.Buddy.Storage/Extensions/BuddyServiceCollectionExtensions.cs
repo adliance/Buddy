@@ -70,7 +70,11 @@ public static class BuddyServiceCollectionExtensions
         buddyServices.Services.Configure<DefaultStorageConfiguration>(configurationSection);
         ArgumentNullException.ThrowIfNull(configuration, "Storage Configuration");
 
-        if (!configuration.UseAzureStorage) throw new Exception("Azure Storage configuration missing.");
+        if (!configuration.UseAzureStorage)
+        {
+            throw new Exception("Azure Storage configuration missing.");
+        }
+
         return AddAzureStorage(buddyServices, configuration);
     }
 
@@ -100,7 +104,11 @@ public static class BuddyServiceCollectionExtensions
         buddyServices.Services.Configure<DefaultStorageConfiguration>(configurationSection);
         ArgumentNullException.ThrowIfNull(configuration, "Storage Configuration");
 
-        if (!configuration.UseLocalStorage) throw new Exception("Local storage configuration missing.");
+        if (!configuration.UseLocalStorage)
+        {
+            throw new Exception("Local storage configuration missing.");
+        }
+
         return AddLocalStorage(buddyServices, configuration);
     }
 
@@ -116,7 +124,11 @@ public static class BuddyServiceCollectionExtensions
             if (configuration is { ConfigureDataProtection: true } && !string.IsNullOrWhiteSpace(configuration.DataProtectionContainer))
             {
                 var directory = new DirectoryInfo(Path.Combine(configuration.LocalStorageBasePath ?? "", configuration.DataProtectionContainer));
-                if (!directory.Exists) directory.Create();
+                if (!directory.Exists)
+                {
+                    directory.Create();
+                }
+
                 buddyServices.Services.AddDataProtection().PersistKeysToFileSystem(directory);
             }
         }
