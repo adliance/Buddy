@@ -29,7 +29,7 @@ public class EmailRenderer(ITemplater templater, IEmailer mailer) : IEmailRender
             text = "";
         }
 
-        return new SendableEmail(null, email.To, email.Cc, email.Bcc, subject, html, text, email.Attachments);
+        return new SendableEmail(email.Sender, email.To, email.Cc, email.Bcc, subject, html, text, email.Attachments);
     }
 
     public virtual async Task RenderAndSend(RenderableEmail email)

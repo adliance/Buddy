@@ -14,6 +14,11 @@ public sealed class RenderableEmail(
     params IEmailAttachment[] attachments)
 {
     /// <summary>
+    /// Name and e-mail address to show as the message origin.
+    /// </summary>
+    public IEmailSender? Sender { get; init; }
+
+    /// <summary>
     /// The addresses in the To header are the primary recipients of the message.
     /// </summary>
     public IEmailRecipient[] To { get; } = to;
