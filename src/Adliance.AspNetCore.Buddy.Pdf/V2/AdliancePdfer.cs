@@ -41,7 +41,10 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
         var requestUrl = $"{configuration.ServerUrl.TrimEnd('/')}/pdf-metadata";
         var response = await PostAndBackoff(configuration.ApiKeyPdf, configuration.UserAgent, requestUrl, requestContent);
         var responseString = await response.Content.ReadAsStringAsync();
-        if (string.IsNullOrWhiteSpace(responseString)) return new PdfMetadata();
+        if (string.IsNullOrWhiteSpace(responseString))
+        {
+            return new PdfMetadata();
+        }
 
         try
         {
@@ -99,7 +102,11 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
 
     private static object? ToWatermarksParameters(IEnumerable<WatermarkOptions>? watermarks, bool supportsTemplating)
     {
-        if (watermarks == null) return null;
+        if (watermarks == null)
+        {
+            return null;
+        }
+
         return watermarks.Select(watermark =>
         {
             if (watermark is TemplateWatermarkOptions templated)
@@ -178,14 +185,25 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
 
     private HttpClient GetClient(string? apiKey, string? userAgent)
     {
-        if (string.IsNullOrWhiteSpace(configuration.ServerUrl)) throw new Exception("No Server URL configured.");
+        if (string.IsNullOrWhiteSpace(configuration.ServerUrl))
+        {
+            throw new Exception("No Server URL configured.");
+        }
 
         var client = new HttpClient
         {
             Timeout = TimeSpan.FromSeconds(configuration.TimeoutSeconds)
         };
-        if (!string.IsNullOrWhiteSpace(apiKey)) client.DefaultRequestHeaders.Add("x-api-key", apiKey);
-        if (!string.IsNullOrWhiteSpace(userAgent)) client.DefaultRequestHeaders.UserAgent.Add(new(userAgent));
+        if (!string.IsNullOrWhiteSpace(apiKey))
+        {
+            client.DefaultRequestHeaders.Add("x-api-key", apiKey);
+        }
+
+        if (!string.IsNullOrWhiteSpace(userAgent))
+        {
+            client.DefaultRequestHeaders.UserAgent.Add(new(userAgent));
+        }
+
         return client;
     }
 

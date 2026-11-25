@@ -13,10 +13,17 @@ public class PdferHealthCheck(IPdferConfiguration configuration, ILogger<PdferHe
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(configuration.ServerUrl)) throw new Exception("No Server URL configured.");
+            if (string.IsNullOrWhiteSpace(configuration.ServerUrl))
+            {
+                throw new Exception("No Server URL configured.");
+            }
+
             var endpoint = $"{configuration.ServerUrl.Trim('/')}/health";
             var response = await new HttpClient().GetAsync(endpoint, cancellationToken);
-            if (response.IsSuccessStatusCode) return await Task.FromResult(HealthCheckResult.Healthy("PDFer is healthy."));
+            if (response.IsSuccessStatusCode)
+            {
+                return await Task.FromResult(HealthCheckResult.Healthy("PDFer is healthy."));
+            }
         }
         catch (Exception ex)
         {
