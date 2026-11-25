@@ -201,7 +201,7 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
 
         if (!string.IsNullOrWhiteSpace(userAgent))
         {
-            client.DefaultRequestHeaders.UserAgent.Add(new(userAgent));
+            client.DefaultRequestHeaders.Add("User-Agent", userAgent);
         }
 
         return client;
