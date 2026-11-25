@@ -17,8 +17,14 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
             throw new Exception("No Server URL configured.");
         }
 
-        using var client = new HttpClient();
-        client.Timeout = TimeSpan.FromMinutes(1);
+        var client = new HttpClient
+        {
+            Timeout = TimeSpan.FromSeconds(configuration.TimeoutSeconds)
+        };
+        if (!string.IsNullOrWhiteSpace(configuration.UserAgent))
+        {
+            client.DefaultRequestHeaders.Add("User-Agent", configuration.UserAgent);
+        }
 
         var parameters = new
         {
