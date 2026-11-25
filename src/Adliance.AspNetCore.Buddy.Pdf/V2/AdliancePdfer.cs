@@ -39,7 +39,7 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
     {
         var requestContent = new ByteArrayContent(pdfBytes);
         var requestUrl = $"{configuration.ServerUrl.TrimEnd('/')}/pdf-metadata";
-        var response = await PostAndBackoff(configuration.ApiKeyPdf, requestUrl, requestContent);
+        var response = await PostAndBackoff(configuration.ApiKeyPdf, configuration.UserAgent, requestUrl, requestContent);
         var responseString = await response.Content.ReadAsStringAsync();
         if (string.IsNullOrWhiteSpace(responseString)) return new PdfMetadata();
 
@@ -138,13 +138,13 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
         var content = new StringContent(JsonSerializer.Serialize(parameters), Encoding.UTF8, "application/json");
         endpoint = $"{configuration.ServerUrl.TrimEnd('/')}/{endpoint.TrimStart('/')}";
 
-        var response = await PostAndBackoff(apiKey, endpoint, content);
+        var response = await PostAndBackoff(apiKey, configuration.UserAgent, endpoint, content);
         return await response.Content.ReadAsByteArrayAsync();
     }
 
-    private async Task<HttpResponseMessage> PostAndBackoff(string? apiKey, string url, HttpContent content)
+    private async Task<HttpResponseMessage> PostAndBackoff(string? apiKey, string? userAgent, string url, HttpContent content)
     {
-        using var client = GetClient(apiKey);
+        using var client = GetClient(apiKey, userAgent);
 
         var backoffMs = 2000;
         while (true)
@@ -176,7 +176,7 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
         }
     }
 
-    private HttpClient GetClient(string? apiKey)
+    private HttpClient GetClient(string? apiKey, string? userAgent)
     {
         if (string.IsNullOrWhiteSpace(configuration.ServerUrl)) throw new Exception("No Server URL configured.");
 
@@ -185,6 +185,7 @@ public class AdliancePdfer(IPdferConfiguration configuration) : IPdfer
             Timeout = TimeSpan.FromSeconds(configuration.TimeoutSeconds)
         };
         if (!string.IsNullOrWhiteSpace(apiKey)) client.DefaultRequestHeaders.Add("x-api-key", apiKey);
+        if (!string.IsNullOrWhiteSpace(userAgent)) client.DefaultRequestHeaders.UserAgent.Add(new(userAgent));
         return client;
     }
 

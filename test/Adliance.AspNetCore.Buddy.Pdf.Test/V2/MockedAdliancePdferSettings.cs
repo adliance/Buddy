@@ -8,4 +8,5 @@ public class MockedPdferConfiguration : IPdferConfiguration
     public string? ApiKeyPdf => null;
     public string? ApiKeyTemplate => null;
     public int TimeoutSeconds => 30;
+    public string? UserAgent => "Adliance.AspNetCore.Buddy.Pdf.Test.V2";
 }
