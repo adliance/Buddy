@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Adliance.AspNetCore.Buddy.Abstractions;
+using MailKit;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.StaticFiles;
 using MimeKit;
