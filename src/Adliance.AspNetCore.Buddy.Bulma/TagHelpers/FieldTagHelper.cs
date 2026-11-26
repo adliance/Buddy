@@ -95,15 +95,27 @@ public class FieldTagHelper : TagHelper
         AppendLabel(builder);
 
         builder.AppendHtml($"<div class=\"field{(!string.IsNullOrWhiteSpace(Append + Prepend) ? " has-addons" : "")}\" style=\"margin-bottom:0;\">");
-        if (!string.IsNullOrWhiteSpace(Prepend)) builder.AppendHtml($"<div class=\"control\"><a class=\"button is-static{SizeClass}\">{Prepend}</a></div>");
+        if (!string.IsNullOrWhiteSpace(Prepend))
+        {
+            builder.AppendHtml($"<div class=\"control\"><a class=\"button is-static{SizeClass}\">{Prepend}</a></div>");
+        }
+
         builder.AppendHtml($"<div class=\"control is-expanded{(HasIcon ? " has-icons-left" : "")}\">");
-        if (!string.IsNullOrWhiteSpace(childContent)) builder.AppendHtml(childContent);
+        if (!string.IsNullOrWhiteSpace(childContent))
+        {
+            builder.AppendHtml(childContent);
+        }
+
         AppendSelect(builder);
         AppendCheckbox(builder);
         AppendCheckBoxList(builder);
         AppendTextbox(builder);
         builder.AppendHtml("</div>");
-        if (!string.IsNullOrWhiteSpace(Append)) builder.AppendHtml($"<div class=\"control\"><a class=\"button is-static{SizeClass}\">{Append}</a></div>");
+        if (!string.IsNullOrWhiteSpace(Append))
+        {
+            builder.AppendHtml($"<div class=\"control\"><a class=\"button is-static{SizeClass}\">{Append}</a></div>");
+        }
+
         builder.AppendHtml("</div>");
         AppendValidationSection(builder);
         AppendHelpSection(builder);
@@ -116,8 +128,15 @@ public class FieldTagHelper : TagHelper
     private void AppendLabel(IHtmlContentBuilder builder)
     {
         var labelText = Label;
-        if (IsCheckBox) labelText = Placeholder;
-        if (string.IsNullOrWhiteSpace(labelText)) return;
+        if (IsCheckBox)
+        {
+            labelText = Placeholder;
+        }
+
+        if (string.IsNullOrWhiteSpace(labelText))
+        {
+            return;
+        }
 
         if (For?.ModelExplorer == null)
         {
@@ -131,10 +150,22 @@ public class FieldTagHelper : TagHelper
 
     private void AppendSelect(IHtmlContentBuilder builder)
     {
-        if (!IsSelectList || For?.ModelExplorer == null) return;
+        if (!IsSelectList || For?.ModelExplorer == null)
+        {
+            return;
+        }
+
         var select = _htmlGenerator.GenerateSelect(ViewContext, For?.ModelExplorer, null, For?.Name, Items, false, new { });
-        if (Disabled) select.Attributes.Add("disabled", "disabled");
-        if (Required) select.Attributes.Add("required", "required");
+        if (Disabled)
+        {
+            select.Attributes.Add("disabled", "disabled");
+        }
+
+        if (Required)
+        {
+            select.Attributes.Add("required", "required");
+        }
+
         builder.AppendHtml($"<div class=\"select is-fullwidth{SizeClass}{StateClass}\">");
         builder.AppendHtml(select);
         builder.AppendHtml("</div>");
@@ -143,15 +174,27 @@ public class FieldTagHelper : TagHelper
 
     private void AppendCheckbox(IHtmlContentBuilder builder)
     {
-        if (!IsCheckBox || For?.ModelExplorer == null) return;
+        if (!IsCheckBox || For?.ModelExplorer == null)
+        {
+            return;
+        }
+
         var checkbox = _htmlGenerator.GenerateCheckBox(ViewContext, For?.ModelExplorer, For?.Name, For?.Model is true, new { });
         if (Readonly)
         {
             checkbox.Attributes.Add("readonly", "readonly");
             checkbox.Attributes.Add("onchange", "this.checked = this.readOnly ? !this.checked : this.checked");
         }
-        if (Disabled) checkbox.Attributes.Add("disabled", "disabled");
-        if (Required) checkbox.Attributes.Add("required", "required");
+        if (Disabled)
+        {
+            checkbox.Attributes.Add("disabled", "disabled");
+        }
+
+        if (Required)
+        {
+            checkbox.Attributes.Add("required", "required");
+        }
+
         builder.AppendHtml("<label class=\"checkbox\">");
         builder.AppendHtml(checkbox);
         builder.AppendHtml("&nbsp;&nbsp;");
@@ -159,7 +202,11 @@ public class FieldTagHelper : TagHelper
         if (HasIcon)
         {
             var icon = Icon ?? "";
-            if (!icon.StartsWith("fa", StringComparison.OrdinalIgnoreCase)) icon = $"fad fa-{icon}";
+            if (!icon.StartsWith("fa", StringComparison.OrdinalIgnoreCase))
+            {
+                icon = $"fad fa-{icon}";
+            }
+
             builder.AppendHtml($"<i class=\"{icon}\"></i>");
             builder.AppendHtml("&nbsp;&nbsp;");
         }
@@ -173,19 +220,29 @@ public class FieldTagHelper : TagHelper
         if (HasIcon)
         {
             var icon = Icon ?? "";
-            if (!icon.StartsWith("fa", StringComparison.OrdinalIgnoreCase)) icon = $"fad fa-{icon}";
+            if (!icon.StartsWith("fa", StringComparison.OrdinalIgnoreCase))
+            {
+                icon = $"fad fa-{icon}";
+            }
+
             builder.AppendHtml($"<span class=\"icon is-left{SizeClass}{StateClass}\"><i class=\"{icon}\"></i></span>");
         }
     }
 
     private void AppendCheckBoxList(IHtmlContentBuilder builder)
     {
-        if (!IsCheckBoxList || For?.ModelExplorer == null || Items == null) return;
+        if (!IsCheckBoxList || For?.ModelExplorer == null || Items == null)
+        {
+            return;
+        }
 
         IList<string> selectedItems = new List<string>();
         if (For.Model is IEnumerable e)
         {
-            foreach (var l in e) selectedItems.Add(l.ToString() ?? "");
+            foreach (var l in e)
+            {
+                selectedItems.Add(l.ToString() ?? "");
+            }
         }
 
         foreach (var item in Items)
@@ -197,7 +254,11 @@ public class FieldTagHelper : TagHelper
             if (HasIcon)
             {
                 var icon = Icon ?? "";
-                if (!icon.StartsWith("fa", StringComparison.OrdinalIgnoreCase)) icon = $"fad fa-{icon}";
+                if (!icon.StartsWith("fa", StringComparison.OrdinalIgnoreCase))
+                {
+                    icon = $"fad fa-{icon}";
+                }
+
                 builder.AppendHtml($"<i class=\"{icon}\"></i>");
                 builder.AppendHtml("&nbsp;&nbsp;");
             }
@@ -209,7 +270,10 @@ public class FieldTagHelper : TagHelper
 
     private void AppendTextbox(IHtmlContentBuilder builder)
     {
-        if (IsSelectList || IsCheckBox || IsCheckBoxList || For?.ModelExplorer == null) return;
+        if (IsSelectList || IsCheckBox || IsCheckBoxList || For?.ModelExplorer == null)
+        {
+            return;
+        }
 
         TagBuilder? control = null;
         TagBuilder? invariantControl = null;
@@ -218,14 +282,45 @@ public class FieldTagHelper : TagHelper
         {
             { "class", $"input{SizeClass}{StateClass}" },
         };
-        if (Step != null) attributes["step"] = Step;
-        if (Placeholder != null) attributes["placeholder"] = Placeholder;
-        if (Min != null) attributes["min"] = Min;
-        if (Max != null) attributes["max"] = Max;
-        if (Required) attributes["required"] = "required";
-        if (Readonly) attributes["readonly"] = "readonly";
-        if (Disabled) attributes["disabled"] = "disabled";
-        if (AutoComplete == false) attributes["autocomplete"] = "off";
+        if (Step != null)
+        {
+            attributes["step"] = Step;
+        }
+
+        if (Placeholder != null)
+        {
+            attributes["placeholder"] = Placeholder;
+        }
+
+        if (Min != null)
+        {
+            attributes["min"] = Min;
+        }
+
+        if (Max != null)
+        {
+            attributes["max"] = Max;
+        }
+
+        if (Required)
+        {
+            attributes["required"] = "required";
+        }
+
+        if (Readonly)
+        {
+            attributes["readonly"] = "readonly";
+        }
+
+        if (Disabled)
+        {
+            attributes["disabled"] = "disabled";
+        }
+
+        if (AutoComplete == false)
+        {
+            attributes["autocomplete"] = "off";
+        }
 
         if (Password)
         {
@@ -299,7 +394,10 @@ public class FieldTagHelper : TagHelper
         if (control != null)
         {
             builder.AppendHtml(control);
-            if (invariantControl != null) builder.AppendHtml(invariantControl);
+            if (invariantControl != null)
+            {
+                builder.AppendHtml(invariantControl);
+            }
         }
 
         AppendIcon(builder);
@@ -307,7 +405,11 @@ public class FieldTagHelper : TagHelper
 
     private static TagBuilder? GenerateInvariantCultureMetadata(ViewContext context, string? propertyName)
     {
-        if (propertyName == null) return null;
+        if (propertyName == null)
+        {
+            return null;
+        }
+
         var builder = new TagBuilder("input");
         builder.Attributes.Add("type", "hidden");
         builder.Attributes.Add("name", CultureInvariantFieldName);
@@ -320,14 +422,22 @@ public class FieldTagHelper : TagHelper
 
     private void AppendValidationSection(IHtmlContentBuilder builder)
     {
-        if (For == null) return;
+        if (For == null)
+        {
+            return;
+        }
+
         var validation = _htmlGenerator.GenerateValidationMessage(ViewContext, For.ModelExplorer, For.Name, null, "div", new { @class = $"help is-danger{SizeClass}" });
         builder.AppendHtml(validation);
     }
 
     private void AppendHelpSection(IHtmlContentBuilder builder)
     {
-        if (string.IsNullOrWhiteSpace(Help)) return;
+        if (string.IsNullOrWhiteSpace(Help))
+        {
+            return;
+        }
+
         builder.AppendHtml("<div class=\"help\">");
         builder.AppendHtml(Help);
         builder.AppendHtml("</div>");
@@ -335,7 +445,11 @@ public class FieldTagHelper : TagHelper
 
     private void AppendWarningSection(IHtmlContentBuilder builder)
     {
-        if (string.IsNullOrWhiteSpace(Warning)) return;
+        if (string.IsNullOrWhiteSpace(Warning))
+        {
+            return;
+        }
+
         builder.AppendHtml("<div class=\"help is-warning\">");
         builder.AppendHtml(Warning);
         builder.AppendHtml("</div>");

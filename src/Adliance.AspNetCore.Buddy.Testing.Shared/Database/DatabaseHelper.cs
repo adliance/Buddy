@@ -31,7 +31,11 @@ public static class DatabaseHelper
 
         if (options.Type == DatabaseType.UseSqlServerLocal)
         {
-            if (string.IsNullOrWhiteSpace(options.LocalDbConnectionString)) throw new Exception("Unable to use local SQL Server, as setting \"LocalDbConnectionString\" is not specified.");
+            if (string.IsNullOrWhiteSpace(options.LocalDbConnectionString))
+            {
+                throw new Exception("Unable to use local SQL Server, as setting \"LocalDbConnectionString\" is not specified.");
+            }
+
             return new DatabaseResult
             {
                 MsSqlContainer = null,
@@ -63,7 +67,11 @@ public static class DatabaseHelper
 
         if (options.Type == DatabaseType.UsePostgresLocal)
         {
-            if (string.IsNullOrWhiteSpace(options.LocalDbConnectionString)) throw new Exception("Unable to use local Postgres, as setting \"LocalDbConnectionString\" is not specified.");
+            if (string.IsNullOrWhiteSpace(options.LocalDbConnectionString))
+            {
+                throw new Exception("Unable to use local Postgres, as setting \"LocalDbConnectionString\" is not specified.");
+            }
+
             return new DatabaseResult
             {
                 PostgresContainer = null,

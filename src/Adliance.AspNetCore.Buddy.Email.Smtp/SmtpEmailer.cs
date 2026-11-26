@@ -21,12 +21,27 @@ public class SmtpEmailer(ISmtpConfiguration smtpConfig, IEmailConfiguration emai
     {
         var message = new MimeMessage();
 
-        foreach (var x in to) message.To.Add(GetAddress(x.Name, x.EmailAddress));
-        foreach (var x in cc) message.Cc.Add(GetAddress(x.Name, x.EmailAddress));
-        foreach (var x in bcc) message.Bcc.Add(GetAddress(x.Name, x.EmailAddress));
+        foreach (var x in to)
+        {
+            message.To.Add(GetAddress(x.Name, x.EmailAddress));
+        }
+
+        foreach (var x in cc)
+        {
+            message.Cc.Add(GetAddress(x.Name, x.EmailAddress));
+        }
+
+        foreach (var x in bcc)
+        {
+            message.Bcc.Add(GetAddress(x.Name, x.EmailAddress));
+        }
 
         message.From.Add(GetAddress(sender.Name, sender.EmailAddress));
-        if (!string.IsNullOrWhiteSpace(sender.ReplyToEmailAddress)) message.ReplyTo.Add(GetAddress(sender.ReplyToName, sender.ReplyToEmailAddress));
+        if (!string.IsNullOrWhiteSpace(sender.ReplyToEmailAddress))
+        {
+            message.ReplyTo.Add(GetAddress(sender.ReplyToName, sender.ReplyToEmailAddress));
+        }
+
         message.Subject = subject;
 
         var builder = new BodyBuilder

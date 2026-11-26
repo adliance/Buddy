@@ -15,6 +15,9 @@ public class ContainerResult : IAsyncDisposable
         // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
         Client?.Dispose();
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        if (Container != null) await Container.DisposeAsync().ConfigureAwait(false);
+        if (Container != null)
+        {
+            await Container.DisposeAsync().ConfigureAwait(false);
+        }
     }
 }

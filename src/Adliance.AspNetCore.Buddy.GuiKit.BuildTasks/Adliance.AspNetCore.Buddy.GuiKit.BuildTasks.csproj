@@ -19,14 +19,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build.Framework" Version="18.9.6" ExcludeAssets="runtime" PrivateAssets="all">
+    <PackageReference Include="Microsoft.Build.Framework" Version="18.12.2" ExcludeAssets="runtime" PrivateAssets="all">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="18.9.6" ExcludeAssets="runtime" PrivateAssets="all">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NUglify" Version="1.23.3" PrivateAssets="all" />
-    <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.10" />
+    <PackageReference Include="NUglify" Version="1.24.0" PrivateAssets="all" />
+    <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.2.0.1" />
   </ItemGroup>
 
   <ItemGroup>

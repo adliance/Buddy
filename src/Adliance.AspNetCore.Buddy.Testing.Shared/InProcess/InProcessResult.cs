@@ -12,6 +12,9 @@ public class InProcessResult<TEntryPoint> : IAsyncDisposable where TEntryPoint :
         // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
         Client?.Dispose();
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        if (Factory != null) await Factory.DisposeAsync().ConfigureAwait(false);
+        if (Factory != null)
+        {
+            await Factory.DisposeAsync().ConfigureAwait(false);
+        }
     }
 }

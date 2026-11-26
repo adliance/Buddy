@@ -18,7 +18,10 @@ public class BundleAndMinifyJs : Microsoft.Build.Utilities.Task
         var success = true;
 
         var bundles = Files.GroupBy(f => Resolve(f.GetMetadata("OutputFile")));
-        foreach (var bundle in bundles) success &= ProcessBundle(bundle.Key, [.. bundle]);
+        foreach (var bundle in bundles)
+        {
+            success &= ProcessBundle(bundle.Key, [.. bundle]);
+        }
 
         return success;
     }
@@ -42,7 +45,10 @@ public class BundleAndMinifyJs : Microsoft.Build.Utilities.Task
             if (minified.HasErrors)
             {
                 foreach (var error in minified.Errors)
+                {
                     Log.LogWarning($"JS error in {Path.GetFileName(file.GetMetadata("FullPath"))} ({error.StartLine}:{error.StartColumn}) - using unminified content: {error.Message}");
+                }
+
                 sb.Append(content);
             }
             else
@@ -52,7 +58,11 @@ public class BundleAndMinifyJs : Microsoft.Build.Utilities.Task
         }
 
         var dir = Path.GetDirectoryName(outputFile);
-        if (!string.IsNullOrEmpty(dir)) Directory.CreateDirectory(dir);
+        if (!string.IsNullOrEmpty(dir))
+        {
+            Directory.CreateDirectory(dir);
+        }
+
         File.WriteAllText(outputFile, sb.ToString());
 
         Log.LogMessage(MessageImportance.Normal, $"JS bundle written to \"{outputFile}\".");
@@ -61,8 +71,16 @@ public class BundleAndMinifyJs : Microsoft.Build.Utilities.Task
 
     private string Resolve(string path)
     {
-        if (string.IsNullOrWhiteSpace(path)) return "";
-        if (Path.IsPathRooted(path) || string.IsNullOrEmpty(BaseDirectory)) return path;
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return "";
+        }
+
+        if (Path.IsPathRooted(path) || string.IsNullOrEmpty(BaseDirectory))
+        {
+            return path;
+        }
+
         return Path.GetFullPath(path, BaseDirectory);
     }
 }

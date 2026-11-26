@@ -21,35 +21,56 @@ public class ApiKeyAuthenticationHandler(
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
         if (string.IsNullOrWhiteSpace(conf.HttpHeaderKey) && string.IsNullOrWhiteSpace(conf.QueryStringKey))
+        {
             throw new Exception("No HTTP header and no query string key configured.");
+        }
 
         string? apiKey = null;
         if (!string.IsNullOrWhiteSpace(conf.QueryStringKey) && Request.Query.ContainsKey(conf.QueryStringKey) &&
             !string.IsNullOrWhiteSpace(Request.Query[conf.QueryStringKey]))
+        {
             apiKey = Request.Query[conf.QueryStringKey];
+        }
 
         // HTTP header takes precedence over querystring
         if (!string.IsNullOrWhiteSpace(conf.HttpHeaderKey) && Request.Headers.TryGetValue(conf.HttpHeaderKey, out var value) && !string.IsNullOrWhiteSpace(value))
+        {
             apiKey = value;
+        }
 
         if (!conf.AllowEmptyApiKey && string.IsNullOrWhiteSpace(apiKey))
+        {
             return AuthenticateResult.Fail("No API key specified.");
+        }
 
         var validationResult = await authenticationService.ValidateKey(apiKey);
-        if (!validationResult.IsValid) return AuthenticateResult.Fail("API key invalid");
+        if (!validationResult.IsValid)
+        {
+            return AuthenticateResult.Fail("API key invalid");
+        }
 
         var identity = new ClaimsIdentity(ApiKeyAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name,
             ClaimTypes.Role);
         if (!string.IsNullOrWhiteSpace(validationResult.UserName))
+        {
             identity.AddClaim(new Claim(ClaimTypes.Name, validationResult.UserName));
+        }
 
         if (validationResult.Roles != null)
+        {
             foreach (var r in validationResult.Roles)
+            {
                 identity.AddClaim(new Claim(ClaimTypes.Role, r));
+            }
+        }
 
         if (validationResult.Claims != null)
+        {
             foreach (var c in validationResult.Claims)
+            {
                 identity.AddClaim(c);
+            }
+        }
 
         var ticket = new AuthenticationTicket(new ClaimsPrincipal(identity), null,
             ApiKeyAuthenticationDefaults.AuthenticationScheme);

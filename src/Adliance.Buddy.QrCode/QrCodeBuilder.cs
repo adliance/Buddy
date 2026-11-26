@@ -46,7 +46,10 @@ public class QrCodeBuilder<TPixel>(string content)
     /// <exception cref="ArgumentException">If one of the parameters is below 0</exception>
     public QrCodeBuilder<TPixel> WithDimensions(int width, int height)
     {
-        if (width < 0 || height < 0) throw new ArgumentException("Height and width must be greater than 0.");
+        if (width < 0 || height < 0)
+        {
+            throw new ArgumentException("Height and width must be greater than 0.");
+        }
 
         _width = width;
         _height = height;
@@ -265,8 +268,15 @@ public class QrCodeBuilder<TPixel>(string content)
                  inputX < configuration.Matrix.Width;
                  inputX++, outputX += configuration.PixelRatio)
             {
-                if (configuration.Matrix[inputX, inputY] != 1) continue;
-                if (configuration.InFinderPatternRegion(inputX, inputY)) continue;
+                if (configuration.Matrix[inputX, inputY] != 1)
+                {
+                    continue;
+                }
+
+                if (configuration.InFinderPatternRegion(inputX, inputY))
+                {
+                    continue;
+                }
 
                 if (_roundedContentDots)
                 {
@@ -373,7 +383,10 @@ public class QrCodeBuilder<TPixel>(string content)
 
     private void RenderOverlayImage(RenderConfiguration configuration, Image<TPixel> image)
     {
-        if (_overlayImage == null) return;
+        if (_overlayImage == null)
+        {
+            return;
+        }
 
         var cutoutSize = configuration.GetCutoutSize(_overlayMargin);
         var overlayImageSize = configuration.GetOverlayImageSize();

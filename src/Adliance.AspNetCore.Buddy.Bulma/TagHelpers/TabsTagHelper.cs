@@ -44,7 +44,11 @@ public class TabsTagHelper : TagHelper
             }
 
             builder.AppendHtml($"<a href=\"{url}\" onclick=\"{onclick}\">");
-            if (!string.IsNullOrWhiteSpace(tab.IconClassName)) builder.AppendHtml($"<span class=\"icon is-small\"><i class=\"{tab.IconClassName}\"></i></span>");
+            if (!string.IsNullOrWhiteSpace(tab.IconClassName))
+            {
+                builder.AppendHtml($"<span class=\"icon is-small\"><i class=\"{tab.IconClassName}\"></i></span>");
+            }
+
             builder.AppendHtml("<span>");
             builder.AppendHtml(tab.Title);
             builder.AppendHtml("</span>");

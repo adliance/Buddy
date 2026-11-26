@@ -15,14 +15,23 @@ public static class PlaywrightHelper
 
     public static async Task<PlaywrightResult> SetupBrowser(PlaywrightResult result, PlaywrightOptions options)
     {
-        if (result.Playwright == null) throw new Exception("Playwright is not initialized.");
+        if (result.Playwright == null)
+        {
+            throw new Exception("Playwright is not initialized.");
+        }
 
         // ReSharper disable RedundantAlwaysMatchSubpattern
-        if (result is { Browser: not null, Page: not null }) await result.Page.CloseAsync().ConfigureAwait(false);
+        if (result is { Browser: not null, Page: not null })
+        {
+            await result.Page.CloseAsync().ConfigureAwait(false);
+        }
         // ReSharper restore RedundantAlwaysMatchSubpattern
 
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        if (result.Browser != null) await result.Browser.DisposeAsync().ConfigureAwait(false);
+        if (result.Browser != null)
+        {
+            await result.Browser.DisposeAsync().ConfigureAwait(false);
+        }
 
         result.Browser = await result.Playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
@@ -34,10 +43,16 @@ public static class PlaywrightHelper
 
     public static async Task<PlaywrightResult> SetupPage(PlaywrightResult result, PlaywrightOptions options)
     {
-        if (result.Browser == null) throw new Exception("Browser is not initialized.");
+        if (result.Browser == null)
+        {
+            throw new Exception("Browser is not initialized.");
+        }
 
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        if (result._page != null) await result._page.CloseAsync().ConfigureAwait(false);
+        if (result._page != null)
+        {
+            await result._page.CloseAsync().ConfigureAwait(false);
+        }
 
         result.Page = await result.Browser.NewPageAsync(new BrowserNewPageOptions
         {

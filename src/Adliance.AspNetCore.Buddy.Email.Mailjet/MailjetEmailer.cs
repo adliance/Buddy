@@ -35,7 +35,10 @@ public class MailjetEmailer(IMailjetConfiguration mailjetConfig, IEmailConfigura
             Attachments = new List<Attachment>()
         };
 
-        if (!string.IsNullOrWhiteSpace(sender.ReplyToEmailAddress)) email.ReplyTo = GetRecipient(sender.ReplyToName, sender.EmailAddress);
+        if (!string.IsNullOrWhiteSpace(sender.ReplyToEmailAddress))
+        {
+            email.ReplyTo = GetRecipient(sender.ReplyToName, sender.EmailAddress);
+        }
 
         foreach (var attachment in attachments)
         {

@@ -22,9 +22,20 @@ public class AzureCommunicationEmailer(IAzureCommunicationConfiguration azureCom
         var client = new EmailClient(new Uri(endpoint), credential);
 
         var recipients = new EmailRecipients();
-        foreach (var x in to) recipients.To.Add(new EmailAddress(x.EmailAddress, string.IsNullOrWhiteSpace(x.Name) ? x.EmailAddress : x.Name));
-        foreach (var x in cc) recipients.CC.Add(new EmailAddress(x.EmailAddress, string.IsNullOrWhiteSpace(x.Name) ? x.EmailAddress : x.Name));
-        foreach (var x in bcc) recipients.BCC.Add(new EmailAddress(x.EmailAddress, string.IsNullOrWhiteSpace(x.Name) ? x.EmailAddress : x.Name));
+        foreach (var x in to)
+        {
+            recipients.To.Add(new EmailAddress(x.EmailAddress, string.IsNullOrWhiteSpace(x.Name) ? x.EmailAddress : x.Name));
+        }
+
+        foreach (var x in cc)
+        {
+            recipients.CC.Add(new EmailAddress(x.EmailAddress, string.IsNullOrWhiteSpace(x.Name) ? x.EmailAddress : x.Name));
+        }
+
+        foreach (var x in bcc)
+        {
+            recipients.BCC.Add(new EmailAddress(x.EmailAddress, string.IsNullOrWhiteSpace(x.Name) ? x.EmailAddress : x.Name));
+        }
 
         var content = new EmailContent(subject)
         {

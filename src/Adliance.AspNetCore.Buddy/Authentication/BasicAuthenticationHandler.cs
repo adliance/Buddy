@@ -22,7 +22,9 @@ public class BasicAuthenticationHandler(
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
         if (!Request.Headers.ContainsKey("Authorization") || Request.Headers.Authorization.Count == 0)
+        {
             return AuthenticateResult.Fail("Missing Authorization Header");
+        }
 
         BasicAuthenticationUser? user;
         try
@@ -40,7 +42,10 @@ public class BasicAuthenticationHandler(
         }
 
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        if (user == null) return AuthenticateResult.Fail("Invalid Username or Password");
+        if (user == null)
+        {
+            return AuthenticateResult.Fail("Invalid Username or Password");
+        }
 
         var claims = new[]
         {

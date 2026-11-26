@@ -28,10 +28,25 @@ public class SendgridEmailer(ISendgridConfiguration sendgridConfig, IEmailConfig
         var recipient = GetRecipient(to.First().Name ?? to.First().EmailAddress, to.First().EmailAddress);
         var mail = MailHelper.CreateSingleEmail(from, recipient, subject, textBody, htmlBody);
 
-        if (!string.IsNullOrWhiteSpace(sender.ReplyToEmailAddress)) mail.SetReplyTo(new EmailAddress(sender.ReplyToEmailAddress));
-        foreach (var x in to.Skip(1)) mail.AddTo(GetRecipient(x.Name, x.EmailAddress));
-        foreach (var x in cc) mail.AddCc(GetRecipient(x.Name, x.EmailAddress));
-        foreach (var x in bcc) mail.AddBcc(GetRecipient(x.Name, x.EmailAddress));
+        if (!string.IsNullOrWhiteSpace(sender.ReplyToEmailAddress))
+        {
+            mail.SetReplyTo(new EmailAddress(sender.ReplyToEmailAddress));
+        }
+
+        foreach (var x in to.Skip(1))
+        {
+            mail.AddTo(GetRecipient(x.Name, x.EmailAddress));
+        }
+
+        foreach (var x in cc)
+        {
+            mail.AddCc(GetRecipient(x.Name, x.EmailAddress));
+        }
+
+        foreach (var x in bcc)
+        {
+            mail.AddBcc(GetRecipient(x.Name, x.EmailAddress));
+        }
 
         mail.Categories = [sendgridConfig.SendgridLabel];
 

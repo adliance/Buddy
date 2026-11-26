@@ -21,8 +21,15 @@ public static class InProcessHelper
                 configBuilder.AddEnvironmentVariables();
             });
 
-            if (options.ConfigureWebAppServices != null) config.ConfigureServices(options.ConfigureWebAppServices);
-            if (options.ConfigureWebAppTestServices != null) config.ConfigureTestServices(options.ConfigureWebAppTestServices);
+            if (options.ConfigureWebAppServices != null)
+            {
+                config.ConfigureServices(options.ConfigureWebAppServices);
+            }
+
+            if (options.ConfigureWebAppTestServices != null)
+            {
+                config.ConfigureTestServices(options.ConfigureWebAppTestServices);
+            }
         });
 
         if (options.UseKestrel)

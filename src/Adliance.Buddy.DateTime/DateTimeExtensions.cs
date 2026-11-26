@@ -11,7 +11,11 @@ public static class DateTimeExtensions
 
     public static System.DateTime? UtcToCet(this System.DateTime? utcDateTime)
     {
-        if (utcDateTime.HasValue) return UtcToCet(utcDateTime.Value);
+        if (utcDateTime.HasValue)
+        {
+            return UtcToCet(utcDateTime.Value);
+        }
+
         return null;
     }
 
@@ -23,7 +27,11 @@ public static class DateTimeExtensions
 
     public static System.DateTime? CetToUtc(this System.DateTime? cetDateTime)
     {
-        if (cetDateTime.HasValue) return CetToUtc(cetDateTime.Value);
+        if (cetDateTime.HasValue)
+        {
+            return CetToUtc(cetDateTime.Value);
+        }
+
         return null;
     }
 

@@ -43,14 +43,20 @@ public static class ContainerHelper
             .WithEnvironment("ASPNETCORE_URLS", "http://+")
             .WithLogger(options.Logger);
 
-        if (options.WaitStrategy != null) webContainerBuilder = webContainerBuilder.WithWaitStrategy(options.WaitStrategy);
+        if (options.WaitStrategy != null)
+        {
+            webContainerBuilder = webContainerBuilder.WithWaitStrategy(options.WaitStrategy);
+        }
 
         foreach (var (key, value) in options.Configuration)
         {
             webContainerBuilder = webContainerBuilder.WithEnvironment(key, value);
         }
 
-        if (options.ConfigureContainer != null) webContainerBuilder = options.ConfigureContainer.Invoke(webContainerBuilder);
+        if (options.ConfigureContainer != null)
+        {
+            webContainerBuilder = options.ConfigureContainer.Invoke(webContainerBuilder);
+        }
 
         result.Container = webContainerBuilder.Build();
         await result.Container.StartAsync().ConfigureAwait(false);

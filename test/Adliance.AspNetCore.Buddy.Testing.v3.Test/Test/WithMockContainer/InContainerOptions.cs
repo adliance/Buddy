@@ -7,6 +7,7 @@ namespace Adliance.AspNetCore.Buddy.Testing.v3.Test.Test.WithMockContainer;
 
 public class InContainerOptions : BuddyFixtureOptions<Program>
 {
+    [Obsolete]
     public InContainerOptions()
     {
         InContainer.Add(new ContainerOptions

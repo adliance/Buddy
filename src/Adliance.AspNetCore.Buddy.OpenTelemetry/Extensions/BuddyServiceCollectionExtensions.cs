@@ -42,8 +42,10 @@ public static class BuddyServiceCollectionExtensions
         };
 
         if (configuration.Environment != null)
+        {
             resourceAttributes.Add(SemanticConventions.ResourceAttributeDeploymentEnvironment,
                 configuration.Environment);
+        }
 
         var resourceBuilder = ResourceBuilder.CreateDefault()
             .AddService(configuration.ServiceName)
@@ -132,7 +134,9 @@ public static class BuddyServiceCollectionExtensions
                                        $"Unable to load OpenTelemetry configuration from {openTelemetryConfigurationSection.Path}.");
         if (buddyServices.All(d =>
                 d.ServiceType != typeof(IConfigureOptions<IOpenTelemetryConfiguration>)))
+        {
             buddyServices.Configure<IOpenTelemetryConfiguration>(openTelemetryConfigurationSection);
+        }
 
         return AddBuddyOpenTelemetryHangfire(buddyServices, openTelemetryOptions);
     }

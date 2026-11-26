@@ -18,9 +18,9 @@
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Adliance.AspNetCore.Buddy.Abstractions" Version="8.2.0.19" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.15" />
     <PackageReference Include="Sendgrid" Version="9.29.3" />
-    <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.0.0.10">
+    <PackageReference Include="Adliance.Buddy.CodeStyle" Version="8.2.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>

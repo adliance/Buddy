@@ -44,13 +44,20 @@ public class BuddyFixtureBase<TOptions, TEntryPoint>
 
             if (Options.InContainer.Any())
             {
-                foreach (var o in Options.InContainer) o.Network = Network!;
+                foreach (var o in Options.InContainer)
+                {
+                    o.Network = Network!;
+                }
 
                 if (Database != null)
                 {
                     foreach (var o in Options.InContainer)
                     {
-                        if (!string.IsNullOrWhiteSpace(o.DbConnectionStringConfigurationKey)) o.Configuration.TryAdd(o.DbConnectionStringConfigurationKey, Database.DbConnectionStringInternal);
+                        if (!string.IsNullOrWhiteSpace(o.DbConnectionStringConfigurationKey))
+                        {
+                            o.Configuration.TryAdd(o.DbConnectionStringConfigurationKey, Database.DbConnectionStringInternal);
+                        }
+
                         o.Configuration.TryAdd("DatabaseType", Options.Database!.Type.ToString());
                     }
                 }
@@ -137,8 +144,15 @@ public class BuddyFixtureBase<TOptions, TEntryPoint>
         var networkIsRequired = false;
         networkIsRequired = networkIsRequired || Options.Database?.Type is DatabaseType.UseSqlServerContainer or DatabaseType.UsePostgresContainer;
         networkIsRequired = networkIsRequired || Options.InContainer.Any(x => x.UseLocalAppInstead == null);
-        if (!networkIsRequired) return;
-        if (Network != null) return;
+        if (!networkIsRequired)
+        {
+            return;
+        }
+
+        if (Network != null)
+        {
+            return;
+        }
 
         var networkBuilder = new NetworkBuilder();
         Network = networkBuilder.Build();
@@ -150,11 +164,31 @@ public class BuddyFixtureBase<TOptions, TEntryPoint>
         await BeforeDispose();
 
         var disposeTasks = new List<Task>();
-        if (Playwright != null) disposeTasks.Add(Playwright.DisposeAsync().AsTask());
-        foreach (var c in InContainers) disposeTasks.Add(c.DisposeAsync().AsTask());
-        if (Network != null) disposeTasks.Add(Network.DisposeAsync().AsTask());
-        if (InProcess != null) disposeTasks.Add(InProcess.DisposeAsync().AsTask());
-        if (Database != null) disposeTasks.Add(Database.DisposeAsync().AsTask());
+        if (Playwright != null)
+        {
+            disposeTasks.Add(Playwright.DisposeAsync().AsTask());
+        }
+
+        foreach (var c in InContainers)
+        {
+            disposeTasks.Add(c.DisposeAsync().AsTask());
+        }
+
+        if (Network != null)
+        {
+            disposeTasks.Add(Network.DisposeAsync().AsTask());
+        }
+
+        if (InProcess != null)
+        {
+            disposeTasks.Add(InProcess.DisposeAsync().AsTask());
+        }
+
+        if (Database != null)
+        {
+            disposeTasks.Add(Database.DisposeAsync().AsTask());
+        }
+
         await Task.WhenAll(disposeTasks).ConfigureAwait(false);
 
         await AfterDispose();
@@ -167,8 +201,16 @@ public class BuddyFixtureBase<TOptions, TEntryPoint>
     {
         get
         {
-            if (InProcess != null) return InProcess.Client;
-            if (InContainers.Any()) return InContainers.First().Client;
+            if (InProcess != null)
+            {
+                return InProcess.Client;
+            }
+
+            if (InContainers.Any())
+            {
+                return InContainers.First().Client;
+            }
+
             throw new Exception("No HttpClient initialized.");
         }
     }
@@ -180,7 +222,11 @@ public class BuddyFixtureBase<TOptions, TEntryPoint>
     {
         get
         {
-            if (Playwright != null) return Playwright.Page;
+            if (Playwright != null)
+            {
+                return Playwright.Page;
+            }
+
             throw new Exception("No Playwright initialized.");
         }
     }

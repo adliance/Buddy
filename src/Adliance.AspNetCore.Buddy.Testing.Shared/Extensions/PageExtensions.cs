@@ -17,7 +17,10 @@ public static class PageExtensions
 
     public static async Task<byte[]> Screenshot(this IPage page, string fileName)
     {
-        if (!Path.GetExtension(fileName).Equals(".png", StringComparison.OrdinalIgnoreCase)) fileName += ".png";
+        if (!Path.GetExtension(fileName).Equals(".png", StringComparison.OrdinalIgnoreCase))
+        {
+            fileName += ".png";
+        }
 
         // remove special characters from filename, as Azure DevOps cannot handle them
         var invalidCharacters = Path.GetInvalidPathChars().ToList();
@@ -30,7 +33,11 @@ public static class PageExtensions
         fileName = invalidCharacters.Aggregate(fileName, (current, c) => current.Replace(c, '_'));
 
         var targetDirectory = Path.Combine("./", "screenshots");
-        if (!Directory.Exists(targetDirectory)) Directory.CreateDirectory(targetDirectory);
+        if (!Directory.Exists(targetDirectory))
+        {
+            Directory.CreateDirectory(targetDirectory);
+        }
+
         var targetPath = Path.Combine(targetDirectory, fileName);
 
         return await page.ScreenshotAsync(new PageScreenshotOptions

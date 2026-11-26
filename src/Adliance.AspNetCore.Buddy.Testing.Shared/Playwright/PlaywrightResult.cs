@@ -12,7 +12,10 @@ public class PlaywrightResult(PlaywrightOptions options) : IAsyncDisposable
         get
         {
             // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-            if (Playwright != null && Browser != null && _page == null) PlaywrightHelper.SetupPage(this, options).GetAwaiter().GetResult();
+            if (Playwright != null && Browser != null && _page == null)
+            {
+                PlaywrightHelper.SetupPage(this, options).GetAwaiter().GetResult();
+            }
             // ReSharper restore ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
             return _page ?? throw new Exception("Unable to create Playwright page.");
@@ -26,10 +29,16 @@ public class PlaywrightResult(PlaywrightOptions options) : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        if (_page != null) await _page.CloseAsync().ConfigureAwait(false);
+        if (_page != null)
+        {
+            await _page.CloseAsync().ConfigureAwait(false);
+        }
 
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        if (Browser != null) await Browser.DisposeAsync().ConfigureAwait(false);
+        if (Browser != null)
+        {
+            await Browser.DisposeAsync().ConfigureAwait(false);
+        }
 
         // ReSharper disable once ConditionalAccessQualifierIsNonNullableAccordingToAPIContract
         Playwright?.Dispose();

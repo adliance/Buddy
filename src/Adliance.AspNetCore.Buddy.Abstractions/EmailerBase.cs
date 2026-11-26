@@ -8,7 +8,10 @@ public abstract class EmailerBase(IEmailConfiguration emailConfig) : IEmailer
 {
     public async Task Send(SendableEmail email)
     {
-        if (emailConfig.Disable) return;
+        if (emailConfig.Disable)
+        {
+            return;
+        }
 
         var sender = email.Sender ?? new EmailSender
         {
@@ -25,17 +28,38 @@ public abstract class EmailerBase(IEmailConfiguration emailConfig) : IEmailer
         var textBody = email.TextBody;
         var attachments = email.Attachments.ToArray();
 
-        if (to.Length == 0) throw new Exception("Not a single recipient specified.");
+        if (to.Length == 0)
+        {
+            throw new Exception("Not a single recipient specified.");
+        }
 
         if (!string.IsNullOrEmpty(emailConfig.RedirectAllEmailsTo))
         {
-            foreach (var x in to) x.EmailAddress = emailConfig.RedirectAllEmailsTo;
-            foreach (var x in cc) x.EmailAddress = emailConfig.RedirectAllEmailsTo;
-            foreach (var x in bcc) x.EmailAddress = emailConfig.RedirectAllEmailsTo;
+            foreach (var x in to)
+            {
+                x.EmailAddress = emailConfig.RedirectAllEmailsTo;
+            }
+
+            foreach (var x in cc)
+            {
+                x.EmailAddress = emailConfig.RedirectAllEmailsTo;
+            }
+
+            foreach (var x in bcc)
+            {
+                x.EmailAddress = emailConfig.RedirectAllEmailsTo;
+            }
         }
 
-        if (!string.IsNullOrEmpty(emailConfig.SubjectPrefix)) subject = emailConfig.SubjectPrefix + subject;
-        if (!string.IsNullOrEmpty(emailConfig.SubjectPostfix)) subject += emailConfig.SubjectPostfix;
+        if (!string.IsNullOrEmpty(emailConfig.SubjectPrefix))
+        {
+            subject = emailConfig.SubjectPrefix + subject;
+        }
+
+        if (!string.IsNullOrEmpty(emailConfig.SubjectPostfix))
+        {
+            subject += emailConfig.SubjectPostfix;
+        }
 
         await SendInternal(sender, to, cc, bcc, subject, htmlBody, textBody, attachments);
     }
