@@ -17,7 +17,5 @@ public class DefaultPdferConfiguration : IPdferConfiguration
 {
     public string ServerUrl { get; set; } = "";
     public int TimeoutSeconds { get; set; } = 60;
-    public string? UserAgent { get; set; } = Assembly.GetEntryAssembly()?.FullName
-                                             ?? Assembly.GetExecutingAssembly().FullName
-                                             ?? Assembly.GetCallingAssembly().FullName;
+    public string? UserAgent { get; set; } = Assembly.GetEntryAssembly()?.GetName().Name + " (" + Assembly.GetEntryAssembly()?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion + ")";
 }
